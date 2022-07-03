@@ -1,20 +1,116 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { NativeBaseProvider } from "native-base";
+import { StyleSheet, Text, View } from "react-native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Explore from "./screens/Explore";
+import MySpots from "./screens/MySpots";
+import Profile from "./screens/Profile";
+import { Ionicons } from "@expo/vector-icons";
+import AuthButtons from "./screens/authScreens/AuthButtons";
+import Register from "./screens/authScreens/Register";
+import Login from "./screens/authScreens/Login";
+import authStore from "./stores/authStore";
+
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
 export default function App() {
+  const checkUser = authStore.user;
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NativeBaseProvider>
+    <NavigationContainer>
+      {checkUser ? (
+        <TabBar />
+      ) : (
+        <Stack.Navigator>
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="Set Up Account"
+            component={AuthButtons}
+          />
+          <Stack.Screen name="Register" component={Register} />
+          <Stack.Screen name="Login" component={Login} />
+        </Stack.Navigator>
+      )}
+    </NavigationContainer>
+    </NativeBaseProvider>
+  );
+}
+
+function TabBar() {
+  return (
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={{
+        tabBarStyle: {
+          backgroundColor: "white",
+          marginBottom: 5,
+          marginLeft: 5,
+          marginRight: 5,
+        },
+        headerShown: false,
+      }}
+    >
+      <Tab.Screen
+        name="Home"
+        component={Explore}
+        options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, focused, tintColor }) => (
+            <Ionicons
+              name="compass-outline"
+              size={38}
+              color={color}
+              style={{ position: "absolute", paddingTop: "10%" }}
+            ></Ionicons>
+          ),
+
+          tabBarActiveTintColor: "#1e2029",
+          tabBarInactiveTintColor: "#8D9C98",
+        }}
+      />
+      <Tab.Screen
+        name="Create A Trip"
+        component={MySpots}
+        options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, focused, tintColor }) => (
+            <Ionicons
+              name="location-outline"
+              size={38}
+              color={color}
+              style={{ position: "absolute", paddingTop: "10%" }}
+            />
+          ),
+          tabBarActiveTintColor: "#1e2029",
+          tabBarInactiveTintColor: "#8D9C98",
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, focused, tintColor }) => (
+            <Ionicons
+              name="person-circle-outline"
+              size={38}
+              color={color}
+              style={{ position: "absolute", paddingTop: "10%" }}
+            />
+          ),
+          tabBarActiveTintColor: "#1e2029",
+          tabBarInactiveTintColor: "#8D9C98",
+        }}
+      />
+    </Tab.Navigator>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "blue",
   },
 });
