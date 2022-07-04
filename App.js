@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { observer } from "mobx-react";
-import Explore from "./screens/Explore";
+import Explore from "./screens/spots/Explore";
 import MySpots from "./screens/MySpots";
 import Profile from "./screens/Profile";
 import { Ionicons } from "@expo/vector-icons";
@@ -52,6 +52,7 @@ function TabBar() {
           marginBottom: 10,
           marginLeft: 5,
           marginRight: 5,
+          borderTopWidth: 0,
         },
         headerShown: false,
       }}
