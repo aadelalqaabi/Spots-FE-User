@@ -12,32 +12,35 @@ import AuthButtons from "./screens/authScreens/AuthButtons";
 import Register from "./screens/authScreens/Register";
 import Login from "./screens/authScreens/Login";
 import authStore from "./stores/authStore";
+import { observer } from "mobx-react";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-export default function App() {
+function App() {
   const checkUser = authStore.user;
   return (
     <NativeBaseProvider>
-    <NavigationContainer>
-      {checkUser ? (
-        <TabBar />
-      ) : (
-        <Stack.Navigator>
-          <Stack.Screen
-            options={{ headerShown: false }}
-            name="Set Up Account"
-            component={AuthButtons}
-          />
-          <Stack.Screen name="Register" component={Register} />
-          <Stack.Screen name="Login" component={Login} />
-        </Stack.Navigator>
-      )}
-    </NavigationContainer>
+      <NavigationContainer>
+        {checkUser ? (
+          <TabBar />
+        ) : (
+          <Stack.Navigator>
+            <Stack.Screen
+              options={{ headerShown: false }}
+              name="Set Up Account"
+              component={AuthButtons}
+            />
+            <Stack.Screen name="Register" component={Register} />
+            <Stack.Screen name="Login" component={Login} />
+          </Stack.Navigator>
+        )}
+      </NavigationContainer>
     </NativeBaseProvider>
   );
 }
+
+export default observer(App);
 
 function TabBar() {
   return (
@@ -46,7 +49,7 @@ function TabBar() {
       screenOptions={{
         tabBarStyle: {
           backgroundColor: "white",
-          marginBottom: 5,
+          marginBottom: 10,
           marginLeft: 5,
           marginRight: 5,
         },
@@ -60,14 +63,14 @@ function TabBar() {
           tabBarShowLabel: false,
           tabBarIcon: ({ color, focused, tintColor }) => (
             <Ionicons
-              name="compass-outline"
-              size={38}
+              name={focused ? "compass" : "compass-outline"}
+              size={40}
               color={color}
-              style={{ position: "absolute", paddingTop: "10%" }}
+              style={{ position: "absolute", paddingTop: "13%" }}
             ></Ionicons>
           ),
 
-          tabBarActiveTintColor: "#1e2029",
+          tabBarActiveTintColor: "#111827",
           tabBarInactiveTintColor: "#8D9C98",
         }}
       />
@@ -78,13 +81,13 @@ function TabBar() {
           tabBarShowLabel: false,
           tabBarIcon: ({ color, focused, tintColor }) => (
             <Ionicons
-              name="location-outline"
-              size={38}
+              name={focused ? "location" : "location-outline"}
+              size={40}
               color={color}
-              style={{ position: "absolute", paddingTop: "10%" }}
+              style={{ position: "absolute", paddingTop: "13%" }}
             />
           ),
-          tabBarActiveTintColor: "#1e2029",
+          tabBarActiveTintColor: "#111827",
           tabBarInactiveTintColor: "#8D9C98",
         }}
       />
@@ -95,13 +98,13 @@ function TabBar() {
           tabBarShowLabel: false,
           tabBarIcon: ({ color, focused, tintColor }) => (
             <Ionicons
-              name="person-circle-outline"
-              size={38}
+              name={focused ? "person-circle" : "person-circle-outline"}
+              size={40}
               color={color}
-              style={{ position: "absolute", paddingTop: "10%" }}
+              style={{ position: "absolute", paddingTop: "13%" }}
             />
           ),
-          tabBarActiveTintColor: "#1e2029",
+          tabBarActiveTintColor: "#111827",
           tabBarInactiveTintColor: "#8D9C98",
         }}
       />

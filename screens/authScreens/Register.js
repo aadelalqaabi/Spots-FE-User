@@ -56,7 +56,6 @@ export default function Register() {
 
 const styles = StyleSheet.create({
   title: {
-    fontFamily: "PoetsenOne",
     textAlign: "center",
     marginVertical: 8,
     fontSize: 40,
