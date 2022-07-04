@@ -1,17 +1,20 @@
+import { observer } from "mobx-react";
 import React, { useState } from "react";
 import {
-  Text,
-  View,
   Animated,
   SafeAreaView,
   StatusBar,
   LogBox,
   FlatList,
+  StyleSheet,
 } from "react-native";
-import SearchComponent from "../searchBar/SearchComponent";
+import SearchComponent from "../../searchBar/SearchComponent";
+import spotStore from "../../stores/spotStore";
+import Spot from "./Spot";
 LogBox.ignoreAllLogs(true);
 
-export default function Explore() {
+function Explore() {
+  const spots = spotStore.getSpots();
   const [scrollYValue, setScrollYValue] = useState(new Animated.Value(0));
   const clampedScroll = Animated.diffClamp(
     Animated.add(
@@ -26,6 +29,17 @@ export default function Explore() {
     50
   );
 
+  function renderSpot({ item: spot }) {
+    return (
+      <Spot
+        spot={spot}
+        onPress={() => {
+          navigation.navigate("SpotDetails", { id: spot._id });
+        }}
+      />
+    );
+  }
+
   return (
     <Animated.View style={{ backgroundColor: "white" }}>
       <StatusBar barStyle="dark-content" />
@@ -34,15 +48,15 @@ export default function Explore() {
         <Animated.ScrollView
           showsVerticalScrollIndicator={false}
           style={{
-            margin: 20,
+            paddingTop: 90,
             backgroundColor: "white",
-            paddingTop: 55,
           }}
           contentContainerStyle={{
             display: "flex",
             flexDirection: "row",
             flexWrap: "wrap",
             justifyContent: "space-around",
+            height: "100%",
           }}
           onScroll={Animated.event(
             [{ nativeEvent: { contentOffset: { y: scrollYValue } } }],
@@ -51,9 +65,29 @@ export default function Explore() {
           )}
           contentInsetAdjustmentBehavior="automatic"
         >
-          <Text style={{ margin: 3000 }}>fneknfenfonef</Text>
+          <FlatList
+            style={styles.spotsList}
+            contentContainerStyle={styles.spotsListContainer}
+            data={spots}
+            renderItem={renderSpot}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+          />
         </Animated.ScrollView>
       </SafeAreaView>
     </Animated.View>
   );
 }
+
+export default observer(Explore);
+
+const styles = StyleSheet.create({
+  spotsList: {
+    backgroundColor: "#fffffc",
+    height: "100%",
+    width: "100%",
+  },
+  spotsListContainer: {
+    backgroundColor: "#fffffc",
+  },
+});

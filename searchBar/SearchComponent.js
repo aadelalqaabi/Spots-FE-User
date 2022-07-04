@@ -21,7 +21,6 @@ const SearchComponent = (props) => {
     extrapolate: "clamp",
   });
 
- 
   return (
     <Animated.View
       style={[
@@ -41,7 +40,6 @@ const SearchComponent = (props) => {
         style={styles.formField}
         placeholderTextColor={"#888888"}
       />
-     
     </Animated.View>
   );
 };
