@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View, TextInput } from "react-native";
-import { Center, Square, Circle, Button } from "native-base";
+import { Button } from "native-base";
 import { useState } from "react";
 import authStore from "../../stores/authStore";
 import React from "react";
 import Reinput from "reinput";
-import * as Font from "expo-font";
+
 export default function Login() {
   const [user, setUser] = useState({
     username: "",

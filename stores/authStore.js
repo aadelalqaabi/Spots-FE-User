@@ -32,7 +32,9 @@ class AuthStore {
 
   register = async (newUser) => {
     try {
-      const response = await instance.post("/user/register", newUser);
+      const formData = new FormData();
+      for (const key in newUser) formData.append(key, newUser[key]);
+      const response = await instance.post("/user/register", formData);
       this.setUser(response.data.token);
     } catch (error) {
       console.log(error);
@@ -43,6 +45,7 @@ class AuthStore {
     try {
       const response = await instance.post("/user/login", userData);
       this.setUser(response.data.token);
+      console.log("response: "+JSON.stringify(response.data.token));
     } catch (error) {
       console.log(error);
     }
@@ -60,9 +63,26 @@ class AuthStore {
       for (const key in updatedUser) formData.append(key, updatedUser[key]);
       const res = await instance.put(`/${this.user.id}`, formData);
       runInAction(() => {
-        if (updatedUser.bio) this.user.bio = res.data.bio;
-        if (updatedUser.image) this.user.image = res.data.image;
+        this.user.image = res.data.image;
       });
+    } catch (error) {
+      console.log("here", error);
+    }
+  };
+
+  spotAdd = async (spotId) => {
+    try {
+      const res = await instance.put(`/user/spots/${spotId}`);
+      this.user.spots = res.data.spots
+    } catch (error) {
+      console.log("here", error);
+    }
+  };
+
+  removeSpot = async (spotId) => {
+    try {
+      const res = await instance.delete(`/user/remove/${spotId}`);
+      this.user.spots = res.data.spots
     } catch (error) {
       console.log("here", error);
     }
