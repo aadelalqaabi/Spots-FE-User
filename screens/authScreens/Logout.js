@@ -10,7 +10,7 @@ export default function Logout() {
   };
   return (
     <Center>
-      <Button color={"red"} title="Logout" onPress={handleLogOut} />
+      <Button color={"red"} title="🏃‍♂️" onPress={handleLogOut} />
     </Center>
   );
 }
