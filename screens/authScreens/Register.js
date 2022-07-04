@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, TextInput, Image } from "react-native";
-import { Center, Square, Circle, Button } from "native-base";
+import { StyleSheet, Text, View, TextInput, Image, Button } from "react-native";
+import { Center, Square, Circle } from "native-base";
 import { useState, useEffect } from "react";
 import authStore from "../../stores/authStore";
 import React from "react";
@@ -73,7 +73,6 @@ export default function Register() {
       }}
     >
       <View style={{ width: "60%", alignSelf: "center", marginBottom: 120 }}>
-        <Text style={styles.title}>Register</Text>
         <View style={{ paddingBottom: 30 }}>
           {image === null ? (
             <View
@@ -112,9 +111,9 @@ export default function Register() {
               source={{ uri: image }}
               style={{
                 alignSelf: "center",
-                width: 384,
-                height: 216,
-                borderRadius: 20,
+                width: 240,
+                height: 240,
+                borderRadius: 150,
                 margin: 10,
                 shadowOpacity: 0.8,
                 shadowRadius: 4,
@@ -154,9 +153,12 @@ export default function Register() {
           placeholder="Enter Email"
         />
 
-        <Button size={"lg"} colorScheme={"blue"} onPress={handleSubmit}>
-          Register
-        </Button>
+        {/* <Button size={"lg"} colorScheme={"blue"} onPress={handleSubmit}>
+          "Register"
+        </Button> */}
+        <View style={styles.button}>
+        <Button style={styles.titleb} title="Register" onPress={handleSubmit} />
+        </View>
       </View>
     </View>
   );
@@ -174,8 +176,18 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
-    borderColor: "blue",
+    borderColor: "green",
     borderWidth: 1,
     borderRadius: 10,
   },
+  button: {
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 15,
+    elevation: 3,
+    backgroundColor: "#FFB91C",
+  },
+  titleb: {
+    color: "white"
+  }
 });
