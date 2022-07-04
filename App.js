@@ -4,6 +4,7 @@ import { NativeBaseProvider } from "native-base";
 import { StyleSheet, Text, View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { observer } from "mobx-react";
 import Explore from "./screens/Explore";
 import MySpots from "./screens/MySpots";
 import Profile from "./screens/Profile";
@@ -16,7 +17,7 @@ import authStore from "./stores/authStore";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-export default function App() {
+function App() {
   const checkUser = authStore.user;
   return (
     <NativeBaseProvider>
@@ -108,6 +109,8 @@ function TabBar() {
     </Tab.Navigator>
   );
 }
+export default observer(App);
+
 
 const styles = StyleSheet.create({
   container: {
