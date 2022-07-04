@@ -13,7 +13,6 @@ import AuthButtons from "./screens/authScreens/AuthButtons";
 import Register from "./screens/authScreens/Register";
 import Login from "./screens/authScreens/Login";
 import authStore from "./stores/authStore";
-import { observer } from "mobx-react";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -112,7 +111,6 @@ function TabBar() {
     </Tab.Navigator>
   );
 }
-export default observer(App);
 
 
 const styles = StyleSheet.create({
