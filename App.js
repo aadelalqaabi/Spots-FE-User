@@ -13,6 +13,7 @@ import AuthButtons from "./screens/authScreens/AuthButtons";
 import Register from "./screens/authScreens/Register";
 import Login from "./screens/authScreens/Login";
 import authStore from "./stores/authStore";
+import { SpotDetails } from "./screens/spots/SpotDetails";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -32,6 +33,7 @@ function App() {
               component={AuthButtons}
             />
             <Stack.Screen name="Register" component={Register} />
+            <Stack.Screen name="SpotDetails" component={SpotDetails} />
             <Stack.Screen name="Login" component={Login} />
           </Stack.Navigator>
         )}
@@ -71,7 +73,7 @@ function TabBar() {
             ></Ionicons>
           ),
 
-          tabBarActiveTintColor: "#111827",
+          tabBarActiveTintColor: "#C9FB5F",
           tabBarInactiveTintColor: "#8D9C98",
         }}
       />
@@ -88,7 +90,7 @@ function TabBar() {
               style={{ position: "absolute", paddingTop: "13%" }}
             />
           ),
-          tabBarActiveTintColor: "#111827",
+          tabBarActiveTintColor: "#0267fe",
           tabBarInactiveTintColor: "#8D9C98",
         }}
       />
@@ -105,14 +107,13 @@ function TabBar() {
               style={{ position: "absolute", paddingTop: "13%" }}
             />
           ),
-          tabBarActiveTintColor: "#111827",
+          tabBarActiveTintColor: "#0267fe",
           tabBarInactiveTintColor: "#8D9C98",
         }}
       />
     </Tab.Navigator>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
