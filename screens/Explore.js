@@ -14,7 +14,7 @@ import Spot from "./spots/Spot";
 import Category from "./categories/Category";
 LogBox.ignoreAllLogs(true);
 
-function Explore() {
+function Explore({ navigation }) {
   const spots = spotStore.getSpots();
   const categories = categoryStore.getCategories();
   function renderSpot({ item: spot }) {
@@ -32,7 +32,7 @@ function Explore() {
       <Category
         category={category}
         onPress={() => {
-          navigation.navigate("CategoryDetails", { id: category._id });
+          spots.filter((spot) => spot.category === category);
         }}
       />
     );
@@ -46,7 +46,7 @@ function Explore() {
           <TextInput
             placeholder="Search"
             style={styles.formField}
-            placeholderTextColor={"#888888"}
+            placeholderTextColor={"grey"}
           />
         </View>
         <View style={styles.containercat}>
@@ -114,5 +114,6 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     borderRadius: 13,
     fontSize: 18,
+    backgroundColor: "#C9FB5F",
   },
 });
