@@ -1,22 +1,42 @@
 import { observer } from "mobx-react";
 import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
 import { baseURL } from "../../stores/instance";
+import { useMediaQuery } from "native-base";
 
 function Spot({ spot }) {
+  const [isSmallScreen] = useMediaQuery({
+    minHeight: 180,
+    maxHeight: 900,
+  });
   return (
     <View>
       <TouchableOpacity
         style={styles.card}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
+        activeOpacity={0.95}
       >
-        <Image
-          style={styles.thumb}
-          source={{ uri: `${baseURL}${spot.image}` }}
-        />
-        <View style={styles.infoContainer}>
-          <Text style={styles.name}>{spot.name}</Text>
-        </View>
+        {isSmallScreen ? (
+          <>
+            <Image
+              style={styles.sthumb}
+              source={{ uri: `${baseURL}${spot.image}` }}
+            />
+            <View style={styles.infoContainer}>
+              <Text style={styles.name}>{spot.name}</Text>
+            </View>
+          </>
+        ) : (
+          <>
+            <Image
+              style={styles.thumb}
+              source={{ uri: `${baseURL}${spot.image}` }}
+            />
+            <View style={styles.infoContainer}>
+              <Text style={styles.name}>{spot.name}</Text>
+            </View>
+          </>
+        )}
       </TouchableOpacity>
     </View>
   );
@@ -28,8 +48,8 @@ const styles = StyleSheet.create({
   card: {
     display: "flex",
     flexDirection: "row",
-    flexWrap: "wrap",
     alignSelf: "center",
+    marginBottom: 100,
     borderRadius: 16,
     shadowOpacity: 0.8,
     shadowRadius: 4,
@@ -39,23 +59,35 @@ const styles = StyleSheet.create({
       width: 0,
     },
     elevation: 1,
-    marginVertical: 5,
-    height: 600,
   },
   thumb: {
+    marginTop: 19,
     alignSelf: "center",
-    width: 384,
-    height: 600,
+    width: 354,
+    height: 570,
     borderRadius: 20,
-    margin: 10,
     zIndex: -1,
-    opacity: 0.7,
+    opacity: 1,
+  },
+  sthumb: {
+    marginTop: 12,
+    alignSelf: "center",
+    width: 354,
+    height: 500,
+    borderRadius: 20,
+    zIndex: -1,
+    opacity: 1,
   },
   infoContainer: {
     position: "absolute",
     alignSelf: "flex-end",
+    width: 384,
+    height: 100,
     paddingLeft: 28,
-    paddingBottom: 22,
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    margin: 10,
   },
   name: {
     fontSize: 34,
