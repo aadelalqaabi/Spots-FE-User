@@ -61,7 +61,7 @@ class AuthStore {
     try {
       const formData = new FormData();
       for (const key in updatedUser) formData.append(key, updatedUser[key]);
-      const res = await instance.put(`/${this.user.id}`, formData);
+      const res = await instance.put(`/user/update`, formData);
       runInAction(() => {
         this.user.image = res.data.image;
       });
@@ -69,7 +69,7 @@ class AuthStore {
       console.log("here", error);
     }
   };
-
+  // ${this.user.id}
   spotAdd = async (spotId) => {
     try {
       const res = await instance.put(`/user/spots/${spotId}`);

@@ -2,8 +2,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import EditScreen from "../screens/EditScreen";
 import Profile from "../screens/Profile";
 
-
-const RootNavigator = () => {
+const ProfileNav = () => {
   const { Navigator, Screen } = createStackNavigator();
   return (
     <Navigator
@@ -13,14 +12,12 @@ const RootNavigator = () => {
         }
       }
     >
-      {/* <Screen
+      <Screen
         options={{ headerShown: false }}
-        name="TripList"
-        component={TripList}
+        name="Profile"
+        component={Profile}
       />
-      <Screen name="Owner" component={OwnerScreen} /> */}
-      {/* <Screen name="Edit" component={EditScreen} /> */}
-      {/* <Screen name="Profile" component={Profile} /> */}
+      <Screen name="Edit" component={EditScreen} />
       {/* <Screen
         name="TripDetails"
         component={TripDetails}
@@ -36,4 +33,4 @@ const RootNavigator = () => {
   );
 };
 
-export default RootNavigator;
+export default ProfileNav;

@@ -1,4 +1,4 @@
-import { StyleSheet, Button, ImageBackground } from "react-native";
+import { StyleSheet, Button, ImageBackground, Text } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import Login from "./Login";
@@ -9,34 +9,32 @@ export default function AuthButtons({ navigation }) {
     <View>
       <StatusBar style={"light"} />
       <Login />
+      <View style={{display:"flex", justifyContent: "center", alignContent:"center", flexDirection: "row", paddingTop: 10}}>
+      <Text style={styles.reg}>Don't have an account?</Text>
       <Button
-        title="Don't have an account? Register Now!!"
-        style={styles.btn}
-        size={"lg"}
-        colorScheme={"blue"}
+        title="Register Now!!"
+        // style={styles.btn}
+        size={30}
+        color="#0195f6"
         onPress={() => {
           navigation.navigate("Register");
         }}
       />
-    {/* </ImageBackground> */}
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   btn: {
-    marginVertical: 8,
+    fontWeight: "400" 
   },
   image: {
     flex: 1,
     justifyContent: "center",
   },
+ reg:{
+  paddingTop:9,
+  fontSize: 17,
+ }
 });
-
-{/* <ImageBackground */}
-       {/* source={{ */}
-    //     uri: "https://cdn.discordapp.com/attachments/988081537218146334/989540691384365076/My_project_85.jpg",
-    //   }}
-    //   resizeMode="cover"
-    //   style={styles.image}
-    // >
