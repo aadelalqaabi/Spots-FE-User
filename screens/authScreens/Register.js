@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, Image, Button } from "react-native";
+import { StyleSheet, Text, View, TextInput, Image, Button, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { Center, Square, Circle } from "native-base";
 import { useState, useEffect } from "react";
 import authStore from "../../stores/authStore";
@@ -6,6 +6,7 @@ import React from "react";
 import Reinput from "reinput";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
+import { KeyboardAwareFlatList, KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
 export default function Register() {
   const [image, setImage] = useState(null);
@@ -83,7 +84,7 @@ export default function Register() {
                 marginTop: 100,
                 borderColor: "black",
                 borderWidth: 0.5,
-                backgroundColor: "#04a9f4",
+                backgroundColor: "#111827",
                 borderRadius: "50%",
                 width: 200,
                 padding: 5,
@@ -130,34 +131,37 @@ export default function Register() {
             <Button title="Choose another image " onPress={pickImage} />
           )}
         </View>
-        <Reinput
-          label="Username"
-          onChangeText={(text) => {
-            handleChange("username", text);
-          }}
-          placeholder="Enter Username"
-        />
-        <Reinput
-          label="Password"
-          secureTextEntry={true}
-          onChangeText={(text) => {
-            handleChange("password", text);
-          }}
-          placeholder="Enter Password"
-        />
-        <Reinput
-          label="Email"
-          onChangeText={(text) => {
-            handleChange("email", text);
-          }}
-          placeholder="Enter Email"
-        />
 
-        {/* <Button size={"lg"} colorScheme={"blue"} onPress={handleSubmit}>
-          "Register"
-        </Button> */}
+        <KeyboardAwareScrollView
+      keyboardOpeningTime={500}
+      // contentContainerStyle={styles.container}
+      scrollEnabled={true}
+    >
+          <Reinput
+            label="Username"
+            onChangeText={(text) => {
+              handleChange("username", text);
+            }}
+            placeholder="Enter Username"
+          />
+          <Reinput
+            label="Password"
+            secureTextEntry={true}
+            onChangeText={(text) => {
+              handleChange("password", text);
+            }}
+            placeholder="Enter Password"
+          />
+          <Reinput
+            label="Email"
+            onChangeText={(text) => {
+              handleChange("email", text);
+            }}
+            placeholder="Enter Email"
+          />
+        </KeyboardAwareScrollView>
         <View style={styles.button}>
-        <Button style={styles.titleb} title="Register" onPress={handleSubmit} />
+        <Button title="Register" color="white" onPress={handleSubmit} />
         </View>
       </View>
     </View>
@@ -187,7 +191,4 @@ const styles = StyleSheet.create({
     elevation: 3,
     backgroundColor: "#FFB91C",
   },
-  titleb: {
-    color: "white"
-  }
 });

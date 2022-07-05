@@ -14,6 +14,9 @@ import Register from "./screens/authScreens/Register";
 import Login from "./screens/authScreens/Login";
 import authStore from "./stores/authStore";
 import { SpotDetails } from "./screens/spots/SpotDetails";
+import RootNavigator from "./index/home";
+import ProfileNav from "./index/ProfileNav";
+import Toast from "react-native-toast-message";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -38,6 +41,7 @@ function App() {
           </Stack.Navigator>
         )}
       </NavigationContainer>
+      <Toast />
     </NativeBaseProvider>
   );
 }
@@ -96,7 +100,7 @@ function TabBar() {
       />
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        component={ProfileNav}
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ color, focused, tintColor }) => (
