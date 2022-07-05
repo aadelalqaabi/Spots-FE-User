@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, TextInput } from "react-native";
-import { Button } from "native-base";
+import { StyleSheet, Text, View, TextInput, Image, Button } from "react-native";
+// import { Button } from "native-base";
 import { useState } from "react";
 import authStore from "../../stores/authStore";
 import React from "react";
@@ -23,11 +23,18 @@ export default function Login() {
       style={{
         justifyContent: "center",
         marginTop: 150,
-        width: "50%",
+        width: "70%",
         alignSelf: "center",
+        // backgroundColor: "white"
       }}
     >
-      <Text style={styles.title}>Login</Text>
+      {/* <Text style={styles.title}>Login</Text> */}
+      <Image
+        style={{width:350, height:350, marginBottom: 30, alignSelf: "center",}}
+        source={{
+          uri: "https://capital-placement.b-cdn.net/wp-content/uploads/2022/06/18-location-pin-outline1-unscreen.gif",
+        }}
+      />
       <View>
         <Reinput
           label="Username"
@@ -44,14 +51,17 @@ export default function Login() {
           }}
           placeholder="Enter Password"
         />
-        <Button
+        {/* <Button
           colorScheme={"blue"}
           marginBottom={"5"}
           size={"lg"}
           onPress={handleSubmit}
         >
           Login
-        </Button>
+        </Button> */}
+        <View style={styles.button}>
+          <Button title="Login" color="white" onPress={handleSubmit} />
+        </View>
       </View>
     </View>
   );
@@ -62,12 +72,19 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginVertical: 8,
     fontSize: 40,
-    marginTop: 60,
+    marginTop: 0,
     marginBottom: 20,
   },
   input: {
     height: 40,
     borderWidth: 1,
     padding: 5,
+  },
+  button: {
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 15,
+    elevation: 3,
+    backgroundColor: "#FFB91C",
   },
 });
