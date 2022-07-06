@@ -25,7 +25,7 @@ function Profile() {
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
     { label: "Edit", value: "edit" },
-    { label: "🏃‍♂️", value: "logout" },
+    { label: "Logout", value: "logout" }, /*🏃‍♂️*/
     { label: "Help", value: "help" },
   ]);
 
@@ -101,12 +101,19 @@ function Profile() {
         <Text style={styles.profile}>{authStore.user.username}</Text>
         <View style={styles.imageUserNameEdit}>
           <View style={styles.imageUserName}>
-            <Image
+           {authStore.user.image === "" ?
+           <Image
               style={styles.profileImage}
               source={{
-                uri: baseURL + authStore.user.image,
+                uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPWpbYe9c5YS6KNOXFWiawk-ox545j3ya978qwGXmcladr3eLFh6IabWhNFVtFRI0YNjI&usqp=CAU",
               }}
-            />
+            /> : <Image
+            style={styles.profileImage}
+            source={{
+              uri: baseURL + authStore.user.image,
+            }}
+          />
+            }
             <Text style={styles.spotsNum}>{authStore.user.spots.length}</Text>
             <Text style={styles.spotsTitle}>Spots</Text>
           </View>

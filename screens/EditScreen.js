@@ -76,7 +76,7 @@ function EditScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.cancel}>
-        <Button onPress={cancelButton} title="Cancel" color="black" />
+        <Button onPress={cancelButton} title="Cancel" color="red" />
       </View>
       <View style={styles.main}>
         <View style={{ paddingBottom: 30 }}>
@@ -119,9 +119,12 @@ function EditScreen() {
             alignSelf: "center",
             backgroundColor: "white",
             borderRadius: "50%",
+            backgroundColor: "#FFB91C",
           }}
         >
-          <Button color={"black"} title="Update" onPress={handleSubmit} />
+          {/* <View style={styles.button}> */}
+            <Button color={"white"} title="Update" onPress={handleSubmit} />
+          {/* </View> */}
         </View>
       </View>
     </SafeAreaView>
@@ -137,8 +140,9 @@ const styles = StyleSheet.create({
   cancel: {
     marginRight: 20,
     marginTop: 20,
-    justifyContent: "flex-end",
-    alignItems: "flex-end",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    paddingLeft: 25,
   },
   main: {
     flex: 1,
@@ -159,5 +163,12 @@ const styles = StyleSheet.create({
     margin: 12,
 
     padding: 10,
+  },
+  button: {
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 15,
+    elevation: 3,
+    backgroundColor: "#FFB91C",
   },
 });
