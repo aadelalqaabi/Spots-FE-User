@@ -7,8 +7,8 @@ import {
   Image,
   ScrollView,
   FlatList,
-  Alert
-} from 'react-native';
+  Alert,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import spotStore from "../stores/spotStore";
 import authStore from "../stores/authStore";
@@ -16,8 +16,8 @@ import { observer } from "mobx-react";
 import { baseURL } from "../stores/instance";
 import DropDownPicker from "react-native-dropdown-picker";
 import { useState, useEffect } from "react";
-import ProfileSpot from './spots/ProfileSpot';
-
+import ProfileSpot from "./spots/ProfileSpot";
+import Logout from "./authScreens/Logout";
 
 function Profile() {
   const navigation = useNavigation();
@@ -34,69 +34,75 @@ function Profile() {
     console.log("Edit");
     setValue(null);
   } else if (value === "logout") {
-    Alert.alert("Do You Wan't to LOGOUT?", "You Will Be able to Log back in later!!!", [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel",
-      },
-      { text: "OK", onPress: () => authStore.logout() },
-    ]);
+    Alert.alert(
+      "Do You Wan't to LOGOUT?",
+      "You Will Be able to Log back in later!!!",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "OK", onPress: () => authStore.logout() },
+      ]
+    );
 
     setValue(null);
-  } 
-  else if (value === "logout"){
-    console.log("help")
+  } else if (value === "logout") {
+    console.log("help");
   }
 
-
-  const userSpots = authStore.user.spots.map(spotId => spotStore.spots.find(spot => spot._id === spotId));
+  const userSpots = authStore.user.spots.map((spotId) =>
+    spotStore.spots.find((spot) => spot._id === spotId)
+  );
   function renderSpot({ item: spot }) {
-    return (
-      <ProfileSpot
-        spot={spot}
-        // onPress={() => {
-        //   navigation.navigate("SpotDetails", { id: spot._id });
-        // }}
-      />
-    );
+    return <ProfileSpot spot={spot} navigation={navigation} />;
   }
-  
-  // console.log("UserSpots: "+userSpots);
-  
+
   return (
     <SafeAreaView style={styles.container}>
-        <View
-          style={{ position: "relative", alignSelf: "flex-end", margin: 10 }}
-        >
-          <DropDownPicker
-            label="..."
-            style={{
-              borderRadius: 30,
-              borderWidth: 0,
-              width: 50,
-              backgroundColor: "#00000000",
-              alignSelf: "flex-end",
-              height: 60,
-            }}
-            dropDownContainerStyle={{
-              borderWidth: 0,
-              borderRadius: 10,
-            }}
-            showTickIcon={false}
-            showArrowIcon={false}
-            open={open}
-            value={value}
-            items={items}
-            setOpen={setOpen}
-            setValue={setValue}
-            setItems={setItems}
-            placeholder="..."
-            placeholderStyle={{
-              fontSize: 50,
-              paddingBottom: 10,
+      <View style={{ position: "relative", alignSelf: "flex-end", margin: 10 }}>
+        <Logout />
+        <DropDownPicker
+          label="..."
+          style={{
+            borderRadius: 30,
+            borderWidth: 0,
+            width: 100,
+            backgroundColor: "#00000000",
+            alignSelf: "flex-end",
+            height: 60,
+          }}
+          dropDownContainerStyle={{
+            borderWidth: 0,
+            borderRadius: 10,
+          }}
+          showTickIcon={false}
+          showArrowIcon={false}
+          open={open}
+          value={value}
+          items={items}
+          setOpen={setOpen}
+          setValue={setValue}
+          setItems={setItems}
+          placeholder="..."
+          placeholderStyle={{
+            fontSize: 50,
+            paddingBottom: 10,
+          }}
+        />
+      </View>
+      <Text style={styles.profile}>{authStore.user.username}</Text>
+      <View style={styles.imageUserNameEdit}>
+        <View style={styles.imageUserName}>
+          <Image
+            style={styles.profileImage}
+            source={{
+              uri: baseURL + authStore.user.image,
             }}
           />
+          <Text style={styles.spotsNum}>{authStore.user.spots.length}</Text>
+          <Text style={styles.spotsTitle}>Spots</Text>
         </View>
         <Text style={styles.profile}>{authStore.user.username}</Text>
         <View style={styles.imageUserNameEdit}>
@@ -130,8 +136,7 @@ function Profile() {
         <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
-      >
-      </ScrollView>
+      ></ScrollView>
     </SafeAreaView>
   );
 }
@@ -139,9 +144,9 @@ export default observer(Profile);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    margin: 12,
-    // backgroundColor: "white",
+    // flex: 1,
+    //margin: 12,
+    backgroundColor: "white",
   },
   imageUserNameEdit: {
     justifyContent: "space-between",
@@ -161,7 +166,7 @@ const styles = StyleSheet.create({
     marginTop: 75,
     marginLeft: 28,
     fontSize: 30,
-    alignSelf: "flex-start"
+    alignSelf: "flex-start",
   },
   profileImage: {
     width: 200,
@@ -194,8 +199,8 @@ const styles = StyleSheet.create({
     paddingRight: 80,
   },
   bio: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     textAlign: "justify",
     margin: 12,
     padding: 10,
@@ -207,13 +212,12 @@ const styles = StyleSheet.create({
   bioText: {
     fontSize: 17,
     paddingBottom: 20,
-
   },
   tripList: {
     grid: 2,
     gridtemplate: "c1 c2",
   },
-  imageCard:{
+  imageCard: {
     // alignSelf: "center",
     width: 80,
     height: 80,

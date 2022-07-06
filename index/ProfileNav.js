@@ -1,6 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import EditScreen from "../screens/EditScreen";
 import Profile from "../screens/Profile";
+import { SpotDetails } from "../screens/spots/SpotDetails";
 
 const ProfileNav = () => {
   const { Navigator, Screen } = createStackNavigator();
@@ -17,18 +18,10 @@ const ProfileNav = () => {
         name="Profile"
         component={Profile}
       />
+      <Screen name="SpotDetails" component={SpotDetails} />
+
       <Screen name="Edit" component={EditScreen}  options={{ headerShown: false }}/>
-      {/* <Screen
-        name="TripDetails"
-        component={TripDetails}
-        options={({ route }) => {
-          const { id } = route.params;
-          return {
-            title: tripStore.getTripById(id).title,
-            headerBackTitleVisible: false,
-          };
-        }}
-      /> */}
+
     </Navigator>
   );
 };
