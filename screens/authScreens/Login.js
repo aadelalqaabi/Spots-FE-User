@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, Image, Button } from "react-native";
+import { StyleSheet, Text, View, TextInput, Image, Button, KeyboardAvoidingView } from "react-native";
 // import { Button } from "native-base";
 import { useState } from "react";
 import authStore from "../../stores/authStore";
@@ -19,6 +19,7 @@ export default function Login() {
     authStore.login(user);
   };
   return (
+    <KeyboardAvoidingView>
     <View
       style={{
         justifyContent: "center",
@@ -64,6 +65,7 @@ export default function Login() {
         </View>
       </View>
     </View>
+    </KeyboardAvoidingView>
   );
 }
 

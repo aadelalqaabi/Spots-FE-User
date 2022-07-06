@@ -17,7 +17,7 @@ const ProfileNav = () => {
         name="Profile"
         component={Profile}
       />
-      <Screen name="Edit" component={EditScreen} />
+      <Screen name="Edit" component={EditScreen}  options={{ headerShown: false }}/>
       {/* <Screen
         name="TripDetails"
         component={TripDetails}
@@ -34,3 +34,5 @@ const ProfileNav = () => {
 };
 
 export default ProfileNav;
+
+// options={{headerTitle: "Edit Profile", headerBackTitle: "Cancel" }}
