@@ -73,9 +73,29 @@ export default function Register() {
         backgroundColor: "white",
       }}
     >
-      <View style={{ width: "60%", alignSelf: "center", marginBottom: 120 }}>
+      <View style={{ width: "60%", alignSelf: "center" }}> 
         <View style={{ paddingBottom: 30 }}>
           {image === null ? (
+            <View>
+            {/* <Image
+            source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPWpbYe9c5YS6KNOXFWiawk-ox545j3ya978qwGXmcladr3eLFh6IabWhNFVtFRI0YNjI&usqp=CAU" }}
+            style={{
+              alignSelf: "center",
+              width: 240,
+              height: 240,
+              borderRadius: 150,
+              marginTop: 260,
+              marginBottom
+              shadowOpacity: 0.8,
+              shadowRadius: 4,
+              shadowColor: "black",
+              shadowOffset: {
+                height: 0,
+                width: 0,
+              },
+              elevation: 1,
+            }}
+            /> */}
             <View
               style={{
                 alignSelf: "center",
@@ -86,10 +106,24 @@ export default function Register() {
                 borderWidth: 0.5,
                 backgroundColor: "#111827",
                 borderRadius: "50%",
-                width: 200,
+                width: 220,
                 padding: 5,
                 paddingLeft: 30,
               }}
+              // style={{
+              //   alignSelf: "center",
+              //   // position: "absolute",
+              //   zIndex: 1,
+              //   marginTop: 30,
+              //   marginBottom: -30,
+              //   borderColor: "black",
+              //   borderWidth: 0.5,
+              //   backgroundColor: "#111827",
+              //   borderRadius: "50%",
+              //   width: 220,
+              //   padding: 5,
+              //   paddingLeft: 30,
+              // }}
             >
               <MaterialIcons
                 style={{ position: "absolute", marginLeft: 10, marginTop: 8 }}
@@ -99,9 +133,10 @@ export default function Register() {
               />
               <Button
                 color={"white"}
-                title="Choose an image"
+                title="Add a Profile Picture"
                 onPress={pickImage}
               />
+            </View>
             </View>
           ) : (
             <></>
@@ -192,3 +227,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFB91C",
   },
 });
+
+{/* marginBottom: 120*/}

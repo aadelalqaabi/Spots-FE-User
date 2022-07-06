@@ -18,10 +18,14 @@ const ProfileNav = () => {
         name="Profile"
         component={Profile}
       />
-      <Screen name="Edit" component={EditScreen} />
       <Screen name="SpotDetails" component={SpotDetails} />
+
+      <Screen name="Edit" component={EditScreen}  options={{ headerShown: false }}/>
+
     </Navigator>
   );
 };
 
 export default ProfileNav;
+
+// options={{headerTitle: "Edit Profile", headerBackTitle: "Cancel" }}

@@ -35,7 +35,9 @@ function App() {
               name="Set Up Account"
               component={AuthButtons}
             />
-            <Stack.Screen name="Register" component={Register} />
+
+            <Stack.Screen name="Register" component={Register} options={{headerBackTitle: "Back to Login" }} />
+            <Stack.Screen name="SpotDetails" component={SpotDetails} />
             <Stack.Screen name="Login" component={Login} />
           </Stack.Navigator>
         )}
