@@ -36,7 +36,6 @@ function App() {
               component={AuthButtons}
             />
             <Stack.Screen name="Register" component={Register} />
-            <Stack.Screen name="SpotDetails" component={SpotDetails} />
             <Stack.Screen name="Login" component={Login} />
           </Stack.Navigator>
         )}
@@ -65,7 +64,7 @@ function TabBar() {
     >
       <Tab.Screen
         name="Home"
-        component={Explore}
+        component={RootNavigator}
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ color, focused, tintColor }) => (
@@ -77,7 +76,7 @@ function TabBar() {
             ></Ionicons>
           ),
 
-          tabBarActiveTintColor: "#C9FB5F",
+          tabBarActiveTintColor: "#4831d4",
           tabBarInactiveTintColor: "#8D9C98",
         }}
       />
@@ -94,7 +93,7 @@ function TabBar() {
               style={{ position: "absolute", paddingTop: "13%" }}
             />
           ),
-          tabBarActiveTintColor: "#0267fe",
+          tabBarActiveTintColor: "#4831d4",
           tabBarInactiveTintColor: "#8D9C98",
         }}
       />
@@ -111,7 +110,7 @@ function TabBar() {
               style={{ position: "absolute", paddingTop: "13%" }}
             />
           ),
-          tabBarActiveTintColor: "#0267fe",
+          tabBarActiveTintColor: "#4831d4",
           tabBarInactiveTintColor: "#8D9C98",
         }}
       />

@@ -1,22 +1,17 @@
 import { observer } from "mobx-react";
+import { Button } from "native-base";
 import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
-import { baseURL } from "../../stores/instance";
 
 function Category({ category }) {
   return (
-    <View>
-      <TouchableOpacity
-        style={styles.card}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        activeOpacity={0.99}
-      >
-        <Text style={styles.thumb}>{category.image}</Text>
-        <View style={styles.infoContainer}>
-          <Text style={styles.name}>{category.name}</Text>
-        </View>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity
+      style={styles.card}
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+      activeOpacity={0.99}
+    >
+      <Button style={styles.name}>{category.name}</Button>
+    </TouchableOpacity>
   );
 }
 
@@ -26,11 +21,10 @@ const styles = StyleSheet.create({
   card: {
     alignSelf: "center",
     justifyContent: "center",
-    padding:"5%"
   },
   thumb: {
     alignSelf: "center",
-    width: 100,
+    width: 150,
     height: 80,
     borderRadius: 20,
     zIndex: -1,
@@ -47,12 +41,13 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   name: {
-    fontSize: 22,
-    fontWeight: "bold",
-    color: "#fffffc",
+    paddingTop: 45,
+    paddingLeft: 10,
+    fontSize: 18,
+    color: "black",
     shadowOpacity: 1,
     shadowRadius: 4,
-    shadowColor: "black",
+    shadowColor: "white",
     shadowOffset: {
       height: 1,
       width: 1,

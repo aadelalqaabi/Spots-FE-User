@@ -2,13 +2,16 @@ import { observer } from "mobx-react";
 import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
 import { baseURL } from "../../stores/instance";
 
-function ProfileSpot({ spot }) {
+function ProfileSpot({ spot, navigation }) {
   return (
-    <View style={{backgroundColor: "#f2f2f2"}}>
+    <View style={{ backgroundColor: "#f2f2f2" }}>
       <TouchableOpacity
         style={styles.card}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
+        onPress={() => {
+          navigation.navigate("SpotDetails", { id: spot._id });
+        }}
       >
         <Image
           style={styles.thumb}

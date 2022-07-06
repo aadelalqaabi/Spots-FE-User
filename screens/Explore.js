@@ -7,35 +7,30 @@ import {
   LogBox,
   View,
   StyleSheet,
+  ScrollView,
+  Button,
 } from "react-native";
 import spotStore from "../stores/spotStore";
 import categoryStore from "../stores/categoryStore";
 import Spot from "./spots/Spot";
-import Category from "./categories/Category";
+import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
 LogBox.ignoreAllLogs(true);
 
-function Explore({ navigation }) {
-  const spots = spotStore.getSpots();
+function Explore() {
+  const navigation = useNavigation();
+  const [category, setCategory] = useState();
+  const [query, setQuery] = useState("");
   const categories = categoryStore.getCategories();
+
+  const spots = spotStore.spots
+    .filter((spot) => (!category ? spot : spot.category?._id === category?._id))
+    .filter((category) =>
+      category?.name.toLowerCase().includes(query.toLowerCase())
+    );
+
   function renderSpot({ item: spot }) {
-    return (
-      <Spot
-        spot={spot}
-        onPress={() => {
-          navigation.navigate("SpotDetails", { id: spot._id });
-        }}
-      />
-    );
-  }
-  function renderCategory({ item: category }) {
-    return (
-      <Category
-        category={category}
-        onPress={() => {
-          spots.filter((spot) => spot.category === category);
-        }}
-      />
-    );
+    return <Spot spot={spot} navigation={navigation} />;
   }
 
   return (
@@ -47,22 +42,19 @@ function Explore({ navigation }) {
             placeholder="Search"
             style={styles.formField}
             placeholderTextColor={"grey"}
+            onChangeText={(text) => setQuery(text)}
           />
         </View>
-        <View style={styles.containercat}>
-          <Carousel
-            style={styles.spotsList}
-            contentContainerStyle={styles.spotsListContainer}
-            data={categories}
-            renderItem={renderCategory}
-            sliderWidth={400}
-            itemWidth={200}
-            windowSize={1}
-            layout={"default"}
-            containerCustomStyle={{ alignSelf: "center" }}
-            useScrollView={true}
-          />
-        </View>
+
+        <ScrollView horizontal={true} style={styles.categories}>
+          <Button title="All" onPress={() => setCategory()} />
+          {categories.map((category) => (
+            <Button
+              title={category?.name}
+              onPress={() => setCategory(category)}
+            />
+          ))}
+        </ScrollView>
 
         <Carousel
           style={styles.spotsList}
@@ -71,8 +63,8 @@ function Explore({ navigation }) {
           renderItem={renderSpot}
           windowSize={1}
           sliderWidth={450}
-          itemWidth={400}
-          layout={"stack"}
+          itemWidth={350}
+          layout={"default"}
           containerCustomStyle={{ alignSelf: "center" }}
           useScrollView={true}
         />
@@ -114,6 +106,10 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     borderRadius: 13,
     fontSize: 18,
-    backgroundColor: "#C9FB5F",
+    backgroundColor: "white",
+  },
+  categories: {
+    display: "flex",
+    flexDirection: "row",
   },
 });
