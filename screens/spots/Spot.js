@@ -47,13 +47,13 @@ function Spot({ spot, navigation }) {
             style={styles.thumb}
             source={{ uri: `${baseURL}${spot.image}` }}
           />
-          <View style={styles.ownerContainer}>
-            <Image
-              style={styles.ownerthumb}
-              source={{ uri: `${baseURL}${spot.organizer.image}` }}
-            />
-            <Text style={styles.ownername}>{spot.organizer.username}</Text>
-          </View>
+          <TouchableOpacity style={styles.ownerContainer} onPress={() => {navigation.navigate("Organizer", { organizer: spot.organizer._id }); {/*Later use ==> spot.organizer or spot.organizer._id*/}}}>
+              <Image
+                style={styles.ownerthumb}
+                source={{ uri: `${baseURL}${spot.organizer.image}` }}
+              />
+              <Text style={styles.ownername}>{spot.organizer.username}</Text>
+          </TouchableOpacity>
           <View style={styles.infoContainer}>
             <Text style={styles.name}>{spot.name}</Text>
             <Text style={styles.datetime}>
