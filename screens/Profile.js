@@ -90,25 +90,29 @@ function Profile() {
         <Text style={styles.profile}>{authStore.user.username}</Text>
         <View style={styles.imageUserNameEdit}>
           <View style={styles.imageUserName}>
-           {authStore.user.image === "" ?
-           <Image
-              style={styles.profileImage}
-              source={{
-                uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPWpbYe9c5YS6KNOXFWiawk-ox545j3ya978qwGXmcladr3eLFh6IabWhNFVtFRI0YNjI&usqp=CAU",
-              }}
-            /> : <Image
-            style={styles.profileImage}
-            source={{
-              uri: baseURL + authStore.user.image,
-            }}
-          />
-            }
+            {authStore.user.image === "" ? (
+              <Image
+                style={styles.profileImage}
+                source={{
+                  uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPWpbYe9c5YS6KNOXFWiawk-ox545j3ya978qwGXmcladr3eLFh6IabWhNFVtFRI0YNjI&usqp=CAU",
+                }}
+              />
+            ) : (
+              <Image
+                style={styles.profileImage}
+                source={{
+                  uri: baseURL + authStore.user.image,
+                }}
+              />
+            )}
             <Text style={styles.spotsNum}>{authStore.user.spots.length}</Text>
             <Text style={styles.spotsTitle}>Spots</Text>
           </View>
-          {/* {userSpots.map(spot=><Text style={styles.spotsTitle}>{spot.name}</Text> */}
         </View>
-        <ScrollView
+
+
+      </View>
+      <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         >

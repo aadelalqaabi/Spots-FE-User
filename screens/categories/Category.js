@@ -1,6 +1,7 @@
 import { observer } from "mobx-react";
 import { Button } from "native-base";
 import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
+import { baseURL } from "../../stores/instance";
 
 function Category({ category }) {
   return (
@@ -10,6 +11,10 @@ function Category({ category }) {
       showsHorizontalScrollIndicator={false}
       activeOpacity={0.99}
     >
+      <Image
+        style={styles.thumb}
+        source={{ uri: `${baseURL}${category.image}` }}
+      ></Image>
       <Button style={styles.name}>{category.name}</Button>
     </TouchableOpacity>
   );
@@ -24,7 +29,7 @@ const styles = StyleSheet.create({
   },
   thumb: {
     alignSelf: "center",
-    width: 150,
+    width: 100,
     height: 80,
     borderRadius: 20,
     zIndex: -1,
