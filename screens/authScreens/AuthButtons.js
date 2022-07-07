@@ -15,7 +15,8 @@ export default function AuthButtons({ navigation }) {
         title="Register Now!!"
         // style={styles.btn}
         size={30}
-        color="#0195f6"
+        // color="#0195f6"
+        color="#4831d4"
         onPress={() => {
           navigation.navigate("Register");
         }}

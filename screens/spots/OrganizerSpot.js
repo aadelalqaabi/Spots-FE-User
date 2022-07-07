@@ -1,8 +1,10 @@
+import { useNavigation } from "@react-navigation/native";
 import { observer } from "mobx-react";
 import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
 import { baseURL } from "../../stores/instance";
 
-function ProfileSpot({ spot, navigation }) {
+function OrganizerSpot({ spot }) {
+    const navigation = useNavigation();
   return (
     <View style={{ backgroundColor: "white" }}>
       <TouchableOpacity
@@ -25,7 +27,7 @@ function ProfileSpot({ spot, navigation }) {
   );
 }
 
-export default observer(ProfileSpot);
+export default observer(OrganizerSpot);
 
 const styles = StyleSheet.create({
   card: {

@@ -87,6 +87,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 15,
     elevation: 3,
-    backgroundColor: "#FFB91C",
+    backgroundColor: "#4831d4",
   },
 });
