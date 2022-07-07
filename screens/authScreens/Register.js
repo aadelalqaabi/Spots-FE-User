@@ -104,7 +104,7 @@ export default function Register() {
                 marginTop: 100,
                 borderColor: "black",
                 borderWidth: 0.5,
-                backgroundColor: "#111827",
+                backgroundColor: "#4831d4",
                 borderRadius: "50%",
                 width: 220,
                 padding: 5,
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 15,
     elevation: 3,
-    backgroundColor: "#FFB91C",
+    backgroundColor: "#4831d4",
   },
 });
 
