@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, SafeAreaView, Image, FlatList, ScrollView, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, Image, FlatList, ScrollView, TouchableOpacity,Button } from 'react-native'
 import organizerStore from '../stores/organizerStore';
 import spotStore from '../stores/spotStore';
 import ProfileSpot from '../screens/spots/ProfileSpot'
@@ -11,6 +11,7 @@ import { Fontisto } from '@expo/vector-icons';
 import { useState } from "react";
 
 function OrganizerProfile({route}) {
+    const navigation = useNavigation();
     const [notification, setNotification] = useState();
     const organizer = organizerStore.getOrganizerById(route.params.organizer);
 
@@ -32,13 +33,20 @@ function OrganizerProfile({route}) {
         }
 
     } 
+    const backButton = () => {
+        navigation.navigate("Explore");
+        console.log("back");
+      };
 
   return (
     <SafeAreaView style={styles.container}>
+        <View style={styles.cancel}>
+            <Button onPress={backButton} title="back" color="purple" />
+        </View>
       <Text style={styles.profile}>{organizer.username}</Text>
       <TouchableOpacity onPress={handleNotification}>
           {(notification === false) ?
-            <Fontisto style={{alignSelf: "flex-end", marginRight: 20, marginTop: 34}} name="bell-alt" size={24} color="grey" />
+            <Fontisto style={{alignSelf: "flex-end", marginRight: 20, marginTop: 20}} name="bell-alt" size={24} color="grey" />
             :
             <Fontisto style={{alignSelf: "flex-end", marginRight: 20, marginTop: 34}} name="bell-alt" size={24} color="#4831d4" />
           }
@@ -111,7 +119,7 @@ const styles = StyleSheet.create({
     marginTop: 75,
     marginLeft: 28,
     fontSize: 30,
-    alignSelf: "flex-start",
+    // alignSelf: "flex-start",
   },
   profileImage: {
     width: 200,
@@ -178,5 +186,11 @@ const styles = StyleSheet.create({
   },
   spotsListContainer: {
     backgroundColor: "#fffffc",
+  },
+  cancel: {
+    marginLeft: 20,
+    marginTop: 20,
+    alignItems: "flex-start",
+    // paddingLeft: 25,
   },
 });
