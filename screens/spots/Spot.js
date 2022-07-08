@@ -2,7 +2,7 @@ import { observer } from "mobx-react";
 import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
 import { baseURL } from "../../stores/instance";
 import { useMediaQuery } from "native-base";
-import { useNavigation } from "@react-navigation/native";
+import { SharedElement } from "react-navigation-shared-element";
 import moment from "moment";
 
 function Spot({ spot, navigation }) {
@@ -13,6 +13,8 @@ function Spot({ spot, navigation }) {
 
   let date = moment(spot.startDate).format("LL");
 
+  let startAncestor;
+  let startNode;
   return (
     <TouchableOpacity
       style={styles.card}
@@ -29,6 +31,7 @@ function Spot({ spot, navigation }) {
             style={styles.sthumb}
             source={{ uri: `${baseURL}${spot.image}` }}
           />
+
           <View style={styles.ownerContainer}>
             <Image
               style={styles.ownerthumbs}
@@ -40,6 +43,17 @@ function Spot({ spot, navigation }) {
             <Text style={styles.name}>{spot.name}</Text>
             <Text style={styles.datetime}>{date}</Text>
           </View>
+          <View style={styles.priceContainer}>
+            {spot.isFree === true ? (
+              <View style={styles.priceBack}>
+                <Text style={styles.isFree}>Free</Text>
+              </View>
+            ) : (
+              <View style={styles.priceBack}>
+                <Text style={styles.isFree}>{spot.price} KD</Text>
+              </View>
+            )}
+          </View>
         </>
       ) : (
         <>
@@ -47,6 +61,7 @@ function Spot({ spot, navigation }) {
             style={styles.thumb}
             source={{ uri: `${baseURL}${spot.image}` }}
           />
+
           <TouchableOpacity style={styles.ownerContainer} onPress={() => {navigation.navigate("Organizer", { organizer: spot.organizer._id }); {/*Later use ==> spot.organizer or spot.organizer._id*/}}}>
               <Image
                 style={styles.ownerthumb}
@@ -59,6 +74,17 @@ function Spot({ spot, navigation }) {
             <Text style={styles.datetime}>
               {date} at {spot.startTime}
             </Text>
+          </View>
+          <View style={styles.priceContainer}>
+            {spot.isFree === true ? (
+              <View style={styles.priceBack}>
+                <Text style={styles.isFree}>Free</Text>
+              </View>
+            ) : (
+              <View style={styles.priceBack}>
+                <Text style={styles.isFree}>{spot.price} KD</Text>
+              </View>
+            )}
           </View>
         </>
       )}
@@ -123,6 +149,7 @@ const styles = StyleSheet.create({
     marginRight: 7,
   },
   infoContainer: {
+    display: "flex",
     position: "absolute",
     alignSelf: "flex-end",
     width: 384,
@@ -132,6 +159,42 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     margin: 10,
+  },
+  priceContainer: {
+    display: "flex",
+    position: "absolute",
+    alignSelf: "flex-end",
+    width: 384,
+    height: 130,
+    paddingLeft: 28,
+    paddingBottom: 40,
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    margin: 10,
+  },
+  isFree: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#fffffc",
+    shadowOpacity: 1,
+    shadowRadius: 4,
+    shadowColor: "black",
+    shadowOffset: {
+      height: 1,
+      width: 1,
+    },
+    alignSelf: "center",
+  },
+  priceBack: {
+    backgroundColor: "rgba(0,0,0,0.6)",
+    alignSelf: "center",
+    marginLeft: 128,
+    paddingLeft: 22,
+    paddingRight: 22,
+    paddingTop: 5,
+    paddingBottom: 5,
+    borderRadius: 30,
   },
   ownerContainer: {
     display: "flex",
@@ -145,6 +208,7 @@ const styles = StyleSheet.create({
     paddingLeft: 28,
     margin: 10,
   },
+
   name: {
     fontSize: 30,
     fontWeight: "bold",
@@ -157,7 +221,6 @@ const styles = StyleSheet.create({
       width: 1,
     },
   },
-
   ownername: {
     fontSize: 20,
     fontWeight: "bold",
@@ -170,7 +233,6 @@ const styles = StyleSheet.create({
       width: 1,
     },
   },
-
   datetime: {
     fontSize: 20,
     fontWeight: "bold",

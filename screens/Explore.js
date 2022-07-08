@@ -17,12 +17,22 @@ import spotStore from "../stores/spotStore";
 import categoryStore from "../stores/categoryStore";
 import Spot from "./spots/Spot";
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import React, { useState } from "react";
 import { baseURL } from "../stores/instance";
 import { Ionicons } from "@expo/vector-icons";
+import { useScrollToTop } from "@react-navigation/native";
+import { Animated } from "react-native-web";
+import {
+  SharedElement,
+  SharedElementTransition,
+  nodeFromRef,
+} from "react-native-shared-element";
+
 LogBox.ignoreAllLogs(true);
 
 function Explore() {
+  const ref = React.useRef(null);
+  useScrollToTop(ref);
   const navigation = useNavigation();
   const [category, setCategory] = useState();
   const [query, setQuery] = useState("");
@@ -33,25 +43,24 @@ function Explore() {
     .filter((category) =>
       category?.name.toLowerCase().includes(query.toLowerCase())
     );
-
   function renderSpot({ item: spot }) {
     return <Spot spot={spot} navigation={navigation} />;
   }
+  const position = new Animated.Value(0);
 
   return (
-    <View style={{ backgroundColor: "white" }}>
+    <View style={{ width: "100%", height: "100%", backgroundColor: "white" }}>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <View style={styles.container}>
-          <Ionicons style={styles.icon} name="search-outline"></Ionicons>
           <TextInput
             placeholder="Search"
             style={styles.formField}
             placeholderTextColor={"grey"}
             onChangeText={(text) => setQuery(text)}
           />
+          <Ionicons style={styles.icon} name="search-outline"></Ionicons>
         </View>
-
         <ScrollView
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
@@ -200,9 +209,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   icon: {
-    position: "absolute",
     zIndex: 99,
-    margin:15,
-    height:400
+    position: "absolute",
+    marginLeft: 12,
+    marginTop: 9,
+    fontSize: 25,
+    color: "grey",
   },
 });
