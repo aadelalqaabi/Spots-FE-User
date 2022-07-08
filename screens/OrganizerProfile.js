@@ -1,3 +1,4 @@
+
 import {
   StyleSheet,
   Text,
@@ -19,47 +20,40 @@ import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { Fontisto } from "@expo/vector-icons";
 import { useState } from "react";
 
-function OrganizerProfile({ route }) {
-  const [notification, setNotification] = useState();
-  const organizer = organizerStore.getOrganizerById(route.params.organizer);
+
+function OrganizerProfile({route}) {
+    const navigation = useNavigation();
+    const [notification, setNotification] = useState();
+    const organizer = organizerStore.getOrganizerById(route.params.organizer);
+
 
   // const organizerSpots = organizer.spots.map(spotId => spotStore.spots.find(spot => spot._id === spotId));
   function renderSpot({ item: spot }) {
     return <OrganizerSpot spot={spot} />;
   }
 
-  const handleNotification = () => {
-    if (notification === false) {
-      console.log("organizer: " + organizer.username);
-      setNotification(true);
-      Toast.show({
-        type: "success",
-        text1: `You Will Be Notified The Next Time ${organizer.username} uploads a New Spot`,
-      });
-    } else {
-      setNotification(false);
-    }
-  };
+
+    } 
+    const backButton = () => {
+        navigation.navigate("Explore");
+        console.log("back");
+      };
+
 
   return (
     <SafeAreaView style={styles.container}>
+        <View style={styles.cancel}>
+            <Button onPress={backButton} title="back" color="purple" />
+        </View>
       <Text style={styles.profile}>{organizer.username}</Text>
       <TouchableOpacity onPress={handleNotification}>
-        {notification === false ? (
-          <Fontisto
-            style={{ alignSelf: "flex-end", marginRight: 20, marginTop: 34 }}
-            name="bell-alt"
-            size={24}
-            color="grey"
-          />
-        ) : (
-          <Fontisto
-            style={{ alignSelf: "flex-end", marginRight: 20, marginTop: 34 }}
-            name="bell-alt"
-            size={24}
-            color="#4831d4"
-          />
-        )}
+
+          {(notification === false) ?
+            <Fontisto style={{alignSelf: "flex-end", marginRight: 20, marginTop: 20}} name="bell-alt" size={24} color="grey" />
+            :
+            <Fontisto style={{alignSelf: "flex-end", marginRight: 20, marginTop: 34}} name="bell-alt" size={24} color="#4831d4" />
+          }
+
       </TouchableOpacity>
       <View style={styles.imageUserNameEdit}>
         <View style={styles.imageUserName}>
@@ -130,7 +124,7 @@ const styles = StyleSheet.create({
     marginTop: 75,
     marginLeft: 28,
     fontSize: 30,
-    alignSelf: "flex-start",
+    // alignSelf: "flex-start",
   },
   profileImage: {
     width: 150,
@@ -187,4 +181,12 @@ const styles = StyleSheet.create({
   spotsListContainer: {
     backgroundColor: "#fffffc",
   },
+
+  cancel: {
+    marginLeft: 20,
+    marginTop: 20,
+    alignItems: "flex-start",
+    // paddingLeft: 25,
+  },
 });
+

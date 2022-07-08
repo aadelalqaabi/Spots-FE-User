@@ -4,6 +4,8 @@ import { SpotDetails } from "../screens/spots/SpotDetails";
 import { CardStyleInterpolators } from "@react-navigation/stack";
 import { TransitionPresets } from "@react-navigation/stack";
 import { Animated } from "react-native";
+import OrganizerProfile from "../screens/OrganizerProfile";
+
 
 const RootNavigator = () => {
   const { Navigator, Screen } = createStackNavigator();
@@ -41,6 +43,8 @@ const RootNavigator = () => {
           presentation: "transparentModal",
         }}
       />
+            <Screen name="Organizer" component={OrganizerProfile}  options={{ headerShown: false }}/>
+
     </Navigator>
   );
 };

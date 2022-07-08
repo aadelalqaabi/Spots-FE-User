@@ -42,11 +42,10 @@ function Profile() {
       { text: "OK", onPress: () => authStore.logout() },
     ]);
     setValue(null);
-  } else if (value === "help") {
-    navigation.navigate("Organizer", { organizer: "62c4710f7e54eb10cea05194" });
-    {
-      /*Later use ==> spot.organizer or spot.organizer._id*/
-    }
+
+  } 
+  else if (value === "help"){
+
     console.log("help");
     setValue(null);
   }
@@ -112,6 +111,7 @@ function Profile() {
           <Text style={styles.spotsTitle}>Spots</Text>
         </View>
       </View>
+
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
