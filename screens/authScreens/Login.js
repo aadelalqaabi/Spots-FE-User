@@ -1,4 +1,13 @@
-import { StyleSheet, Text, View, TextInput, Image, Button, KeyboardAvoidingView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  Image,
+  Button,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+} from "react-native";
 // import { Button } from "native-base";
 import { useState } from "react";
 import authStore from "../../stores/authStore";
@@ -20,39 +29,44 @@ export default function Login() {
   };
   return (
     <KeyboardAvoidingView>
-    <View
-      style={{
-        justifyContent: "center",
-        marginTop: 150,
-        width: "70%",
-        alignSelf: "center",
-        // backgroundColor: "white"
-      }}
-    >
-      {/* <Text style={styles.title}>Login</Text> */}
-      <Image
-        style={{width:350, height:350, marginBottom: 30, alignSelf: "center",}}
-        source={{
-          uri: "https://capital-placement.b-cdn.net/wp-content/uploads/2022/06/18-location-pin-outline1-unscreen.gif",
+      <View
+        style={{
+          justifyContent: "center",
+          marginTop: 150,
+          width: "70%",
+          alignSelf: "center",
+          // backgroundColor: "white"
         }}
-      />
-      <View>
-        <Reinput
-          label="Username"
-          onChangeText={(text) => {
-            handleChange("username", text);
+      >
+        {/* <Text style={styles.title}>Login</Text> */}
+        <Image
+          style={{
+            width: 350,
+            height: 350,
+            marginBottom: 30,
+            alignSelf: "center",
           }}
-          placeholder="Enter Username"
-        />
-        <Reinput
-          label="Password"
-          secureTextEntry={true}
-          onChangeText={(text) => {
-            handleChange("password", text);
+          source={{
+            uri: "https://capital-placement.b-cdn.net/wp-content/uploads/2022/06/18-location-pin-outline1-unscreen.gif",
           }}
-          placeholder="Enter Password"
         />
-        {/* <Button
+        <View>
+          <Reinput
+            label="Username"
+            onChangeText={(text) => {
+              handleChange("username", text);
+            }}
+            placeholder="Enter Username"
+          />
+          <Reinput
+            label="Password"
+            secureTextEntry={true}
+            onChangeText={(text) => {
+              handleChange("password", text);
+            }}
+            placeholder="Enter Password"
+          />
+          {/* <Button
           colorScheme={"blue"}
           marginBottom={"5"}
           size={"lg"}
@@ -60,11 +74,11 @@ export default function Login() {
         >
           Login
         </Button> */}
-        <View style={styles.button}>
-          <Button title="Login" color="white" onPress={handleSubmit} />
+          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            <Text style={styles.buttontitle}>Login</Text>
+          </TouchableOpacity>
         </View>
       </View>
-    </View>
     </KeyboardAvoidingView>
   );
 }
@@ -88,5 +102,14 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     elevation: 3,
     backgroundColor: "#4831d4",
+  },
+  buttontitle: {
+    paddingVertical: 10,
+    borderRadius: 15,
+    elevation: 3,
+    color: "white",
+    fontSize: 20,
+    fontWeight: "800",
+    alignSelf: "center",
   },
 });
