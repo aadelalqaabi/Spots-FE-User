@@ -1,4 +1,3 @@
-
 import {
   StyleSheet,
   Text,
@@ -8,6 +7,7 @@ import {
   FlatList,
   ScrollView,
   TouchableOpacity,
+  Button,
 } from "react-native";
 import organizerStore from "../stores/organizerStore";
 import spotStore from "../stores/spotStore";
@@ -20,40 +20,43 @@ import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { Fontisto } from "@expo/vector-icons";
 import { useState } from "react";
 
-
-function OrganizerProfile({route}) {
-    const navigation = useNavigation();
-    const [notification, setNotification] = useState();
-    const organizer = organizerStore.getOrganizerById(route.params.organizer);
-
+function OrganizerProfile({ route }) {
+  const navigation = useNavigation();
+  const [notification, setNotification] = useState();
+  const organizer = organizerStore.getOrganizerById(route.params.organizer);
 
   // const organizerSpots = organizer.spots.map(spotId => spotStore.spots.find(spot => spot._id === spotId));
   function renderSpot({ item: spot }) {
     return <OrganizerSpot spot={spot} />;
   }
 
-
-    } 
-    const backButton = () => {
-        navigation.navigate("Explore");
-        console.log("back");
-      };
-
+  const backButton = () => {
+    navigation.navigate("Explore");
+    console.log("back");
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-        <View style={styles.cancel}>
-            <Button onPress={backButton} title="back" color="purple" />
-        </View>
+      <View style={styles.cancel}>
+        <Button onPress={backButton} title="back" color="purple" />
+      </View>
       <Text style={styles.profile}>{organizer.username}</Text>
-      <TouchableOpacity onPress={handleNotification}>
-
-          {(notification === false) ?
-            <Fontisto style={{alignSelf: "flex-end", marginRight: 20, marginTop: 20}} name="bell-alt" size={24} color="grey" />
-            :
-            <Fontisto style={{alignSelf: "flex-end", marginRight: 20, marginTop: 34}} name="bell-alt" size={24} color="#4831d4" />
-          }
-
+      <TouchableOpacity /*onPress={handleNotification}*/>
+        {notification === false ? (
+          <Fontisto
+            style={{ alignSelf: "flex-end", marginRight: 20, marginTop: 20 }}
+            name="bell-alt"
+            size={24}
+            color="grey"
+          />
+        ) : (
+          <Fontisto
+            style={{ alignSelf: "flex-end", marginRight: 20, marginTop: 34 }}
+            name="bell-alt"
+            size={24}
+            color="#4831d4"
+          />
+        )}
       </TouchableOpacity>
       <View style={styles.imageUserNameEdit}>
         <View style={styles.imageUserName}>
@@ -132,7 +135,7 @@ const styles = StyleSheet.create({
     borderRadius: "100%",
     marginTop: 30,
     borderWidth: 2,
-    marginLeft:140
+    marginLeft: 140,
   },
   spotsTitle: {
     fontSize: 30,
@@ -189,4 +192,3 @@ const styles = StyleSheet.create({
     // paddingLeft: 25,
   },
 });
-

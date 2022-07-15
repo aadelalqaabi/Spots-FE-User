@@ -17,6 +17,7 @@ import { SpotDetails } from "./screens/spots/SpotDetails";
 import RootNavigator from "./index/home";
 import ProfileNav from "./index/ProfileNav";
 import Toast from "react-native-toast-message";
+import { MenuProvider } from "react-native-popup-menu";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -26,21 +27,31 @@ function App() {
   return (
     <NativeBaseProvider>
       <NavigationContainer>
-        {checkUser ? (
-          <TabBar />
-        ) : (
-          <Stack.Navigator>
-            <Stack.Screen
-              options={{ headerShown: false }}
-              name="Set Up Account"
-              component={AuthButtons}
-            />
-            {/* , headerTintColor: "#4831d4" */}
-            <Stack.Screen name="Register" component={Register} options={{headerBackTitle: "Back to Login", headerTintColor: "#4831d4", headerTitleStyle:{color:"black"} }} />
-            <Stack.Screen name="SpotDetails" component={SpotDetails} />
-            <Stack.Screen name="Login" component={Login} />
-          </Stack.Navigator>
-        )}
+        <MenuProvider>
+          {checkUser ? (
+            <TabBar />
+          ) : (
+            <Stack.Navigator>
+              <Stack.Screen
+                options={{ headerShown: false }}
+                name="Set Up Account"
+                component={AuthButtons}
+              />
+              {/* , headerTintColor: "#4831d4" */}
+              <Stack.Screen
+                name="Register"
+                component={Register}
+                options={{
+                  headerBackTitle: "Back to Login",
+                  headerTintColor: "#4831d4",
+                  headerTitleStyle: { color: "black" },
+                }}
+              />
+              <Stack.Screen name="SpotDetails" component={SpotDetails} />
+              <Stack.Screen name="Login" component={Login} />
+            </Stack.Navigator>
+          )}
+        </MenuProvider>
       </NavigationContainer>
       <Toast />
     </NativeBaseProvider>
@@ -89,8 +100,8 @@ function TabBar() {
           tabBarShowLabel: false,
           tabBarIcon: ({ color, focused, tintColor }) => (
             <Ionicons
-              name={focused ? "location" : "location-outline"}
-              size={40}
+              name={focused ? "bookmark" : "bookmark-outline"}
+              size={38}
               color={color}
               style={{ position: "absolute", paddingTop: "13%" }}
             />

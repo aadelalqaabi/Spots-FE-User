@@ -1,20 +1,40 @@
 import { observer } from "mobx-react";
-import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Text,
+  Image,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  LogBox,
+} from "react-native";
 import { baseURL } from "../../stores/instance";
 import { useMediaQuery } from "native-base";
-import { SharedElement } from "react-navigation-shared-element";
 import moment from "moment";
+import { useFonts } from "expo-font";
+import { LinearGradient } from "expo-linear-gradient";
+import { Ionicons } from "@expo/vector-icons";
+import AppLoading from "expo-app-loading";
+
+LogBox.ignoreAllLogs();
 
 function Spot({ spot, navigation }) {
   const [isSmallScreen] = useMediaQuery({
     minHeight: 180,
     maxHeight: 900,
   });
-
-  let date = moment(spot.startDate).format("LL");
-
-  let startAncestor;
-  let startNode;
+  let [fontsLoaded] = useFonts({
+    UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
+    Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
+  });
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+  let users = spot.users.length;
+  let user1 = spot?.users[0]?.image;
+  let user2 = spot?.users[1]?.image;
+  let user3 = spot?.users[2]?.image;
+  let month = moment(spot.startDate).format("MMM");
+  let day = moment(spot.startDate).format("DD");
   return (
     <TouchableOpacity
       style={styles.card}
@@ -59,33 +79,148 @@ function Spot({ spot, navigation }) {
         <>
           <Image
             style={styles.thumb}
-            source={{ uri: `${baseURL}${spot.image}` }}
+            source={{ uri: `${baseURL}${spot?.image}` }}
           />
-
-          <TouchableOpacity style={styles.ownerContainer} onPress={() => {navigation.navigate("Organizer", { organizer: spot.organizer._id }); {/*Later use ==> spot.organizer or spot.organizer._id*/}}}>
+          <View style={styles.ownerview}>
+            <TouchableOpacity
+              style={styles.ownerContainer}
+              onPress={() => {
+                navigation.navigate("Organizer", {
+                  organizer: spot.organizer._id,
+                });
+                {
+                  /*Later use ==> spot.organizer or spot.organizer._id*/
+                }
+              }}
+            >
               <Image
                 style={styles.ownerthumb}
-                source={{ uri: `${baseURL}${spot.organizer.image}` }}
+                source={{ uri: `${baseURL}${spot.organizer?.image}` }}
               />
-              <Text style={styles.ownername}>{spot.organizer.username}</Text>
-          </TouchableOpacity>
-          <View style={styles.infoContainer}>
-            <Text style={styles.name}>{spot.name}</Text>
-            <Text style={styles.datetime}>
-              {date} at {spot.startTime}
-            </Text>
+              <Text style={styles.ownername}>{spot.organizer?.username}</Text>
+            </TouchableOpacity>
+            <View
+              style={{
+                margin: 10,
+                width: 60,
+                height: 70,
+                borderWidth: 0.5,
+                borderColor: "white",
+                borderRadius: 15,
+                alignContent: "center",
+                justifyContent: "center",
+                alignItems: "center",
+                shadowOpacity: 0.5,
+                shadowRadius: 4,
+                shadowColor: "black",
+                shadowOffset: {
+                  height: 1,
+                  width: 1,
+                },
+                marginLeft: 12,
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: "UbuntuBold",
+                  fontSize: 28,
+                  color: "white",
+                  shadowOpacity: 1,
+                  shadowRadius: 4,
+                  shadowColor: "black",
+                  shadowOffset: {
+                    height: 1,
+                    width: 1,
+                  },
+                }}
+              >
+                {day}
+              </Text>
+
+              <Text
+                style={{
+                  fontFamily: "Ubuntu",
+                  fontSize: 20,
+                  color: "white",
+                  shadowOpacity: 1,
+                  shadowRadius: 4,
+                  shadowColor: "black",
+                  shadowOffset: {
+                    height: 1,
+                    width: 1,
+                  },
+                }}
+              >
+                {month}
+              </Text>
+            </View>
           </View>
-          <View style={styles.priceContainer}>
+          <LinearGradient
+            colors={["rgba(0,0,0,0.6)", "transparent"]}
+            start={{ x: 0, y: 0.8 }}
+            end={{ x: 0, y: 0 }}
+            style={styles.infoContainer}
+          >
             {spot.isFree === true ? (
-              <View style={styles.priceBack}>
-                <Text style={styles.isFree}>Free</Text>
-              </View>
+              <Text style={styles.isFree}>Free</Text>
             ) : (
-              <View style={styles.priceBack}>
-                <Text style={styles.isFree}>{spot.price} KD</Text>
-              </View>
+              <Text style={styles.isFree}>{spot.price} KD per person</Text>
             )}
-          </View>
+            <Text style={styles.name}>{spot.name}</Text>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "flex-start",
+                alignContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {user1 && (
+                <Image
+                  style={{
+                    borderRadius: "50%",
+                    borderWidth: 0.2,
+                    borderColor: "white",
+                    height: 35,
+                    width: 35,
+                  }}
+                  source={{ uri: `${baseURL}${user1}` }}
+                ></Image>
+              )}
+              {user2 && (
+                <Image
+                  style={{
+                    borderRadius: "50%",
+                    borderWidth: 0.2,
+                    borderColor: "white",
+                    height: 35,
+                    width: 35,
+                    marginLeft: -5,
+                  }}
+                  source={{
+                    uri: `${baseURL}${user2}`,
+                  }}
+                ></Image>
+              )}
+              {user3 && (
+                <Image
+                  style={{
+                    borderRadius: "50%",
+                    borderWidth: 0.2,
+                    borderColor: "white",
+                    height: 35,
+                    width: 35,
+                    marginLeft: -5,
+                  }}
+                  source={{ uri: `${baseURL}${user3}` }}
+                ></Image>
+              )}
+              <View style={styles.spottedview}>
+                <Text style={styles.spotted}>{users}+</Text>
+              </View>
+            </View>
+          </LinearGradient>
         </>
       )}
     </TouchableOpacity>
@@ -100,34 +235,35 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignSelf: "center",
     marginBottom: 100,
+    marginTop: 8,
     borderRadius: 16,
-    shadowOpacity: 0.8,
-    shadowRadius: 4,
-    shadowColor: "black",
+    shadowColor: "#000",
     shadowOffset: {
-      height: 0,
       width: 0,
+      height: 1,
     },
-    elevation: 1,
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    borderRadius: 13,
+    elevation: 3,
   },
   thumb: {
     marginTop: 19,
     alignSelf: "center",
-    width: 354,
-    height: 570,
-    borderRadius: 20,
+    width: 374,
+    height: 600,
+    borderRadius: 40,
     zIndex: -1,
     opacity: 1,
   },
   ownerthumb: {
-    marginTop: 19,
     alignSelf: "center",
     width: 45,
     height: 45,
     borderRadius: "50%",
     zIndex: -1,
     opacity: 1,
-    marginRight: 7,
+    marginRight: 10,
   },
   sthumb: {
     marginTop: 12,
@@ -139,52 +275,43 @@ const styles = StyleSheet.create({
     opacity: 1,
   },
   ownerthumbs: {
-    marginTop: 19,
     alignSelf: "center",
     width: 45,
     height: 45,
     borderRadius: "50%",
     zIndex: -1,
     opacity: 1,
-    marginRight: 7,
+    marginRight: 10,
   },
   infoContainer: {
     display: "flex",
     position: "absolute",
-    alignSelf: "flex-end",
-    width: 384,
-    height: 130,
-    paddingLeft: 28,
-    flex: 1,
+    width: 374,
     flexDirection: "column",
-    justifyContent: "center",
-    margin: 10,
+    flexWrap: "nowrap",
+    borderBottomRightRadius: 40,
+    borderBottomLeftRadius: 40,
+    padding: 30,
+    alignSelf: "flex-end",
   },
   priceContainer: {
     display: "flex",
     position: "absolute",
     alignSelf: "flex-end",
     width: 384,
-    height: 130,
+    height: 150,
     paddingLeft: 28,
     paddingBottom: 40,
     flex: 1,
-    flexDirection: "column",
+    flexDirection: "row",
     justifyContent: "center",
     margin: 10,
   },
   isFree: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#fffffc",
-    shadowOpacity: 1,
-    shadowRadius: 4,
-    shadowColor: "black",
-    shadowOffset: {
-      height: 1,
-      width: 1,
-    },
-    alignSelf: "center",
+    fontSize: 16,
+    color: "white",
+    fontFamily: "Ubuntu",
+    paddingBottom: 10,
   },
   priceBack: {
     backgroundColor: "rgba(0,0,0,0.6)",
@@ -198,32 +325,33 @@ const styles = StyleSheet.create({
   },
   ownerContainer: {
     display: "flex",
+    flexDirection: "row",
+    flexWrap: "nowrap",
+    textAlign: "center",
+    width: 220,
+    alignContent: "center",
+  },
+  ownerview: {
+    paddingBottom: 485,
+    display: "flex",
     position: "absolute",
-    alignSelf: "flex-end",
+    alignSelf: "center",
     flexDirection: "row",
     alignContent: "center",
     flexWrap: "wrap",
     alignItems: "center",
-    paddingBottom: 485,
-    paddingLeft: 28,
-    margin: 10,
+    paddingLeft: 40,
+    paddingTop: 40,
   },
-
   name: {
     fontSize: 30,
     fontWeight: "bold",
-    color: "#fffffc",
-    shadowOpacity: 1,
-    shadowRadius: 4,
-    shadowColor: "black",
-    shadowOffset: {
-      height: 1,
-      width: 1,
-    },
+    color: "white",
+    fontFamily: "UbuntuBold",
+    paddingBottom: 10,
   },
   ownername: {
     fontSize: 20,
-    fontWeight: "bold",
     color: "#fffffc",
     shadowOpacity: 1,
     shadowRadius: 4,
@@ -232,18 +360,14 @@ const styles = StyleSheet.create({
       height: 1,
       width: 1,
     },
+    fontFamily: "Ubuntu",
+    alignSelf: "center",
+    flex: 1,
   },
   datetime: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#fffffc",
-    shadowOpacity: 1,
-    shadowRadius: 4,
-    shadowColor: "black",
-    shadowOffset: {
-      height: 1,
-      width: 1,
-    },
+    fontSize: 15,
+    color: "white",
+    fontFamily: "Ubuntu",
   },
   edit: {
     borderRadius: 10,
@@ -252,6 +376,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     paddingTop: 6,
     fontSize: 20,
+    fontFamily: "Ubuntu",
   },
   profileImage: {
     width: 40,
@@ -262,5 +387,26 @@ const styles = StyleSheet.create({
   profile: {
     flexDirection: "row",
     padding: 10,
+  },
+
+  usersimage: {
+    height: 50,
+    width: 50,
+    borderRadius: "50%",
+  },
+  spotted: {
+    fontSize: 12,
+    color: "black",
+    fontFamily: "UbuntuBold",
+  },
+  spottedview: {
+    borderRadius: "50%",
+    height: 35,
+    width: 35,
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+    marginLeft: -5,
   },
 });

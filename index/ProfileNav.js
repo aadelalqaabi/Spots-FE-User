@@ -10,7 +10,7 @@ const ProfileNav = () => {
     <Navigator
       screenOptions={
         {
-          // headerShown: false,
+           headerShown: false,
         }
       }
     >
