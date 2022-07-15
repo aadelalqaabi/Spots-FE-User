@@ -8,114 +8,142 @@ import {
   ScrollView,
   FlatList,
   Alert,
+  LogBox,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import spotStore from "../stores/spotStore";
 import authStore from "../stores/authStore";
 import { observer } from "mobx-react";
 import { baseURL } from "../stores/instance";
-import DropDownPicker from "react-native-dropdown-picker";
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+} from "react-native-popup-menu";
 import { useState, useEffect } from "react";
 import ProfileSpot from "./spots/ProfileSpot";
+import { useFonts } from "expo-font";
+import AppLoading from "expo-app-loading";
+LogBox.ignoreAllLogs();
 
 function Profile() {
   const navigation = useNavigation();
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    { label: "Edit", value: "edit" },
-    { label: "Logout", value: "logout" },
-    { label: "Help", value: "help" },
-  ]);
-
-  if (value === "edit") {
-    navigation.navigate("Edit");
-    console.log("Edit");
-    setValue(null);
-  } else if (value === "logout") {
-    Alert.alert("Do You Wan't to Logout?", "You can always log back in later", [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel",
-      },
-      { text: "OK", onPress: () => authStore.logout() },
-    ]);
-    setValue(null);
-
-  } 
-  else if (value === "help"){
-
-    console.log("help");
-    setValue(null);
-  }
   const userSpots = authStore.user.spots.map((spotId) =>
     spotStore.spots.find((spot) => spot._id === spotId)
   );
   function renderSpot({ item: spot }) {
     return <ProfileSpot spot={spot} navigation={navigation} />;
   }
-
+  let [fontsLoaded] = useFonts({
+    UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
+    Ubuntu: require("../assets/fonts/Ubuntu.ttf"),
+  });
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+  const triggerStyles = {
+    triggerText: {
+      fontSize: 35,
+      margin: 30,
+      marginBottom: 10,
+      marginTop: 0,
+      fontFamily: "Ubuntu",
+    },
+    triggerWrapper: {},
+    triggerTouchable: {
+      activeOpacity: 70,
+    },
+  };
+  const optionsStyles = {
+    optionsContainer: {
+      padding: 10,
+      marginTop: 50,
+      width: 150,
+    },
+    optionText: {
+      fontSize: 20,
+    },
+    optionWrapper: {
+      borderBottomWidth: 0.3,
+      borderColor: "lightgrey",
+    },
+  };
   return (
     <SafeAreaView style={styles.container}>
-      <DropDownPicker
-        label="..."
+      <View
         style={{
-          borderRadius: 30,
-          borderWidth: 0,
-          width: 80,
-          backgroundColor: "#00000000",
-          alignSelf: "flex-end",
-          height: 60,
+          display: "flex",
+          flexDirection: "row",
+          alignContent: "center",
+          justifyContent: "space-between",
         }}
-        dropDownContainerStyle={{
-          alignSelf: "flex-end",
-          borderWidth: 0,
-          borderRadius: 10,
-          width: 76,
-        }}
-        showTickIcon={false}
-        showArrowIcon={false}
-        open={open}
-        value={value}
-        items={items}
-        setOpen={setOpen}
-        setValue={setValue}
-        setItems={setItems}
-        placeholder="..."
-        placeholderStyle={{
-          fontSize: 50,
-          paddingBottom: 10,
-        }}
-      />
-      <Text style={styles.profile}>{authStore.user.username}</Text>
-      <Text style={styles.profile}>{authStore.user.username}</Text>
-      <View style={styles.imageUserNameEdit}>
-        <View style={styles.imageUserName}>
-          {authStore.user.image === "" ? (
-            <Image
-              style={styles.profileImage}
-              source={{
-                uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPWpbYe9c5YS6KNOXFWiawk-ox545j3ya978qwGXmcladr3eLFh6IabWhNFVtFRI0YNjI&usqp=CAU",
-              }}
-            />
-          ) : (
-            <Image
-              style={styles.profileImage}
-              source={{
-                uri: baseURL + authStore.user.image,
-              }}
-            />
-          )}
-          <Text style={styles.spotsNum}>{authStore.user.spots.length}</Text>
-          <Text style={styles.spotsTitle}>Spots</Text>
-        </View>
-      </View>
+      >
+        <Text style={styles.profile}>{authStore.user.username}</Text>
 
+        <Menu>
+          <MenuTrigger text="..." customStyles={triggerStyles} />
+          <MenuOptions customStyles={optionsStyles}>
+            <MenuOption
+              onSelect={() => navigation.navigate("Edit")}
+              text="Edit"
+            />
+            <MenuOption
+              customStyles={{
+                optionWrapper: {
+                  borderBottomWidth: 0,
+                },
+              }}
+              onSelect={() =>
+                Alert.alert("Do You Want to Logout?", "", [
+                  {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel",
+                  },
+                  { text: "OK", onPress: () => authStore.logout() },
+                ])
+              }
+            >
+              <Text
+                style={{ color: "red", fontFamily: "Ubuntu", fontSize: 20 }}
+              >
+                Logout
+              </Text>
+            </MenuOption>
+          </MenuOptions>
+        </Menu>
+      </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
       >
+        <View style={styles.imageUserNameEdit}>
+          <View style={styles.imageUserName}>
+            {authStore.user.image === "" ? (
+              <Image
+                style={styles.profileImage}
+                source={{
+                  uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPWpbYe9c5YS6KNOXFWiawk-ox545j3ya978qwGXmcladr3eLFh6IabWhNFVtFRI0YNjI&usqp=CAU",
+                }}
+              />
+            ) : (
+              <Image
+                style={styles.profileImage}
+                source={{
+                  uri: baseURL + authStore.user.image,
+                }}
+              />
+            )}
+            <View style={styles.counter}>
+              <Text style={styles.spotsNum}>{authStore.user.spots.length}</Text>
+              <Text style={styles.spotsTitle}>Spots</Text>
+            </View>
+          </View>
+        </View>
+
+        <Text style={styles.visited}>Visited Spots</Text>
+
         <FlatList
           style={styles.spotsList}
           contentContainerStyle={styles.spotsListContainer}
@@ -133,8 +161,6 @@ export default observer(Profile);
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
-    // margin: 12,
     backgroundColor: "white",
   },
   imageUserNameEdit: {
@@ -143,40 +169,44 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   imageUserName: {
-    justifyContent: "flex-Start",
-    alignItems: "center",
-    flexDirection: "column",
-    position: "relative",
-    marginLeft: 2,
+    display: "flex",
+    justifyContent: "center",
+    alignContent: "center",
+    flexDirection: "row",
+    marginLeft: 20,
+    marginBottom: 10,
+    backgroundColor: "white",
+    borderRadius: 20,
+    paddingRight: 20,
+    alignSelf: "center",
+    width: 405,
+    height: 180,
   },
   profile: {
-    position: "absolute",
-    alignSelf: "center",
-    marginTop: 75,
-    marginLeft: 28,
     fontSize: 30,
-    alignSelf: "flex-start",
+    margin: 30,
+    marginBottom: 10,
+    marginTop: 15,
+    fontFamily: "UbuntuBold",
   },
   profileImage: {
-    width: 200,
-    height: 200,
+    width: 150,
+    height: 150,
     borderRadius: 150,
-    marginRight: 105,
-    marginLeft: 112,
-    marginTop: 60,
-    borderWidth: 2,
+    marginRight: 75,
+    alignItems: "center",
+    alignSelf: "center",
   },
   spotsNum: {
     fontSize: 30,
-    marginTop: 30,
-    marginLeft: 12,
+    marginLeft: 8,
     fontWeight: "bold",
+    fontFamily: "Ubuntu",
   },
   spotsTitle: {
-    fontSize: 30,
-    marginTop: -10,
-    marginLeft: 12,
-    // fontWeight: "bold",
+    fontSize: 25,
+    marginLeft: 8,
+    fontFamily: "Ubuntu",
   },
   edit: {
     borderRadius: 10,
@@ -195,7 +225,6 @@ const styles = StyleSheet.create({
     textAlign: "justify",
     margin: 12,
     padding: 10,
-
     paddingTop: 2,
     paddingBottom: 15,
     fontSize: 9,
@@ -209,7 +238,6 @@ const styles = StyleSheet.create({
     gridtemplate: "c1 c2",
   },
   imageCard: {
-    // alignSelf: "center",
     width: 80,
     height: 80,
     borderRadius: 40,
@@ -224,5 +252,16 @@ const styles = StyleSheet.create({
   },
   spotsListContainer: {
     backgroundColor: "#fffffc",
+  },
+  counter: {
+    alignItems: "center",
+    alignSelf: "center",
+    marginRight: 80,
+  },
+  visited: {
+    fontSize: 25,
+    margin: 30,
+    marginTop: 0,
+    fontFamily: "Ubuntu",
   },
 });

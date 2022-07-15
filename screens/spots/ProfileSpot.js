@@ -15,10 +15,10 @@ function ProfileSpot({ spot, navigation }) {
       >
         <Image
           style={styles.thumb}
-          source={{ uri: `${baseURL}${spot.image}` }}
+          source={{ uri: `${baseURL}${spot?.image}` }}
         />
         <View style={styles.infoContainer}>
-          <Text style={styles.name}>{spot.name}</Text>
+          <Text style={styles.name}>{spot?.name}</Text>
         </View>
       </TouchableOpacity>
     </View>
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     height: 290,
     marginBottom: 30,
-    marginLeft: 2
+    marginLeft: 2,
   },
   thumb: {
     alignSelf: "center",

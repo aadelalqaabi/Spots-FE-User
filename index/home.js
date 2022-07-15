@@ -3,7 +3,6 @@ import Explore from "../screens/Explore";
 import { SpotDetails } from "../screens/spots/SpotDetails";
 import { CardStyleInterpolators } from "@react-navigation/stack";
 import { TransitionPresets } from "@react-navigation/stack";
-import { Animated } from "react-native";
 import OrganizerProfile from "../screens/OrganizerProfile";
 
 
@@ -27,7 +26,7 @@ const RootNavigator = () => {
         headerShown: false,
       }}
     >
-      <Screen name="Explore" component={Explore} options={{}} />
+      <Screen name="Explore" component={Explore} />
       <Screen
         name="SpotDetails"
         component={SpotDetails}

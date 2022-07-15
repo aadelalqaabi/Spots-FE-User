@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction } from "mobx";
 import { instance } from "./instance";
 import decode from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import spotStore from "./spotStore";
 
 class AuthStore {
   constructor() {
@@ -45,7 +46,7 @@ class AuthStore {
     try {
       const response = await instance.post("/user/login", userData);
       this.setUser(response.data.token);
-      console.log("response: "+JSON.stringify(response.data.token));
+      console.log("response: " + JSON.stringify(response.data.token));
     } catch (error) {
       console.log(error);
     }
@@ -69,11 +70,11 @@ class AuthStore {
       console.log("here", error);
     }
   };
-  // ${this.user.id}
+
   spotAdd = async (spotId) => {
     try {
       const res = await instance.put(`/user/spots/${spotId}`);
-      this.user.spots = res.data.spots
+      this.user.spots = res.data.spots;
     } catch (error) {
       console.log("here", error);
     }
@@ -81,8 +82,8 @@ class AuthStore {
 
   removeSpot = async (spotId) => {
     try {
-      const res = await instance.delete(`/user/remove/${spotId}`);
-      this.user.spots = res.data.spots
+      const res = await instance.put(`/user/remove/${spotId}`);
+      this.user.spots = res.data.spots.map((spot) => spot._id !== spotId);
     } catch (error) {
       console.log("here", error);
     }
