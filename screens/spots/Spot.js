@@ -1,21 +1,11 @@
 import { observer } from "mobx-react";
-import {
-  Text,
-  Image,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  LogBox,
-} from "react-native";
+import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
 import { baseURL } from "../../stores/instance";
 import { useMediaQuery } from "native-base";
 import moment from "moment";
 import { useFonts } from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
-import { Ionicons } from "@expo/vector-icons";
 import AppLoading from "expo-app-loading";
-
-LogBox.ignoreAllLogs();
 
 function Spot({ spot, navigation }) {
   const [isSmallScreen] = useMediaQuery({
@@ -88,9 +78,6 @@ function Spot({ spot, navigation }) {
                 navigation.navigate("Organizer", {
                   organizer: spot.organizer._id,
                 });
-                {
-                  /*Later use ==> spot.organizer or spot.organizer._id*/
-                }
               }}
             >
               <Image
@@ -176,7 +163,7 @@ function Spot({ spot, navigation }) {
                 alignItems: "center",
               }}
             >
-              {user1 && (
+              {user1 !== null && (
                 <Image
                   style={{
                     borderRadius: "50%",
@@ -188,7 +175,7 @@ function Spot({ spot, navigation }) {
                   source={{ uri: `${baseURL}${user1}` }}
                 ></Image>
               )}
-              {user2 && (
+              {user2 !== null && (
                 <Image
                   style={{
                     borderRadius: "50%",
@@ -203,7 +190,7 @@ function Spot({ spot, navigation }) {
                   }}
                 ></Image>
               )}
-              {user3 && (
+              {user3 !== null && (
                 <Image
                   style={{
                     borderRadius: "50%",

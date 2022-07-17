@@ -79,13 +79,17 @@ export default function Email({ navigation, route }) {
               handleChange("email", text);
             }}
             placeholder="Enter Email"
+            keyboardType="web-search"
+            onSubmitEditing={() => {
+              navigation.navigate("Password", { itemId: user });
+            }}
           />
           <View style={styles.button}>
             <Button
               title="Next"
               color="white"
               onPress={() => {
-                navigation.navigate("Password", { user: user });
+                navigation.navigate("Password", { itemId: user });
               }}
             />
           </View>

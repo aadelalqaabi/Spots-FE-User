@@ -10,6 +10,8 @@ import { useState } from "react";
 import authStore from "../../stores/authStore";
 import React from "react";
 import Reinput from "reinput";
+import { ScrollView } from "native-base";
+import { Header, useHeaderHeight } from "@react-navigation/stack";
 
 export default function Login() {
   const [user, setUser] = useState({
@@ -25,36 +27,38 @@ export default function Login() {
     authStore.login(user);
   };
   return (
-    <KeyboardAvoidingView>
-      <View
-        style={{
-          justifyContent: "center",
-          width: "100%",
-          alignSelf: "center",
-        }}
-      >
-        <View>
-          <Reinput
-            label="Username"
-            onChangeText={(text) => {
-              handleChange("username", text);
-            }}
-            placeholder="Enter Username"
-          />
-          <Reinput
-            label="Password"
-            secureTextEntry={true}
-            onChangeText={(text) => {
-              handleChange("password", text);
-            }}
-            placeholder="Enter Password"
-          />
-          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-            <Text style={styles.buttontitle}>Login</Text>
-          </TouchableOpacity>
-        </View>
+    <View
+      style={{
+        justifyContent: "center",
+        width: "100%",
+        alignSelf: "center",
+      }}
+    >
+      <View>
+        <Reinput
+          label="Username"
+          onChangeText={(text) => {
+            handleChange("username", text);
+          }}
+          placeholder="Enter Username"
+          keyboardType="web-search"
+          onSubmitEditing={handleSubmit}
+        />
+        <Reinput
+          label="Password"
+          secureTextEntry={true}
+          onChangeText={(text) => {
+            handleChange("password", text);
+          }}
+          placeholder="Enter Password"
+          keyboardType="web-search"
+          onSubmitEditing={handleSubmit}
+        />
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+          <Text style={styles.buttontitle}>Login</Text>
+        </TouchableOpacity>
       </View>
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 
