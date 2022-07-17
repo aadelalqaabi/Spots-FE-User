@@ -8,11 +8,9 @@ const ProfileNav = () => {
   const { Navigator, Screen } = createStackNavigator();
   return (
     <Navigator
-      screenOptions={
-        {
-           headerShown: false,
-        }
-      }
+      screenOptions={{
+        headerShown: false,
+      }}
     >
       <Screen
         options={{ headerShown: false }}
@@ -21,13 +19,18 @@ const ProfileNav = () => {
       />
       <Screen name="SpotDetails" component={SpotDetails} />
 
-      <Screen name="Edit" component={EditScreen}  options={{ headerShown: false }}/>
-      <Screen name="Organizer" component={OrganizerProfile}  options={{ headerShown: false }}/>
-
+      <Screen
+        name="Edit"
+        component={EditScreen}
+        options={{ headerShown: false }}
+      />
+      <Screen
+        name="Organizer"
+        component={OrganizerProfile}
+        options={{ headerShown: false }}
+      />
     </Navigator>
   );
 };
 
 export default ProfileNav;
-
-// options={{headerTitle: "Edit Profile", headerBackTitle: "Cancel" }}

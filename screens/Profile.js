@@ -162,6 +162,7 @@ export default observer(Profile);
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
+    height: "100%",
   },
   imageUserNameEdit: {
     justifyContent: "space-between",
@@ -262,6 +263,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     margin: 30,
     marginTop: 0,
+    marginBottom: 10,
     fontFamily: "Ubuntu",
   },
 });

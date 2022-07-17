@@ -1,16 +1,14 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { NativeBaseProvider } from "native-base";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { observer } from "mobx-react";
-import Explore from "./screens/Explore";
 import MySpots from "./screens/MySpots";
-import Profile from "./screens/Profile";
 import { Ionicons } from "@expo/vector-icons";
 import AuthButtons from "./screens/authScreens/AuthButtons";
-import Register from "./screens/authScreens/Register";
+import MainPageRegister from "./screens/authScreens/MainPageRegister";
 import Login from "./screens/authScreens/Login";
 import authStore from "./stores/authStore";
 import { SpotDetails } from "./screens/spots/SpotDetails";
@@ -18,7 +16,9 @@ import RootNavigator from "./index/home";
 import ProfileNav from "./index/ProfileNav";
 import Toast from "react-native-toast-message";
 import { MenuProvider } from "react-native-popup-menu";
-
+import Email from "./screens/authScreens/Email";
+import Password from "./screens/authScreens/Password";
+import MyImage from "./screens/authScreens/MyImage";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -31,24 +31,17 @@ function App() {
           {checkUser ? (
             <TabBar />
           ) : (
-            <Stack.Navigator>
-              <Stack.Screen
-                options={{ headerShown: false }}
-                name="Set Up Account"
-                component={AuthButtons}
-              />
-              {/* , headerTintColor: "#4831d4" */}
-              <Stack.Screen
-                name="Register"
-                component={Register}
-                options={{
-                  headerBackTitle: "Back to Login",
-                  headerTintColor: "#4831d4",
-                  headerTitleStyle: { color: "black" },
-                }}
-              />
-              <Stack.Screen name="SpotDetails" component={SpotDetails} />
+            <Stack.Navigator screenOptions={{ headerShown: false }}>
+              <Stack.Screen name="Set Up Account" component={AuthButtons} />
               <Stack.Screen name="Login" component={Login} />
+              <Stack.Screen
+                name="MainPageRegister"
+                component={MainPageRegister}
+              />
+              <Stack.Screen name="Email" component={Email} />
+              <Stack.Screen name="Password" component={Password} />
+              <Stack.Screen name="MyImage" component={MyImage} />
+              <Stack.Screen name="SpotDetails" component={SpotDetails} />
             </Stack.Navigator>
           )}
         </MenuProvider>
@@ -100,10 +93,13 @@ function TabBar() {
           tabBarShowLabel: false,
           tabBarIcon: ({ color, focused, tintColor }) => (
             <Ionicons
-              name={focused ? "bookmark" : "bookmark-outline"}
-              size={38}
+              name={focused ? "location" : "location-outline"}
+              size={40}
               color={color}
-              style={{ position: "absolute", paddingTop: "13%" }}
+              style={{
+                position: "absolute",
+                paddingTop: "13%",
+              }}
             />
           ),
           tabBarActiveTintColor: "#4831d4",
@@ -134,5 +130,14 @@ function TabBar() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "blue",
+  },
+  container2: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  horizontal: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    padding: 10,
   },
 });

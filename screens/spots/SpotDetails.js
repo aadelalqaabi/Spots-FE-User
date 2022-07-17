@@ -19,6 +19,7 @@ import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import ReadMore from "@fawazahmed/react-native-read-more";
 import moment from "moment";
+//import "moment/locale/ar";
 LogBox.ignoreAllLogs();
 
 export function SpotDetails({ navigation, route }) {
@@ -40,7 +41,11 @@ export function SpotDetails({ navigation, route }) {
   let date = moment(spot.startDate).format("LL");
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <ScrollView style={{ backgroundColor: "white" }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        style={{ backgroundColor: "white" }}
+      >
         <StatusBar barStyle="light-content" />
         <TouchableOpacity
           onPress={() => {
