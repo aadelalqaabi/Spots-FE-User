@@ -16,7 +16,9 @@ import { Ionicons } from "@expo/vector-icons";
 
 export default function MyImage({ navigation, route }) {
   const [image, setImage] = useState(null);
-  const [user, setUser] = useState(route.params.user);
+  const { itemId } = route.params;
+  const [user, setUser] = useState(itemId);
+
   useEffect(() => {
     (async () => {
       if (Platform.OS !== "web") {
@@ -28,6 +30,7 @@ export default function MyImage({ navigation, route }) {
       }
     })();
   }, []);
+
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),

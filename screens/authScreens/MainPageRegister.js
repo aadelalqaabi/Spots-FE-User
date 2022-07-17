@@ -85,6 +85,10 @@ export default function MainPageRegister() {
               handleChange("username", text);
             }}
             placeholder="Enter Username"
+            keyboardType="web-search"
+            onSubmitEditing={() => {
+              navigation.navigate("Email", { itemId: user });
+            }}
           />
           <View style={styles.button}>
             <Button

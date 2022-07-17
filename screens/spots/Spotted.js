@@ -29,7 +29,10 @@ function Spotted({ spot, navigation }) {
             flexDirection: "column",
           }}
         >
-          <Ionicons style={{ fontSize: 40 }} name="trash-outline"></Ionicons>
+          <Ionicons
+            style={{ color: "red", fontSize: 40 }}
+            name="trash-outline"
+          ></Ionicons>
         </View>
       ),
       backgroundColor: "white",

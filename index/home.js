@@ -4,7 +4,9 @@ import { SpotDetails } from "../screens/spots/SpotDetails";
 import { CardStyleInterpolators } from "@react-navigation/stack";
 import { TransitionPresets } from "@react-navigation/stack";
 import OrganizerProfile from "../screens/OrganizerProfile";
-
+import BookingDetails from "../screens/booking/BookingDetails";
+import Payment from "../screens/booking/Payment";
+import Confirmation from "../screens/booking/Confirmation";
 
 const RootNavigator = () => {
   const { Navigator, Screen } = createStackNavigator();
@@ -42,8 +44,14 @@ const RootNavigator = () => {
           presentation: "transparentModal",
         }}
       />
-            <Screen name="Organizer" component={OrganizerProfile}  options={{ headerShown: false }}/>
-
+      <Screen
+        name="Organizer"
+        component={OrganizerProfile}
+        options={{ headerShown: false }}
+      />
+      <Screen name="BookingDetails" component={BookingDetails} />
+      <Screen name="Payment" component={Payment} />
+      <Screen name="Confirmation" component={Confirmation} />
     </Navigator>
   );
 };

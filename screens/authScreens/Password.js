@@ -7,7 +7,9 @@ import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 
 export default function Password({ navigation, route }) {
-  const [user, setUser] = useState(route.params.user);
+  const { itemId } = route.params;
+  const [user, setUser] = useState(itemId);
+
   const handleChange = (name, value) => {
     setUser({ ...user, [name]: value });
   };
@@ -79,13 +81,17 @@ export default function Password({ navigation, route }) {
               handleChange("password", text);
             }}
             placeholder="Enter Password"
+            keyboardType="web-search"
+            onSubmitEditing={() => {
+              navigation.navigate("MyImage", { itemId: user });
+            }}
           />
           <View style={styles.button}>
             <Button
               title="Next"
               color="white"
               onPress={() => {
-                navigation.navigate("MyImage", { user: user });
+                navigation.navigate("MyImage", { itemId: user });
               }}
             />
           </View>
