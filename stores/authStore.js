@@ -46,7 +46,6 @@ class AuthStore {
     try {
       const response = await instance.post("/user/login", userData);
       this.setUser(response.data.token);
-      console.log("response: " + JSON.stringify(response.data.token));
     } catch (error) {
       console.log(error);
     }

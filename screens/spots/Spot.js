@@ -122,10 +122,10 @@ function Spot({ spot, navigation }) {
             >
               <Text
                 style={{
-                  fontFamily: "UbuntuBold",
-                  fontSize: 28,
+                  fontFamily: "Ubuntu",
+                  fontSize: 25,
                   color: "white",
-                  shadowOpacity: 1,
+                  shadowOpacity: 0.8,
                   shadowRadius: 4,
                   shadowColor: "black",
                   shadowOffset: {
@@ -142,7 +142,7 @@ function Spot({ spot, navigation }) {
                   fontFamily: "Ubuntu",
                   fontSize: 20,
                   color: "white",
-                  shadowOpacity: 1,
+                  shadowOpacity: 0.8,
                   shadowRadius: 4,
                   shadowColor: "black",
                   shadowOffset: {
@@ -235,7 +235,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignSelf: "center",
     marginBottom: 100,
-    marginTop: 8,
     borderRadius: 16,
     shadowColor: "#000",
     shadowOffset: {
@@ -246,13 +245,14 @@ const styles = StyleSheet.create({
     shadowRadius: 2.22,
     borderRadius: 13,
     elevation: 3,
+    marginTop: 3,
   },
   thumb: {
     marginTop: 19,
     alignSelf: "center",
     width: 374,
-    height: 600,
-    borderRadius: 40,
+    height: 620,
+    borderRadius: 30,
     zIndex: -1,
     opacity: 1,
   },
@@ -291,7 +291,7 @@ const styles = StyleSheet.create({
     flexWrap: "nowrap",
     borderBottomRightRadius: 40,
     borderBottomLeftRadius: 40,
-    padding: 30,
+    padding: 35,
     alignSelf: "flex-end",
   },
   priceContainer: {
@@ -388,7 +388,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 10,
   },
-
   usersimage: {
     height: 50,
     width: 50,
