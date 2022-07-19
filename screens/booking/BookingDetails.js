@@ -3,7 +3,7 @@ import {
   Text,
   View,
   ScrollView,
-  TouchableOpacity,
+  TouchableOpacity, Alert
 } from "react-native";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -15,6 +15,7 @@ export default function BookingDetails({ navigation, route }) {
   const spot = route.params.itemId;
   const tickets = route.params.quantity;
   const [quantity, setQuantity] = useState(tickets);
+  const [checkSeats, setCheckSeats] = useState(quantity);
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
@@ -23,6 +24,25 @@ export default function BookingDetails({ navigation, route }) {
     return <AppLoading />;
   }
   let date = moment(spot.startDate).format("LL");
+
+  const handleInc = () => { 
+    setCheckSeats(checkSeats + 1)
+    if(spot.seats >= checkSeats + 1){
+      setQuantity(quantity + 1)
+      setCheckSeats(quantity + 1)
+    } else {
+      Alert.alert("You exceeded the available amount of seats");
+    }
+  }
+  
+  const handleDec = () => {
+    setCheckSeats(checkSeats + 1)
+    if(quantity > 0){
+      setQuantity(quantity - 1)
+      setCheckSeats(quantity - 1)
+    }
+  }
+
   return (
     <View
       style={{
@@ -64,7 +84,8 @@ export default function BookingDetails({ navigation, route }) {
             padding: 40,
             justifyContent: "center",
             borderWidth: 1,
-            borderColor: "#C9fb5f",
+            // borderColor: "#C9fb5f",
+            borderColor: "#4831d4",
           }}
         >
           <Text
@@ -153,7 +174,7 @@ export default function BookingDetails({ navigation, route }) {
                 marginLeft: 40,
               }}
               name="add-outline"
-              onPress={() => setQuantity(quantity + 1)}
+              onPress={handleInc}
             ></Ionicons>
             <Text style={{ fontSize: 28, fontFamily: "Ubuntu" }}>
               {quantity}
@@ -166,7 +187,7 @@ export default function BookingDetails({ navigation, route }) {
                 marginRight: 40,
               }}
               name="remove-outline"
-              onPress={() => quantity > 0 && setQuantity(quantity - 1)}
+              onPress={handleDec}
             ></Ionicons>
           </View>
           <Text

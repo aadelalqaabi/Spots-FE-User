@@ -7,6 +7,7 @@ import OrganizerProfile from "../screens/OrganizerProfile";
 import BookingDetails from "../screens/booking/BookingDetails";
 import Payment from "../screens/booking/Payment";
 import Confirmation from "../screens/booking/Confirmation";
+import SpotttedDetails from "../screens/spots/SpotttedDetails";
 
 const RootNavigator = () => {
   const { Navigator, Screen } = createStackNavigator();
@@ -44,6 +45,8 @@ const RootNavigator = () => {
           presentation: "transparentModal",
         }}
       />
+      {/* <Screen name="SpotttedDetails" component={SpotttedDetails} />  */}
+
       <Screen
         name="Organizer"
         component={OrganizerProfile}

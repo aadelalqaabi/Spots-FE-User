@@ -12,6 +12,7 @@ import MainPageRegister from "./screens/authScreens/MainPageRegister";
 import Login from "./screens/authScreens/Login";
 import authStore from "./stores/authStore";
 import { SpotDetails } from "./screens/spots/SpotDetails";
+import { SpotttedDetails } from "./screens/spots/SpotttedDetails";
 import RootNavigator from "./index/home";
 import ProfileNav from "./index/ProfileNav";
 import Toast from "react-native-toast-message";
@@ -19,6 +20,7 @@ import { MenuProvider } from "react-native-popup-menu";
 import Email from "./screens/authScreens/Email";
 import Password from "./screens/authScreens/Password";
 import MyImage from "./screens/authScreens/MyImage";
+import SpottedNav from "./index/SpottedNav";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -87,8 +89,8 @@ function TabBar() {
         }}
       />
       <Tab.Screen
-        name="Create A Trip"
-        component={MySpots}
+        name="MySpots"
+        component={SpottedNav}
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ color, focused, tintColor }) => (
