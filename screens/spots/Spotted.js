@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, Image, View, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
 import moment from "moment";
@@ -38,7 +38,15 @@ function Spotted({ spot, navigation }) {
       backgroundColor: "white",
       color: "red",
       onPress: () => {
-        authStore.removeSpot(spot?._id);
+        Alert.alert("Do You Want to Delete this Spot?", "", [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          { text: "OK", onPress: () => authStore.removeSpot(spot?._id) },
+        ])
+        
       },
     },
   ];
@@ -91,7 +99,7 @@ function Spotted({ spot, navigation }) {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           onPress={() => {
-            navigation.navigate("SpotDetails", { id: spot._id });
+            navigation.navigate("SpotttedDetails", { id: spot._id });
           }}
         >
           <Image

@@ -18,8 +18,9 @@ class SpotStore {
   };
 
   updateSpot = async (updatedSpot, spotId) => {
+    console.log("category: "+updatedSpot.category.name)
     try {
-      const res = await instance.put(`/spot/${spotId}`, updatedSpot);
+      const res = await instance.put(`spot/update/${spotId}/cat/${updatedSpot.category._id}`, updatedSpot);
       this.spots = this.spots.map((spot) =>
       spot._id === spotId ? res.data : spot
       );

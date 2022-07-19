@@ -18,7 +18,7 @@ function ReviewList({ reviews, spotId }) {
 
   return (
     <View>
-        <Text>Reviews</Text>
+        <Text style={{ fontFamily: "Ubuntu", fontSize: 20, marginLeft: 28, marginTop: 20 }}>Reviews</Text>
         <FlatList
               style={styles.spotsList}
               contentContainerStyle={styles.spotsListContainer}
@@ -40,6 +40,12 @@ const styles = StyleSheet.create({
       },
       spotsListContainer: {
         backgroundColor: "#fffffc",
+      },
+      descriptionTitle: {
+        fontSize: 22,
+        marginBottom: 10,
+        fontFamily: "Ubuntu",
+        
       },
 })
 

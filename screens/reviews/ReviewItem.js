@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     card: {
         backgroundColor: 'white',
         borderRadius: 16,
-        shadowOpacity: 0.8,
+        shadowOpacity: 0.4,
         shadowRadius: 2,
         shadowColor: 'black',
         shadowOffset: {
@@ -61,9 +61,12 @@ const styles = StyleSheet.create({
           width: 0,
         },
         elevation: 1,
-        marginVertical: 5,
-        marginRight: 8,
-        marginLeft: 8
+        // marginVertical: 5,
+        // marginRight: 8,
+        // marginLeft: 8,
+        margin: 20,
+        marginBottom: 0,
+        padding: 10
       },
       description: {
         marginTop: 8,

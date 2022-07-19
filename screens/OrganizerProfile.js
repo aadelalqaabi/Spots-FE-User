@@ -17,7 +17,7 @@ import { observer } from "mobx-react";
 import { baseURL } from "../stores/instance";
 import { useNavigation } from "@react-navigation/native";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
-import { Fontisto } from "@expo/vector-icons";
+import { Fontisto, Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 
 function OrganizerProfile({ route }) {
@@ -36,55 +36,74 @@ function OrganizerProfile({ route }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.cancel}>
-        <Button onPress={backButton} title="back" color="purple" />
-      </View>
+    <View
+    style={{
+      width: "100%",
+      height: "100%",
+      backgroundColor: "white",
+    }}
+  >
+    <View style={{display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"space-between", alignContent:"center", marginTop:70}}>
+    <Ionicons
+        style={{
+          // position: "absolute",
+          fontSize: 35,
+          
+          marginLeft: 20,
+        }}
+        name="chevron-back-outline"
+        onPress={() => navigation.goBack()}
+      ></Ionicons>
       <Text style={styles.profile}>{organizer.username}</Text>
       <TouchableOpacity /*onPress={handleNotification}*/>
         {notification === false ? (
           <Fontisto
-            style={{ alignSelf: "flex-end", marginRight: 20, marginTop: 20 }}
+            style={{ alignSelf: "flex-end", marginRight: 20 }}
             name="bell-alt"
             size={24}
             color="grey"
           />
         ) : (
           <Fontisto
-            style={{ alignSelf: "flex-end", marginRight: 20, marginTop: 34 }}
+            style={{ alignSelf: "flex-end", marginRight: 20 }}
             name="bell-alt"
             size={24}
             color="#4831d4"
           />
         )}
       </TouchableOpacity>
-      <View style={styles.imageUserNameEdit}>
-        <View style={styles.imageUserName}>
-          {organizer.image ? (
-            <Image
-              style={styles.profileImage}
-              source={{
-                uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPWpbYe9c5YS6KNOXFWiawk-ox545j3ya978qwGXmcladr3eLFh6IabWhNFVtFRI0YNjI&usqp=CAU",
-              }}
-            />
-          ) : (
-            <Image
-              style={styles.profileImage}
-              source={{
-                uri: baseURL + organizer.image,
-                // uri: "https://yt3.ggpht.com/7-qLGZftqc4sDt0lfK3Hf5d3meDKr8d0CEouodYTZ1_Zost1xrmkZxgwhoHJeIjkbrvaodvsxw=s900-c-k-c0x00ffffff-no-rj",
-              }}
-            />
-          )}
-        </View>
       </View>
-      {/* <Text style={styles.bio}>{organizer.bio}</Text> */}
+    <SafeAreaView style={styles.container}>
+    <View style={styles.imageUserNameEdit}>
+          <View style={styles.imageUserName}>
+            {organizer.image === "" ? (
+              <Image
+                style={styles.profileImage}
+                source={{
+                  uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPWpbYe9c5YS6KNOXFWiawk-ox545j3ya978qwGXmcladr3eLFh6IabWhNFVtFRI0YNjI&usqp=CAU",
+                }}
+              />
+            ) : (
+              <Image
+                style={styles.profileImage}
+                source={{
+                  uri: baseURL + organizer.image,
+                }}
+              />
+            )}
+            <View style={styles.counter}>
+              <Text style={styles.spotsNum}>{organizer.spots.length}</Text>
+              <Text style={styles.spotsTitle}>Spots</Text>
+            </View>
+          </View>
+        </View>
       <View>
-        <Text style={styles.bio}>
+        <Text style={styles.bio}>{organizer?.bio}</Text>
+        {/* <Text style={styles.bio}>
           🥇 1st Coding Academy in the Middle East 💻 Learn To Code Websites,
           Apps, & MORE 👩🏻‍🎓 Intensive Courses & Bootcamps 🚀 400+ Graduates Since
           2015
-        </Text>
+        </Text> */}
       </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -101,6 +120,7 @@ function OrganizerProfile({ route }) {
         <Text style={{ margin: 10, color: "white" }}>HELP</Text>
       </ScrollView>
     </SafeAreaView>
+    </View>
   );
 }
 export default observer(OrganizerProfile);
@@ -113,33 +133,51 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-start",
     flexDirection: "row",
+    marginLeft: 30
   },
   imageUserName: {
-    justifyContent: "flex-Start",
-    alignItems: "center",
-    flexDirection: "column",
-    position: "relative",
-    marginLeft: 2,
+    display: "flex",
+    justifyContent: "center",
+    alignContent: "center",
+    flexDirection: "row",
+    marginLeft: 20,
+    marginBottom: 10,
+    backgroundColor: "white",
+    borderRadius: 20,
+    paddingRight: 20,
+    alignSelf: "center",
+    width: 405,
+    height: 180,
   },
   profile: {
-    position: "absolute",
-    alignSelf: "center",
-    marginTop: 75,
-    marginLeft: 28,
     fontSize: 30,
-    // alignSelf: "flex-start",
+    margin: 30,
+    marginBottom: 10,
+    marginTop: 15,
+    fontFamily: "UbuntuBold",
   },
   profileImage: {
     width: 150,
     height: 150,
-    borderRadius: "100%",
-    marginTop: 30,
-    borderWidth: 2,
-    marginLeft: 140,
+    borderRadius: 150,
+    marginRight: 75,
+    alignItems: "center",
+    alignSelf: "center",
+  },
+  spotsNum: {
+    fontSize: 30,
+    marginLeft: 8,
+    fontWeight: "bold",
+    fontFamily: "Ubuntu",
   },
   spotsTitle: {
     fontSize: 30,
     marginTop: -10,
+  },
+  counter: {
+    alignItems: "center",
+    alignSelf: "center",
+    marginRight: 80,
   },
   edit: {
     borderRadius: 10,
@@ -192,3 +230,26 @@ const styles = StyleSheet.create({
     // paddingLeft: 25,
   },
 });
+
+
+
+{/* <View style={styles.imageUserNameEdit}>
+        <View style={styles.imageUserName}>
+          {organizer.image ? (
+            <Image
+              style={styles.profileImage}
+              source={{
+                uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPWpbYe9c5YS6KNOXFWiawk-ox545j3ya978qwGXmcladr3eLFh6IabWhNFVtFRI0YNjI&usqp=CAU",
+              }}
+            />
+          ) : (
+            <Image
+              style={styles.profileImage}
+              source={{
+                uri: baseURL + organizer.image,
+                // uri: "https://yt3.ggpht.com/7-qLGZftqc4sDt0lfK3Hf5d3meDKr8d0CEouodYTZ1_Zost1xrmkZxgwhoHJeIjkbrvaodvsxw=s900-c-k-c0x00ffffff-no-rj",
+              }}
+            />
+          )}
+        </View>
+      </View> */}

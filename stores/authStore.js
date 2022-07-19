@@ -3,6 +3,8 @@ import { instance } from "./instance";
 import decode from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import spotStore from "./spotStore";
+import moment from "moment";
+import emailjs from 'emailjs-com';
 
 class AuthStore {
   constructor() {
@@ -82,10 +84,24 @@ class AuthStore {
   removeSpot = async (spotId) => {
     try {
       const res = await instance.put(`/user/remove/${spotId}`);
-      this.user.spots = res.data.spots.map((spot) => spot._id !== spotId);
+      this.user.spots = res.data.spots.filter((spot) => spot._id !== spotId);
     } catch (error) {
       console.log("here", error);
     }
+  };
+
+  sendBookingEmail = (tickets, spot) => {
+      let date = moment(spot.startDate).format("LL");
+      const emailContent = {
+      to_name: this.user.username,
+      message: `Thank You For Your purchase of ${tickets} tickets for ${spot.name} Spot.
+      The Spot begins at ${spot.startTime} on ${date}`,
+      to_email: this.user.email
+  }  
+  emailjs.init("0CGPMjHzm16JAhRPl");
+  // emailjs.accessToken("nHQDJbHUos1qKT50oPIoG")
+
+  emailjs.send("AB-Serv-12", "template_uma67do", emailContent);
   };
 }
 

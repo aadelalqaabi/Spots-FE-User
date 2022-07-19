@@ -10,7 +10,7 @@ function ProfileSpot({ spot, navigation }) {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         onPress={() => {
-          navigation.navigate("SpotDetails", { id: spot._id });
+          navigation.navigate("ProfileSpotDetails", { id: spot._id });
         }}
       >
         <Image

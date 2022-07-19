@@ -55,12 +55,31 @@ export function SpotDetails({ route }) {
 
   const navigation = useNavigation();
   const [quantity, setQuantity] = useState(0);
+  const [checkSeats, setCheckSeats] = useState(quantity);
   let [fontsLoaded] = useFonts({
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
   });
   if (!fontsLoaded) {
     return <AppLoading />;
   }
+const handleInc = () => { 
+  setCheckSeats(checkSeats + 1)
+  if(spot.seats >= checkSeats + 1){
+    setQuantity(quantity + 1)
+    setCheckSeats(quantity + 1)
+  } else {
+    Alert.alert("You exceeded the available amount of seats");
+  }
+}
+
+const handleDec = () => {
+  setCheckSeats(checkSeats + 1)
+  if(quantity > 0){
+    setQuantity(quantity - 1)
+    setCheckSeats(quantity - 1)
+  }
+}
+
   const handleSpots = (spot) => {
     if (!authStore.user.spots.includes(spot._id)) {
       authStore.spotAdd(spot._id);
@@ -171,8 +190,8 @@ export function SpotDetails({ route }) {
             {spot.description}
           </ReadMore>
         </View>
-        <Text>Add A Review: </Text>
-        <View>
+        {/* <Text>Add A Review: </Text>
+        <View> */}
           {/* <Text style={styles.heading}>Select Stars:-</Text> /}
           {/ <TextInput
             style={styles.input}
@@ -182,7 +201,7 @@ export function SpotDetails({ route }) {
             }}
             placeholder="How Many Stars"
           /> */}
-          <Rating
+          {/* <Rating
             showRating
             startingValue={1}
             selectedColor="#4831d4"
@@ -208,11 +227,11 @@ export function SpotDetails({ route }) {
           <View style={styles.button}>
             <Button title="Add Review" color="white" onPress={handleSubmit} />
           </View>
-        </View>
+        </View> */}
         {spot?.reviews.length !== 0 ? (
           <ReviewList reviews={spot?.reviews} spotId={spot?._id} />
         ) : (
-          <Text>No Reviews Yet</Text>
+          <Text style={{ fontFamily: "Ubuntu", fontSize: 20, marginTop: 40, alignSelf: "center"}}>No Reviews Yet</Text>
         )}
       </ScrollView>
 
@@ -226,67 +245,76 @@ export function SpotDetails({ route }) {
           <Text style={styles.spotext}>Spot this</Text>
           <Ionicons style={styles.spoticon} name="location"></Ionicons>
         </TouchableOpacity>
-      ) : (
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
-            alignContent: "center",
-          }}
-        >
+      ) : ( spot.seats !== 0 ? 
+        (<>
           <View
             style={{
               display: "flex",
-              flexDirection: "row-reverse",
-              alignSelf: "flex-start",
-              borderRadius: 25,
-              borderWidth: 1,
+              flexDirection: "row",
+              alignItems: "center",
               justifyContent: "center",
               alignContent: "center",
-              alignItems: "center",
-              padding: 10,
-              borderColor: "#4831d4",
-              width: "30%",
-              alignSelf: "center",
-              height: 60,
             }}
           >
-            <Ionicons
+            <View
               style={{
-                color: "#4831d4",
-                fontFamily: "Ubuntu",
-                fontSize: 28,
-                marginLeft: 10,
+                display: "flex",
+                flexDirection: "row-reverse",
+                alignSelf: "flex-start",
+                borderRadius: 25,
+                borderWidth: 1,
+                justifyContent: "center",
+                alignContent: "center",
+                alignItems: "center",
+                padding: 10,
+                borderColor: "#4831d4",
+                width: "30%",
+                alignSelf: "center",
+                height: 60,
               }}
-              name="add-outline"
-              onPress={() => setQuantity(quantity + 1)}
-            ></Ionicons>
-            <Text style={{ fontSize: 28, fontFamily: "Ubuntu" }}>
-              {quantity}
-            </Text>
-            <Ionicons
-              style={{
-                color: "#4831d4",
-                fontFamily: "Ubuntu",
-                fontSize: 28,
-                marginRight: 10,
+            >
+              <Ionicons
+                style={{
+                  color: "#4831d4",
+                  fontFamily: "Ubuntu",
+                  fontSize: 28,
+                  marginLeft: 10,
+                }}
+                name="add-outline"
+                onPress={handleInc}
+              ></Ionicons>
+              <Text style={{ fontSize: 28, fontFamily: "Ubuntu" }}>
+                {quantity}
+              </Text>
+              <Ionicons
+                style={{
+                  color: "#4831d4",
+                  fontFamily: "Ubuntu",
+                  fontSize: 28,
+                  marginRight: 10,
+                }}
+                name="remove-outline"
+                onPress={handleDec}
+              ></Ionicons>
+            </View>
+            <TouchableOpacity
+              style={styles.spotthisbook}
+              onPress={() => {
+                handleBook(spot);
               }}
-              name="remove-outline"
-              onPress={() => quantity > 0 && setQuantity(quantity - 1)}
-            ></Ionicons>
+            >
+              <Text style={styles.spotext}>Book ({spot.price * quantity} KD)</Text>
+              <Ionicons style={styles.spoticon} name="location"></Ionicons>
+            </TouchableOpacity>
           </View>
+        </>) : (<>
           <TouchableOpacity
-            style={styles.spotthisbook}
-            onPress={() => {
-              handleBook(spot);
-            }}
-          >
-            <Text style={styles.spotext}>Book ({spot.price} KD)</Text>
-            <Ionicons style={styles.spoticon} name="location"></Ionicons>
-          </TouchableOpacity>
-        </View>
+              style={styles.spotthisbookout}
+            >
+              <Text style={styles.spotext}>Sold Out</Text>
+              {/* <Ionicons style={styles.spoticon} name="location"></Ionicons> */}
+            </TouchableOpacity>
+        </>)
       )}
     </View>
   );
@@ -449,5 +477,25 @@ const styles = StyleSheet.create({
   },
   heading: {
     marginLeft: 12,
+  },
+  spotthisbookout: {
+    display: "flex",
+    alignSelf: "center",
+    borderRadius: 25,
+    height: 60,
+    width: "90%",
+    backgroundColor: "grey",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
+    margin: 10,
+    justifyContent: "center",
+    zIndex: 99,
+    flexDirection: "row-reverse",
   },
 });
