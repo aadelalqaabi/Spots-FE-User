@@ -1,4 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
+import { Alert } from "react-native";
 import { instance } from "./instance";
 import decode from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -50,6 +51,9 @@ class AuthStore {
       this.setUser(response.data.token);
     } catch (error) {
       console.log(error);
+      Alert.alert("Wrong username or password", "", [
+        { text: "Try Again"},
+      ])
     }
   };
 

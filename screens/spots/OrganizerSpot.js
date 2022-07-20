@@ -6,7 +6,7 @@ import { baseURL } from "../../stores/instance";
 function OrganizerSpot({ spot }) {
     const navigation = useNavigation();
   return (
-    <View style={{ backgroundColor: "white" }}>
+    <View style={{ backgroundColor: "white",}}>
       <TouchableOpacity
         style={styles.card}
         showsVerticalScrollIndicator={false}

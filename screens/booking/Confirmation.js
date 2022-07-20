@@ -22,7 +22,7 @@ export default function Confirmation({ navigation, route }) {
 
   const handleBooking = async () => {
    spot.seats = spot.seats - tickets;
-  //  spot,spotRevenue = tickets * spot.price;
+   spot.spotRevenue = tickets * spot.price;
   
     try {
      await spotStore.updateSpot(spot, spot._id);
