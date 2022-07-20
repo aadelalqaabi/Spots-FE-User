@@ -117,7 +117,7 @@ function OrganizerProfile({ route }) {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         />
-        <Text style={{ margin: 10, color: "white" }}>HELP</Text>
+        <Text style={{ margin: 250, color: "white" }}>HELP</Text>
       </ScrollView>
     </SafeAreaView>
     </View>
