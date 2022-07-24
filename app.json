@@ -1,6 +1,7 @@
 {
   "expo": {
-    "name": "Spots-FE-User",
+    "scheme": "spots",
+    "name": "Spots",
     "slug": "Spots-FE-User",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -18,7 +19,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.semicolon.spots"
     },
     "android": {
       "adaptiveIcon": {

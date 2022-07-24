@@ -37,44 +37,53 @@ function OrganizerProfile({ route }) {
 
   return (
     <View
-    style={{
-      width: "100%",
-      height: "100%",
-      backgroundColor: "white",
-    }}
-  >
-    <View style={{display:"flex", flexDirection:"row", alignItems:"center", justifyContent:"space-between", alignContent:"center", marginTop:70}}>
-    <Ionicons
+      style={{
+        width: "100%",
+        height: "100%",
+        backgroundColor: "white",
+      }}
+    >
+      <View
         style={{
-          // position: "absolute",
-          fontSize: 35,
-          
-          marginLeft: 20,
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          alignContent: "center",
+          marginTop: 70,
         }}
-        name="chevron-back-outline"
-        onPress={() => navigation.goBack()}
-      ></Ionicons>
-      <Text style={styles.profile}>{organizer.username}</Text>
-      <TouchableOpacity /*onPress={handleNotification}*/>
-        {notification === false ? (
-          <Fontisto
-            style={{ alignSelf: "flex-end", marginRight: 20 }}
-            name="bell-alt"
-            size={24}
-            color="grey"
-          />
-        ) : (
-          <Fontisto
-            style={{ alignSelf: "flex-end", marginRight: 20 }}
-            name="bell-alt"
-            size={24}
-            color="#4831d4"
-          />
-        )}
-      </TouchableOpacity>
+      >
+        <Ionicons
+          style={{
+            // position: "absolute",
+            fontSize: 35,
+
+            marginLeft: 20,
+          }}
+          name="chevron-back-outline"
+          onPress={() => navigation.goBack()}
+        ></Ionicons>
+        <Text style={styles.profile}>{organizer?.username}</Text>
+        <TouchableOpacity /*onPress={handleNotification}*/>
+          {notification === false ? (
+            <Fontisto
+              style={{ alignSelf: "flex-end", marginRight: 20 }}
+              name="bell-alt"
+              size={24}
+              color="grey"
+            />
+          ) : (
+            <Fontisto
+              style={{ alignSelf: "flex-end", marginRight: 20 }}
+              name="bell-alt"
+              size={24}
+              color="#4831d4"
+            />
+          )}
+        </TouchableOpacity>
       </View>
-    <SafeAreaView style={styles.container}>
-    <View style={styles.imageUserNameEdit}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.imageUserNameEdit}>
           <View style={styles.imageUserName}>
             {organizer.image === "" ? (
               <Image
@@ -87,39 +96,39 @@ function OrganizerProfile({ route }) {
               <Image
                 style={styles.profileImage}
                 source={{
-                  uri: baseURL + organizer.image,
+                  uri: baseURL + organizer?.image,
                 }}
               />
             )}
             <View style={styles.counter}>
-              <Text style={styles.spotsNum}>{organizer.spots.length}</Text>
+              <Text style={styles.spotsNum}>{organizer?.spots.length}</Text>
               <Text style={styles.spotsTitle}>Spots</Text>
             </View>
           </View>
         </View>
-      <View>
-        <Text style={styles.bio}>{organizer?.bio}</Text>
-        {/* <Text style={styles.bio}>
+        <View>
+          <Text style={styles.bio}>{organizer?.bio}</Text>
+          {/* <Text style={styles.bio}>
           🥇 1st Coding Academy in the Middle East 💻 Learn To Code Websites,
           Apps, & MORE 👩🏻‍🎓 Intensive Courses & Bootcamps 🚀 400+ Graduates Since
           2015
         </Text> */}
-      </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      >
-        <FlatList
-          style={styles.spotsList}
-          contentContainerStyle={styles.spotsListContainer}
-          data={organizer.spots}
-          renderItem={renderSpot}
+        </View>
+        <ScrollView
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
-        />
-        <Text style={{ margin: 250, color: "white" }}>HELP</Text>
-      </ScrollView>
-    </SafeAreaView>
+        >
+          <FlatList
+            style={styles.spotsList}
+            contentContainerStyle={styles.spotsListContainer}
+            data={organizer.spots}
+            renderItem={renderSpot}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+          />
+          <Text style={{ margin: 250, color: "white" }}>HELP</Text>
+        </ScrollView>
+      </SafeAreaView>
     </View>
   );
 }
@@ -133,7 +142,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "flex-start",
     flexDirection: "row",
-    marginLeft: 30
+    marginLeft: 30,
   },
   imageUserName: {
     display: "flex",
@@ -231,9 +240,8 @@ const styles = StyleSheet.create({
   },
 });
 
-
-
-{/* <View style={styles.imageUserNameEdit}>
+{
+  /* <View style={styles.imageUserNameEdit}>
         <View style={styles.imageUserName}>
           {organizer.image ? (
             <Image
@@ -252,4 +260,5 @@ const styles = StyleSheet.create({
             />
           )}
         </View>
-      </View> */}
+      </View> */
+}

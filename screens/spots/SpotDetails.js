@@ -26,6 +26,7 @@ import { Rating } from "react-native-ratings";
 import Toast from "react-native-toast-message";
 import ReviewList from "../reviews/ReviewList";
 import reviewStore from "../../stores/reviewStore";
+import organizerStore from "../../stores/organizerStore";
 //import "moment/locale/ar";
 LogBox.ignoreAllLogs();
 
@@ -52,6 +53,7 @@ export function SpotDetails({ route }) {
       text1: "Review Added 👍",
     });
   };
+  const organizer = organizerStore.getOrganizerById(spot.organizer);
 
   const navigation = useNavigation();
   const [quantity, setQuantity] = useState(0);
@@ -62,23 +64,23 @@ export function SpotDetails({ route }) {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
-const handleInc = () => { 
-  setCheckSeats(checkSeats + 1)
-  if(spot.seats >= checkSeats + 1){
-    setQuantity(quantity + 1)
-    setCheckSeats(quantity + 1)
-  } else {
-    Alert.alert("You exceeded the available amount of seats");
-  }
-}
+  const handleInc = () => {
+    setCheckSeats(checkSeats + 1);
+    if (spot.seats >= checkSeats + 1) {
+      setQuantity(quantity + 1);
+      setCheckSeats(quantity + 1);
+    } else {
+      Alert.alert("You exceeded the available amount of seats");
+    }
+  };
 
-const handleDec = () => {
-  setCheckSeats(checkSeats + 1)
-  if(quantity > 0){
-    setQuantity(quantity - 1)
-    setCheckSeats(quantity - 1)
-  }
-}
+  const handleDec = () => {
+    setCheckSeats(checkSeats + 1);
+    if (quantity > 0) {
+      setQuantity(quantity - 1);
+      setCheckSeats(quantity - 1);
+    }
+  };
 
   const handleSpots = (spot) => {
     if (!authStore.user.spots.includes(spot._id)) {
@@ -129,9 +131,9 @@ const handleDec = () => {
         <View style={styles.ownerContainer}>
           <Image
             style={styles.ownerthumb}
-            source={{ uri: `${baseURL}${spot.organizer.image}` }}
+            source={{ uri: `${baseURL}${organizer.image}` }}
           />
-          <Text style={styles.ownername}>{spot.organizer.username}</Text>
+          <Text style={styles.ownername}>{organizer.username}</Text>
         </View>
         <View
           style={{
@@ -192,7 +194,7 @@ const handleDec = () => {
         </View>
         {/* <Text>Add A Review: </Text>
         <View> */}
-          {/* <Text style={styles.heading}>Select Stars:-</Text> /}
+        {/* <Text style={styles.heading}>Select Stars:-</Text> /}
           {/ <TextInput
             style={styles.input}
             label="Stars"
@@ -201,7 +203,7 @@ const handleDec = () => {
             }}
             placeholder="How Many Stars"
           /> */}
-          {/* <Rating
+        {/* <Rating
             showRating
             startingValue={1}
             selectedColor="#4831d4"
@@ -231,7 +233,16 @@ const handleDec = () => {
         {spot?.reviews.length !== 0 ? (
           <ReviewList reviews={spot?.reviews} spotId={spot?._id} />
         ) : (
-          <Text style={{ fontFamily: "Ubuntu", fontSize: 20, marginTop: 40, alignSelf: "center"}}>No Reviews Yet</Text>
+          <Text
+            style={{
+              fontFamily: "Ubuntu",
+              fontSize: 20,
+              marginTop: 40,
+              alignSelf: "center",
+            }}
+          >
+            No Reviews Yet
+          </Text>
         )}
       </ScrollView>
 
@@ -245,8 +256,8 @@ const handleDec = () => {
           <Text style={styles.spotext}>Spot this</Text>
           <Ionicons style={styles.spoticon} name="location"></Ionicons>
         </TouchableOpacity>
-      ) : ( spot.seats !== 0 ? 
-        (<>
+      ) : spot.seats !== 0 ? (
+        <>
           <View
             style={{
               display: "flex",
@@ -303,18 +314,20 @@ const handleDec = () => {
                 handleBook(spot);
               }}
             >
-              <Text style={styles.spotext}>Book ({spot.price * quantity} KD)</Text>
+              <Text style={styles.spotext}>
+                Book ({spot.price * quantity} KD)
+              </Text>
               <Ionicons style={styles.spoticon} name="location"></Ionicons>
             </TouchableOpacity>
           </View>
-        </>) : (<>
-          <TouchableOpacity
-              style={styles.spotthisbookout}
-            >
-              <Text style={styles.spotext}>Sold Out</Text>
-              {/* <Ionicons style={styles.spoticon} name="location"></Ionicons> */}
-            </TouchableOpacity>
-        </>)
+        </>
+      ) : (
+        <>
+          <TouchableOpacity style={styles.spotthisbookout}>
+            <Text style={styles.spotext}>Sold Out</Text>
+            {/* <Ionicons style={styles.spoticon} name="location"></Ionicons> */}
+          </TouchableOpacity>
+        </>
       )}
     </View>
   );

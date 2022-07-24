@@ -41,7 +41,7 @@ function Explore() {
     return <AppLoading />;
   }
   const spots = spotStore.spots
-    .filter((spot) => (!category ? spot : spot.category?._id === category?._id))
+    .filter((spot) => (!category ? spot : spot.category === category?._id))
     .filter((category) =>
       category?.name?.toLowerCase().includes(query.toLowerCase())
     );
@@ -59,6 +59,7 @@ function Explore() {
         {toggleexplore && (
           <View style={styles.exploreView}>
             <Text style={styles.maintitle}>Explore</Text>
+
             <TouchableOpacity
               onPress={() => {
                 setTogglesearch(true);

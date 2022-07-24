@@ -5,7 +5,7 @@ import decode from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import spotStore from "./spotStore";
 import moment from "moment";
-import emailjs from 'emailjs-com';
+import emailjs from "emailjs-com";
 
 class AuthStore {
   constructor() {
@@ -51,9 +51,7 @@ class AuthStore {
       this.setUser(response.data.token);
     } catch (error) {
       console.log(error);
-      Alert.alert("Wrong username or password", "", [
-        { text: "Try Again"},
-      ])
+      Alert.alert("Wrong username or password", "", [{ text: "Try Again" }]);
     }
   };
 
@@ -69,7 +67,7 @@ class AuthStore {
       for (const key in updatedUser) formData.append(key, updatedUser[key]);
       const res = await instance.put(`/user/update`, formData);
       runInAction(() => {
-        this.user.image = res.data.image;
+        for (const key in this.user) this.user[key] = res.data[key];
       });
     } catch (error) {
       console.log("here", error);
@@ -79,7 +77,7 @@ class AuthStore {
   spotAdd = async (spotId) => {
     try {
       const res = await instance.put(`/user/spots/${spotId}`);
-      this.user.spots = res.data.spots;
+      for (const key in this.user) this.user[key] = res.data[key];
     } catch (error) {
       console.log("here", error);
     }
@@ -95,17 +93,17 @@ class AuthStore {
   };
 
   sendBookingEmail = (tickets, spot) => {
-      let date = moment(spot.startDate).format("LL");
-      const emailContent = {
+    let date = moment(spot.startDate).format("LL");
+    const emailContent = {
       to_name: this.user.username,
       message: `Thank You For Your purchase of ${tickets} tickets for ${spot.name} Spot.
       The Spot begins at ${spot.startTime} on ${date}`,
-      to_email: this.user.email
-  }  
-  emailjs.init("0CGPMjHzm16JAhRPl");
-  // emailjs.accessToken("nHQDJbHUos1qKT50oPIoG")
+      to_email: this.user.email,
+    };
+    emailjs.init("0CGPMjHzm16JAhRPl");
+    // emailjs.accessToken("nHQDJbHUos1qKT50oPIoG")
 
-  emailjs.send("AB-Serv-12", "template_uma67do", emailContent);
+    emailjs.send("AB-Serv-12", "template_uma67do", emailContent);
   };
 }
 

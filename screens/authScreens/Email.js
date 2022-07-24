@@ -1,7 +1,7 @@
 import { StyleSheet, View, Button, Text } from "react-native";
 import { useState } from "react";
 import React from "react";
-import Reinput from "reinput";
+import TextInput from "react-native-text-input-interactive";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
@@ -73,12 +73,18 @@ export default function Email({ navigation, route }) {
           Add an email for your account to recive confirmation emails
         </Text>
         <View style={{ width: "100%", alignSelf: "center" }}>
-          <Reinput
+          <TextInput
+            textInputStyle={{
+              alignSelf: "center",
+              width: "100%",
+              marginBottom: 10,
+            }}
+            mainColor="#4831d4"
             label="Email"
             onChangeText={(text) => {
               handleChange("email", text);
             }}
-            placeholder="Enter Email"
+            placeholder="Email"
             keyboardType="web-search"
             onSubmitEditing={() => {
               navigation.navigate("Password", { itemId: user });
@@ -118,7 +124,7 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: 8,
     paddingHorizontal: 32,
-    borderRadius: 15,
+    borderRadius: 10,
     elevation: 3,
     backgroundColor: "#4831d4",
   },
