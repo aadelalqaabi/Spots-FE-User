@@ -1,18 +1,15 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { NativeBaseProvider } from "native-base";
-import { StyleSheet } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { observer } from "mobx-react";
-import MySpots from "./screens/MySpots";
 import { Ionicons } from "@expo/vector-icons";
 import AuthButtons from "./screens/authScreens/AuthButtons";
 import MainPageRegister from "./screens/authScreens/MainPageRegister";
 import Login from "./screens/authScreens/Login";
 import authStore from "./stores/authStore";
 import { SpotDetails } from "./screens/spots/SpotDetails";
-import { SpotttedDetails } from "./screens/spots/SpotttedDetails";
 import RootNavigator from "./index/home";
 import ProfileNav from "./index/ProfileNav";
 import Toast from "react-native-toast-message";
@@ -21,14 +18,28 @@ import Email from "./screens/authScreens/Email";
 import Password from "./screens/authScreens/Password";
 import MyImage from "./screens/authScreens/MyImage";
 import SpottedNav from "./index/SpottedNav";
+import * as Linking from "expo-linking";
+import { Text } from "react-native";
+import { Path } from "react-native-svg";
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+const prefix = Linking.createURL("/");
 
 function App() {
   const checkUser = authStore.user;
+  const config = {
+    screens: {
+      Profile: "Profile/:spotId",
+    },
+  };
+
   return (
     <NativeBaseProvider>
-      <NavigationContainer>
+      <NavigationContainer
+        linking={{ prefixes: [prefix], config }}
+        fallback={<Text>Loading...</Text>}
+      >
         <MenuProvider>
           {checkUser ? (
             <TabBar />

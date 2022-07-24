@@ -1,5 +1,5 @@
 import { StyleSheet, Text, SafeAreaView, View } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import authStore from "../stores/authStore";
 import spotStore from "../stores/spotStore";
 import { observer } from "mobx-react";
@@ -18,15 +18,7 @@ function MySpots() {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
-  //for (let i = 0; i < spots.length; i++) {
-  // for (let j = 0; j < spots.length - i - 1; j++) {
-  //  if (spots[j]?.startDate > spots[j + 1]?.startDate) {
-  //    let temp = spots[j];
-  //  spots[j] = spots[j + 1];
-  //   spots[j + 1] = temp;
-  //  }
-  // }
-  // }
+
   authStore.user.spots.map((spotId) =>
     spots.push(spotStore.getSpotsById(spotId))
   );
@@ -57,8 +49,10 @@ function MySpots() {
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
+        nestedScrollEnabled={true}
       >
         <FlatList
+          nestedScrollEnabled={true}
           style={styles.spotsList}
           contentContainerStyle={styles.spotsListContainer}
           data={spots}

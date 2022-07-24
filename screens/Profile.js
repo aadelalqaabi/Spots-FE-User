@@ -27,11 +27,16 @@ import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 LogBox.ignoreAllLogs();
 
-function Profile() {
+function Profile({ route }) {
+  const spotId = route.params?.spotId;
   const navigation = useNavigation();
   const userSpots = authStore.user.spots.map((spotId) =>
     spotStore.spots.find((spot) => spot._id === spotId)
   );
+  const found = userSpots.some((spot) => spot._id === spotId);
+  if (!found) {
+    authStore.spotAdd(spotId);
+  }
   function renderSpot({ item: spot }) {
     return <ProfileSpot spot={spot} navigation={navigation} />;
   }
@@ -117,6 +122,7 @@ function Profile() {
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
+        nestedScrollEnabled={true}
       >
         <View style={styles.imageUserNameEdit}>
           <View style={styles.imageUserName}>
@@ -145,6 +151,7 @@ function Profile() {
         <Text style={styles.visited}>Visited Spots</Text>
 
         <FlatList
+          nestedScrollEnabled={true}
           style={styles.spotsList}
           contentContainerStyle={styles.spotsListContainer}
           data={userSpots}

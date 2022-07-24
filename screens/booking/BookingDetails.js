@@ -3,7 +3,8 @@ import {
   Text,
   View,
   ScrollView,
-  TouchableOpacity, Alert
+  TouchableOpacity,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -25,23 +26,23 @@ export default function BookingDetails({ navigation, route }) {
   }
   let date = moment(spot.startDate).format("LL");
 
-  const handleInc = () => { 
-    setCheckSeats(checkSeats + 1)
-    if(spot.seats >= checkSeats + 1){
-      setQuantity(quantity + 1)
-      setCheckSeats(quantity + 1)
+  const handleInc = () => {
+    setCheckSeats(checkSeats + 1);
+    if (spot.seats >= checkSeats + 1) {
+      setQuantity(quantity + 1);
+      setCheckSeats(quantity + 1);
     } else {
       Alert.alert("You exceeded the available amount of seats");
     }
-  }
-  
+  };
+
   const handleDec = () => {
-    setCheckSeats(checkSeats + 1)
-    if(quantity > 0){
-      setQuantity(quantity - 1)
-      setCheckSeats(quantity - 1)
+    setCheckSeats(checkSeats + 1);
+    if (quantity > 0) {
+      setQuantity(quantity - 1);
+      setCheckSeats(quantity - 1);
     }
-  }
+  };
 
   return (
     <View

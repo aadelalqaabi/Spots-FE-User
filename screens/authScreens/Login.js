@@ -1,17 +1,8 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  KeyboardAvoidingView,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { useState } from "react";
 import authStore from "../../stores/authStore";
 import React from "react";
-import Reinput from "reinput";
-import { ScrollView } from "native-base";
-import { Header, useHeaderHeight } from "@react-navigation/stack";
+import TextInput from "react-native-text-input-interactive";
 
 export default function Login() {
   const [user, setUser] = useState({
@@ -34,23 +25,35 @@ export default function Login() {
         alignSelf: "center",
       }}
     >
-      <View>
-        <Reinput
+      <View style={{ display: "flex", width: "100%" }}>
+        <TextInput
+          textInputStyle={{
+            alignSelf: "center",
+            width: "100%",
+          }}
+          mainColor="#4831d4"
           label="Username"
           onChangeText={(text) => {
             handleChange("username", text);
           }}
-          placeholder="Enter Username"
+          placeholder="Username"
           keyboardType="web-search"
           onSubmitEditing={handleSubmit}
         />
-        <Reinput
+        <TextInput
+          textInputStyle={{
+            marginTop: 10,
+            marginBottom: 20,
+            alignSelf: "center",
+            width: "100%",
+          }}
+          mainColor="#4831d4"
           label="Password"
           secureTextEntry={true}
           onChangeText={(text) => {
             handleChange("password", text);
           }}
-          placeholder="Enter Password"
+          placeholder="Password"
           keyboardType="web-search"
           onSubmitEditing={handleSubmit}
         />
@@ -77,7 +80,7 @@ const styles = StyleSheet.create({
   },
   button: {
     paddingVertical: 8,
-    borderRadius: 15,
+    borderRadius: 10,
     elevation: 3,
     backgroundColor: "#4831d4",
   },
@@ -86,7 +89,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     elevation: 3,
     color: "white",
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "800",
     alignSelf: "center",
   },

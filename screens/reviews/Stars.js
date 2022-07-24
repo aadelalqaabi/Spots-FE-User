@@ -94,8 +94,12 @@ export default observer(Stars);
 
 const styles = StyleSheet.create({
   star: {
-    width: 25,
-    height: 25,
+    width: 20,
+    height: 20,
     borderRadius: "50%",
+    objectFit: "cover",
+    margin: 8,
+    marginBottom: 0,
+    marginRight: 0,
   },
 });

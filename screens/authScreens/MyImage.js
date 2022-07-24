@@ -16,6 +16,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 export default function MyImage({ navigation, route }) {
   const [image, setImage] = useState(null);
+  const [toggle, setToggle] = useState(false);
   const { itemId } = route.params;
   const [user, setUser] = useState(itemId);
 
@@ -63,6 +64,7 @@ export default function MyImage({ navigation, route }) {
       });
       setImage(result.uri);
     }
+    setToggle(true);
   };
   const handleSubmit = () => {
     authStore.register(user);
@@ -92,10 +94,74 @@ export default function MyImage({ navigation, route }) {
       ></Ionicons>
       <View
         style={{
-          marginTop: "50%",
+          justifyContent: "center",
+          marginTop: 130,
+          width: "70%",
+          alignSelf: "center",
+          alignItems: "center",
         }}
       >
-        {image === null ? (
+        <Text
+          style={{
+            fontFamily: "UbuntuBold",
+            fontSize: 30,
+            margin: 20,
+            marginTop: 0,
+            width: "100%",
+            textAlign: "center",
+          }}
+        >
+          Add Profile Image
+        </Text>
+        <Text
+          style={{
+            fontFamily: "Ubuntu",
+            fontSize: 16,
+            margin: 20,
+            marginTop: 0,
+            width: "100%",
+            textAlign: "center",
+            color: "#64666b",
+            lineHeight: 20,
+          }}
+        >
+          Add profile image so your friends know your reviews
+        </Text>
+        <View
+          style={{
+            marginTop: "40%",
+          }}
+        >
+          {image === null ? (
+            <View
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              <View
+                style={{
+                  shadowColor: "#000",
+                  backgroundColor: "white",
+                  borderRadius: "150%",
+                  alignSelf: "center",
+                }}
+              >
+                <Image
+                  style={{
+                    width: 180,
+                    height: 180,
+                  }}
+                  source={require("../../assets/addImage.png")}
+                ></Image>
+              </View>
+            </View>
+          ) : (
+            <></>
+          )}
           <View
             style={{
               display: "flex",
@@ -103,84 +169,53 @@ export default function MyImage({ navigation, route }) {
               alignContent: "center",
               alignItems: "center",
               flexDirection: "column",
+              marginBottom: toggle ? "45%" : 0,
             }}
           >
-            <TouchableOpacity
+            <Image
+              source={{ uri: image }}
               style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                shadowColor: "#000",
-                backgroundColor: "white",
-                width: 250,
-                height: 250,
-                borderRadius: "150%",
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 3,
-                },
-                shadowOpacity: 0.27,
-                shadowRadius: 4.65,
-                elevation: 6,
+                alignSelf: "center",
+                width: 240,
+                height: 240,
+                marginTop: -10,
+                borderRadius: 150,
               }}
-              onPress={pickImage}
-            >
-              <Ionicons
+            />
+            {image && (
+              <View
                 style={{
-                  fontSize: 150,
+                  marginTop: 10,
                 }}
-                name="image-outline"
-              ></Ionicons>
-            </TouchableOpacity>
-            <Text
-              style={{
-                fontFamily: "Ubuntu",
-                fontSize: 16,
-                paddingTop: 30,
-                width: "100%",
-                textAlign: "center",
-                color: "#64666b",
-              }}
-            >
-              Pick a profile image
-            </Text>
+              >
+                <Button
+                  color="#4831d4"
+                  title="Choose another image"
+                  onPress={pickImage}
+                />
+              </View>
+            )}
           </View>
-        ) : (
-          <></>
-        )}
-        <Image
-          source={{ uri: image }}
-          style={{
-            alignSelf: "center",
-            width: 240,
-            height: 240,
-            borderRadius: 150,
-            margin: 10,
-            shadowOpacity: 0.8,
-            shadowRadius: 4,
-            shadowColor: "black",
-            shadowOffset: {
-              height: 0,
-              width: 0,
-            },
-            elevation: 1,
-          }}
-        />
-        {image && (
-          <Button
-            color="#4831d4"
-            title="Choose another image "
-            onPress={pickImage}
-          />
-        )}
-      </View>
-      <View style={{ marginBottom: "8%" }}>
-        <View style={styles.button}>
-          <Button title="Done" color="white" onPress={handleSubmit} />
         </View>
-        <View>
-          <Button title="Skip" color="#4831d4" onPress={handleSubmit} />
+        <View
+          style={{
+            width: "100%",
+          }}
+        >
+          {toggle === false ? (
+            <View style={styles.button}>
+              <Button onPress={pickImage} title="Pick Image" color="white" />
+            </View>
+          ) : (
+            <View style={styles.button}>
+              <Button title="Done" color="white" onPress={handleSubmit} />
+            </View>
+          )}
+          {!toggle && (
+            <View>
+              <Button title="Skip" color="#4831d4" onPress={handleSubmit} />
+            </View>
+          )}
         </View>
       </View>
     </View>
@@ -210,11 +245,7 @@ const styles = StyleSheet.create({
     elevation: 3,
     backgroundColor: "#4831d4",
     alignSelf: "center",
-    width: "85%",
+    width: "100%",
     marginBottom: 15,
   },
 });
-
-{
-  /* marginBottom: 120*/
-}

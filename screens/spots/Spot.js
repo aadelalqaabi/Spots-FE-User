@@ -6,6 +6,8 @@ import moment from "moment";
 import { useFonts } from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
 import AppLoading from "expo-app-loading";
+import authStore from "../../stores/organizerStore";
+import organizerStore from "../../stores/organizerStore";
 
 function Spot({ spot, navigation }) {
   const [isSmallScreen] = useMediaQuery({
@@ -19,6 +21,7 @@ function Spot({ spot, navigation }) {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
+  const organizer = organizerStore.getOrganizerById(spot.organizer);
   let users = spot.users.length;
   let user1 = spot?.users[0]?.image;
   let user2 = spot?.users[1]?.image;
@@ -82,9 +85,9 @@ function Spot({ spot, navigation }) {
             >
               <Image
                 style={styles.ownerthumb}
-                source={{ uri: `${baseURL}${spot.organizer?.image}` }}
+                source={{ uri: `${baseURL}${organizer?.image}` }}
               />
-              <Text style={styles.ownername}>{spot.organizer?.username}</Text>
+              <Text style={styles.ownername}>{organizer?.username}</Text>
             </TouchableOpacity>
             <View
               style={{
@@ -143,7 +146,7 @@ function Spot({ spot, navigation }) {
             </View>
           </View>
           <LinearGradient
-            colors={["rgba(0,0,0,0.6)", "transparent"]}
+            colors={["rgba(0,0,0,0.7)", "transparent"]}
             start={{ x: 0, y: 0.8 }}
             end={{ x: 0, y: 0 }}
             style={styles.infoContainer}
@@ -276,8 +279,8 @@ const styles = StyleSheet.create({
     width: 374,
     flexDirection: "column",
     flexWrap: "nowrap",
-    borderBottomRightRadius: 40,
-    borderBottomLeftRadius: 40,
+    borderBottomRightRadius: 30,
+    borderBottomLeftRadius: 30,
     padding: 35,
     alignSelf: "flex-end",
   },
