@@ -12,7 +12,7 @@ function ReviewItem({ review }) {
         borderBottomColor: "rgba(178, 174, 174, 0.658)",
         borderBottomWidth: 0.4,
         borderBottomStyle: "solid",
-        margin: 30,
+        padding: 20,
       }}
     >
       <View style={styles.card}>
@@ -33,7 +33,7 @@ function ReviewItem({ review }) {
           <Text style={styles.reviewName}>{date}</Text>
         </View>
       </View>
-      <View style={{ padding: 10 }}>
+      <View style={{ padding: 5 }}>
         <Stars stars={review?.stars} />
         <Text style={styles.description}>{review?.description}</Text>
       </View>

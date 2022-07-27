@@ -21,19 +21,18 @@ import {
   MenuOption,
   MenuTrigger,
 } from "react-native-popup-menu";
-import { useState, useEffect } from "react";
 import ProfileSpot from "./spots/ProfileSpot";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 LogBox.ignoreAllLogs();
 
 function Profile({ route }) {
-  const spotId = route.params?.spotId;
+  const spotId = route?.params?.spotId;
   const navigation = useNavigation();
   const userSpots = authStore.user.spots.map((spotId) =>
-    spotStore.spots.find((spot) => spot._id === spotId)
+    spotStore.spots.find((spot) => spot?._id === spotId)
   );
-  const found = userSpots.some((spot) => spot._id === spotId);
+  const found = userSpots.some((spot) => spot?._id === spotId);
   if (!found) {
     authStore.spotAdd(spotId);
   }
@@ -159,7 +158,6 @@ function Profile({ route }) {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         />
-        <Text style={{ margin: 200, color: "white" }}>HELP</Text>
       </ScrollView>
     </SafeAreaView>
   );
