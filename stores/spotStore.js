@@ -25,7 +25,7 @@ class SpotStore {
       spot._id === spotId ? res.data : spot
       );
     } catch (error) {
-      console.log("here", error);
+      console.log("hi", error);
     }
   };
 
