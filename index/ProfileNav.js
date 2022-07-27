@@ -18,10 +18,7 @@ const ProfileNav = () => {
         name="Profile"
         component={Profile}
       />
-      <Screen name="ProfileSpotDetails" component={ProfileSpotDetails} /> 
-
-      {/* <Screen name="SpotDetails" component={SpotDetails} />  */}
-
+      <Screen name="ProfileSpotDetails" component={ProfileSpotDetails} />
 
       <Screen
         name="Edit"

@@ -45,6 +45,8 @@ export default function MyImage({ navigation, route }) {
       allowsEditing: true,
       aspect: [16, 9],
       quality: 1,
+      width: 300,
+      height: 300,
     });
 
     if (!result.cancelled) {
