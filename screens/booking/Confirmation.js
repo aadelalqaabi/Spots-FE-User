@@ -5,11 +5,17 @@ import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 import authStore from "../../stores/authStore";
 import spotStore from "../../stores/spotStore";
-import React from "react";
+import React, { useState } from "react";
+import ticketStore from "../../stores/ticketStore";
 
 export default function Confirmation({ navigation, route }) {
   const spot = route.params.itemId;
   const tickets = route.params.quantity;
+  const [newTicket, setNewTicket] = useState({
+    amount: 0,
+    image: "",
+    isFree: false
+  });
 
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
@@ -23,10 +29,13 @@ export default function Confirmation({ navigation, route }) {
   const handleBooking = async () => {
    spot.seats = spot.seats - tickets;
    spot.spotRevenue = tickets * spot.price;
+   newTicket.amount = tickets;
+  //  add QR Code later
   
     try {
      await spotStore.updateSpot(spot, spot._id);
      await authStore.spotAdd(spot._id);
+     await ticketStore.createTicket(newTicket, spot._id)
      authStore.sendBookingEmail(tickets, spot);
      navigation.navigate("Explore");
     } catch (e) {

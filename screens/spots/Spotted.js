@@ -7,8 +7,11 @@ import Swipeout from "react-native-swipeout";
 import authStore from "../../stores/authStore";
 import { Ionicons } from "@expo/vector-icons";
 import AppLoading from "expo-app-loading";
+import spotStore from "../../stores/spotStore";
+import ticketStore from "../../stores/ticketStore";
 
-function Spotted({ spot, navigation }) {
+function Spotted({ ticket, navigation }) {
+  const spot = spotStore.getSpotsById(ticket.spot)
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
@@ -21,6 +24,7 @@ function Spotted({ spot, navigation }) {
   const swipeoutBtns = [
     {
       component: (
+
         <View
           style={{
             flex: 1,
@@ -38,14 +42,23 @@ function Spotted({ spot, navigation }) {
       backgroundColor: "white",
       color: "red",
       onPress: () => {
-        Alert.alert("Do You Want to Delete this Spot?", "", [
-          {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel",
-          },
-          { text: "OK", onPress: () => authStore.removeSpot(spot?._id) },
-        ])
+        if(ticket.isFree === true){
+          Alert.alert("Do You Want to Delete this Spot?", "", [
+            {
+              text: "Cancel",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel",
+            },
+            { text: "OK", onPress: () => ticketStore.deleteTicket(ticket._id) },
+            // authStore.removeSpot(spot?._id)
+          ])
+        } else {
+          Alert.alert("This is a paid spot", "Contact us to cancel your booking", [
+            { text: "OK", onPress: () => console.log("Cancel Pressed") },
+            // authStore.removeSpot(spot?._id)
+          ])
+        }
+        
         
       },
     },
@@ -99,7 +112,7 @@ function Spotted({ spot, navigation }) {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           onPress={() => {
-            navigation.navigate("SpotttedDetails", { id: spot._id });
+            navigation.navigate("SpotttedDetails", { id: spot._id, ticket: ticket });
           }}
         >
           <Image

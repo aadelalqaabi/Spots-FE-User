@@ -8,9 +8,10 @@ import { FlatList, ScrollView } from "native-base";
 import { useFonts } from "expo-font";
 import Spotted from "./spots/Spotted";
 import AppLoading from "expo-app-loading";
+import ticketStore from "../stores/ticketStore";
 
 function MySpots() {
-  let spots = [];
+  // let spots = [];
   const navigation = useNavigation();
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
@@ -19,12 +20,20 @@ function MySpots() {
     return <AppLoading />;
   }
 
-  authStore.user.spots.map((spotId) =>
-    spots.push(spotStore.getSpotsById(spotId))
-  );
+  // const tickets = authStore.user.tickets.map((ticketId) =>
+  //   ticketStore.tickets.find((ticket) => ticket._id === ticketId)
+  // );
 
-  function renderSpot({ item: spot }) {
-    return <Spotted spot={spot} navigation={navigation} />;
+  const tickets = ticketStore.tickets.filter(ticket=> ticket.user._id === authStore.user.id)
+  // console.log('tickets', tickets.length)
+  // const tickets = ticketStore.tickets.filter((ticket) => ticket.user._id === authStore.user.id);
+
+  // authStore.user.spots.map((spotId) =>
+  //   spots.push(spotStore.getSpotsById(spotId))
+  // );
+
+  function renderTicket({ item: ticket }) {
+    return <Spotted ticket={ticket} navigation={navigation} />;
   }
   return (
     <SafeAreaView
@@ -55,8 +64,8 @@ function MySpots() {
           nestedScrollEnabled={true}
           style={styles.spotsList}
           contentContainerStyle={styles.spotsListContainer}
-          data={spots}
-          renderItem={renderSpot}
+          data={tickets}
+          renderItem={renderTicket}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
         />

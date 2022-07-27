@@ -3,13 +3,16 @@ import moment from "moment";
 import { Ionicons } from "@expo/vector-icons";
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
-import authStore from "../../stores/authStore";
+import { baseURL } from "../../stores/instance";
+import ticketStore from "../../stores/ticketStore";
 import spotStore from "../../stores/spotStore";
 import React from "react";
+import authStore from "../../stores/authStore";
 
 export default function SpotttedDetails({ navigation, route }) {
   const spot = spotStore.getSpotsById(route.params.id);
-  
+  const ticket = route.params.ticket;
+  // const ticket = ticketStore.tickets.find((ticket) => (ticket.spot === spot._id) && (ticket.user.username === authStore.user.username))
 //   const tickets = route.params.quantity;
 
   let [fontsLoaded] = useFonts({
@@ -85,8 +88,21 @@ export default function SpotttedDetails({ navigation, route }) {
                 </Text>
               </View>
             </View>
-        <Text style={styles.tickets}>2 x tickets</Text>
-        <Image style={styles.QR} source={require("../../assets/QR.png")} />
+        {ticket.isFree === false ? (
+          <>
+            <Text style={styles.tickets}>{ticket.amount} x tickets</Text>
+            {/* <Image style={styles.QR} source={{ uri: baseURL + ticket.image }} /> */}
+            <Image style={styles.QR} source={require("../../assets/QR.png")} />
+          </>
+        ) : (
+          <>
+             <Text style={styles.tickets}>Free Entry</Text>
+             {/* <Text style={styles.tickets}>{ticket?.amount} x tickets</Text> */}
+            <Image style={styles.QR} source={require("../../assets/QR.png")} />
+            {/* <Text style={styles.tickets}>Wrong Info</Text> */}
+          </>
+        )
+        }
       </View>
       <TouchableOpacity
         style={styles.spotthis}

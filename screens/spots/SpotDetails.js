@@ -27,6 +27,7 @@ import Toast from "react-native-toast-message";
 import ReviewList from "../reviews/ReviewList";
 import reviewStore from "../../stores/reviewStore";
 import organizerStore from "../../stores/organizerStore";
+import ticketStore from "../../stores/ticketStore";
 //import "moment/locale/ar";
 LogBox.ignoreAllLogs();
 
@@ -35,6 +36,11 @@ export function SpotDetails({ route }) {
   const [reviewText, setReviewText] = useState({
     stars: "",
     description: "",
+  });
+  const [newTicket, setNewTicket] = useState({
+    amount: 0,
+    image: "",
+    isFree: true
   });
   const [numOfSrtars, setNumOfSrtars] = useState("0");
 
@@ -82,9 +88,9 @@ export function SpotDetails({ route }) {
     }
   };
 
-  const handleSpots = (spot) => {
-    if (!authStore.user.spots.includes(spot._id)) {
-      authStore.spotAdd(spot._id);
+  const handleSpots = async (spot) => {
+    if (!ticketStore.tickets.some(ticket => ticket.spot === spot._id && ticket.user._id === authStore.user.id)) {
+      await ticketStore.createTicket(newTicket, spot._id)
       Alert.alert("Added to your spots");
     } else {
       Alert.alert("Already in your spots");
