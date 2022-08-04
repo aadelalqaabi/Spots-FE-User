@@ -9,6 +9,7 @@ import {
   FlatList,
   Alert,
   LogBox,
+  RefreshControl,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import spotStore from "../stores/spotStore";
@@ -24,18 +25,34 @@ import {
 import ProfileSpot from "./spots/ProfileSpot";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
+import React from "react";
+import pointStore from "../stores/pointStore";
 LogBox.ignoreAllLogs();
 
 function Profile({ route }) {
+  let num = 1;
   const spotId = route?.params?.spotId;
+  if (spotId) {
+    pointStore.createPoint(spotId);
+  }
   const navigation = useNavigation();
   const userSpots = authStore.user.spots.map((spotId) =>
     spotStore.spots.find((spot) => spot?._id === spotId)
   );
   const found = userSpots.some((spot) => spot?._id === spotId);
-  if (!found) {
+  if (!found && num === 1) {
     authStore.spotAdd(spotId);
+    num--;
   }
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const wait = (timeout) => {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+  };
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
   function renderSpot({ item: spot }) {
     return <ProfileSpot spot={spot} navigation={navigation} />;
   }
@@ -122,6 +139,9 @@ function Profile({ route }) {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         nestedScrollEnabled={true}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       >
         <View style={styles.imageUserNameEdit}>
           <View style={styles.imageUserName}>

@@ -9,8 +9,6 @@ import {
   Linking,
   Alert,
   LogBox,
-  TextInput,
-  Button,
 } from "react-native";
 import React, { useState } from "react";
 import spotStore from "../../stores/spotStore";
@@ -19,53 +17,37 @@ import { Ionicons } from "@expo/vector-icons";
 import authStore from "../../stores/authStore";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
-import ReadMore from "@fawazahmed/react-native-read-more";
 import moment from "moment";
 import { useNavigation } from "@react-navigation/native";
-import { Rating } from "react-native-ratings";
-import Toast from "react-native-toast-message";
 import ReviewList from "../reviews/ReviewList";
-import reviewStore from "../../stores/reviewStore";
 import organizerStore from "../../stores/organizerStore";
 import ticketStore from "../../stores/ticketStore";
+import {
+  ImageHeaderScrollView,
+  TriggeringView,
+} from "react-native-image-header-scroll-view";
 //import "moment/locale/ar";
 LogBox.ignoreAllLogs();
 
 export function SpotDetails({ route }) {
   const spot = spotStore.getSpotsById(route.params.id);
-  const [reviewText, setReviewText] = useState({
-    stars: "",
-    description: "",
-  });
   const [newTicket, setNewTicket] = useState({
     amount: 0,
     image: "",
-    isFree: true
+    isFree: true,
   });
-  const [numOfSrtars, setNumOfSrtars] = useState("0");
-
-  const ratingCompleted = (rating) => {
-    setNumOfSrtars(rating.toString());
-  };
-
-  const handleChange = (name, value) => {
-    setReviewText({ ...reviewText, [name]: value });
-  };
-
-  const handleSubmit = () => {
-    reviewStore.createReview(reviewText, numOfSrtars, spot?._id);
-    Toast.show({
-      type: "success",
-      text1: "Review Added 👍",
-    });
-  };
   const organizer = organizerStore.getOrganizerById(spot.organizer);
-
+  const reviewCount = spot.reviews.length;
   const navigation = useNavigation();
   const [quantity, setQuantity] = useState(0);
   const [checkSeats, setCheckSeats] = useState(quantity);
+  const [toggle, setToggle] = useState(false);
   let [fontsLoaded] = useFonts({
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
+    UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
+    Cabin: require("../../assets/fonts/Cabin.ttf"),
+    CabinMedium: require("../../assets/fonts/CabinMedium.ttf"),
+    UbuntuLight: require("../../assets/fonts/Ubuntu-Light.ttf"),
   });
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -89,8 +71,13 @@ export function SpotDetails({ route }) {
   };
 
   const handleSpots = async (spot) => {
-    if (!ticketStore.tickets.some(ticket => ticket.spot === spot._id && ticket.user._id === authStore.user.id)) {
-      await ticketStore.createTicket(newTicket, spot._id)
+    if (
+      !ticketStore.tickets.some(
+        (ticket) =>
+          ticket.spot === spot._id && ticket.user._id === authStore.user.id
+      )
+    ) {
+      await ticketStore.createTicket(newTicket, spot._id);
       Alert.alert("Added to your spots");
     } else {
       Alert.alert("Already in your spots");
@@ -107,250 +94,371 @@ export function SpotDetails({ route }) {
   let year = moment(spot.startDate).format("YYYY");
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        style={{ backgroundColor: "white" }}
+      <TouchableOpacity
+        onPress={() => {
+          navigation.goBack();
+        }}
+        style={{ zIndex: 99 }}
       >
-        <TouchableOpacity
-          onPress={() => {
-            navigation.goBack();
-          }}
-        >
-          <Ionicons style={styles.back} name="arrow-back-outline"></Ionicons>
-        </TouchableOpacity>
-        <StatusBar barStyle="light-content" />
-        <Image
-          style={styles.image}
-          source={{ uri: `${baseURL}${spot.image}` }}
-        ></Image>
-
-        <View style={styles.titlelocation}>
-          <Text style={styles.mainTitle}>{spot.name}</Text>
-          <TouchableOpacity
-            style={styles.icon}
-            onPress={() => Linking.openURL(spot.location)}
-          >
-            <Ionicons style={styles.icon} name="navigate-circle"></Ionicons>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.ownerContainer}>
-          <Image
-            style={styles.ownerthumb}
-            source={{ uri: `${baseURL}${organizer.image}` }}
-          />
-          <Text style={styles.ownername}>{organizer.username}</Text>
-        </View>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignContent: "center",
-            alignItems: "center",
-            justifyContent: "space-evenly",
-            margin: 15,
-          }}
-        >
+        <Ionicons style={styles.back} name="chevron-back-outline"></Ionicons>
+      </TouchableOpacity>
+      <ImageHeaderScrollView
+        scrollViewBackgroundColor="transparent"
+        maxHeight={950}
+        minHeight={0}
+        maxOverlayOpacity={0.8}
+        minOverlayOpacity={0.45}
+        headerImage={{ uri: `${baseURL}${spot.image}` }}
+        showsVerticalScrollIndicator={false}
+        bounces={true}
+        renderFixedForeground={() => (
           <View
             style={{
               display: "flex",
-              flexDirection: "row",
-              alignContent: "center",
-              alignItems: "center",
+              flexDirection: "column",
+              flexWrap: "wrap",
             }}
           >
-            <Ionicons
+            <View style={{ zIndex: 99 }}>
+              <Ionicons
+                style={styles.down}
+                name="chevron-up-outline"
+              ></Ionicons>
+              <Text style={styles.downText}>More Info</Text>
+            </View>
+            <View
               style={{
-                marginRight: 5,
-                color: "#4831d4",
-                fontSize: 30,
+                margin: 20,
+                marginLeft: 30,
+                marginTop: -10,
+                marginBottom: 10,
               }}
-              name="calendar-outline"
-            ></Ionicons>
-            {spot.numOfDays === 1 ? (
-              <Text style={{ fontFamily: "Ubuntu", fontSize: 20 }}>{date}</Text>
-            ) : (
-              <Text style={{ fontFamily: "Ubuntu", fontSize: 20 }}>
-                {month}, {year}
-              </Text>
-            )}
+            >
+              <Text style={styles.mainTitle}>{spot.name}</Text>
+              <View style={styles.ownerContainer}>
+                <Image
+                  style={styles.ownerthumb}
+                  source={{ uri: `${baseURL}${organizer.image}` }}
+                />
+                <Text style={styles.ownername}>{organizer.username}</Text>
+              </View>
+              <Text style={styles.description}>{spot.description}</Text>
+            </View>
           </View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Ionicons
-              style={{ marginRight: 5, color: "#4831d4", fontSize: 30 }}
-              name="time-outline"
-            ></Ionicons>
-            <Text style={{ fontFamily: "Ubuntu", fontSize: 20 }}>
-              {spot.startTime}
+        )}
+      >
+        <StatusBar barStyle="light-content" />
+        <TriggeringView
+          style={{
+            borderRadius: "40%",
+            backgroundColor: "white",
+            shadowColor: "#161616",
+            shadowOffset: {
+              width: 0,
+              height: 3,
+            },
+            shadowOpacity: 0.7,
+            shadowRadius: 20,
+            elevation: 3,
+          }}
+          onHide={() => console.log("text hidden")}
+        >
+          <View>
+            <Text
+              style={{
+                fontFamily: "UbuntuLight",
+                fontSize: 25,
+                alignSelf: "center",
+                margin: 20,
+                letterSpacing: 3,
+              }}
+            >
+              Spot Information
             </Text>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignContent: "center",
+                alignItems: "center",
+                margin: 30,
+                marginBottom: 10,
+                marginTop: 10,
+              }}
+            >
+              <Ionicons
+                style={{
+                  marginRight: 5,
+                  color: "#4831d4",
+                  fontSize: 30,
+                }}
+                name="calendar-outline"
+              ></Ionicons>
+              {spot.numOfDays === 1 ? (
+                <Text style={{ fontFamily: "UbuntuBold", fontSize: 20 }}>
+                  {date}
+                </Text>
+              ) : (
+                <Text style={{ fontFamily: "UbuntuBold", fontSize: 20 }}>
+                  {month}, {year}
+                </Text>
+              )}
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignContent: "center",
+                alignItems: "center",
+                margin: 30,
+                marginBottom: 10,
+                marginTop: 0,
+              }}
+            >
+              <Ionicons
+                style={{ marginRight: 5, color: "#4831d4", fontSize: 32 }}
+                name="time-outline"
+              ></Ionicons>
+              <Text style={{ fontFamily: "UbuntuBold", fontSize: 20 }}>
+                {spot.startTime}
+              </Text>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignContent: "center",
+                alignItems: "center",
+                margin: 30,
+                marginBottom: 10,
+                marginTop: 0,
+              }}
+            >
+              <Ionicons
+                style={{ marginRight: 5, color: "#4831d4", fontSize: 32 }}
+                name="navigate-circle-outline"
+              ></Ionicons>
+              <View
+                style={{
+                  borderBottomWidth: 1,
+                  borderColor: "#4831d4",
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: "UbuntuBold",
+                    fontSize: 20,
+                  }}
+                  onPress={() => Linking.openURL(spot.location)}
+                >
+                  View Location
+                </Text>
+              </View>
+            </View>
+            <Text
+              style={{
+                fontFamily: "UbuntuBold",
+                fontSize: 20,
+                margin: 30,
+                marginTop: 10,
+                marginBottom: 0,
+              }}
+            >
+              Details
+            </Text>
+            <Text style={styles.details}>{spot.details}</Text>
           </View>
-        </View>
-        <View style={{ margin: 20, marginLeft: 30, marginTop: 10 }}>
-          <Text style={styles.descriptionTitle}>Description</Text>
-          <ReadMore numberOfLines={3} style={styles.description}>
-            {spot.description}
-          </ReadMore>
-        </View>
-        {/* <Text>Add A Review: </Text>
-        <View> */}
-        {/* <Text style={styles.heading}>Select Stars:-</Text> /}
-          {/ <TextInput
-            style={styles.input}
-            label="Stars"
-            onChangeText={(text) => {
-              handleChange("stars", text);
-            }}
-            placeholder="How Many Stars"
-          /> */}
-        {/* <Rating
-            showRating
-            startingValue={1}
-            selectedColor="#4831d4"
-            reviewColor="#4831d4"
-            ratingBackgroundColor="#4831d4"
-            // tintColor = "#4831d4"
-            ratingTextColor="grey"
-            unSelectedColor="grey"
-            onFinishRating={ratingCompleted}
-            style={{ paddingVertical: 10 }}
-          />
-          <Text style={styles.heading}>Enter Description:-</Text>
-          <TextInput
-            style={styles.inputDesc}
-            multiline
-            numberOfLines={4}
-            label="Description"
-            onChangeText={(text) => {
-              handleChange("description", text);
-            }}
-            clearButtonMode="always"
-          />
-          <View style={styles.button}>
-            <Button title="Add Review" color="white" onPress={handleSubmit} />
-          </View>
-        </View> */}
-        {spot?.reviews.length !== 0 ? (
-          <ReviewList reviews={spot?.reviews} spotId={spot?._id} />
-        ) : (
-          <Text
+          <TouchableOpacity
             style={{
               fontFamily: "Ubuntu",
               fontSize: 20,
-              marginTop: 40,
-              alignSelf: "center",
-            }}
-          >
-            No Reviews Yet
-          </Text>
-        )}
-      </ScrollView>
-
-      {spot.isFree === true ? (
-        <TouchableOpacity
-          style={styles.spotthis}
-          onPress={() => {
-            handleSpots(spot);
-          }}
-        >
-          <Text style={styles.spotext}>Spot this</Text>
-          <Ionicons style={styles.spoticon} name="location"></Ionicons>
-        </TouchableOpacity>
-      ) : spot.seats !== 0 ? (
-        <>
-          <View
-            style={{
+              margin: 10,
+              marginBottom: 15,
+              marginTop: 15,
+              height: 70,
+              padding: 20,
               display: "flex",
               flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
               alignContent: "center",
+              alignItems: "center",
+              justifyContent: "space-between",
             }}
+            onPress={() =>
+              toggle === false ? setToggle(true) : setToggle(false)
+            }
           >
             <View
               style={{
                 display: "flex",
-                flexDirection: "row-reverse",
-                alignSelf: "flex-start",
-                borderRadius: 25,
-                borderWidth: 1,
-                justifyContent: "center",
+                flexDirection: "row",
                 alignContent: "center",
                 alignItems: "center",
-                padding: 10,
-                borderColor: "#4831d4",
-                width: "30%",
-                alignSelf: "center",
-                height: 60,
+                justifyContent: "center",
               }}
             >
-              <Ionicons
+              <Text
                 style={{
-                  color: "#4831d4",
-                  fontFamily: "Ubuntu",
-                  fontSize: 28,
-                  marginLeft: 10,
+                  fontFamily: "UbuntuBold",
+                  fontSize: 20,
                 }}
-                name="add-outline"
-                onPress={handleInc}
-              ></Ionicons>
-              <Text style={{ fontSize: 28, fontFamily: "Ubuntu" }}>
-                {quantity}
+              >
+                Reviews
               </Text>
-              <Ionicons
+              <Text
                 style={{
-                  color: "#4831d4",
-                  fontFamily: "Ubuntu",
-                  fontSize: 28,
-                  marginRight: 10,
+                  fontFamily: "UbuntuBold",
+                  fontSize: 20,
+                  marginLeft: 15,
+                  alignSelf: "center",
+                  borderRadius: "150%",
                 }}
-                name="remove-outline"
-                onPress={handleDec}
-              ></Ionicons>
+              >
+                {reviewCount}+
+              </Text>
             </View>
+            {!toggle && (
+              <Ionicons
+                style={{
+                  marginRight: 5,
+                  color: "black",
+                  fontSize: 30,
+                  opacity: 1,
+                }}
+                name="chevron-down-outline"
+              ></Ionicons>
+            )}
+            {toggle && (
+              <Ionicons
+                style={{
+                  marginRight: 5,
+                  color: "black",
+                  fontSize: 30,
+                  opacity: 1,
+                }}
+                name="chevron-up-outline"
+              ></Ionicons>
+            )}
+          </TouchableOpacity>
+          {toggle && (
+            <View>
+              {spot?.reviews.length !== 0 ? (
+                <ReviewList
+                  key="2"
+                  reviews={spot?.reviews}
+                  spotId={spot?._id}
+                />
+              ) : (
+                <Text
+                  style={{
+                    fontFamily: "Ubuntu",
+                    fontSize: 20,
+                    marginTop: 0,
+                    margin: 20,
+                    alignSelf: "center",
+                  }}
+                  key="2"
+                >
+                  No Reviews Yet
+                </Text>
+              )}
+            </View>
+          )}
+          {spot.isFree === true ? (
             <TouchableOpacity
-              style={styles.spotthisbook}
+              style={styles.spotthis}
               onPress={() => {
-                handleBook(spot);
+                handleSpots(spot);
               }}
             >
-              <Text style={styles.spotext}>
-                Book ({spot.price * quantity} KD)
-              </Text>
+              <Text style={styles.spotext}>Spot this</Text>
               <Ionicons style={styles.spoticon} name="location"></Ionicons>
             </TouchableOpacity>
-          </View>
-        </>
-      ) : (
-        <>
-          <TouchableOpacity style={styles.spotthisbookout}>
-            <Text style={styles.spotext}>Sold Out</Text>
-            {/* <Ionicons style={styles.spoticon} name="location"></Ionicons> */}
-          </TouchableOpacity>
-        </>
-      )}
+          ) : spot.seats !== 0 ? (
+            <>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  alignContent: "center",
+                }}
+              >
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row-reverse",
+                    alignSelf: "flex-start",
+                    borderRadius: 25,
+                    borderWidth: 1,
+                    justifyContent: "center",
+                    alignContent: "center",
+                    alignItems: "center",
+                    padding: 10,
+                    marginBottom: 16,
+                    borderColor: "#4831d4",
+                    width: "30%",
+                    alignSelf: "center",
+                    height: 60,
+                  }}
+                >
+                  <Ionicons
+                    style={{
+                      color: "#4831d4",
+                      fontFamily: "Ubuntu",
+                      fontSize: 28,
+                      marginLeft: 10,
+                    }}
+                    name="add-outline"
+                    onPress={handleInc}
+                  ></Ionicons>
+                  <Text style={{ fontSize: 28, fontFamily: "Ubuntu" }}>
+                    {quantity}
+                  </Text>
+                  <Ionicons
+                    style={{
+                      color: "#4831d4",
+                      fontFamily: "Ubuntu",
+                      fontSize: 28,
+                      marginRight: 10,
+                    }}
+                    name="remove-outline"
+                    onPress={handleDec}
+                  ></Ionicons>
+                </View>
+                <TouchableOpacity
+                  style={styles.spotthisbook}
+                  onPress={() => {
+                    handleBook(spot);
+                  }}
+                >
+                  <Text style={styles.spotext}>
+                    Book ({spot.price * quantity} KD)
+                  </Text>
+                  <Ionicons style={styles.spoticon} name="location"></Ionicons>
+                </TouchableOpacity>
+              </View>
+            </>
+          ) : (
+            <>
+              <TouchableOpacity style={styles.spotthisbookout}>
+                <Text style={styles.spotext}>Sold Out</Text>
+              </TouchableOpacity>
+            </>
+          )}
+        </TriggeringView>
+      </ImageHeaderScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  image: {
-    width: "100%",
-    height: 500,
-    zIndex: -1,
-  },
   back: {
     position: "absolute",
+    zIndex: 100,
     color: "white",
-    zIndex: 99,
     marginTop: 70,
-    marginLeft: 25,
+    marginLeft: 20,
     fontSize: 40,
     shadowColor: "#000",
     shadowOffset: {
@@ -361,6 +469,41 @@ const styles = StyleSheet.create({
     shadowRadius: 11.14,
 
     elevation: 17,
+  },
+  down: {
+    position: "absolute",
+    zIndex: 100,
+    color: "white",
+    opacity: 0.7,
+    alignSelf: "center",
+    marginTop: 855,
+    fontSize: 30,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.46,
+    shadowRadius: 11.14,
+    elevation: 17,
+  },
+  downText: {
+    position: "absolute",
+    zIndex: 100,
+    color: "white",
+    opacity: 0.7,
+    alignSelf: "center",
+    marginTop: 880,
+    fontSize: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.46,
+    shadowRadius: 11.14,
+    elevation: 17,
+    fontFamily: "CabinMedium",
   },
   spotext: {
     color: "white",
@@ -378,7 +521,7 @@ const styles = StyleSheet.create({
   spotthisbook: {
     display: "flex",
     alignSelf: "center",
-    borderRadius: 25,
+    borderRadius: 20,
     height: 60,
     width: "60%",
     backgroundColor: "#4831d4",
@@ -391,6 +534,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 7,
     margin: 10,
+    marginBottom: 25,
     justifyContent: "center",
     zIndex: 99,
     flexDirection: "row-reverse",
@@ -410,19 +554,28 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.29,
     shadowRadius: 4.65,
     elevation: 7,
-    margin: 10,
+    marginBottom: 25,
     justifyContent: "center",
     zIndex: 99,
     flexDirection: "row-reverse",
   },
   mainTitle: {
-    fontSize: 40,
+    fontSize: 45,
     margin: 10,
-    marginLeft: 30,
-    marginTop: 15,
+    marginLeft: 0,
+    marginTop: 600,
     marginRight: 10,
     fontWeight: "700",
-    fontFamily: "Ubuntu",
+    fontFamily: "UbuntuBold",
+    color: "white",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
   },
   icon: {
     fontSize: 40,
@@ -438,14 +591,11 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   ownerContainer: {
-    margin: 10,
+    marginBottom: 10,
     display: "flex",
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "center",
-    marginLeft: 30,
-    marginTop: 10,
-    marginBottom: 0,
   },
   ownerthumb: {
     width: 45,
@@ -454,10 +604,39 @@ const styles = StyleSheet.create({
     zIndex: -1,
     marginRight: 10,
   },
-  ownername: {
+  isFree: {
     fontSize: 20,
-    color: "black",
+    color: "white",
     fontFamily: "Ubuntu",
+    paddingTop: 10,
+  },
+  isFreeHeader: {
+    fontSize: 30,
+    color: "white",
+    fontFamily: "UbuntuBold",
+    padding: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
+  },
+  ownername: {
+    color: "white",
+    fontSize: 22,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.46,
+    shadowRadius: 11.14,
+    elevation: 17,
+    fontFamily: "CabinMedium",
+    textTransform: "capitalize",
   },
   descriptionTitle: {
     fontSize: 22,
@@ -466,7 +645,24 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 18,
+    color: "white",
+    fontFamily: "CabinMedium",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
+  },
+  details: {
+    fontSize: 18,
+    color: "black",
     fontFamily: "Ubuntu",
+    margin: 30,
+    marginBottom: 0,
+    marginTop: 10,
   },
   actionButtonIcon: {
     fontSize: 20,

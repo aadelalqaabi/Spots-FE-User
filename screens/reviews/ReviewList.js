@@ -1,61 +1,51 @@
-import { StyleSheet, Text, View, FlatList } from 'react-native'
+import { StyleSheet, Text, View, FlatList } from "react-native";
 import { observer } from "mobx-react";
 import spotStore from "../../stores/spotStore";
 import reviewStore from "../../stores/reviewStore";
 import ReviewItem from "./ReviewItem";
-import React from 'react'
+import React from "react";
+import { useFonts } from "expo-font";
+import AppLoading from "expo-app-loading";
 
 function ReviewList({ reviews, spotId }) {
-    // const reviewList = reviews?.map(reviewID => reviewStore?.reviews?.find(review => reviewID === review?._id));
-    // const arrangedReviewList = reviewList.reverse();
-// console.log(reviewStore.reviews[27].spot)
-    const reviewList = reviewStore.reviews.filter(review => review.spot === spotId);
-    const arrangedReviewList = reviewList.reverse();
-    console.log("reviewList: "+reviewList)
+  const reviewList = reviewStore.reviews.filter(
+    (review) => review.spot === spotId
+  );
+  const arrangedReviewList = reviewList.reverse();
   function renderReview({ item: review }) {
     return <ReviewItem key={review?._id} review={review} />;
   }
-
+  let [fontsLoaded] = useFonts({
+    Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
+  });
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
   return (
     <View>
-        <Text style={{ fontFamily: "Ubuntu", fontSize: 20, marginLeft: 28, marginTop: 20 }}>Reviews</Text>
-        <FlatList
-              style={styles.spotsList}
-              contentContainerStyle={styles.spotsListContainer}
-              data={arrangedReviewList}
-              renderItem={renderReview}
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}
-          />
+      <FlatList
+        style={styles.spotsList}
+        contentContainerStyle={styles.spotsListContainer}
+        data={arrangedReviewList}
+        renderItem={renderReview}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      />
     </View>
-  )
+  );
 }
 export default observer(ReviewList);
 
 const styles = StyleSheet.create({
-    spotsList: {
-        backgroundColor: "#fffffc",
-        height: "100%",
-        width: "100%",
-      },
-      spotsListContainer: {
-        backgroundColor: "#fffffc",
-      },
-      descriptionTitle: {
-        fontSize: 22,
-        marginBottom: 10,
-        fontFamily: "Ubuntu",
-        
-      },
-})
-
-
-
-
-
-
-
-
-  
-
-
+  spotsList: {
+    backgroundColor: "#fffffc",
+  },
+  spotsListContainer: {
+    backgroundColor: "#fffffc",
+  },
+  descriptionTitle: {
+    fontSize: 22,
+    marginBottom: 10,
+    fontFamily: "Ubuntu",
+  },
+});

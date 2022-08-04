@@ -1,5 +1,12 @@
 import { observer } from "mobx-react";
-import { Text, Image, View, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import {
+  Text,
+  Image,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
 import moment from "moment";
@@ -11,7 +18,7 @@ import spotStore from "../../stores/spotStore";
 import ticketStore from "../../stores/ticketStore";
 
 function Spotted({ ticket, navigation }) {
-  const spot = spotStore.getSpotsById(ticket.spot)
+  const spot = spotStore.getSpotsById(ticket.spot);
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
@@ -24,7 +31,6 @@ function Spotted({ ticket, navigation }) {
   const swipeoutBtns = [
     {
       component: (
-
         <View
           style={{
             flex: 1,
@@ -35,14 +41,14 @@ function Spotted({ ticket, navigation }) {
         >
           <Ionicons
             style={{ color: "red", fontSize: 40 }}
-            name="trash-outline"
+            name="remove-circle"
           ></Ionicons>
         </View>
       ),
       backgroundColor: "white",
       color: "red",
       onPress: () => {
-        if(ticket.isFree === true){
+        if (ticket.isFree === true) {
           Alert.alert("Do You Want to Delete this Spot?", "", [
             {
               text: "Cancel",
@@ -51,15 +57,17 @@ function Spotted({ ticket, navigation }) {
             },
             { text: "OK", onPress: () => ticketStore.deleteTicket(ticket._id) },
             // authStore.removeSpot(spot?._id)
-          ])
+          ]);
         } else {
-          Alert.alert("This is a paid spot", "Contact us to cancel your booking", [
-            { text: "OK", onPress: () => console.log("Cancel Pressed") },
-            // authStore.removeSpot(spot?._id)
-          ])
+          Alert.alert(
+            "This is a paid spot",
+            "Contact us to cancel your booking",
+            [
+              { text: "OK", onPress: () => console.log("Cancel Pressed") },
+              // authStore.removeSpot(spot?._id)
+            ]
+          );
         }
-        
-        
       },
     },
   ];
@@ -79,18 +87,25 @@ function Spotted({ ticket, navigation }) {
             margin: 10,
             width: 60,
             height: 70,
-            borderWidth: 0.5,
-            borderRadius: 15,
+            backgroundColor: "white",
             alignContent: "center",
             justifyContent: "center",
             alignItems: "center",
             marginLeft: 12,
+            borderRadius: 15,
+            shadowColor: "#161616",
+            shadowOffset: {
+              width: 0,
+              height: 3,
+            },
+            shadowOpacity: 0.09,
+            shadowRadius: 5,
           }}
         >
           <Text
             style={{
               fontFamily: "UbuntuBold",
-              fontSize: 28,
+              fontSize: 23,
               color: "black",
             }}
           >
@@ -100,7 +115,7 @@ function Spotted({ ticket, navigation }) {
           <Text
             style={{
               fontFamily: "Ubuntu",
-              fontSize: 20,
+              fontSize: 17,
               color: "black",
             }}
           >
@@ -112,7 +127,10 @@ function Spotted({ ticket, navigation }) {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           onPress={() => {
-            navigation.navigate("SpotttedDetails", { id: spot._id, ticket: ticket });
+            navigation.navigate("SpotttedDetails", {
+              id: spot._id,
+              ticket: ticket,
+            });
           }}
         >
           <Image
@@ -137,14 +155,13 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     alignSelf: "flex-end",
     borderRadius: 16,
-    shadowOpacity: 0.8,
-    shadowRadius: 4,
-    shadowColor: "black",
+    shadowColor: "#161616",
     shadowOffset: {
-      height: 0,
       width: 0,
+      height: 3,
     },
-    elevation: 1,
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
     marginVertical: 5,
     height: 290,
     marginBottom: 10,
@@ -157,7 +174,6 @@ const styles = StyleSheet.create({
     margin: 10,
     marginLeft: 0,
     zIndex: -1,
-    opacity: 0.7,
   },
   infoContainer: {
     display: "flex",
