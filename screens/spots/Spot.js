@@ -21,6 +21,7 @@ function Spot({ spot, navigation }) {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
+  //{//Get organizer from organizerStore not from the spot ==> use spot.organizer to find organizer} ==> wrong
   const organizer = organizerStore.getOrganizerById(spot.organizer);
   let users = spot.users.length;
   let user1 = spot?.users[0]?.image;

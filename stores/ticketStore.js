@@ -15,7 +15,9 @@ class TicketStore {
       const formData = new FormData();
       for (const key in newTicket) formData.append(key, newTicket[key]);
       const response = await instance.post(`/ticket/${spotId}`, formData);
+      console.log("Ticket", response.data)
       this.tickets.push(response.data);
+      console.log("Ticket After"+JSON.stringify(this.tickets))
     } catch (error) {
       console.log("hello",error);
     }

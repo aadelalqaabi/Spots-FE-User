@@ -18,7 +18,8 @@ import spotStore from "../../stores/spotStore";
 import ticketStore from "../../stores/ticketStore";
 
 function Spotted({ ticket, navigation }) {
-  const spot = spotStore.getSpotsById(ticket.spot);
+  const spot = spotStore.getSpotsById(ticket.spot._id)
+
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
