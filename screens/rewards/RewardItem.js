@@ -5,7 +5,7 @@ import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 
-function OfferItem({ offer }) {
+function RewardItem({ reward }) {
   let [fontsLoaded] = useFonts({
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
   });
@@ -17,19 +17,22 @@ function OfferItem({ offer }) {
       <View>
         <Image
           style={styles.thumb}
-          source={{ uri: `${baseURL}${offer?.image}` }}
+          source={{ uri: `${baseURL}${reward?.image}` }}
         />
       </View>
       <View style={styles.titleContainer}>
-        <Text style={styles.name}>{offer?.title}</Text>
+        <Text style={styles.name}>{reward?.title}</Text>
+      </View>
+      <View style={styles.titleContainer}>
+        <Text style={styles.name}>{reward?.points}</Text>
       </View>
       <View style={styles.descriptionContainer}>
-        <Text style={styles.description}>{offer?.description}</Text>
+        <Text style={styles.description}>{reward?.description}</Text>
       </View>
     </View>
   );
 }
-export default observer(OfferItem);
+export default observer(RewardItem);
 
 const styles = StyleSheet.create({
   thumb: {

@@ -10,20 +10,8 @@ class OfferStore {
 
   fetchOffers = async () => {
     try {
-        const response = await instance.get("/offer");
-        this.offers = response.data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  createOffer = async (newOffer, spotId, file) => {
-    try {
-      newOffer.image = file;
-      const formData = new FormData();
-      for (const key in newOffer) formData.append(key, newOffer[key]);
-      const response = await instance.post(`/offer/${spotId}`, formData);
-      this.offers.push(response.data);
+      const response = await instance.get("/offer");
+      this.offers = response.data;
     } catch (error) {
       console.log(error);
     }
@@ -36,7 +24,6 @@ class OfferStore {
   getOffers = () => {
     return this.offers;
   };
-
 }
 
 const offerStore = new OfferStore();

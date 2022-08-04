@@ -12,7 +12,8 @@ function ReviewItem({ review }) {
         borderBottomColor: "rgba(178, 174, 174, 0.658)",
         borderBottomWidth: 0.4,
         borderBottomStyle: "solid",
-        padding: 20,
+        padding: 25,
+        paddingBottom: 0,
       }}
     >
       <View style={styles.card}>
@@ -69,7 +70,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   description: {
-    fontFamily: "Source Sans Pro",
     fontSize: 20,
     color: "black",
     alignSelf: "flex-start",
