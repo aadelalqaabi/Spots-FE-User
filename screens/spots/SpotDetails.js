@@ -89,7 +89,7 @@ export function SpotDetails({ route }) {
   };
 
   const handleSpots = async (spot) => {
-    if (!ticketStore.tickets.some(ticket => ticket.spot === spot._id && ticket.user._id === authStore.user.id)) {
+    if (!ticketStore.tickets.some(ticket => ticket.spot === spot._id && ticket.user === authStore.user.id)) {
       await ticketStore.createTicket(newTicket, spot._id)
       Alert.alert("Added to your spots");
     } else {

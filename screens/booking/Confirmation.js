@@ -34,7 +34,7 @@ export default function Confirmation({ navigation, route }) {
   
     try {
      await spotStore.updateSpot(spot, spot._id);
-     await authStore.spotAdd(spot._id);
+    //  await authStore.spotAdd(spot._id);
      await ticketStore.createTicket(newTicket, spot._id)
      authStore.sendBookingEmail(tickets, spot);
      navigation.navigate("Explore");

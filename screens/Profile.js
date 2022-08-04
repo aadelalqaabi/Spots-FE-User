@@ -32,6 +32,7 @@ function Profile({ route }) {
   const userSpots = authStore.user.spots.map((spotId) =>
     spotStore.spots.find((spot) => spot?._id === spotId)
   );
+  const userSpotsArranged = userSpots.reverse();
   const found = userSpots.some((spot) => spot?._id === spotId);
   if (!found) {
     authStore.spotAdd(spotId);
@@ -128,9 +129,10 @@ function Profile({ route }) {
             {authStore.user.image === "" ? (
               <Image
                 style={styles.profileImage}
-                source={{
-                  uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPWpbYe9c5YS6KNOXFWiawk-ox545j3ya978qwGXmcladr3eLFh6IabWhNFVtFRI0YNjI&usqp=CAU",
-                }}
+                source={
+                  // uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPWpbYe9c5YS6KNOXFWiawk-ox545j3ya978qwGXmcladr3eLFh6IabWhNFVtFRI0YNjI&usqp=CAU",
+                  require("../assets/PP.jpeg")
+                }
               />
             ) : (
               <Image
@@ -153,7 +155,7 @@ function Profile({ route }) {
           nestedScrollEnabled={true}
           style={styles.spotsList}
           contentContainerStyle={styles.spotsListContainer}
-          data={userSpots}
+          data={userSpotsArranged}
           renderItem={renderSpot}
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}

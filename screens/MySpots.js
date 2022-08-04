@@ -23,9 +23,20 @@ function MySpots() {
   // const tickets = authStore.user.tickets.map((ticketId) =>
   //   ticketStore.tickets.find((ticket) => ticket._id === ticketId)
   // );
+  const today = new Date();
+  const ticketsByDate = ticketStore.tickets.filter((ticket) => new Date(ticket.spot.startDate) > today,);
+  const sortedTickets = ticketsByDate.sort(
+    (objA, objB) => new Date(objA.spot.startDate) - new Date(objB.spot.startDate),
+  );
 
-  const tickets = ticketStore.tickets.filter(ticket=> ticket.user._id === authStore.user.id)
-  // console.log('tickets', tickets.length)
+  const tickets = sortedTickets.filter(ticket => ticket.user === authStore.user.id);
+  // const today = new Date();
+  // const ticketsByDate = tickets.filter((ticket) => new Date(ticket.spot.startDate) > today,);
+  // const sortedTickets = ticketsByDate.sort(
+  //   (objA, objB) => new Date(objA.spot.startDate) - new Date(objB.spot.startDate),
+  // );
+  // const tickets = ticketStore.tickets;
+  console.log('tickets', tickets)
   // const tickets = ticketStore.tickets.filter((ticket) => ticket.user._id === authStore.user.id);
 
   // authStore.user.spots.map((spotId) =>

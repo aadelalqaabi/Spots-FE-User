@@ -85,7 +85,7 @@ function OrganizerProfile({ route }) {
       <SafeAreaView style={styles.container}>
         <View style={styles.imageUserNameEdit}>
           <View style={styles.imageUserName}>
-            {organizer.image === "" ? (
+            {organizer?.image === "" ? (
               <Image
                 style={styles.profileImage}
                 source={{
@@ -101,7 +101,7 @@ function OrganizerProfile({ route }) {
               />
             )}
             <View style={styles.counter}>
-              <Text style={styles.spotsNum}>{organizer?.spots.length}</Text>
+              <Text style={styles.spotsNum}>{organizer?.spots?.length}</Text>
               <Text style={styles.spotsTitle}>Spots</Text>
             </View>
           </View>
@@ -121,7 +121,7 @@ function OrganizerProfile({ route }) {
           <FlatList
             style={styles.spotsList}
             contentContainerStyle={styles.spotsListContainer}
-            data={organizer.spots}
+            data={organizer?.spots}
             renderItem={renderSpot}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}

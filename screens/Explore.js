@@ -14,7 +14,7 @@ import {
 import spotStore from "../stores/spotStore";
 import categoryStore from "../stores/categoryStore";
 import Spot from "./spots/Spot";
-import { useNavigation } from "@react-navigation/native";
+import { DefaultTheme, useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useScrollToTop } from "@react-navigation/native";
@@ -40,8 +40,23 @@ function Explore() {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
-  const spots = spotStore.spots
-    .filter((spot) => (!category ? spot : spot.category === category?._id))
+
+  const today = new Date();
+  const spotsByDate = spotStore.spots.filter((spot) => new Date(spot.startDate) > today,);
+  const sortedSpots = spotsByDate.sort(
+    (objA, objB) => new Date(objA.startDate) - new Date(objB.startDate),
+  );
+  
+
+  // const s = spotStore.spots;
+  // const sortedSpots = s.sort(
+  //   (objA, objB) => new Date(objA.startDate) - new Date(objB.startDate),
+  // );
+  // const today = new Date();
+  // const spotsByDate = sortedSpots.filter((spot) => new Date(spot.startDate) > today,);
+ 
+  const spots = sortedSpots
+    .filter((spot) => (!category ? spot : spot.category._id === category?._id))
     .filter((category) =>
       category?.name?.toLowerCase().includes(query.toLowerCase())
     );
