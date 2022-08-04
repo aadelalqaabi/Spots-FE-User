@@ -3,7 +3,6 @@ import { observer } from "mobx-react";
 import React from "react";
 
 function Stars({ stars }) {
-  console.log("stars: " + stars);
   let starsTotal;
   if (stars === "5") {
     return (starsTotal = (

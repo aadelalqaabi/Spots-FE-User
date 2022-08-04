@@ -14,7 +14,7 @@ export default function Confirmation({ navigation, route }) {
   const [newTicket, setNewTicket] = useState({
     amount: 0,
     image: "",
-    isFree: false
+    isFree: false,
   });
 
   let [fontsLoaded] = useFonts({
@@ -27,89 +27,97 @@ export default function Confirmation({ navigation, route }) {
   let date = moment(spot.startDate).format("LL");
 
   const handleBooking = async () => {
-   spot.seats = spot.seats - tickets;
-   spot.spotRevenue = tickets * spot.price;
-   newTicket.amount = tickets;
-  //  add QR Code later
-  
+    spot.seats = spot.seats - tickets;
+    spot.spotRevenue = tickets * spot.price;
+    newTicket.amount = tickets;
+    //  add QR Code later
+
     try {
-     await spotStore.updateSpot(spot, spot._id);
-     await authStore.spotAdd(spot._id);
-     await ticketStore.createTicket(newTicket, spot._id)
-     authStore.sendBookingEmail(tickets, spot);
-     navigation.navigate("Explore");
+      await spotStore.updateSpot(spot, spot._id);
+      await authStore.spotAdd(spot._id);
+      await ticketStore.createTicket(newTicket, spot._id);
+      authStore.sendBookingEmail(tickets, spot);
+      navigation.navigate("Explore");
     } catch (e) {
       alert(e.message);
     }
-  }
+  };
 
   return (
-    <View style={{
-      width: "100%",
-      height: "100%",
-      backgroundColor: "white",
-    }}>
+    <View
+      style={{
+        width: "100%",
+        height: "100%",
+        backgroundColor: "white",
+      }}
+    >
       <Text style={styles.thanks}>Thank You!</Text>
-      <Text style={styles.confirmMessage}>You have purchased your ticket successfully!</Text>
+      <Text style={styles.confirmMessage}>
+        You have purchased your ticket successfully!
+      </Text>
       <View style={styles.box}>
         <Text style={styles.BookingDetails}>Booking Details</Text>
         <Text style={styles.spotName}>{spot.name}</Text>
         <View
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignContent: "center",
+            alignItems: "center",
+            justifyContent: "space-evenly",
+            alignSelf: "center",
+          }}
+        >
+          <View
             style={{
               display: "flex",
               flexDirection: "row",
               alignContent: "center",
               alignItems: "center",
-              justifyContent: "space-evenly",
-              alignSelf: "center",
             }}
           >
+            <Ionicons
+              style={{
+                marginRight: 5,
+                color: "white",
+                fontSize: 30,
+              }}
+              name="calendar-outline"
+            ></Ionicons>
+            <Text
+              style={{
+                fontFamily: "UbuntuBold",
+                fontSize: 20,
+                marginRight: 20,
+                color: "white",
+              }}
+            >
+              {date}
+            </Text>
+          </View>
           <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Ionicons
-                  style={{
-                    marginRight: 5,
-                    color: "white",
-                    fontSize: 30,
-                  }}
-                  name="calendar-outline"
-                ></Ionicons>
-                <Text
-                  style={{ fontFamily: "UbuntuBold", fontSize: 20, marginRight: 20, color: "white" }}
-                >
-                  {date}
-                </Text>
-              </View>
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Ionicons
-                  style={{ marginRight: 5, fontSize: 30, color: "white" }}
-                  name="time-outline"
-                ></Ionicons>
-                <Text style={{ fontFamily: "UbuntuBold", fontSize: 20, color: "white" }}>
-                  {spot.startTime}
-                </Text>
-              </View>
-            </View>
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Ionicons
+              style={{ marginRight: 5, fontSize: 30, color: "white" }}
+              name="time-outline"
+            ></Ionicons>
+            <Text
+              style={{ fontFamily: "UbuntuBold", fontSize: 20, color: "white" }}
+            >
+              {spot.startTime}
+            </Text>
+          </View>
+        </View>
         <Text style={styles.tickets}>{tickets} x tickets</Text>
         <Image style={styles.QR} source={require("../../assets/QR.png")} />
       </View>
-      <TouchableOpacity
-        style={styles.spotthis}
-        onPress={handleBooking}
-      >
+      <TouchableOpacity style={styles.spotthis} onPress={handleBooking}>
         <Text style={styles.spotext}>Back to Spots</Text>
       </TouchableOpacity>
     </View>
@@ -152,7 +160,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#000000",
     alignSelf: "center",
-
   },
   confirmMessage: {
     position: "absolute",
@@ -183,7 +190,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 4,
-
   },
   BookingDetails: {
     color: "white",
@@ -201,7 +207,6 @@ const styles = StyleSheet.create({
     elevation: 4,
     marginBottom: 20,
     fontFamily: "UbuntuBold",
-
   },
   spotName: {
     color: "white",
@@ -272,6 +277,6 @@ const styles = StyleSheet.create({
     flexDirection: "row-reverse",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 770
+    marginTop: 770,
   },
 });

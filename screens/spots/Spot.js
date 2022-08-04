@@ -94,34 +94,26 @@ function Spot({ spot, navigation }) {
                 margin: 10,
                 width: 60,
                 height: 70,
-                borderWidth: 0.5,
-                borderColor: "white",
+                backgroundColor: "white",
                 borderRadius: 15,
                 alignContent: "center",
                 justifyContent: "center",
                 alignItems: "center",
-                shadowOpacity: 0.5,
-                shadowRadius: 4,
-                shadowColor: "black",
+                shadowOpacity: 0.1,
+                shadowRadius: 10,
+                shadowColor: "#004365",
                 shadowOffset: {
-                  height: 1,
-                  width: 1,
+                  height: 10,
+                  width: 0,
                 },
                 marginLeft: 12,
               }}
             >
               <Text
                 style={{
-                  fontFamily: "Ubuntu",
-                  fontSize: 25,
-                  color: "white",
-                  shadowOpacity: 0.8,
-                  shadowRadius: 4,
-                  shadowColor: "black",
-                  shadowOffset: {
-                    height: 1,
-                    width: 1,
-                  },
+                  fontFamily: "UbuntuBold",
+                  fontSize: 23,
+                  color: "#0a0a0b",
                 }}
               >
                 {day}
@@ -130,15 +122,8 @@ function Spot({ spot, navigation }) {
               <Text
                 style={{
                   fontFamily: "Ubuntu",
-                  fontSize: 20,
-                  color: "white",
-                  shadowOpacity: 0.8,
-                  shadowRadius: 4,
-                  shadowColor: "black",
-                  shadowOffset: {
-                    height: 1,
-                    width: 1,
-                  },
+                  fontSize: 17,
+                  color: "grey",
                 }}
               >
                 {month}
@@ -226,13 +211,13 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 100,
     borderRadius: 16,
-    shadowColor: "#000",
+    shadowColor: "#161616",
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 3,
     },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
     borderRadius: 13,
     elevation: 3,
     marginTop: 3,
@@ -248,12 +233,21 @@ const styles = StyleSheet.create({
   },
   ownerthumb: {
     alignSelf: "center",
-    width: 45,
-    height: 45,
+    width: 55,
+    height: 55,
     borderRadius: "50%",
     zIndex: -1,
     opacity: 1,
     marginRight: 10,
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    shadowColor: "#004365",
+    shadowOffset: {
+      height: 10,
+      width: 0,
+    },
+    borderWidth: 1.5,
+    borderColor: "white",
   },
   sthumb: {
     marginTop: 12,
@@ -343,16 +337,17 @@ const styles = StyleSheet.create({
   ownername: {
     fontSize: 20,
     color: "#fffffc",
-    shadowOpacity: 1,
-    shadowRadius: 4,
-    shadowColor: "black",
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    shadowColor: "#004365",
     shadowOffset: {
-      height: 1,
-      width: 1,
+      height: 5,
+      width: 0,
     },
     fontFamily: "Ubuntu",
     alignSelf: "center",
     flex: 1,
+    textTransform: "capitalize",
   },
   datetime: {
     fontSize: 15,

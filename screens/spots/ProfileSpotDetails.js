@@ -4,10 +4,11 @@ import {
   StatusBar,
   Text,
   View,
-  TouchableOpacity,
+  Image,
   LogBox,
   Button,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
 import spotStore from "../../stores/spotStore";
@@ -22,20 +23,39 @@ import reviewStore from "../../stores/reviewStore";
 import offerStore from "../../stores/offerStore";
 import TextInput from "react-native-text-input-interactive";
 import OfferItem from "../offers/OfferItem";
+import RewardItem from "../rewards/RewardItem";
 import TextTicker from "react-native-text-ticker";
+import rewardStore from "../../stores/rewardStore";
+import { LinearGradient } from "expo-linear-gradient";
+import { baseURL } from "../../stores/instance";
+import pointStore from "../../stores/pointStore";
 import authStore from "../../stores/authStore";
 //import "moment/locale/ar";
 LogBox.ignoreAllLogs();
 
 export function ProfileSpotDetails({ route }) {
+  const points = route.params.points;
   const spot = spotStore.getSpotsById(route.params.id);
-  const offers = offerStore.offers.filter((offer) => offer.spot === spot._id);
+  const point = pointStore.points.find(
+    (point) => point?.user === authStore.user.id && point?.spot === spot?._id
+  );
+  if (points > 0) pointStore.updatePoint(point.amount + points, point?._id);
+  const offers = offerStore.offers.filter((offer) => offer.spot === spot?._id);
+  const rewards = rewardStore.rewards.filter(
+    (offer) => offer.spot === spot?._id
+  );
+  function renderOffer({ item: offer }) {
+    return <OfferItem offer={offer} />;
+  }
+  function renderReward({ item: reward }) {
+    return <RewardItem reward={reward} />;
+  }
+
   const [reviewText, setReviewText] = useState({
     stars: "",
     description: "",
   });
   const [numOfSrtars, setNumOfSrtars] = useState("0");
-
   const ratingCompleted = (rating) => {
     setNumOfSrtars(rating.toString());
   };
@@ -46,6 +66,7 @@ export function ProfileSpotDetails({ route }) {
 
   const handleSubmit = () => {
     reviewStore.createReview(reviewText, numOfSrtars, spot?._id);
+
     Toast.show({
       type: "success",
       text1: "Review Added 👍",
@@ -60,10 +81,6 @@ export function ProfileSpotDetails({ route }) {
     return <AppLoading />;
   }
 
-  function renderOffer({ item: offer }) {
-    return <OfferItem offer={offer} />;
-  }
-
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView
@@ -76,7 +93,7 @@ export function ProfileSpotDetails({ route }) {
             navigation.goBack();
           }}
           style={styles.back}
-          name="arrow-back-outline"
+          name="chevron-back-outline"
         ></Ionicons>
 
         <StatusBar barStyle="dark-content" />
@@ -110,6 +127,115 @@ export function ProfileSpotDetails({ route }) {
             {spot.announcement}
           </TextTicker>
         </View>
+
+        <LinearGradient
+          colors={["#4831d4", "#2d3f6f"]}
+          style={{
+            opacity: 0.95,
+            margin: 20,
+            marginTop: 5,
+            backgroundColor: "#434548",
+            height: 240,
+            width: "90%",
+            borderRadius: 20,
+            alignSelf: "center",
+            zIndex: -1,
+            display: "flex",
+            flexDirection: "column",
+            alignContent: "flex-start",
+            paddingTop: 55,
+            padding: 40,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 3,
+            },
+            shadowOpacity: 0.27,
+            shadowRadius: 4.65,
+            elevation: 6,
+          }}
+        >
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "column",
+
+              position: "absolute",
+              marginLeft: 300,
+              marginTop: 40,
+
+              height: "120%",
+            }}
+          >
+            <Image
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: "50%",
+                marginBottom: 65,
+              }}
+              source={{ uri: `${baseURL}${authStore.user.image}` }}
+            />
+
+            <Ionicons
+              style={{
+                borderRadius: "50%",
+                color: "white",
+                fontSize: 55,
+              }}
+              name="scan-circle"
+              onPress={() => navigation.navigate("Scanner", { spot: spot })}
+            ></Ionicons>
+          </View>
+          <Text
+            style={{
+              fontFamily: "Ubuntu",
+              fontSize: 24,
+              color: "white",
+            }}
+          >
+            Your Points
+          </Text>
+          <Text
+            style={{
+              fontFamily: "UbuntuBold",
+              fontSize: 35,
+              marginTop: 25,
+              color: "white",
+            }}
+          >
+            {point.amount}
+          </Text>
+          <Text
+            style={{
+              fontFamily: "Ubuntu",
+              fontSize: 15,
+              marginTop: 30,
+              color: "white",
+            }}
+          >
+            Valid during spot's date only
+          </Text>
+        </LinearGradient>
+        <Text
+          style={{
+            fontFamily: "UbuntuBold",
+            fontSize: 20,
+            marginLeft: 28,
+            marginTop: 20,
+          }}
+        >
+          Rewards
+        </Text>
+        <FlatList
+          horizontal={true}
+          style={styles.spotsList}
+          contentContainerStyle={styles.spotsListContainer}
+          data={rewards}
+          renderItem={renderReward}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        />
         <Text
           style={{
             fontFamily: "UbuntuBold",
@@ -120,6 +246,7 @@ export function ProfileSpotDetails({ route }) {
         >
           Offers
         </Text>
+
         <FlatList
           horizontal={true}
           style={styles.spotsList}
@@ -270,9 +397,9 @@ const styles = StyleSheet.create({
   },
   mainTitle: {
     fontSize: 30,
-    margin: 30,
+    margin: 66,
     marginBottom: 10,
-    marginTop: 125,
+    marginTop: 70,
     alignSelf: "center",
     fontFamily: "Ubuntu",
   },
@@ -282,6 +409,12 @@ const styles = StyleSheet.create({
     color: "#4831d4",
     alignSelf: "center",
     paddingTop: 4,
+  },
+  scanIcon: {
+    position: "absolute",
+    fontSize: 60,
+    fontWeight: "700",
+    color: "white",
   },
   titlelocation: {
     display: "flex",

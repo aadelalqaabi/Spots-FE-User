@@ -9,18 +9,26 @@ import AuthButtons from "./screens/authScreens/AuthButtons";
 import MainPageRegister from "./screens/authScreens/MainPageRegister";
 import Login from "./screens/authScreens/Login";
 import authStore from "./stores/authStore";
-import { SpotDetails } from "./screens/spots/SpotDetails";
-import RootNavigator from "./index/home";
 import ProfileNav from "./index/ProfileNav";
 import Toast from "react-native-toast-message";
 import { MenuProvider } from "react-native-popup-menu";
 import Email from "./screens/authScreens/Email";
 import Password from "./screens/authScreens/Password";
 import MyImage from "./screens/authScreens/MyImage";
-import SpottedNav from "./index/SpottedNav";
 import * as Linking from "expo-linking";
 import { Text } from "react-native";
-import { Path } from "react-native-svg";
+import { createStackNavigator } from "@react-navigation/stack";
+import Explore from "./screens/Explore";
+import { SpotDetails } from "./screens/spots/SpotDetails";
+import { CardStyleInterpolators } from "@react-navigation/stack";
+import { TransitionPresets } from "@react-navigation/stack";
+import OrganizerProfile from "./screens/OrganizerProfile";
+import BookingDetails from "./screens/booking/BookingDetails";
+import Payment from "./screens/booking/Payment";
+import Confirmation from "./screens/booking/Confirmation";
+import SpotttedDetails from "./screens/spots/SpotttedDetails";
+import MySpots from "./screens/MySpots";
+import Scanner from "./screens/Scanner";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -42,7 +50,7 @@ function App() {
       >
         <MenuProvider>
           {checkUser ? (
-            <TabBar />
+            <RootNavigator />
           ) : (
             <Stack.Navigator screenOptions={{ headerShown: false }}>
               <Stack.Screen name="Set Up Account" component={AuthButtons} />
@@ -54,7 +62,6 @@ function App() {
               <Stack.Screen name="Email" component={Email} />
               <Stack.Screen name="Password" component={Password} />
               <Stack.Screen name="MyImage" component={MyImage} />
-              <Stack.Screen name="SpotDetails" component={SpotDetails} />
             </Stack.Navigator>
           )}
         </MenuProvider>
@@ -65,6 +72,65 @@ function App() {
 }
 
 export default observer(App);
+
+function RootNavigator() {
+  const { Navigator, Screen, Group } = createStackNavigator();
+  const config = {
+    animation: "spring",
+    config: {
+      stiffness: 2000,
+      damping: 500,
+      mass: 2,
+      overshootClamping: true,
+      restDisplacementThreshold: 0.01,
+      restSpeedThreshold: 0.01,
+    },
+  };
+
+  return (
+    <Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Screen name="Explore" component={TabBar} />
+      <Screen
+        name="SpotDetails"
+        component={SpotDetails}
+        options={{
+          gestureDirection: "horizontal",
+          gestureEnabled: "true",
+          presentation: "transparentModal",
+        }}
+      />
+      <Screen
+        options={{ headerShown: false }}
+        name="MySpots"
+        component={MySpots}
+      />
+      <Group
+        screenOptions={{
+          presentation: "modal",
+          cardStyle: {
+            borderTopRightRadius: 30,
+            borderTopLeftRadius: 30,
+          },
+        }}
+      >
+        <Screen name="SpotttedDetails" component={SpotttedDetails} />
+      </Group>
+      <Screen name="Scanner" component={Scanner} />
+      <Screen
+        name="Organizer"
+        component={OrganizerProfile}
+        options={{ headerShown: false }}
+      />
+      <Screen name="BookingDetails" component={BookingDetails} />
+      <Screen name="Payment" component={Payment} />
+      <Screen name="Confirmation" component={Confirmation} />
+    </Navigator>
+  );
+}
 
 function TabBar() {
   return (
@@ -83,7 +149,7 @@ function TabBar() {
     >
       <Tab.Screen
         name="Home"
-        component={RootNavigator}
+        component={Explore}
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ color, focused, tintColor }) => (
@@ -101,7 +167,7 @@ function TabBar() {
       />
       <Tab.Screen
         name="MySpots"
-        component={SpottedNav}
+        component={MySpots}
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ color, focused, tintColor }) => (
