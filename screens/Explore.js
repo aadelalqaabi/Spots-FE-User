@@ -14,18 +14,13 @@ import {
 import spotStore from "../stores/spotStore";
 import categoryStore from "../stores/categoryStore";
 import Spot from "./spots/Spot";
-import { DefaultTheme, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useScrollToTop } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
-import ContentLoader, {
-  Circle,
-  Facebook,
-  Rect,
-} from "react-content-loader/native";
-import PagerView from "react-native-pager-view";
+import ContentLoader, { Circle, Rect } from "react-content-loader/native";
 LogBox.ignoreAllLogs(true);
 
 function Explore() {
@@ -35,8 +30,6 @@ function Explore() {
   const [category, setCategory] = useState();
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(-1);
-  const [toggleexplore, setToggleexplore] = useState(true);
-  const [togglesearch, setTogglesearch] = useState(false);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     setTimeout(() => setLoading(false), 2000);
@@ -51,19 +44,12 @@ function Explore() {
   }
 
   const today = new Date();
-  const spotsByDate = spotStore.spots.filter((spot) => new Date(spot.startDate) > today,);
-  const sortedSpots = spotsByDate.sort(
-    (objA, objB) => new Date(objA.startDate) - new Date(objB.startDate),
+  const spotsByDate = spotStore.spots.filter(
+    (spot) => new Date(spot.startDate) > today
   );
-  
-
-  // const s = spotStore.spots;
-  // const sortedSpots = s.sort(
-  //   (objA, objB) => new Date(objA.startDate) - new Date(objB.startDate),
-  // );
-  // const today = new Date();
-  // const spotsByDate = sortedSpots.filter((spot) => new Date(spot.startDate) > today,);
- 
+  const sortedSpots = spotsByDate.sort(
+    (objA, objB) => new Date(objA.startDate) - new Date(objB.startDate)
+  );
   const spots = sortedSpots
     .filter((spot) => (!category ? spot : spot.category._id === category?._id))
     .filter((category) =>
@@ -98,51 +84,20 @@ function Explore() {
           </ContentLoader>
         ) : (
           <>
-            {toggleexplore && (
-              <View style={styles.exploreView}>
-                <Text style={styles.maintitle}>Explore</Text>
+            <View style={styles.exploreView}>
+              <Text style={styles.maintitle}>Explore</Text>
 
-                <TouchableOpacity
-                  onPress={() => {
-                    setTogglesearch(true);
-                    setToggleexplore(false);
-                  }}
-                >
-                  <Ionicons
-                    style={styles.searchicon}
-                    name="search-outline"
-                  ></Ionicons>
-                </TouchableOpacity>
-              </View>
-            )}
-            {togglesearch && (
-              <View style={styles.searchView}>
-                <View style={styles.container}>
-                  <TextInput
-                    placeholder="Search"
-                    style={styles.formField}
-                    placeholderTextColor={"grey"}
-                    onChangeText={(text) => setQuery(text)}
-                  />
-                  <Ionicons
-                    style={styles.icon}
-                    name="search-outline"
-                  ></Ionicons>
-                </View>
-                <TouchableOpacity
-                  onPress={() => {
-                    setQuery("");
-                    setTogglesearch(false);
-                    setToggleexplore(true);
-                  }}
-                >
-                  <Ionicons
-                    style={styles.closeicon}
-                    name="close-circle-outline"
-                  ></Ionicons>
-                </TouchableOpacity>
-              </View>
-            )}
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("Search");
+                }}
+              >
+                <Ionicons
+                  style={styles.searchicon}
+                  name="search-outline"
+                ></Ionicons>
+              </TouchableOpacity>
+            </View>
 
             <ScrollView
               showsVerticalScrollIndicator={false}
@@ -161,14 +116,13 @@ function Explore() {
                   handleCategory(-1);
                 }}
               >
+                <Text style={styles.catText}>All</Text>
                 <Text
                   style={
-                    selectedCategory === -1
-                      ? styles.catTextAtive
-                      : styles.catText
+                    selectedCategory === -1 ? styles.catdot : styles.overley
                   }
                 >
-                  All
+                  .
                 </Text>
               </TouchableOpacity>
               {categories.map((category) => (
@@ -185,14 +139,15 @@ function Explore() {
                       handleCategory(categories.indexOf(category));
                     }}
                   >
+                    <Text style={styles.catText}>{category?.name}</Text>
                     <Text
                       style={
                         selectedCategory === categories.indexOf(category)
-                          ? styles.catTextAtive
-                          : styles.catText
+                          ? styles.catdot
+                          : styles.overley
                       }
                     >
-                      {category?.name}
+                      .
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -259,7 +214,7 @@ const styles = StyleSheet.create({
     margin: 28,
     marginTop: 15,
     marginBottom: 0,
-    height: 40,
+    height: 45,
   },
   catButton: {
     color: "white",
@@ -275,10 +230,18 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     borderRadius: "10%",
     fontWeight: "700",
-    fontSize: 18,
+    fontSize: 20,
     alignSelf: "center",
     marginVertical: 10,
     fontFamily: "Ubuntu",
+  },
+  catdot: {
+    color: "#4831d4",
+    fontSize: 45,
+    fontFamily: "Ubuntu",
+    position: "absolute",
+    alignSelf: "center",
+    textAlign: "left",
   },
   catTextAtive: {
     color: "white",
@@ -295,13 +258,13 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 50,
     zIndex: -1,
+    display: "flex",
   },
   overleyactive: {
     width: 100,
     height: 40,
     borderRadius: 50,
     zIndex: -1,
-    backgroundColor: "#4831d4",
   },
   icon: {
     zIndex: 99,

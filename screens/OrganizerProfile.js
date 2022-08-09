@@ -9,31 +9,32 @@ import {
   TouchableOpacity,
   Button,
 } from "react-native";
-import organizerStore from "../stores/organizerStore";
-import spotStore from "../stores/spotStore";
-import ProfileSpot from "../screens/spots/ProfileSpot";
 import OrganizerSpot from "../screens/spots/OrganizerSpot";
 import { observer } from "mobx-react";
 import { baseURL } from "../stores/instance";
 import { useNavigation } from "@react-navigation/native";
-import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { Fontisto, Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
+import { useFonts } from "expo-font";
+import AppLoading from "expo-app-loading";
 
 function OrganizerProfile({ route }) {
   const navigation = useNavigation();
   const [notification, setNotification] = useState();
-  const organizer = organizerStore.getOrganizerById(route.params.organizer);
-
-  // const organizerSpots = organizer.spots.map(spotId => spotStore.spots.find(spot => spot._id === spotId));
+  const organizer = route.params.organizer;
   function renderSpot({ item: spot }) {
     return <OrganizerSpot spot={spot} />;
   }
-
-  const backButton = () => {
-    navigation.navigate("Explore");
-    console.log("back");
-  };
+  let [fontsLoaded] = useFonts({
+    UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
+    Ubuntu: require("../assets/fonts/Ubuntu.ttf"),
+    UbuntuLight: require("../assets/fonts/Ubuntu-Light.ttf"),
+    Cabin: require("../assets/fonts/Cabin.ttf"),
+    CabinMedium: require("../assets/fonts/CabinMedium.ttf"),
+  });
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
 
   return (
     <View
@@ -50,14 +51,12 @@ function OrganizerProfile({ route }) {
           alignItems: "center",
           justifyContent: "space-between",
           alignContent: "center",
-          marginTop: 70,
+          marginTop: 50,
         }}
       >
         <Ionicons
           style={{
-            // position: "absolute",
             fontSize: 35,
-
             marginLeft: 20,
           }}
           name="chevron-back-outline"
@@ -83,7 +82,10 @@ function OrganizerProfile({ route }) {
         </TouchableOpacity>
       </View>
       <SafeAreaView style={styles.container}>
-        <View style={styles.imageUserNameEdit}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+        >
           <View style={styles.imageUserName}>
             {organizer?.image === "" ? (
               <Image
@@ -105,19 +107,11 @@ function OrganizerProfile({ route }) {
               <Text style={styles.spotsTitle}>Spots</Text>
             </View>
           </View>
-        </View>
-        <View>
-          <Text style={styles.bio}>{organizer?.bio}</Text>
-          {/* <Text style={styles.bio}>
-          🥇 1st Coding Academy in the Middle East 💻 Learn To Code Websites,
-          Apps, & MORE 👩🏻‍🎓 Intensive Courses & Bootcamps 🚀 400+ Graduates Since
-          2015
-        </Text> */}
-        </View>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-        >
+
+          <View>
+            <Text style={styles.bio}>{organizer?.bio}</Text>
+          </View>
+
           <FlatList
             style={styles.spotsList}
             contentContainerStyle={styles.spotsListContainer}
@@ -138,55 +132,46 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "white",
   },
-  imageUserNameEdit: {
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-    flexDirection: "row",
-    marginLeft: 30,
-  },
   imageUserName: {
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "space-around",
     alignContent: "center",
     flexDirection: "row",
-    marginLeft: 20,
-    marginBottom: 10,
+    margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
-    paddingRight: 20,
     alignSelf: "center",
-    width: 405,
+    width: "100%",
     height: 180,
   },
   profile: {
     fontSize: 30,
-    margin: 30,
+    marginLeft: 0,
+    marginRight: 0,
     marginBottom: 10,
     marginTop: 15,
     fontFamily: "UbuntuBold",
   },
   profileImage: {
-    width: 150,
-    height: 150,
+    width: 180,
+    height: 180,
     borderRadius: 150,
-    marginRight: 75,
     alignItems: "center",
     alignSelf: "center",
+    marginRight: 35,
   },
   spotsNum: {
-    fontSize: 30,
-    marginLeft: 8,
-    fontWeight: "bold",
+    fontSize: 35,
     fontFamily: "Ubuntu",
   },
   spotsTitle: {
-    fontSize: 30,
-    marginTop: -10,
+    fontSize: 25,
+    fontFamily: "UbuntuLight",
   },
   counter: {
     alignItems: "center",
     alignSelf: "center",
-    marginRight: 80,
+    marginRight: 60,
   },
   edit: {
     borderRadius: 10,
@@ -203,8 +188,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     textAlign: "justify",
-    margin: 30,
-    fontSize: 17,
+    fontFamily: "Cabin",
+    margin: 35,
+    fontSize: 22,
+    marginTop: 20,
+    marginBottom: 20,
   },
   bioText: {
     fontSize: 17,
@@ -215,7 +203,6 @@ const styles = StyleSheet.create({
     gridtemplate: "c1 c2",
   },
   imageCard: {
-    // alignSelf: "center",
     width: 80,
     height: 80,
     borderRadius: 40,
@@ -236,29 +223,5 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginTop: 20,
     alignItems: "flex-start",
-    // paddingLeft: 25,
   },
 });
-
-{
-  /* <View style={styles.imageUserNameEdit}>
-        <View style={styles.imageUserName}>
-          {organizer.image ? (
-            <Image
-              style={styles.profileImage}
-              source={{
-                uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPWpbYe9c5YS6KNOXFWiawk-ox545j3ya978qwGXmcladr3eLFh6IabWhNFVtFRI0YNjI&usqp=CAU",
-              }}
-            />
-          ) : (
-            <Image
-              style={styles.profileImage}
-              source={{
-                uri: baseURL + organizer.image,
-                // uri: "https://yt3.ggpht.com/7-qLGZftqc4sDt0lfK3Hf5d3meDKr8d0CEouodYTZ1_Zost1xrmkZxgwhoHJeIjkbrvaodvsxw=s900-c-k-c0x00ffffff-no-rj",
-              }}
-            />
-          )}
-        </View>
-      </View> */
-}
