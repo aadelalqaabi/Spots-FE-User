@@ -20,8 +20,6 @@ import { Text } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Explore from "./screens/Explore";
 import { SpotDetails } from "./screens/spots/SpotDetails";
-import { CardStyleInterpolators } from "@react-navigation/stack";
-import { TransitionPresets } from "@react-navigation/stack";
 import OrganizerProfile from "./screens/OrganizerProfile";
 import BookingDetails from "./screens/booking/BookingDetails";
 import Payment from "./screens/booking/Payment";
@@ -29,6 +27,9 @@ import Confirmation from "./screens/booking/Confirmation";
 import SpotttedDetails from "./screens/spots/SpotttedDetails";
 import MySpots from "./screens/MySpots";
 import Scanner from "./screens/Scanner";
+import SpottedScanner from "./screens/SpottedScanner";
+import Search from "./screens/Search";
+import Info from "./screens/spots/Info";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -75,22 +76,14 @@ export default observer(App);
 
 function RootNavigator() {
   const { Navigator, Screen, Group } = createStackNavigator();
-  const config = {
-    animation: "spring",
-    config: {
-      stiffness: 2000,
-      damping: 500,
-      mass: 2,
-      overshootClamping: true,
-      restDisplacementThreshold: 0.01,
-      restSpeedThreshold: 0.01,
-    },
-  };
 
   return (
     <Navigator
       screenOptions={{
         headerShown: false,
+        cardStyle: {
+          backgroundColor: "white",
+        },
       }}
     >
       <Screen name="Explore" component={TabBar} />
@@ -115,17 +108,31 @@ function RootNavigator() {
             borderTopRightRadius: 30,
             borderTopLeftRadius: 30,
           },
+          gestureEnabled: "true",
+          gestureDirection: "vertical",
+          gestureResponseDistance: 10000,
         }}
       >
         <Screen name="SpotttedDetails" component={SpotttedDetails} />
       </Group>
       <Screen name="Scanner" component={Scanner} />
+      <Screen name="SpottedScanner" component={SpottedScanner} />
+      <Screen
+        name="Search"
+        options={{
+          gestureDirection: "horizontal",
+          gestureEnabled: "true",
+          presentation: "transparentModal",
+        }}
+        component={Search}
+      />
       <Screen
         name="Organizer"
         component={OrganizerProfile}
         options={{ headerShown: false }}
       />
       <Screen name="BookingDetails" component={BookingDetails} />
+      <Screen name="Info" component={Info} />
       <Screen name="Payment" component={Payment} />
       <Screen name="Confirmation" component={Confirmation} />
     </Navigator>

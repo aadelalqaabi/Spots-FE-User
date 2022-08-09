@@ -90,6 +90,7 @@ export default function Email({ navigation, route }) {
               navigation.navigate("Password", { itemId: user });
             }}
           />
+
           <View style={styles.button}>
             <Button
               title="Next"

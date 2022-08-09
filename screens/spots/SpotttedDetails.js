@@ -4,7 +4,6 @@ import {
   View,
   Image,
   TouchableOpacity,
-  ImageBackground,
   Linking,
 } from "react-native";
 import moment from "moment";
@@ -12,17 +11,14 @@ import { Ionicons } from "@expo/vector-icons";
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 import { baseURL } from "../../stores/instance";
-import ticketStore from "../../stores/ticketStore";
 import spotStore from "../../stores/spotStore";
 import React from "react";
-import authStore from "../../stores/authStore";
+import organizerStore from "../../stores/organizerStore";
 
 export default function SpotttedDetails({ navigation, route }) {
   const spot = spotStore.getSpotsById(route.params.id);
+  const organizer = organizerStore.getOrganizerById(spot.organizer);
   const ticket = route.params.ticket;
-  // const ticket = ticketStore.tickets.find((ticket) => (ticket.spot === spot._id) && (ticket.user.username === authStore.user.username))
-  //   const tickets = route.params.quantity;
-
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
@@ -56,6 +52,7 @@ export default function SpotttedDetails({ navigation, route }) {
 
       <View style={styles.box}>
         <Text style={styles.spotName}>{spot.name}</Text>
+
         <View
           style={{
             display: "flex",
@@ -72,28 +69,37 @@ export default function SpotttedDetails({ navigation, route }) {
             elevation: 4,
           }}
         >
+          <View style={styles.ownerContainer}>
+            <Image
+              style={styles.ownerthumb}
+              source={{ uri: `${baseURL}${organizer.image}` }}
+            />
+            <Text style={styles.ownername}>{organizer.username}</Text>
+          </View>
           <View
             style={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: "column",
               alignContent: "center",
-              alignItems: "center",
-              marginBottom: 10,
+              // alignItems: "center",
+              margin: 10,
             }}
           >
-            <Ionicons
+            <Text
               style={{
-                marginRight: 5,
+                fontFamily: "Ubuntu",
+                fontSize: 25,
+                margin: 10,
                 color: "white",
-                fontSize: 30,
+                marginLeft: 0,
               }}
-              name="calendar-outline"
-            ></Ionicons>
+            >
+              Date
+            </Text>
             <Text
               style={{
                 fontFamily: "UbuntuBold",
-                fontSize: 20,
-                marginRight: 20,
+                fontSize: 25,
                 color: "white",
               }}
             >
@@ -103,18 +109,26 @@ export default function SpotttedDetails({ navigation, route }) {
           <View
             style={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: "column",
               alignContent: "center",
-              alignItems: "center",
-              marginBottom: 10,
+              // alignItems: "center",
+              margin: 10,
             }}
           >
-            <Ionicons
-              style={{ marginRight: 5, fontSize: 30, color: "white" }}
-              name="time-outline"
-            ></Ionicons>
             <Text
-              style={{ fontFamily: "UbuntuBold", fontSize: 20, color: "white" }}
+              style={{
+                fontFamily: "Ubuntu",
+                fontSize: 25,
+                margin: 10,
+                color: "white",
+                textAlign: "left",
+                marginLeft: 0,
+              }}
+            >
+              Time
+            </Text>
+            <Text
+              style={{ fontFamily: "UbuntuBold", fontSize: 25, color: "white" }}
             >
               {spot.startTime}
             </Text>
@@ -122,29 +136,33 @@ export default function SpotttedDetails({ navigation, route }) {
           <View
             style={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: "column",
               alignContent: "center",
-              alignItems: "center",
+              // alignItems: "center",
+              margin: 10,
             }}
           >
-            <Ionicons
-              style={{
-                marginLeft: -4,
-                marginRight: 5,
-                fontSize: 30,
-                color: "white",
-              }}
-              name="enter-outline"
-            ></Ionicons>
             <Text
-              style={{ fontFamily: "UbuntuBold", fontSize: 20, color: "white" }}
+              style={{
+                fontFamily: "Ubuntu",
+                fontSize: 25,
+                margin: 10,
+                marginLeft: 0,
+                color: "white",
+                textAlign: "left",
+              }}
+            >
+              Entry
+            </Text>
+            <Text
+              style={{ fontFamily: "UbuntuBold", fontSize: 25, color: "white" }}
             >
               {ticket.isFree === false ? (
                 <>
                   <Text
                     style={{
                       fontFamily: "UbuntuBold",
-                      fontSize: 20,
+                      fontSize: 25,
                       color: "white",
                     }}
                   >
@@ -156,11 +174,11 @@ export default function SpotttedDetails({ navigation, route }) {
                   <Text
                     style={{
                       fontFamily: "UbuntuBold",
-                      fontSize: 20,
+                      fontSize: 25,
                       color: "white",
                     }}
                   >
-                    Free Entry
+                    Free
                   </Text>
                 </>
               )}
@@ -170,13 +188,13 @@ export default function SpotttedDetails({ navigation, route }) {
         <TouchableOpacity
           style={{
             borderColor: "#f7f7f7",
-            borderWidth: 2,
+            borderWidth: 1,
             width: 160,
             height: 50,
             borderRadius: 10,
             margin: 50,
             marginBottom: 0,
-            marginTop: 30,
+            marginTop: 35,
             alignSelf: "center",
             display: "flex",
             alignContent: "center",
@@ -193,28 +211,54 @@ export default function SpotttedDetails({ navigation, route }) {
           }}
           onPress={() => Linking.openURL(spot.location)}
         >
-          <Image
+          <Ionicons
             style={{
-              width: 23,
-              height: 33,
+              fontSize: 32,
               zIndex: 99,
+
+              color: "white",
             }}
-            source={require("../../assets/gooogleMapsIcon.png")}
-          ></Image>
+            name="location"
+          ></Ionicons>
+
           <Text style={styles.location}>Location</Text>
         </TouchableOpacity>
-        {ticket.isFree === false ? (
-          <>
-            {/* <Image style={styles.QR} source={{ uri: baseURL + ticket.image }} /> */}
-            <Image style={styles.QR} source={require("../../assets/QR.png")} />
-          </>
-        ) : (
-          <>
-            {/* <Text style={styles.tickets}>{ticket?.amount} x tickets</Text> */}
-            <Image style={styles.QR} source={require("../../assets/QR.png")} />
-            {/* <Text style={styles.tickets}>Wrong Info</Text> */}
-          </>
-        )}
+        <TouchableOpacity
+          style={{
+            width: 300,
+            height: 60,
+            borderRadius: 10,
+            backgroundColor: "white",
+            margin: 50,
+            marginBottom: 0,
+            marginTop: 15,
+            alignSelf: "center",
+            display: "flex",
+            alignContent: "center",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.23,
+            shadowRadius: 2.62,
+            elevation: 4,
+          }}
+          onPress={() => navigation.navigate("SpottedScanner", { spot: spot })}
+        >
+          <Ionicons
+            style={{
+              fontSize: 35,
+              zIndex: 99,
+              color: "#4831d4",
+            }}
+            name="scan"
+          ></Ionicons>
+
+          <Text style={styles.scantext}>Scan QR</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -251,9 +295,7 @@ const styles = StyleSheet.create({
     height: 19.79,
     left: 69,
     top: 133.21,
-
     fontFamily: "Ubuntu",
-    // fontWeight: 400,
     fontSize: 12.806,
     lineHeight: 15,
     textAlign: "center",
@@ -262,18 +304,19 @@ const styles = StyleSheet.create({
     color: "#000000",
   },
   QR: {
-    width: 300,
-    height: 300,
-    // marginLeft: 14,
+    width: 250,
+    height: 250,
     alignSelf: "center",
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
+    shadowOpacity: 0.53,
+    shadowRadius: 10,
     elevation: 4,
-    marginTop: 10,
+    marginTop: 30,
+    borderRadius: 40,
   },
   BookingDetails: {
     color: "white",
@@ -294,9 +337,9 @@ const styles = StyleSheet.create({
   spotName: {
     color: "white",
     margin: 50,
-    fontSize: 40,
+    fontSize: 35,
     alignSelf: "left",
-    marginBottom: 30,
+    marginBottom: 10,
     fontFamily: "UbuntuBold",
     shadowOffset: {
       width: 0,
@@ -322,6 +365,12 @@ const styles = StyleSheet.create({
   },
   location: {
     color: "white",
+    fontSize: 20,
+    fontFamily: "Ubuntu",
+    marginLeft: 10,
+  },
+  scantext: {
+    color: "#4831d4",
     fontSize: 20,
     fontFamily: "Ubuntu",
     marginLeft: 10,
@@ -368,5 +417,32 @@ const styles = StyleSheet.create({
     height: 620,
     left: 25,
     top: 150,
+  },
+  ownerContainer: {
+    marginBottom: 10,
+    display: "flex",
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
+  },
+  ownerthumb: {
+    width: 40,
+    height: 40,
+    borderRadius: "50%",
+    zIndex: -1,
+    marginRight: 10,
+  },
+  ownername: {
+    color: "white",
+    fontSize: 22,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
+    fontFamily: "UbuntuBold",
+    textTransform: "capitalize",
   },
 });

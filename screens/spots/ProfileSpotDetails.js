@@ -4,15 +4,14 @@ import {
   StatusBar,
   Text,
   View,
-  Image,
   LogBox,
   Button,
   FlatList,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import spotStore from "../../stores/spotStore";
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import { useNavigation } from "@react-navigation/native";
@@ -26,20 +25,17 @@ import OfferItem from "../offers/OfferItem";
 import RewardItem from "../rewards/RewardItem";
 import TextTicker from "react-native-text-ticker";
 import rewardStore from "../../stores/rewardStore";
-import { LinearGradient } from "expo-linear-gradient";
-import { baseURL } from "../../stores/instance";
 import pointStore from "../../stores/pointStore";
 import authStore from "../../stores/authStore";
+import Modal from "react-native-modal";
 //import "moment/locale/ar";
 LogBox.ignoreAllLogs();
 
 export function ProfileSpotDetails({ route }) {
-  const points = route.params.points;
   const spot = spotStore.getSpotsById(route.params.id);
-  const point = pointStore.points.find(
+  let point = pointStore.points.find(
     (point) => point?.user === authStore.user.id && point?.spot === spot?._id
   );
-  if (points > 0) pointStore.updatePoint(point.amount + points, point?._id);
   const offers = offerStore.offers.filter((offer) => offer.spot === spot?._id);
   const rewards = rewardStore.rewards.filter(
     (offer) => offer.spot === spot?._id
@@ -48,7 +44,7 @@ export function ProfileSpotDetails({ route }) {
     return <OfferItem offer={offer} />;
   }
   function renderReward({ item: reward }) {
-    return <RewardItem reward={reward} />;
+    return <RewardItem reward={reward} point={point} />;
   }
 
   const [reviewText, setReviewText] = useState({
@@ -56,6 +52,11 @@ export function ProfileSpotDetails({ route }) {
     description: "",
   });
   const [numOfSrtars, setNumOfSrtars] = useState("0");
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
   const ratingCompleted = (rating) => {
     setNumOfSrtars(rating.toString());
   };
@@ -76,18 +77,20 @@ export function ProfileSpotDetails({ route }) {
   const navigation = useNavigation();
   let [fontsLoaded] = useFonts({
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
+    UbuntuLight: require("../../assets/fonts/Ubuntu-Light.ttf"),
   });
   if (!fontsLoaded) {
     return <AppLoading />;
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: "white" }}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        style={{ backgroundColor: "white" }}
-      >
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      showsHorizontalScrollIndicator={false}
+      style={{ backgroundColor: "white" }}
+    >
+      <StatusBar barStyle="dark-content" />
+      <View style={styles.titlelocation}>
         <Ionicons
           onPress={() => {
             navigation.goBack();
@@ -95,28 +98,33 @@ export function ProfileSpotDetails({ route }) {
           style={styles.back}
           name="chevron-back-outline"
         ></Ionicons>
-
-        <StatusBar barStyle="dark-content" />
-
-        <View style={styles.titlelocation}>
-          <Text style={styles.mainTitle}>Welcome to {spot.name}</Text>
-        </View>
+        <Text style={styles.mainTitle}>{spot.name}</Text>
+        <Ionicons
+          onPress={() => {
+            navigation.navigate("Info");
+          }}
+          style={styles.back}
+          name="information-outline"
+        ></Ionicons>
+      </View>
+      {spot.announcement !== "" && (
         <View
           style={{
-            // backgroundColor: "#4831d4",
             width: "100%",
-            margin: 10,
             alignSelf: "center",
+            margin: 10,
+            marginBottom: 0,
           }}
         >
           <TextTicker
             style={{
-              fontSize: 24,
-              fontFamily: "Ubuntu",
-              padding: 20,
+              fontSize: 20,
+              fontFamily: "UbuntuBold",
+              padding: 15,
               width: "100%",
               color: "black",
               borderRadius: 500,
+              backgroundColor: "#f2f4f6",
             }}
             scroll
             duration={10000}
@@ -124,74 +132,29 @@ export function ProfileSpotDetails({ route }) {
             repeatSpacer={0}
             shouldAnimateTreshold={40}
           >
+            <FontAwesome name="bullhorn" size={22} color="#4831d4" />
+            {"  "}
             {spot.announcement}
           </TextTicker>
         </View>
-
-        <LinearGradient
-          colors={["#4831d4", "#2d3f6f"]}
-          style={{
-            opacity: 0.95,
-            margin: 20,
-            marginTop: 5,
-            backgroundColor: "#434548",
-            height: 240,
-            width: "90%",
-            borderRadius: 20,
-            alignSelf: "center",
-            zIndex: -1,
-            display: "flex",
-            flexDirection: "column",
-            alignContent: "flex-start",
-            paddingTop: 55,
-            padding: 40,
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 3,
-            },
-            shadowOpacity: 0.27,
-            shadowRadius: 4.65,
-            elevation: 6,
-          }}
-        >
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "column",
-
-              position: "absolute",
-              marginLeft: 300,
-              marginTop: 40,
-
-              height: "120%",
-            }}
-          >
-            <Image
-              style={{
-                width: 50,
-                height: 50,
-                borderRadius: "50%",
-                marginBottom: 65,
-              }}
-              source={{ uri: `${baseURL}${authStore.user.image}` }}
-            />
-
-            <Ionicons
-              style={{
-                borderRadius: "50%",
-                color: "white",
-                fontSize: 55,
-              }}
-              name="scan-circle"
-              onPress={() => navigation.navigate("Scanner", { spot: spot })}
-            ></Ionicons>
-          </View>
+      )}
+      <View
+        style={{
+          margin: 30,
+          marginBottom: 10,
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          alignContent: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <View>
           <Text
             style={{
               fontFamily: "Ubuntu",
-              fontSize: 24,
-              color: "white",
+              fontSize: 20,
+              color: "grey",
             }}
           >
             Your Points
@@ -199,123 +162,245 @@ export function ProfileSpotDetails({ route }) {
           <Text
             style={{
               fontFamily: "UbuntuBold",
-              fontSize: 35,
-              marginTop: 25,
-              color: "white",
+              fontSize: 40,
+              color: "black",
+              margin: 10,
+              marginLeft: 0,
+              marginBottom: 20,
+              marginTop: 15,
             }}
           >
-            {point.amount}
+            {point?.amount}
           </Text>
           <Text
             style={{
               fontFamily: "Ubuntu",
               fontSize: 15,
-              marginTop: 30,
-              color: "white",
+
+              color: "grey",
             }}
           >
             Valid during spot's date only
           </Text>
-        </LinearGradient>
+        </View>
+        <TouchableOpacity
+          style={{
+            width: 120,
+            height: 50,
+            borderRadius: 10,
+            borderColor: "#4831d4",
+            borderWidth: 1,
+            margin: 50,
+            marginRight: 0,
+            marginBottom: 0,
+            marginTop: 15,
+            display: "flex",
+            alignContent: "center",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "row",
+          }}
+          onPress={() =>
+            navigation.navigate("Scanner", { spot: spot, point: point })
+          }
+        >
+          <Ionicons
+            style={{
+              fontSize: 25,
+              zIndex: 99,
+              color: "#4831d4",
+            }}
+            name="scan"
+          ></Ionicons>
+
+          <Text style={styles.scantext}>Scan QR</Text>
+        </TouchableOpacity>
+      </View>
+
+      <Text
+        style={{
+          fontFamily: "UbuntuBold",
+          fontSize: 20,
+          marginLeft: 28,
+          marginTop: 20,
+        }}
+      >
+        Rewards
+      </Text>
+      <FlatList
+        horizontal={true}
+        style={styles.spotsList}
+        contentContainerStyle={styles.spotsListContainer}
+        data={rewards}
+        renderItem={renderReward}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      />
+      <Text
+        style={{
+          fontFamily: "UbuntuBold",
+          fontSize: 20,
+          marginLeft: 28,
+          marginTop: 20,
+        }}
+      >
+        Offers
+      </Text>
+
+      <FlatList
+        horizontal={true}
+        style={styles.spotsList}
+        contentContainerStyle={styles.spotsListContainer}
+        data={offers}
+        renderItem={renderOffer}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+      />
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignContent: "center",
+          alignItems: "center",
+          margin: 30,
+          marginTop: 20,
+          justifyContent: "space-between",
+        }}
+      >
         <Text
           style={{
             fontFamily: "UbuntuBold",
             fontSize: 20,
-            marginLeft: 28,
-            marginTop: 20,
           }}
         >
-          Rewards
+          Reviews
         </Text>
-        <FlatList
-          horizontal={true}
-          style={styles.spotsList}
-          contentContainerStyle={styles.spotsListContainer}
-          data={rewards}
-          renderItem={renderReward}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-        />
-        <Text
-          style={{
-            fontFamily: "UbuntuBold",
-            fontSize: 20,
-            marginLeft: 28,
-            marginTop: 20,
-          }}
+        <TouchableOpacity onPress={toggleModal}>
+          <Text
+            style={{
+              fontFamily: "Ubuntu",
+              fontSize: 19,
+              borderWidth: 1,
+              padding: 10,
+              color: "#4831d4",
+              borderColor: "#4831d4",
+              borderRadius: 10,
+            }}
+          >
+            Add Review
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <View style={{ flex: 1 }}>
+        <Modal
+          isVisible={isModalVisible}
+          onBackdropPress={() => setModalVisible(false)}
+          style={{ height: 450 }}
         >
-          Offers
-        </Text>
+          <View
+            style={{
+              display: "flex",
+              alignItems: "center",
+              alignContent: "center",
+              justifyContent: "center",
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: "white",
+                borderRadius: 40,
+                height: 450,
+                width: 400,
+                display: "flex",
+                alignItems: "center",
+                alignContent: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text
+                style={{
+                  alignSelf: "center",
+                  margin: 30,
+                  marginBottom: 10,
+                  marginTop: 0,
+                  fontSize: 30,
+                  fontFamily: "UbuntuLight",
+                }}
+              >
+                Add Your Review
+              </Text>
+              <TouchableOpacity
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  margin: 20,
+                  marginTop: 15,
+                }}
+                onPress={toggleModal}
+              >
+                <Ionicons
+                  style={{
+                    color: "#aba9aa",
+                    opacity: 0.8,
+                    fontSize: 35,
+                  }}
+                  name="close-outline"
+                ></Ionicons>
+              </TouchableOpacity>
+              <Rating
+                showRating
+                startingValue={1}
+                selectedColor="#4831d4"
+                reviewColor="#4831d4"
+                ratingBackgroundColor="#4831d4"
+                ratingTextColor="grey"
+                unSelectedColor="grey"
+                onFinishRating={ratingCompleted}
+                style={{ margin: 20, marginBottom: 30, marginTop: 10 }}
+              />
+              <Text style={styles.heading}>Enter Description:</Text>
+              <TextInput
+                textInputStyle={{
+                  height: 100,
+                  width: 350,
+                  margin: 20,
+                  paddingTop: 15,
+                }}
+                mainColor="#4831d4"
+                multiline
+                numberOfLines={4}
+                label="Description"
+                placeholder="Description"
+                onChangeText={(text) => {
+                  handleChange("description", text);
+                }}
+                clearButtonMode="always"
+              />
+              <View style={styles.button}>
+                <Button title="Submit" color="white" onPress={handleSubmit} />
+              </View>
+            </View>
+          </View>
+        </Modal>
+      </View>
 
-        <FlatList
-          horizontal={true}
-          style={styles.spotsList}
-          contentContainerStyle={styles.spotsListContainer}
-          data={offers}
-          renderItem={renderOffer}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-        />
-
+      {spot?.reviews.length !== 0 ? (
+        <ReviewList reviews={spot?.reviews} spotId={spot?._id} />
+      ) : (
         <Text
           style={{
             fontFamily: "Ubuntu",
             fontSize: 20,
-            marginLeft: 28,
-            marginTop: 20,
+            marginTop: 40,
+            marginBottom: 40,
+            alignSelf: "center",
           }}
         >
-          Add A Review:
+          No Reviews Yet
         </Text>
-        <View>
-          <Rating
-            showRating
-            startingValue={1}
-            selectedColor="#4831d4"
-            reviewColor="#4831d4"
-            ratingBackgroundColor="#4831d4"
-            ratingTextColor="grey"
-            unSelectedColor="grey"
-            onFinishRating={ratingCompleted}
-            style={{ margin: 20 }}
-          />
-          <Text style={styles.heading}>Enter Description:</Text>
-          <TextInput
-            textInputStyle={{
-              height: 100,
-              margin: 20,
-              paddingTop: 15,
-            }}
-            mainColor="#4831d4"
-            multiline
-            numberOfLines={4}
-            label="Description"
-            placeholder="Description"
-            onChangeText={(text) => {
-              handleChange("description", text);
-            }}
-            clearButtonMode="always"
-          />
-          <View style={styles.button}>
-            <Button title="Submit" color="white" onPress={handleSubmit} />
-          </View>
-        </View>
-        {spot?.reviews.length !== 0 ? (
-          <ReviewList reviews={spot?.reviews} spotId={spot?._id} />
-        ) : (
-          <Text
-            style={{
-              fontFamily: "Ubuntu",
-              fontSize: 20,
-              marginTop: 40,
-              alignSelf: "center",
-            }}
-          >
-            No Reviews Yet
-          </Text>
-        )}
-      </ScrollView>
-    </View>
+      )}
+    </ScrollView>
   );
 }
 
@@ -335,12 +420,10 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
   back: {
-    position: "absolute",
     color: "black",
     zIndex: 99,
-    marginTop: 70,
-    marginLeft: 25,
     fontSize: 35,
+    margin: 15,
   },
   spotext: {
     color: "white",
@@ -396,12 +479,17 @@ const styles = StyleSheet.create({
     flexDirection: "row-reverse",
   },
   mainTitle: {
-    fontSize: 30,
-    margin: 66,
-    marginBottom: 10,
-    marginTop: 70,
+    fontSize: 26,
     alignSelf: "center",
+    textAlign: "center",
     fontFamily: "Ubuntu",
+    width: "50%",
+  },
+  scantext: {
+    color: "#4831d4",
+    fontSize: 17,
+    fontFamily: "Ubuntu",
+    marginLeft: 10,
   },
   icon: {
     fontSize: 40,
@@ -421,7 +509,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignContent: "center",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    marginTop: 50,
   },
   ownerContainer: {
     margin: 10,
@@ -465,7 +554,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#4831d4",
     width: 125,
     height: 40,
-    marginLeft: 280,
+    alignSelf: "flex-end",
+    marginRight: 25,
   },
   input: {
     height: 40,
@@ -488,5 +578,6 @@ const styles = StyleSheet.create({
     fontFamily: "Ubuntu",
     fontSize: 20,
     marginLeft: 28,
+    alignSelf: "flex-start",
   },
 });

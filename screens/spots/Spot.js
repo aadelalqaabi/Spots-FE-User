@@ -21,7 +21,6 @@ function Spot({ spot, navigation }) {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
-  //{//Get organizer from organizerStore not from the spot ==> use spot.organizer to find organizer} ==> wrong
   const organizer = organizerStore.getOrganizerById(spot.organizer);
   let users = spot.users.length;
   let user1 = spot?.users[0]?.image;
@@ -39,166 +38,134 @@ function Spot({ spot, navigation }) {
         navigation.navigate("SpotDetails", { id: spot._id });
       }}
     >
-      {isSmallScreen ? (
-        <>
-          <Image
-            style={styles.sthumb}
-            source={{ uri: `${baseURL}${spot.image}` }}
-          />
-
-          <View style={styles.ownerContainer}>
-            <Image
-              style={styles.ownerthumbs}
-              source={{ uri: `${baseURL}${spot.image}` }}
-            />
-            <Text style={styles.ownername}>{date}</Text>
-          </View>
-          <View style={styles.infoContainer}>
-            <Text style={styles.name}>{spot.name}</Text>
-            <Text style={styles.datetime}>{date}</Text>
-          </View>
-          <View style={styles.priceContainer}>
-            {spot.isFree === true ? (
-              <View style={styles.priceBack}>
-                <Text style={styles.isFree}>Free</Text>
-              </View>
-            ) : (
-              <View style={styles.priceBack}>
-                <Text style={styles.isFree}>{spot.price} KD</Text>
-              </View>
-            )}
-          </View>
-        </>
-      ) : (
-        <>
-          <Image
-            style={styles.thumb}
-            source={{ uri: `${baseURL}${spot?.image}` }}
-          />
-          <View style={styles.ownerview}>
-            <TouchableOpacity
-              style={styles.ownerContainer}
-              onPress={() => {
-                navigation.navigate("Organizer", {
-                  organizer: spot.organizer._id,
-                });
-              }}
-            >
-              <Image
-                style={styles.ownerthumb}
-                source={{ uri: `${baseURL}${organizer?.image}` }}
-              />
-              <Text style={styles.ownername}>{organizer?.username}</Text>
-            </TouchableOpacity>
-            <View
-              style={{
-                margin: 10,
-                width: 60,
-                height: 70,
-                backgroundColor: "white",
-                borderRadius: 15,
-                alignContent: "center",
-                justifyContent: "center",
-                alignItems: "center",
-                shadowOpacity: 0.1,
-                shadowRadius: 10,
-                shadowColor: "#004365",
-                shadowOffset: {
-                  height: 10,
-                  width: 0,
-                },
-                marginLeft: 12,
-              }}
-            >
-              <Text
-                style={{
-                  fontFamily: "UbuntuBold",
-                  fontSize: 23,
-                  color: "#0a0a0b",
-                }}
-              >
-                {day}
-              </Text>
-
-              <Text
-                style={{
-                  fontFamily: "Ubuntu",
-                  fontSize: 17,
-                  color: "grey",
-                }}
-              >
-                {month}
-              </Text>
-            </View>
-          </View>
-          <LinearGradient
-            colors={["rgba(0,0,0,0.7)", "transparent"]}
-            start={{ x: 0, y: 0.8 }}
-            end={{ x: 0, y: 0 }}
-            style={styles.infoContainer}
+      <>
+        <Image
+          style={styles.thumb}
+          source={{ uri: `${baseURL}${spot?.image}` }}
+        />
+        <View style={styles.ownerview}>
+          <TouchableOpacity
+            style={styles.ownerContainer}
+            onPress={() => {
+              navigation.navigate("Organizer", {
+                organizer: organizer,
+              });
+            }}
           >
-            {spot.isFree === true ? (
-              <Text style={styles.isFree}>Free</Text>
-            ) : (
-              <Text style={styles.isFree}>{spot.price} KD per person</Text>
-            )}
-            <Text style={styles.name}>{spot.name}</Text>
-            <View
+            <Image
+              style={styles.ownerthumb}
+              source={{ uri: `${baseURL}${organizer?.image}` }}
+            />
+            <Text style={styles.ownername}>{organizer?.username}</Text>
+          </TouchableOpacity>
+          <View
+            style={{
+              margin: 10,
+              width: 60,
+              height: 70,
+              backgroundColor: "white",
+              borderRadius: 15,
+              alignContent: "center",
+              justifyContent: "center",
+              alignItems: "center",
+              shadowOpacity: 0.1,
+              shadowRadius: 10,
+              shadowColor: "#004365",
+              shadowOffset: {
+                height: 10,
+                width: 0,
+              },
+              marginLeft: 12,
+            }}
+          >
+            <Text
               style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                alignContent: "center",
-                alignItems: "center",
+                fontFamily: "UbuntuBold",
+                fontSize: 23,
+                color: "#0a0a0b",
               }}
             >
-              {user1 !== null && (
-                <Image
-                  style={{
-                    borderRadius: "50%",
-                    borderWidth: 0.2,
-                    borderColor: "white",
-                    height: 35,
-                    width: 35,
-                  }}
-                  source={{ uri: `${baseURL}${user1}` }}
-                ></Image>
-              )}
-              {user2 !== null && (
-                <Image
-                  style={{
-                    borderRadius: "50%",
-                    borderWidth: 0.2,
-                    borderColor: "white",
-                    height: 35,
-                    width: 35,
-                    marginLeft: -5,
-                  }}
-                  source={{
-                    uri: `${baseURL}${user2}`,
-                  }}
-                ></Image>
-              )}
-              {user3 !== null && (
-                <Image
-                  style={{
-                    borderRadius: "50%",
-                    borderWidth: 0.2,
-                    borderColor: "white",
-                    height: 35,
-                    width: 35,
-                    marginLeft: -5,
-                  }}
-                  source={{ uri: `${baseURL}${user3}` }}
-                ></Image>
-              )}
-              <View style={styles.spottedview}>
-                <Text style={styles.spotted}>{users}+</Text>
-              </View>
+              {day}
+            </Text>
+
+            <Text
+              style={{
+                fontFamily: "Ubuntu",
+                fontSize: 17,
+                color: "grey",
+              }}
+            >
+              {month}
+            </Text>
+          </View>
+        </View>
+        <LinearGradient
+          colors={["rgba(0,0,0,0.7)", "transparent"]}
+          start={{ x: 0, y: 0.8 }}
+          end={{ x: 0, y: 0 }}
+          style={styles.infoContainer}
+        >
+          {spot.isFree === true ? (
+            <Text style={styles.isFree}>Free</Text>
+          ) : (
+            <Text style={styles.isFree}>{spot.price} KD per person</Text>
+          )}
+          <Text style={styles.name}>{spot.name}</Text>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-start",
+              alignContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {user1 !== null && (
+              <Image
+                style={{
+                  borderRadius: "50%",
+                  borderWidth: 0.2,
+                  borderColor: "white",
+                  height: 35,
+                  width: 35,
+                }}
+                source={{ uri: `${baseURL}${user1}` }}
+              ></Image>
+            )}
+            {user2 !== null && (
+              <Image
+                style={{
+                  borderRadius: "50%",
+                  borderWidth: 0.2,
+                  borderColor: "white",
+                  height: 35,
+                  width: 35,
+                  marginLeft: -5,
+                }}
+                source={{
+                  uri: `${baseURL}${user2}`,
+                }}
+              ></Image>
+            )}
+            {user3 !== null && (
+              <Image
+                style={{
+                  borderRadius: "50%",
+                  borderWidth: 0.2,
+                  borderColor: "white",
+                  height: 35,
+                  width: 35,
+                  marginLeft: -5,
+                }}
+                source={{ uri: `${baseURL}${user3}` }}
+              ></Image>
+            )}
+            <View style={styles.spottedview}>
+              <Text style={styles.spotted}>{users}+</Text>
             </View>
-          </LinearGradient>
-        </>
-      )}
+          </View>
+        </LinearGradient>
+      </>
     </TouchableOpacity>
   );
 }

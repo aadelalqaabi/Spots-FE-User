@@ -8,6 +8,10 @@ import AppLoading from "expo-app-loading";
 function OfferItem({ offer }) {
   let [fontsLoaded] = useFonts({
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
+    UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
+    Cabin: require("../../assets/fonts/Cabin.ttf"),
+    CabinMedium: require("../../assets/fonts/CabinMedium.ttf"),
+    UbuntuLight: require("../../assets/fonts/Ubuntu-Light.ttf"),
   });
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -51,14 +55,14 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 22,
     color: "black",
-    fontFamily: "Ubuntu",
+    fontFamily: "UbuntuBold",
   },
   description: {
     marginTop: 10,
-    fontSize: 16,
+    fontSize: 18,
     color: "black",
-    fontFamily: "Ubuntu",
+    fontFamily: "Cabin",
     width: 300,
-    textAlign: "justify",
+    lineHeight: 25,
   },
 });

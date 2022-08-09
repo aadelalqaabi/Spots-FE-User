@@ -37,7 +37,7 @@ function Profile({ route }) {
   }
   const navigation = useNavigation();
   const userSpots = authStore.user.spots.map((spotId) =>
-    spotStore.spots.find((spot) => spot?._id === spotId)
+    spotStore.getSpotsById(spotId)
   );
   const userSpotsArranged = userSpots.reverse();
   const found = userSpots.some((spot) => spot?._id === spotId);
@@ -163,7 +163,7 @@ function Profile({ route }) {
               />
             )}
             <View style={styles.counter}>
-              <Text style={styles.spotsNum}>{authStore.user.spots.length}</Text>
+              <Text style={styles.spotsNum}>{userSpots.length}</Text>
               <Text style={styles.spotsTitle}>Spots</Text>
             </View>
           </View>

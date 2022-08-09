@@ -18,7 +18,7 @@ import spotStore from "../../stores/spotStore";
 import ticketStore from "../../stores/ticketStore";
 
 function Spotted({ ticket, navigation }) {
-  const spot = spotStore.getSpotsById(ticket.spot._id)
+  const spot = spotStore.getSpotsById(ticket.spot._id);
 
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
       width: 1,
     },
     margin: 25,
-    fontFamily: "UbuntuBold",
+    fontFamily: "Ubuntu",
   },
   edit: {
     borderRadius: 10,

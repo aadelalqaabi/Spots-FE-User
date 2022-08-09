@@ -3,12 +3,13 @@ import { Text, View, StyleSheet, StatusBar } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import authStore from "../stores/authStore";
 import pointStore from "../stores/pointStore";
+import spotStore from "../stores/spotStore";
 
-export default function Scanner({ route }) {
+export default function SpottedScanner({ route }) {
   const spot = route.params.spot;
-  let point = route.params.point;
-  let points = 0;
+  let num = 1;
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const navigation = useNavigation();
@@ -18,13 +19,20 @@ export default function Scanner({ route }) {
       setHasPermission(status === "granted");
     })();
   }, []);
-
   const handleBarCodeScanned = ({ data }) => {
     setScanned(true);
-    point.amount = point.amount + parseInt(data);
-    pointStore.updatePoint(point.amount, point?._id);
-    alert("added");
-    navigation.navigate("ProfileSpotDetails", { id: spot._id });
+    const spotId = data.split("spots://Profile/")[1];
+    const found = authStore.user.spots.some((spot) => spot === spotId);
+    console.log("found", found);
+    if (!found && data) {
+      authStore.spotAdd(spotId);
+      pointStore.createPoint(spotId);
+      alert("added");
+      navigation.navigate("Profile", { id: spot._id });
+    } else {
+      alert("Spot already added");
+      navigation.goBack();
+    }
   };
 
   if (hasPermission === null) {
