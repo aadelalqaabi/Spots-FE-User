@@ -192,6 +192,7 @@ function TabBar() {
           tabBarInactiveTintColor: "#8D9C98",
         }}
       />
+
       <Tab.Screen
         name="Profile"
         component={ProfileNav}

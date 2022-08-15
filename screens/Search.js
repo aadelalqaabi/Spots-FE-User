@@ -9,7 +9,6 @@ import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import TextInput from "react-native-text-input-interactive";
 import Spot from "./spots/Spot";
-import Spotted from "./spots/Spotted";
 import Carousel from "react-native-snap-carousel";
 import spotStore from "../stores/spotStore";
 import { FlatList } from "react-native-gesture-handler";
@@ -24,7 +23,7 @@ export default function Search({ navigation }) {
   const item = spots[randomIndex];
   suggested.push(item);
   const filteredSpots = spots.filter((spot) =>
-    spot.name.toLowerCase().includes(query.toLowerCase())
+    spot.name.toLowerCase().includes(query?.toLowerCase())
   );
   function renderSpot({ item: spot }) {
     return <Spot spot={spot} navigation={navigation} />;
@@ -50,13 +49,15 @@ export default function Search({ navigation }) {
             placeholderTextColor={"grey"}
             onChangeText={(text) => {
               setQuery(text);
-              query === null ? setToggle(true) : setToggle(false);
+              setToggle(false);
+              if (text === "") setToggle(true);
             }}
             mainColor="#4831d4"
           />
           <Ionicons style={styles.icon} name="search-outline"></Ionicons>
         </View>
       </View>
+
       {toggle ? (
         <>
           <Text
@@ -84,27 +85,33 @@ export default function Search({ navigation }) {
           />
         </>
       ) : (
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          nestedScrollEnabled={true}
-        >
-          <FlatList
-            nestedScrollEnabled={true}
-            style={styles.spotsList}
-            contentContainerStyle={styles.spotsListContainer}
-            data={filteredSpots}
-            renderItem={renderSearch}
+        <>
+          <ScrollView
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
-          />
-        </ScrollView>
+            nestedScrollEnabled={true}
+            style={styles.spotsList}
+          >
+            <FlatList
+              nestedScrollEnabled={true}
+              style={styles.spotsList}
+              contentContainerStyle={styles.spotsListContainer}
+              data={filteredSpots}
+              renderItem={renderSearch}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+            />
+          </ScrollView>
+        </>
       )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  spotsList: {
+    height: "100%",
+  },
   back: {
     zIndex: 100,
     color: "#73757a",
@@ -130,6 +137,7 @@ const styles = StyleSheet.create({
     marginTop: 60,
     marginRight: 20,
     marginLeft: 20,
+    marginBottom: 15,
     display: "flex",
     alignSelf: "center",
     flexDirection: "row",

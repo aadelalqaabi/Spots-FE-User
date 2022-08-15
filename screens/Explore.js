@@ -116,7 +116,15 @@ function Explore() {
                   handleCategory(-1);
                 }}
               >
-                <Text style={styles.catText}>All</Text>
+                <Text
+                  style={
+                    selectedCategory === -1
+                      ? styles.catTextAtive
+                      : styles.catText
+                  }
+                >
+                  All
+                </Text>
                 <Text
                   style={
                     selectedCategory === -1 ? styles.catdot : styles.overley
@@ -139,7 +147,15 @@ function Explore() {
                       handleCategory(categories.indexOf(category));
                     }}
                   >
-                    <Text style={styles.catText}>{category?.name}</Text>
+                    <Text
+                      style={
+                        selectedCategory === categories.indexOf(category)
+                          ? styles.catTextAtive
+                          : styles.catText
+                      }
+                    >
+                      {category?.name}
+                    </Text>
                     <Text
                       style={
                         selectedCategory === categories.indexOf(category)
@@ -244,14 +260,15 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   catTextAtive: {
-    color: "white",
+    color: "black",
     flexWrap: "wrap",
     borderRadius: "10%",
     fontWeight: "700",
-    fontSize: 18,
+    fontSize: 20,
     alignSelf: "center",
     marginVertical: 10,
     fontFamily: "Ubuntu",
+    color: "#4831d4",
   },
   overley: {
     width: 100,
@@ -265,6 +282,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 50,
     zIndex: -1,
+    color: "#4831d4",
   },
   icon: {
     zIndex: 99,
