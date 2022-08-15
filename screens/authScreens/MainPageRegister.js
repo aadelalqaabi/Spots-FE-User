@@ -15,8 +15,23 @@ export default function MainPageRegister() {
     email: "",
     image: "",
   });
+  const [checkValidation, setCheckValidation] = useState(true);
+  const [showError, setShowError] = useState(true);
+
   const handleChange = (name, value) => {
-    setUser({ ...user, [name]: value });
+    const check = checkEntry(value);
+    if(check === true){
+      setUser({ ...user, [name]: value });
+      setCheckValidation(false);
+      setShowError(false);
+    } else{
+      setCheckValidation(true);
+      setShowError(true);
+    } 
+  };
+  const checkEntry = (username) => {
+    const re = new RegExp("^(?=.{2,})");
+    return re.test(username);
   };
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
@@ -79,11 +94,14 @@ export default function MainPageRegister() {
           Choose a username for your account and to login with later
         </Text>
         <View style={{ width: "100%", alignSelf: "center" }}>
+          {/* <View style={styles.passwordContainer}> */}
           <TextInput
             textInputStyle={{
               alignSelf: "center",
               width: "100%",
               marginBottom: 10,
+              paddingLeft: 10
+              // flex: 1
             }}
             mainColor="#4831d4"
             label="Username"
@@ -92,14 +110,31 @@ export default function MainPageRegister() {
             }}
             placeholder="Enter Username"
             keyboardType="web-search"
+            enableIcon="true"
+            // IconComponent={
+            //   <Ionicons name="close-outline" size={14} color="red" />
+            // }
             onSubmitEditing={() => {
               navigation.navigate("Email", { itemId: user });
             }}
           />
+          {showError === true ? 
+            <View style={styles.errorContainer}>
+              <Ionicons name="close-outline" size={18} color="red" />
+              <Text style={styles.errorText}>Username must be atleast 2 characters long</Text>
+            </View>
+            :
+            <View style={styles.errorContainer}>
+              <Ionicons name="checkmark" size={16} color="green" />
+              <Text style={styles.correctText}>Username is valid</Text>
+            </View>
+          }
+          {/* </View> */}
           <View style={styles.button}>
             <Button
               title="Next"
               color="white"
+              disabled={checkValidation}
               onPress={() => {
                 navigation.navigate("Email", { itemId: user });
               }}
@@ -133,6 +168,47 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 3,
     backgroundColor: "#4831d4",
+  },
+  passwordContainer: {
+    flexDirection: 'row',
+    // borderBottomWidth: 1,
+    borderColor: '#000',
+    paddingBottom: 10,
+  },
+  errorContainer: {
+    // borderWidth: 2,
+    // borderTopWidth: 5,
+    // borderBottomWidth: 5,
+    // borderLeftWidth: 5,
+    // borderRightWidth: 5,
+    // borderColor: '#000',
+    // paddingBottom: 10,
+    flexDirection: 'row',
+    // borderBottomWidth: 1,
+    borderColor: '#000',
+    paddingBottom: 10,
+    marginTop: -12,
+    marginLeft: 8
+  },
+  errorText: {
+    marginTop: 3,
+    marginLeft: -3,
+    color:"red",
+    fontSize: 10
+  },
+  correctText: {
+    marginTop: 3,
+    marginLeft: -2,
+    color:"green",
+    fontSize: 10
+  },
+  icon: {
+    zIndex: 99,
+    position: "absolute",
+    marginLeft: 12,
+    marginTop: 12,
+    fontSize: 25,
+    color: "grey",
   },
 });
 

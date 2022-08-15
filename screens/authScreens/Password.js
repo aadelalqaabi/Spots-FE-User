@@ -9,9 +9,64 @@ import AppLoading from "expo-app-loading";
 export default function Password({ navigation, route }) {
   const { itemId } = route.params;
   const [user, setUser] = useState(itemId);
+  const [checkValidation, setCheckValidation] = useState(true);
+  const [showError, setShowError] = useState(true);
+  const [lowerCase, setLowerCase] = useState(true);
+  const [upperCase, setUpperCase] = useState(true);
+  const [number, setNumber] = useState(true);
+  const [specialCharacter, setSpecialCharacter] = useState(true);
+  const [characterLength, setCharacterLength] = useState(true);
 
   const handleChange = (name, value) => {
-    setUser({ ...user, [name]: value });
+    const check = checkEntry(value);
+    if(check === true){
+      setUser({ ...user, [name]: value });
+      setCheckValidation(false);
+      setShowError(false);
+    } else{
+      setCheckValidation(true);
+      setShowError(true);
+    } 
+  };
+  const checkEntry = (password) => {
+    const re = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    const  lowerCase = new RegExp("^(?=.*[a-z])");
+    const upperCase = new RegExp("^(?=.*[A-Z])");
+    const number = new RegExp("^(?=.*[0-9])");
+    const specialCharacter = new RegExp("^(?=.*[!@#\$%\^&\*])");
+    const characterLength = new RegExp("^(?=.{8,})");
+
+    if(lowerCase.test(password) === true){
+      setLowerCase(false)
+    } else{
+      setLowerCase(true)
+    }
+
+    if(upperCase.test(password) === true){
+      setUpperCase(false)
+    } else{
+      setUpperCase(true)
+    }
+
+    if(number.test(password) === true){
+      setNumber(false)
+    } else{
+      setNumber(true)
+    }
+
+    if(specialCharacter.test(password) === true){
+      setSpecialCharacter(false)
+    } else{
+      setSpecialCharacter(true)
+    }
+
+    if(characterLength.test(password) === true){
+      setCharacterLength(false)
+    } else{
+      setCharacterLength(true)
+    }
+    
+    return re.test(password);
   };
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
@@ -92,10 +147,75 @@ export default function Password({ navigation, route }) {
               navigation.navigate("MyImage", { itemId: user });
             }}
           />
+          {/* {showError === true ? 
+            <>
+              <Ionicons name="close-outline" size={24} color="red" />
+            </>
+            :
+            <>
+              <Ionicons name="checkmark" size={24} color="green" />
+            </>
+          } */}
+          {lowerCase === true ? 
+            <View style={styles.errorContainer}>
+              <Ionicons name="close-outline" size={18} color="red" />
+              <Text style={styles.errorText}>The password must contain at least one lowercase character</Text>
+            </View>
+            :
+            <View style={styles.errorContainer}>
+              <Ionicons name="checkmark" size={16} color="green" />
+              <Text style={styles.correctText}>The password must contain at least one lowercase character</Text>
+            </View>
+          }
+          {upperCase === true ? 
+            <View style={styles.errorContainer}>
+              <Ionicons name="close-outline" size={18} color="red" />
+              <Text style={styles.errorText}>The password must contain at least one uppercase character</Text>
+            </View>
+            :
+            <View style={styles.errorContainer}>
+              <Ionicons name="checkmark" size={16} color="green" />
+              <Text style={styles.correctText}>The password must contain at least one uppercase character</Text>
+            </View>
+          }
+          {number === true ? 
+            <View style={styles.errorContainer}>
+              <Ionicons name="close-outline" size={18} color="red" />
+              <Text style={styles.errorText}>The password must contain at least one number</Text>
+            </View>
+            :
+            <View style={styles.errorContainer}>
+              <Ionicons name="checkmark" size={16} color="green" />
+              <Text style={styles.correctText}>The password must contain at least one number</Text>
+            </View>
+          }
+          {specialCharacter === true ? 
+            <View style={styles.errorContainer}>
+              <Ionicons name="close-outline" size={18} color="red" />
+              <Text style={styles.errorText}>The password must contain at least one special character</Text>
+            </View>
+            :
+            <View style={styles.errorContainer}>
+              <Ionicons name="checkmark" size={16} color="green" />
+              <Text style={styles.correctText}>The password must contain at least one special character</Text>
+            </View>
+          }
+          {characterLength === true ? 
+            <View style={styles.errorContainer}>
+              <Ionicons name="close-outline" size={18} color="red" />
+              <Text style={styles.errorText}>The password must be eight characters or longer</Text>
+            </View>
+            :
+            <View style={styles.errorContainer}>
+              <Ionicons name="checkmark" size={16} color="green" />
+              <Text style={styles.correctText}>The password must be eight characters or longer</Text>
+            </View>
+          }
           <View style={styles.button}>
             <Button
               title="Next"
               color="white"
+              disabled={checkValidation}
               onPress={() => {
                 navigation.navigate("MyImage", { itemId: user });
               }}
@@ -130,4 +250,32 @@ const styles = StyleSheet.create({
     elevation: 3,
     backgroundColor: "#4831d4",
   },
+  errorContainer: {
+    // borderWidth: 2,
+    // borderTopWidth: 5,
+    // borderBottomWidth: 5,
+    // borderLeftWidth: 5,
+    // borderRightWidth: 5,
+    // borderColor: '#000',
+    // paddingBottom: 10,
+    flexDirection: 'row',
+    // borderBottomWidth: 1,
+    borderColor: '#000',
+    paddingBottom: 10,
+    marginTop: -12,
+    marginTop: 3,
+    marginLeft: 6
+  },
+  errorText: {
+    marginTop: 3,
+    marginLeft: -3,
+    color:"red",
+    fontSize: 10
+  },
+  correctText: {
+    marginTop: 3,
+    marginLeft: -2,
+    color:"green",
+    fontSize: 10
+  }
 });

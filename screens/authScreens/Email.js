@@ -9,8 +9,23 @@ import AppLoading from "expo-app-loading";
 export default function Email({ navigation, route }) {
   const { itemId } = route.params;
   const [user, setUser] = useState(itemId);
+  const [checkValidation, setCheckValidation] = useState(true);
+  const [showError, setShowError] = useState(true);
+
   const handleChange = (name, value) => {
-    setUser({ ...user, [name]: value });
+    const check = checkEntry(value);
+    if(check === true){
+      setUser({ ...user, [name]: value });
+      setCheckValidation(false);
+      setShowError(false);
+    } else{
+      setCheckValidation(true);
+      setShowError(true);
+    } 
+  };
+  const checkEntry = (email) => {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
   };
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
@@ -90,11 +105,22 @@ export default function Email({ navigation, route }) {
               navigation.navigate("Password", { itemId: user });
             }}
           />
-
+          {showError === true ? 
+            <View style={styles.errorContainer}>
+              <Ionicons name="close-outline" size={18} color="red" />
+              <Text style={styles.errorText}>Invalid Email</Text>
+            </View>
+            :
+            <View style={styles.errorContainer}>
+              <Ionicons name="checkmark" size={16} color="green" />
+              <Text style={styles.correctText}>Valid Email</Text>
+            </View>
+          }
           <View style={styles.button}>
             <Button
               title="Next"
               color="white"
+              disabled={checkValidation}
               onPress={() => {
                 navigation.navigate("Password", { itemId: user });
               }}
@@ -129,6 +155,33 @@ const styles = StyleSheet.create({
     elevation: 3,
     backgroundColor: "#4831d4",
   },
+  errorContainer: {
+    // borderWidth: 2,
+    // borderTopWidth: 5,
+    // borderBottomWidth: 5,
+    // borderLeftWidth: 5,
+    // borderRightWidth: 5,
+    // borderColor: '#000',
+    // paddingBottom: 10,
+    flexDirection: 'row',
+    // borderBottomWidth: 1,
+    borderColor: '#000',
+    paddingBottom: 10,
+    marginTop: -12,
+    marginLeft: 8
+  },
+  errorText: {
+    marginTop: 3,
+    marginLeft: -3,
+    color:"red",
+    fontSize: 10
+  },
+  correctText: {
+    marginTop: 3,
+    marginLeft: -2,
+    color:"green",
+    fontSize: 10
+  }
 });
 
 {
