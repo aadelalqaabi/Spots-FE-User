@@ -17,55 +17,7 @@ function SearchSpot({ spot, navigation }) {
   let day = moment(spot?.startDate).format("DD");
 
   return (
-    <View
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        backgroundColor: "white",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <View
-        style={{
-          margin: 10,
-          width: 60,
-          height: 70,
-          backgroundColor: "white",
-          alignContent: "center",
-          justifyContent: "center",
-          alignItems: "center",
-          marginLeft: 12,
-          borderRadius: 15,
-          shadowColor: "#161616",
-          shadowOffset: {
-            width: 0,
-            height: 3,
-          },
-          shadowOpacity: 0.09,
-          shadowRadius: 5,
-        }}
-      >
-        <Text
-          style={{
-            fontFamily: "UbuntuBold",
-            fontSize: 23,
-            color: "black",
-          }}
-        >
-          {day}
-        </Text>
-
-        <Text
-          style={{
-            fontFamily: "Ubuntu",
-            fontSize: 17,
-            color: "black",
-          }}
-        >
-          {month}
-        </Text>
-      </View>
+    <View>
       <TouchableOpacity
         style={styles.card}
         showsVerticalScrollIndicator={false}
@@ -78,6 +30,7 @@ function SearchSpot({ spot, navigation }) {
           style={styles.thumb}
           source={{ uri: `${baseURL}${spot?.image}` }}
         />
+        <View style={styles.overlay}></View>
         <View style={styles.infoContainer}>
           <Text style={styles.name}>{spot?.name}</Text>
         </View>
@@ -92,8 +45,10 @@ const styles = StyleSheet.create({
   card: {
     display: "flex",
     flexDirection: "row",
-    flexWrap: "wrap",
-    alignSelf: "flex-end",
+    alignContent: "center",
+    alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 16,
     shadowColor: "#161616",
     shadowOffset: {
@@ -102,31 +57,43 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 5,
-    marginVertical: 5,
-    height: 290,
-    marginBottom: 10,
-    marginRight: 5,
+    margin: 2,
+    marginLeft: 0,
+    marginRight: 0,
   },
   thumb: {
-    width: 320,
-    height: 280,
-    borderRadius: 20,
-    margin: 10,
-    marginLeft: 0,
+    width: "100%",
+    height: 180,
+    // borderRadius: 20,
+    alignSelf: "center",
     zIndex: -1,
+    opacity: 0.9,
   },
   infoContainer: {
     display: "flex",
-    flex: 1,
     position: "absolute",
-    alignSelf: "flex-end",
-    flexWrap: "nowrap",
-    flexDirection: "column",
-    width: 320,
+    zIndex: 99,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    width: "80%",
+  },
+  overlay: {
+    display: "flex",
+    position: "absolute",
+    zIndex: 99,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    // borderRadius: 20,
   },
   name: {
-    fontSize: 25,
-    fontWeight: "bold",
+    fontSize: 28,
     color: "#fffffc",
     shadowOpacity: 1,
     shadowRadius: 4,
@@ -135,11 +102,8 @@ const styles = StyleSheet.create({
       height: 1,
       width: 1,
     },
-    margin: 25,
-    fontFamily: "Ubuntu",
-  },
-  edit: {
-    borderRadius: 10,
+    fontFamily: "UbuntuBold",
+    textAlign: "center",
   },
   profileName: {
     justifyContent: "center",

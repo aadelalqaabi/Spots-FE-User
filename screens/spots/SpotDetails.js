@@ -71,8 +71,13 @@ export function SpotDetails({ route }) {
   };
 
   const handleSpots = async (spot) => {
-    if (!ticketStore.tickets.some(ticket => ticket.spot === spot._id && ticket.user === authStore.user.id)) {
-      await ticketStore.createTicket(newTicket, spot._id)
+    if (
+      !ticketStore.tickets.some(
+        (ticket) =>
+          ticket.spot === spot._id && ticket.user === authStore.user.id
+      )
+    ) {
+      await ticketStore.createTicket(newTicket, spot._id);
 
       Alert.alert("Added to your spots");
     } else {
@@ -218,6 +223,35 @@ export function SpotDetails({ route }) {
               <Text style={{ fontFamily: "UbuntuBold", fontSize: 20 }}>
                 {spot.startTime}
               </Text>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignContent: "center",
+                alignItems: "center",
+                margin: 30,
+                marginBottom: 10,
+                marginTop: 0,
+              }}
+            >
+              <Ionicons
+                style={{ marginRight: 5, color: "#4831d4", fontSize: 32 }}
+                name="ios-call-outline"
+              ></Ionicons>
+              <View
+                style={{
+                  borderBottomWidth: 1,
+                  borderColor: "#4831d4",
+                }}
+              >
+                <Text
+                  onPress={() => Linking.openURL(`tel:${organizer.phone}`)}
+                  style={{ fontFamily: "UbuntuBold", fontSize: 20 }}
+                >
+                  {organizer.phone}
+                </Text>
+              </View>
             </View>
             <View
               style={{
