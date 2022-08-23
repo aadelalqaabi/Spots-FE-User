@@ -82,6 +82,14 @@ class AuthStore {
       console.log("here", error);
     }
   };
+  rewardAdd = async (rewardId) => {
+    try {
+      const res = await instance.put(`/user/rewards/${rewardId}`);
+      for (const key in this.user) this.user[key] = res.data[key];
+    } catch (error) {
+      console.log("reward error: ", error);
+    }
+  };
 
   removeSpot = async (spotId) => {
     try {

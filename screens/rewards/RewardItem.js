@@ -1,5 +1,5 @@
 import { Button, Image, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
@@ -9,8 +9,13 @@ import { Ionicons } from "@expo/vector-icons";
 import Modal from "react-native-modal";
 import pointStore from "../../stores/pointStore";
 import authStore from "../../stores/authStore";
+import rewardStore from "../../stores/rewardStore";
 
-function RewardItem({ reward, point }) {
+function RewardItem({ reward }) {
+  useEffect(() => {
+    authStore.checkForToken();
+    pointStore.fetchPoints();
+  }, []);
   let [fontsLoaded] = useFonts({
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
@@ -19,6 +24,15 @@ function RewardItem({ reward, point }) {
     UbuntuLight: require("../../assets/fonts/Ubuntu-Light.ttf"),
   });
   const [isModalVisible, setModalVisible] = useState(false);
+  const userRewards = rewardStore.rewards.filter((rewardo) =>
+    rewardo.users.includes(authStore.user.id)
+  );
+
+  const found = userRewards.some((rewardo) => rewardo._id === reward._id);
+  console.log("found", found);
+  let myPoints = pointStore.points.find(
+    (point) => point?.user === authStore.user.id && point?.spot === reward?.spot
+  );
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
@@ -26,12 +40,15 @@ function RewardItem({ reward, point }) {
     return <AppLoading />;
   }
 
-  const handleClaim = () => {
-    pointStore.updatePoint(point.amount - reward.points, point._id);
-    point.amount = point.amount - reward.points;
+  const handleClaim = async () => {
+    pointStore.updatePoint(myPoints.amount - reward.points, myPoints._id);
+    const amount = myPoints.amount - reward.points;
+    myPoints = { ...myPoints, amount };
+    await authStore.checkForToken();
+    await authStore.rewardAdd(reward._id);
     toggleModal();
-    alert("Claimed");
   };
+
   return (
     <View style={{ margin: 20, marginRight: -5 }}>
       <TouchableOpacity onPress={toggleModal}>
@@ -62,104 +79,148 @@ function RewardItem({ reward, point }) {
           <Text style={styles.description}>{reward?.description}</Text>
         </View>
       </TouchableOpacity>
+
       <View style={{ flex: 1 }}>
         <Modal
           isVisible={isModalVisible}
           onBackdropPress={() => setModalVisible(false)}
           style={{ height: 450 }}
         >
-          <View
-            style={{
-              display: "flex",
-              alignItems: "center",
-              alignContent: "center",
-              justifyContent: "center",
-            }}
-          >
+          {!found ? (
             <View
               style={{
-                backgroundColor: "white",
-                borderRadius: 40,
-                height: 360,
-                width: 400,
                 display: "flex",
+                alignItems: "center",
+                alignContent: "center",
+                justifyContent: "center",
               }}
             >
-              <Ionicons
-                style={{
-                  color: "#aba9aa",
-                  opacity: 0.8,
-                  fontSize: 35,
-                  zIndex: 99,
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                  margin: 20,
-                  marginTop: 15,
-                }}
-                name="close-outline"
-                onPress={toggleModal}
-              ></Ionicons>
-
-              <Text style={styles.heading}>{reward.title}</Text>
               <View
                 style={{
+                  backgroundColor: "white",
+                  borderRadius: 40,
+                  height: 360,
+                  width: 400,
                   display: "flex",
-                  flexDirection: "row",
-                  alignSelf: "center",
                 }}
               >
-                <View>
-                  <Text style={styles.points}>{reward.points}</Text>
-                  <Text style={styles.pointsTitle}>Reward Points</Text>
+                <Ionicons
+                  style={{
+                    color: "#aba9aa",
+                    opacity: 0.8,
+                    fontSize: 35,
+                    zIndex: 99,
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    margin: 20,
+                    marginTop: 15,
+                  }}
+                  name="close-outline"
+                  onPress={toggleModal}
+                ></Ionicons>
+
+                <Text style={styles.heading}>{reward.title}</Text>
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignSelf: "center",
+                  }}
+                >
+                  <View>
+                    <Text style={styles.points}>{reward.points}</Text>
+                    <Text style={styles.pointsTitle}>Reward Points</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.points}>{myPoints?.amount}</Text>
+                    <Text style={styles.pointsTitle}>Your Points</Text>
+                  </View>
                 </View>
-                <View>
-                  <Text style={styles.points}>{point.amount}</Text>
-                  <Text style={styles.pointsTitle}>Your Points</Text>
-                </View>
-              </View>
-              {point.amount < reward.points ? (
-                <Text style={styles.pointsNotEnough}>
-                  You need{" "}
-                  {
-                    <Text style={styles.pointsNotEnoughNum}>
-                      {reward.points - point.amount}
+                {myPoints?.amount < reward.points ? (
+                  <Text style={styles.pointsNotEnough}>
+                    You need{" "}
+                    {
+                      <Text style={styles.pointsNotEnoughNum}>
+                        {reward.points - myPoints?.amount}
+                      </Text>
+                    }{" "}
+                    more points to claim this reward
+                  </Text>
+                ) : (
+                  <Text style={styles.claimNow}>
+                    You can claim this reward now!
+                  </Text>
+                )}
+                {myPoints?.amount >= reward.points ? (
+                  <TouchableOpacity style={styles.button} onPress={handleClaim}>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 20,
+                        fontFamily: "Ubuntu",
+                      }}
+                    >
+                      Claim
                     </Text>
-                  }{" "}
-                  more points to claim this reward
-                </Text>
-              ) : (
-                <Text style={styles.claimNow}>
-                  You can claim this reward now!
-                </Text>
-              )}
-              {point.amount >= reward.points ? (
-                <TouchableOpacity style={styles.button} onPress={handleClaim}>
-                  <Text
-                    style={{
-                      color: "white",
-                      fontSize: 20,
-                      fontFamily: "Ubuntu",
-                    }}
-                  >
-                    Claim
-                  </Text>
-                </TouchableOpacity>
-              ) : (
-                <View style={styles.disbutton}>
-                  <Text
-                    style={{
-                      color: "white",
-                      fontSize: 20,
-                      fontFamily: "Ubuntu",
-                    }}
-                  >
-                    Claim
-                  </Text>
-                </View>
-              )}
+                  </TouchableOpacity>
+                ) : (
+                  <View style={styles.disbutton}>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 20,
+                        fontFamily: "Ubuntu",
+                      }}
+                    >
+                      Claim
+                    </Text>
+                  </View>
+                )}
+              </View>
             </View>
-          </View>
+          ) : (
+            <View
+              style={{
+                display: "flex",
+                alignItems: "center",
+                alignContent: "center",
+                justifyContent: "center",
+              }}
+            >
+              <View
+                style={{
+                  backgroundColor: "white",
+                  borderRadius: 40,
+                  height: 360,
+                  width: 400,
+                  display: "flex",
+                }}
+              >
+                <Ionicons
+                  style={{
+                    color: "#aba9aa",
+                    opacity: 0.8,
+                    fontSize: 35,
+                    zIndex: 99,
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    margin: 20,
+                    marginTop: 15,
+                  }}
+                  name="close-outline"
+                  onPress={toggleModal}
+                ></Ionicons>
+
+                <Text style={styles.heading}>{reward.title}</Text>
+                <Text style={styles.heading}>
+                  You already claimed this reward, it cannot be claimed multiple
+                  times.
+                </Text>
+              </View>
+            </View>
+          )}
         </Modal>
       </View>
     </View>

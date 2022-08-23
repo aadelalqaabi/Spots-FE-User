@@ -14,10 +14,10 @@ import spotStore from "../stores/spotStore";
 import { FlatList } from "react-native-gesture-handler";
 import SearchSpot from "./spots/SearchSpot";
 
-export default function Search({ navigation }) {
+export default function Search({ route, navigation }) {
   const [query, setQuery] = useState("");
   const [toggle, setToggle] = useState(true);
-  const spots = spotStore.spots;
+  const spots = route.params.spots;
   let suggested = [];
   const randomIndex = Math.floor(Math.random() * spots.length);
   const item = spots[randomIndex];

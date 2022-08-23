@@ -20,14 +20,14 @@ export default function MainPageRegister() {
 
   const handleChange = (name, value) => {
     const check = checkEntry(value);
-    if(check === true){
+    if (check === true) {
       setUser({ ...user, [name]: value });
       setCheckValidation(false);
       setShowError(false);
-    } else{
+    } else {
       setCheckValidation(true);
       setShowError(true);
-    } 
+    }
   };
   const checkEntry = (username) => {
     const re = new RegExp("^(?=.{2,})");
@@ -100,7 +100,7 @@ export default function MainPageRegister() {
               alignSelf: "center",
               width: "100%",
               marginBottom: 10,
-              paddingLeft: 10
+              paddingLeft: 10,
               // flex: 1
             }}
             mainColor="#4831d4"
@@ -118,17 +118,19 @@ export default function MainPageRegister() {
               navigation.navigate("Email", { itemId: user });
             }}
           />
-          {showError === true ? 
+          {showError === true ? (
             <View style={styles.errorContainer}>
               <Ionicons name="close-outline" size={18} color="red" />
-              <Text style={styles.errorText}>Username must be atleast 2 characters long</Text>
+              <Text style={styles.errorText}>
+                Username must be atleast 2 characters long
+              </Text>
             </View>
-            :
+          ) : (
             <View style={styles.errorContainer}>
               <Ionicons name="checkmark" size={16} color="green" />
               <Text style={styles.correctText}>Username is valid</Text>
             </View>
-          }
+          )}
           {/* </View> */}
           <View style={styles.button}>
             <Button
@@ -170,9 +172,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#4831d4",
   },
   passwordContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     // borderBottomWidth: 1,
-    borderColor: '#000',
+    borderColor: "#000",
     paddingBottom: 10,
   },
   errorContainer: {
@@ -183,24 +185,24 @@ const styles = StyleSheet.create({
     // borderRightWidth: 5,
     // borderColor: '#000',
     // paddingBottom: 10,
-    flexDirection: 'row',
+    flexDirection: "row",
     // borderBottomWidth: 1,
-    borderColor: '#000',
+    borderColor: "#000",
     paddingBottom: 10,
     marginTop: -12,
-    marginLeft: 8
+    marginLeft: 8,
   },
   errorText: {
     marginTop: 3,
     marginLeft: -3,
-    color:"red",
-    fontSize: 10
+    color: "red",
+    fontSize: 10,
   },
   correctText: {
     marginTop: 3,
     marginLeft: -2,
-    color:"green",
-    fontSize: 10
+    color: "green",
+    fontSize: 10,
   },
   icon: {
     zIndex: 99,

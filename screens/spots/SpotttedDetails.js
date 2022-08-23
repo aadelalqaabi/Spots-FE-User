@@ -17,8 +17,10 @@ import organizerStore from "../../stores/organizerStore";
 
 export default function SpotttedDetails({ navigation, route }) {
   const spot = spotStore.getSpotsById(route.params.id);
+
   const organizer = organizerStore.getOrganizerById(spot.organizer);
   const ticket = route.params.ticket;
+
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),

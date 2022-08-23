@@ -36,11 +36,11 @@ function Profile({ route }) {
     pointStore.createPoint(spotId);
   }
   const navigation = useNavigation();
-  const userSpots = authStore.user.spots.map((spotId) =>
+  const userSpots = authStore.user.spots?.map((spotId) =>
     spotStore.getSpotsById(spotId)
   );
-  const userSpotsArranged = userSpots.reverse();
-  const found = userSpots.some((spot) => spot?._id === spotId);
+  const userSpotsArranged = userSpots?.reverse();
+  const found = userSpots?.some((spot) => spot?._id === spotId);
   if (!found && num === 1) {
     authStore.spotAdd(spotId);
     num--;
@@ -163,7 +163,7 @@ function Profile({ route }) {
               />
             )}
             <View style={styles.counter}>
-              <Text style={styles.spotsNum}>{userSpots.length}</Text>
+              <Text style={styles.spotsNum}>{userSpots?.length}</Text>
               <Text style={styles.spotsTitle}>Spots</Text>
             </View>
           </View>
