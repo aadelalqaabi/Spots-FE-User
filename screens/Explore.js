@@ -89,7 +89,7 @@ function Explore() {
 
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate("Search");
+                  navigation.navigate("Search", { spots: sortedSpots });
                 }}
               >
                 <Ionicons

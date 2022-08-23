@@ -28,10 +28,11 @@ import rewardStore from "../../stores/rewardStore";
 import pointStore from "../../stores/pointStore";
 import authStore from "../../stores/authStore";
 import Modal from "react-native-modal";
+import { observer } from "mobx-react";
 //import "moment/locale/ar";
 LogBox.ignoreAllLogs();
 
-export function ProfileSpotDetails({ route }) {
+function ProfileSpotDetails({ route }) {
   const spot = spotStore.getSpotsById(route.params.id);
   let point = pointStore.points.find(
     (point) => point?.user === authStore.user.id && point?.spot === spot?._id
@@ -44,7 +45,7 @@ export function ProfileSpotDetails({ route }) {
     return <OfferItem offer={offer} />;
   }
   function renderReward({ item: reward }) {
-    return <RewardItem reward={reward} point={point} />;
+    return <RewardItem reward={reward} />;
   }
 
   const [reviewText, setReviewText] = useState({
@@ -403,7 +404,7 @@ export function ProfileSpotDetails({ route }) {
     </ScrollView>
   );
 }
-
+export default observer(ProfileSpotDetails);
 const styles = StyleSheet.create({
   spotsList: {
     backgroundColor: "#fffffc",

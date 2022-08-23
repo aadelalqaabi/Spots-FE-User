@@ -29,9 +29,13 @@ function MySpots() {
       setLoading(false);
     }, 2000);
   }, []);
+
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
+    ticketStore.fetchTickets();
+    wait(2000).then(() => {
+      setRefreshing(false);
+    });
   }, []);
   const navigation = useNavigation();
   let [fontsLoaded] = useFonts({
@@ -40,22 +44,21 @@ function MySpots() {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
-
   // const tickets = authStore.user.tickets.map((ticketId) =>
   //   ticketStore.tickets.find((ticket) => ticket._id === ticketId)
   // );
   const today = new Date();
-  const ticketsByDate = ticketStore.tickets.filter(
+  let ticketsByDate = ticketStore.tickets.filter(
     (ticket) => new Date(ticket.spot?.startDate) > today
   );
   const sortedTickets = ticketsByDate.sort(
     (objA, objB) =>
       new Date(objA.spot.startDate) - new Date(objB.spot.startDate)
   );
-
   const tickets = sortedTickets.filter(
     (ticket) => ticket.user === authStore.user.id
   );
+
   // const today = new Date();
   // const ticketsByDate = tickets.filter((ticket) => new Date(ticket.spot.startDate) > today,);
   // const sortedTickets = ticketsByDate.sort(

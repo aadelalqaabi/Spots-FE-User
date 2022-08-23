@@ -1,7 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import EditScreen from "../screens/EditScreen";
 import Profile from "../screens/Profile";
-import { ProfileSpotDetails } from "../screens/spots/ProfileSpotDetails";
+import ProfileSpotDetails from "../screens/spots/ProfileSpotDetails";
 // import { SpotDetails } from "../screens/spots/SpotDetails";
 import OrganizerProfile from "../screens/OrganizerProfile";
 import Scanner from "../screens/Scanner";

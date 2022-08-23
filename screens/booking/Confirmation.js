@@ -30,16 +30,12 @@ export default function Confirmation({ navigation, route }) {
     spot.seats = spot.seats - tickets;
     spot.spotRevenue = tickets * spot.price;
     newTicket.amount = tickets;
-    //  add QR Code later
-
     try {
-
-     await spotStore.updateSpot(spot, spot._id);
-    //  await authStore.spotAdd(spot._id);
-     await ticketStore.createTicket(newTicket, spot._id)
-     authStore.sendBookingEmail(tickets, spot);
-     navigation.navigate("Explore");
-
+      await spotStore.updateSpot(spot, spot._id);
+      //  await authStore.spotAdd(spot._id);
+      await ticketStore.createTicket(newTicket, spot._id);
+      authStore.sendBookingEmail(tickets, spot);
+      navigation.navigate("Explore");
     } catch (e) {
       alert(e.message);
     }

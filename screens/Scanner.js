@@ -8,7 +8,6 @@ import pointStore from "../stores/pointStore";
 export default function Scanner({ route }) {
   const spot = route.params.spot;
   let point = route.params.point;
-  let points = 0;
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const navigation = useNavigation();

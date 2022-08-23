@@ -42,6 +42,10 @@ export function SpotDetails({ route }) {
   const [quantity, setQuantity] = useState(0);
   const [checkSeats, setCheckSeats] = useState(quantity);
   const [toggle, setToggle] = useState(false);
+  const userTickets = ticketStore.tickets.filter(
+    (ticket) => ticket.user === authStore.user.id
+  );
+  console.log("userTickets", userTickets);
   let [fontsLoaded] = useFonts({
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
@@ -71,15 +75,13 @@ export function SpotDetails({ route }) {
   };
 
   const handleSpots = async (spot) => {
-    if (
-      !ticketStore.tickets.some(
-        (ticket) =>
-          ticket.spot === spot._id && ticket.user === authStore.user.id
-      )
-    ) {
+    const found = userTickets.some((ticket) => ticket.spot._id === spot._id);
+    console.log("found", found);
+    if (!found) {
       await ticketStore.createTicket(newTicket, spot._id);
-
       Alert.alert("Added to your spots");
+      navigation.navigate("Explore");
+      await ticketStore.fetchTickets();
     } else {
       Alert.alert("Already in your spots");
     }
