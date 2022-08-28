@@ -1,10 +1,16 @@
+import { useNavigation } from "@react-navigation/native";
 import { observer } from "mobx-react";
 import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
 import { baseURL } from "../../stores/instance";
 
-function ProfileSpot({ spot, navigation }) {
+function ProfileSpot({ spot }) {
+  const navigation = useNavigation();
   return (
-    <View style={{ backgroundColor: "white" }}>
+    <View
+      style={{
+        backgroundColor: "white",
+      }}
+    >
       <TouchableOpacity
         style={styles.card}
         showsVerticalScrollIndicator={false}
@@ -43,14 +49,14 @@ const styles = StyleSheet.create({
     },
     elevation: 1,
     marginVertical: 5,
-    height: 290,
+    height: 470,
     marginBottom: 30,
     marginLeft: 2,
   },
   thumb: {
     alignSelf: "center",
     width: 384,
-    height: 300,
+    height: 470,
     borderRadius: 20,
     margin: 10,
     zIndex: -1,

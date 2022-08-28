@@ -2,14 +2,10 @@ import {
   Text,
   View,
   SafeAreaView,
-  Button,
   StyleSheet,
   Image,
-  ScrollView,
-  FlatList,
   Alert,
   LogBox,
-  RefreshControl,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import spotStore from "../stores/spotStore";
@@ -22,11 +18,11 @@ import {
   MenuOption,
   MenuTrigger,
 } from "react-native-popup-menu";
-import ProfileSpot from "./spots/ProfileSpot";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import React from "react";
 import pointStore from "../stores/pointStore";
+import ScrollTabs from "../ScrollTabs";
 LogBox.ignoreAllLogs();
 
 function Profile({ route }) {
@@ -39,23 +35,10 @@ function Profile({ route }) {
   const userSpots = authStore.user.spots?.map((spotId) =>
     spotStore.getSpotsById(spotId)
   );
-  const userSpotsArranged = userSpots?.reverse();
   const found = userSpots?.some((spot) => spot?._id === spotId);
   if (!found && num === 1) {
     authStore.spotAdd(spotId);
     num--;
-  }
-  const [refreshing, setRefreshing] = React.useState(false);
-
-  const wait = (timeout) => {
-    return new Promise((resolve) => setTimeout(resolve, timeout));
-  };
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
-  function renderSpot({ item: spot }) {
-    return <ProfileSpot spot={spot} navigation={navigation} />;
   }
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
@@ -136,51 +119,34 @@ function Profile({ route }) {
           </MenuOptions>
         </Menu>
       </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        nestedScrollEnabled={true}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        <View style={styles.imageUserNameEdit}>
-          <View style={styles.imageUserName}>
-            {authStore.user.image === "" ? (
-              <Image
-                style={styles.profileImage}
-                source={
-                  // uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPWpbYe9c5YS6KNOXFWiawk-ox545j3ya978qwGXmcladr3eLFh6IabWhNFVtFRI0YNjI&usqp=CAU",
-                  require("../assets/PP.jpeg")
-                }
-              />
-            ) : (
-              <Image
-                style={styles.profileImage}
-                source={{
-                  uri: baseURL + authStore.user.image,
-                }}
-              />
-            )}
-            <View style={styles.counter}>
-              <Text style={styles.spotsNum}>{userSpots?.length}</Text>
-              <Text style={styles.spotsTitle}>Spots</Text>
-            </View>
+
+      <View style={styles.imageUserNameEdit}>
+        <View style={styles.imageUserName}>
+          {authStore.user.image === "" ? (
+            <Image
+              style={styles.profileImage}
+              source={
+                // uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPWpbYe9c5YS6KNOXFWiawk-ox545j3ya978qwGXmcladr3eLFh6IabWhNFVtFRI0YNjI&usqp=CAU",
+                require("../assets/PP.jpeg")
+              }
+            />
+          ) : (
+            <Image
+              style={styles.profileImage}
+              source={{
+                uri: baseURL + authStore.user.image,
+              }}
+            />
+          )}
+          <View style={styles.counter}>
+            <Text style={styles.spotsNum}>{userSpots?.length}</Text>
+            <Text style={styles.spotsTitle}>Spots</Text>
           </View>
         </View>
-
-        <Text style={styles.visited}>Visited Spots</Text>
-
-        <FlatList
-          nestedScrollEnabled={true}
-          style={styles.spotsList}
-          contentContainerStyle={styles.spotsListContainer}
-          data={userSpotsArranged}
-          renderItem={renderSpot}
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-        />
-      </ScrollView>
+      </View>
+      <View style={{ height: "100%" }}>
+        <ScrollTabs />
+      </View>
     </SafeAreaView>
   );
 }

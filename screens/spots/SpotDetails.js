@@ -45,7 +45,6 @@ export function SpotDetails({ route }) {
   const userTickets = ticketStore.tickets.filter(
     (ticket) => ticket.user === authStore.user.id
   );
-  console.log("userTickets", userTickets);
   let [fontsLoaded] = useFonts({
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),

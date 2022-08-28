@@ -6,6 +6,8 @@ import {
   Text,
   KeyboardAvoidingView,
   StyleSheet,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
@@ -22,56 +24,66 @@ export default function AuthButtons({ navigation }) {
     return <AppLoading />;
   }
   return (
-    <View
-      style={{
-        width: "100%",
-        height: "100%",
-        backgroundColor: "white",
-      }}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.container}
     >
-      <View
-        style={{
-          justifyContent: "center",
-          marginTop: 130,
-          width: "70%",
-          alignSelf: "center",
-        }}
-      >
-        <StatusBar style={"dark"} />
-        <Image
-          style={{
-            width: 350,
-            height: 300,
-            alignSelf: "center",
-            resizeMode: "contain",
-          }}
-          source={require("../../assets/Logo.png")}
-        />
-
-        <Login />
-
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View
           style={{
-            display: "flex",
-            justifyContent: "center",
-            alignContent: "center",
-            alignItems: "center",
-            flexDirection: "row",
-            marginTop: 20,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "white",
+            flex: 1,
           }}
         >
-          <Text style={styles.checktext}>New to Spots?</Text>
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate("MainPageRegister");
+          <View
+            style={{
+              justifyContent: "center",
+              marginTop: -155,
+              marginBottom: -50,
+              width: "70%",
+              alignSelf: "center",
+              flex: 1,
             }}
-            style={styles.signUp}
           >
-            <Text style={styles.signUpText}>Register</Text>
-          </TouchableOpacity>
+            <StatusBar style={"dark"} />
+            <Image
+              style={{
+                width: 55,
+                height: 75,
+                alignSelf: "center",
+                resizeMode: "contain",
+              }}
+              source={require("../../assets/icony.png")}
+            />
+            <Text style={styles.title}>Go Where You Want To</Text>
+
+            <Login />
+            <View
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignContent: "center",
+                alignItems: "center",
+                flexDirection: "row",
+                marginTop: 20,
+              }}
+            >
+              <Text style={styles.checktext}>New to GoTo?</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("MainPageRegister");
+                }}
+                style={styles.signUp}
+              >
+                <Text style={styles.signUpText}>Register Here</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
-      </View>
-    </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -93,5 +105,15 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     justifyContent: "center",
+  },
+  title: {
+    fontSize: 45,
+    fontFamily: "UbuntuBold",
+    width: "100%",
+    marginTop: 100,
+    marginBottom: 30,
+  },
+  container: {
+    flex: 1,
   },
 });

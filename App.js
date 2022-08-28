@@ -31,6 +31,8 @@ import Scanner from "./screens/Scanner";
 import SpottedScanner from "./screens/SpottedScanner";
 import Search from "./screens/Search";
 import Info from "./screens/spots/Info";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import OnBoarding from "./screens/authScreens/OnBoarding";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -43,35 +45,64 @@ function App() {
       Profile: "Profile/:spotId",
     },
   };
-
-  return (
-    <NativeBaseProvider>
-      <NavigationContainer
-        linking={{ prefixes: [prefix], config }}
-        fallback={<Text>Loading...</Text>}
-      >
-        <MenuProvider>
-          {checkUser ? (
-            <RootNavigator />
-          ) : (
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="Set Up Account" component={AuthButtons} />
-              <Stack.Screen name="Login" component={Login} />
-              <Stack.Screen
-                name="MainPageRegister"
-                component={MainPageRegister}
-              />
-              <Stack.Screen name="Email" component={Email} />
-              <Stack.Screen name="Password" component={Password} />
-              <Stack.Screen name="MyImage" component={MyImage} />
-              <Stack.Screen name="PhoneNo" component={PhoneNo} />
-            </Stack.Navigator>
-          )}
-        </MenuProvider>
+  const [isFirstLaunch, setIsFirstLaunch] = React.useState(null);
+  React.useEffect(() => {
+    AsyncStorage.getItem("alreadyLaunched").then((value) => {
+      if (value === null) {
+        AsyncStorage.setItem("alreadyLaunched", "true");
+        setIsFirstLaunch(true);
+        return;
+      } else {
+        setIsFirstLaunch(false);
+        return;
+      }
+    });
+  }, []);
+  if (isFirstLaunch === null) {
+    return null;
+  } else if (isFirstLaunch === true) {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="OnBoarding" component={OnBoarding} />
+          <Stack.Screen name="Set Up Account" component={AuthButtons} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="MainPageRegister" component={MainPageRegister} />
+          <Stack.Screen name="Email" component={Email} />
+          <Stack.Screen name="Password" component={Password} />
+          <Stack.Screen name="MyImage" component={MyImage} />
+        </Stack.Navigator>
       </NavigationContainer>
-      <Toast />
-    </NativeBaseProvider>
-  );
+    );
+  } else {
+    return (
+      <NativeBaseProvider>
+        <NavigationContainer
+          linking={{ prefixes: [prefix], config }}
+          fallback={<Text>Loading...</Text>}
+        >
+          <MenuProvider>
+            {checkUser ? (
+              <RootNavigator />
+            ) : (
+              <Stack.Navigator screenOptions={{ headerShown: false }}>
+                <Stack.Screen name="Set Up Account" component={AuthButtons} />
+                <Stack.Screen name="Login" component={Login} />
+                <Stack.Screen
+                  name="MainPageRegister"
+                  component={MainPageRegister}
+                />
+                <Stack.Screen name="Email" component={Email} />
+                <Stack.Screen name="Password" component={Password} />
+                <Stack.Screen name="MyImage" component={MyImage} />
+              </Stack.Navigator>
+            )}
+          </MenuProvider>
+        </NavigationContainer>
+        <Toast />
+      </NativeBaseProvider>
+    );
+  }
 }
 
 export default observer(App);

@@ -3,7 +3,12 @@ import { useState } from "react";
 import authStore from "../../stores/authStore";
 import React from "react";
 import TextInput from "react-native-text-input-interactive";
+
+import AppLoading from "expo-app-loading";
+import { useFonts } from "expo-font";
+
 import PhoneInput from "react-native-phone-number-input";
+
 
 export default function Login() {
   const [user, setUser] = useState({
@@ -20,14 +25,22 @@ export default function Login() {
     console.log('user', user)
     authStore.login(user);
   };
+  let [fontsLoaded] = useFonts({
+    UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
+    Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
+  });
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
   return (
     <View
       style={{
         justifyContent: "center",
-        width: "100%",
+        width: "105%",
         alignSelf: "center",
       }}
     >
+
       <View style={{ display: "flex", width: "100%" }}>
         {/* <TextInput
           textInputStyle={{
@@ -87,6 +100,7 @@ export default function Login() {
           <Text style={styles.buttontitle}>Login</Text>
         </TouchableOpacity>
       </View>
+
     </View>
   );
 }
@@ -118,5 +132,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "800",
     alignSelf: "center",
+  },
+  inputLabel: {
+    marginBottom: 8,
+    marginTop: 20,
+    fontFamily: "Ubuntu",
+    fontSize: 16,
   },
 });
