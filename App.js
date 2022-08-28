@@ -14,6 +14,7 @@ import Toast from "react-native-toast-message";
 import { MenuProvider } from "react-native-popup-menu";
 import Email from "./screens/authScreens/Email";
 import Password from "./screens/authScreens/Password";
+import PhoneNo from "./screens/authScreens/PhoneNo";
 import MyImage from "./screens/authScreens/MyImage";
 import * as Linking from "expo-linking";
 import { Text } from "react-native";
@@ -57,7 +58,6 @@ function App() {
       }
     });
   }, []);
-
   if (isFirstLaunch === null) {
     return null;
   } else if (isFirstLaunch === true) {

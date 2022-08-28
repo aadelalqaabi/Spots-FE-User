@@ -3,11 +3,16 @@ import { useState } from "react";
 import authStore from "../../stores/authStore";
 import React from "react";
 import TextInput from "react-native-text-input-interactive";
+
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 
+import PhoneInput from "react-native-phone-number-input";
+
+
 export default function Login() {
   const [user, setUser] = useState({
+    // phone: "",
     username: "",
     password: "",
   });
@@ -17,6 +22,7 @@ export default function Login() {
   };
 
   const handleSubmit = (event) => {
+    console.log('user', user)
     authStore.login(user);
   };
   let [fontsLoaded] = useFonts({
@@ -34,42 +40,67 @@ export default function Login() {
         alignSelf: "center",
       }}
     >
-      <Text style={styles.inputLabel}>Username</Text>
 
-      <TextInput
-        textInputStyle={{
-          alignSelf: "center",
-          width: "100%",
-        }}
-        mainColor="#4831d4"
-        label="Username"
-        onChangeText={(text) => {
-          handleChange("username", text);
-        }}
-        placeholder=""
-        keyboardType="web-search"
-        onSubmitEditing={handleSubmit}
-      />
-      <Text style={styles.inputLabel}>Password</Text>
-      <TextInput
-        textInputStyle={{
-          marginBottom: 20,
-          alignSelf: "center",
-          width: "100%",
-        }}
-        mainColor="#4831d4"
-        label="Password"
-        secureTextEntry={true}
-        onChangeText={(text) => {
-          handleChange("password", text);
-        }}
-        placeholder=""
-        keyboardType="web-search"
-        onSubmitEditing={handleSubmit}
-      />
-      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-        <Text style={styles.buttontitle}>Login</Text>
-      </TouchableOpacity>
+      <View style={{ display: "flex", width: "100%" }}>
+        {/* <TextInput
+          textInputStyle={{
+            alignSelf: "center",
+            width: "100%",
+          }}
+          mainColor="#4831d4"
+          label="phone"
+          onChangeText={(text) => {
+            handleChange("phone", text);
+          }}
+          placeholder="Username"
+          keyboardType="web-search"
+          onSubmitEditing={handleSubmit}
+        /> */}
+        <PhoneInput
+                containerStyle={{
+                    alignSelf: "center",
+                    width: "100%",
+                    marginBottom: 10,
+                }}
+                textInputStyle={{
+                    fontFamily: "Ubuntu", 
+                }}
+                defaultValue={user.phone}
+                defaultCode="KW"
+                layout="first"
+                // second
+                // onChangeText={(text) => {
+                //     handleChange("phone", text);
+                // }}
+                onChangeFormattedText={(text) => {
+                  handleChange("username", text);
+                }}
+                withDarkTheme
+                withShadow
+                autoFocus
+        />
+        <TextInput
+          textInputStyle={{
+            marginTop: 10,
+            marginBottom: 20,
+            alignSelf: "center",
+            width: "100%",
+          }}
+          mainColor="#4831d4"
+          label="Password"
+          secureTextEntry={true}
+          onChangeText={(text) => {
+            handleChange("password", text);
+          }}
+          placeholder="Password"
+          keyboardType="web-search"
+          onSubmitEditing={handleSubmit}
+        />
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+          <Text style={styles.buttontitle}>Login</Text>
+        </TouchableOpacity>
+      </View>
+
     </View>
   );
 }

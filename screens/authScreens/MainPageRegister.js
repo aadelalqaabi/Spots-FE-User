@@ -1,5 +1,6 @@
-import { StyleSheet, View, Text, Button } from "react-native";
+import { StyleSheet, View, Text, Button, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { useState } from "react";
+import { Alert } from "react-native";
 import React from "react";
 import TextInput from "react-native-text-input-interactive";
 import { useNavigation } from "@react-navigation/native";
@@ -12,10 +13,13 @@ export default function MainPageRegister() {
   const [user, setUser] = useState({
     username: "",
     password: "",
+    phone: "",
     email: "",
     image: "",
   });
   const [checkValidation, setCheckValidation] = useState(true);
+  const [checkValidationColor, setCheckValidationColor] = useState("#4831d4");
+  const [begining, setBegining] = useState(true);
   const [showError, setShowError] = useState(true);
 
   const handleChange = (name, value) => {
@@ -23,9 +27,12 @@ export default function MainPageRegister() {
     if (check === true) {
       setUser({ ...user, [name]: value });
       setCheckValidation(false);
+      setCheckValidationColor("#4831d4");
       setShowError(false);
     } else {
       setCheckValidation(true);
+      setCheckValidationColor("red");
+      setBegining(false);
       setShowError(true);
     }
   };
@@ -41,6 +48,11 @@ export default function MainPageRegister() {
     return <AppLoading />;
   }
   return (
+    <KeyboardAvoidingView
+    behavior={Platform.OS === "ios" ? "padding" : "height"}
+ 
+  >
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View
       style={{
         width: "100%",
@@ -91,60 +103,77 @@ export default function MainPageRegister() {
             lineHeight: 20,
           }}
         >
-          Choose a username for your account and to login with later
+          Choose a username for your account (Must be at least 2 characters)
         </Text>
-        <View style={{ width: "100%", alignSelf: "center" }}>
-          {/* <View style={styles.passwordContainer}> */}
-          <TextInput
-            textInputStyle={{
-              alignSelf: "center",
-              width: "100%",
-              marginBottom: 10,
-              paddingLeft: 10,
-              // flex: 1
-            }}
-            mainColor="#4831d4"
-            label="Username"
-            onChangeText={(text) => {
-              handleChange("username", text);
-            }}
-            placeholder="Enter Username"
-            keyboardType="web-search"
-            enableIcon="true"
-            // IconComponent={
-            //   <Ionicons name="close-outline" size={14} color="red" />
-            // }
-            onSubmitEditing={() => {
-              navigation.navigate("Email", { itemId: user });
-            }}
-          />
-          {showError === true ? (
-            <View style={styles.errorContainer}>
-              <Ionicons name="close-outline" size={18} color="red" />
-              <Text style={styles.errorText}>
-                Username must be atleast 2 characters long
-              </Text>
-            </View>
-          ) : (
-            <View style={styles.errorContainer}>
-              <Ionicons name="checkmark" size={16} color="green" />
-              <Text style={styles.correctText}>Username is valid</Text>
-            </View>
-          )}
-          {/* </View> */}
-          <View style={styles.button}>
-            <Button
-              title="Next"
-              color="white"
-              disabled={checkValidation}
-              onPress={() => {
-                navigation.navigate("Email", { itemId: user });
+      
+        <View style={{ width: "110%", alignSelf: "center", display:"flex", flexDirection:"column", justifyContent:"space-between", height:"73%" }}>
+       
+          <View style={styles.container}>
+            <TextInput
+              textInputStyle={{
+                alignSelf: "center",
+                width: "103%",
+                marginBottom: 10,
+                padding: 14,
+                paddingLeft: 50,
+                fontFamily: "Ubuntu", 
+              }}
+              mainColor={checkValidationColor}
+              label="Username"
+              onChangeText={(text) => {
+                handleChange("username", text);
+              }}
+              placeholder="Enter Username"
+              keyboardType="url"
+              enableIcon="true"
+              onSubmitEditing={() => {
+                checkValidation===false? navigation.navigate("PhoneNo", { itemId: user }) : Alert.alert("Invalid Username", "", [{ text: "Try Again" }]);;
               }}
             />
+            {begining === true ? (
+              <Ionicons style={styles.icon} name="person-circle" size={30} color="#4831d4" />
+            ) : (
+              <>
+                {showError === true ? (
+                  <Ionicons style={styles.icon} name="close-outline" size={18} color="red" />
+               
+                ) : (
+                  <Ionicons style={styles.icon} name="checkmark" size={16} color="#00b100" />
+               
+                )}
+              </>
+            )}
+          </View>
+          <View style={{flex:1, justifyContent:"flex-end"}}>
+          {checkValidation === true ? 
+            <View style={styles.buttonx}>
+              <Button
+                title="Next"
+                color="white"
+                disabled={checkValidation}
+                onPress={() => {
+                  navigation.navigate("PhoneNo", { itemId: user });
+                }}
+              />
+            </View>
+            :
+            <View style={styles.button}>
+              <Button
+                title="Next"
+                color="white"
+                disabled={checkValidation}
+                onPress={() => {
+                  navigation.navigate("PhoneNo", { itemId: user });
+                }}
+              />
+            </View>
+          }
           </View>
         </View>
       </View>
     </View>
+        </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
   );
 }
 
@@ -170,6 +199,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 3,
     backgroundColor: "#4831d4",
+  },
+  buttonx: {
+    paddingVertical: 8,
+    paddingHorizontal: 32,
+    borderRadius: 10,
+    elevation: 3,
+    backgroundColor: "#988be6",
   },
   passwordContainer: {
     flexDirection: "row",
@@ -204,13 +240,45 @@ const styles = StyleSheet.create({
     color: "green",
     fontSize: 10,
   },
+  // icon: {
+  //   zIndex: 99,
+  //   position: "absolute",
+  //   marginLeft: 12,
+  //   marginTop: 12,
+  //   fontSize: 25,
+  //   color: "grey",
+  // },
+  container: {
+   /// width: "90%",
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 1.41,
+    elevation: 2,
+    marginTop: 5,
+    marginRight: 15,
+    marginLeft: 5,
+    flex:1
+  },
   icon: {
     zIndex: 99,
     position: "absolute",
     marginLeft: 12,
     marginTop: 12,
     fontSize: 25,
-    color: "grey",
+    // color: "grey",
+  },
+  formField: {
+    padding: 14,
+    paddingLeft: 50,
+    borderRadius: 13,
+    fontSize: 18,
+    fontFamily: "Ubuntu",
+    width: "100%",
   },
 });
 
