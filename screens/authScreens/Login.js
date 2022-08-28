@@ -3,9 +3,11 @@ import { useState } from "react";
 import authStore from "../../stores/authStore";
 import React from "react";
 import TextInput from "react-native-text-input-interactive";
+import PhoneInput from "react-native-phone-number-input";
 
 export default function Login() {
   const [user, setUser] = useState({
+    // phone: "",
     username: "",
     password: "",
   });
@@ -15,6 +17,7 @@ export default function Login() {
   };
 
   const handleSubmit = (event) => {
+    console.log('user', user)
     authStore.login(user);
   };
   return (
@@ -26,19 +29,42 @@ export default function Login() {
       }}
     >
       <View style={{ display: "flex", width: "100%" }}>
-        <TextInput
+        {/* <TextInput
           textInputStyle={{
             alignSelf: "center",
             width: "100%",
           }}
           mainColor="#4831d4"
-          label="Username"
+          label="phone"
           onChangeText={(text) => {
-            handleChange("username", text);
+            handleChange("phone", text);
           }}
           placeholder="Username"
           keyboardType="web-search"
           onSubmitEditing={handleSubmit}
+        /> */}
+        <PhoneInput
+                containerStyle={{
+                    alignSelf: "center",
+                    width: "100%",
+                    marginBottom: 10,
+                }}
+                textInputStyle={{
+                    fontFamily: "Ubuntu", 
+                }}
+                defaultValue={user.phone}
+                defaultCode="KW"
+                layout="first"
+                // second
+                // onChangeText={(text) => {
+                //     handleChange("phone", text);
+                // }}
+                onChangeFormattedText={(text) => {
+                  handleChange("username", text);
+                }}
+                withDarkTheme
+                withShadow
+                autoFocus
         />
         <TextInput
           textInputStyle={{
