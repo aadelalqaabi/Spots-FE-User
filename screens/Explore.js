@@ -42,10 +42,11 @@ function Explore() {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
-
   const today = new Date();
+  today.setHours(0, 33, 30);
+  console.log("today", today);
   const spotsByDate = spotStore.spots.filter(
-    (spot) => new Date(spot.startDate) > today
+    (spot) => new Date(spot.startDate) >= today
   );
   const sortedSpots = spotsByDate.sort(
     (objA, objB) => new Date(objA.startDate) - new Date(objB.startDate)

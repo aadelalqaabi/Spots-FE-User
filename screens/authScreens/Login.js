@@ -3,6 +3,8 @@ import { useState } from "react";
 import authStore from "../../stores/authStore";
 import React from "react";
 import TextInput from "react-native-text-input-interactive";
+import AppLoading from "expo-app-loading";
+import { useFonts } from "expo-font";
 
 export default function Login() {
   const [user, setUser] = useState({
@@ -17,50 +19,57 @@ export default function Login() {
   const handleSubmit = (event) => {
     authStore.login(user);
   };
+  let [fontsLoaded] = useFonts({
+    UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
+    Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
+  });
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
   return (
     <View
       style={{
         justifyContent: "center",
-        width: "100%",
+        width: "105%",
         alignSelf: "center",
       }}
     >
-      <View style={{ display: "flex", width: "100%" }}>
-        <TextInput
-          textInputStyle={{
-            alignSelf: "center",
-            width: "100%",
-          }}
-          mainColor="#4831d4"
-          label="Username"
-          onChangeText={(text) => {
-            handleChange("username", text);
-          }}
-          placeholder="Username"
-          keyboardType="web-search"
-          onSubmitEditing={handleSubmit}
-        />
-        <TextInput
-          textInputStyle={{
-            marginTop: 10,
-            marginBottom: 20,
-            alignSelf: "center",
-            width: "100%",
-          }}
-          mainColor="#4831d4"
-          label="Password"
-          secureTextEntry={true}
-          onChangeText={(text) => {
-            handleChange("password", text);
-          }}
-          placeholder="Password"
-          keyboardType="web-search"
-          onSubmitEditing={handleSubmit}
-        />
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttontitle}>Login</Text>
-        </TouchableOpacity>
-      </View>
+      <Text style={styles.inputLabel}>Username</Text>
+
+      <TextInput
+        textInputStyle={{
+          alignSelf: "center",
+          width: "100%",
+        }}
+        mainColor="#4831d4"
+        label="Username"
+        onChangeText={(text) => {
+          handleChange("username", text);
+        }}
+        placeholder=""
+        keyboardType="web-search"
+        onSubmitEditing={handleSubmit}
+      />
+      <Text style={styles.inputLabel}>Password</Text>
+      <TextInput
+        textInputStyle={{
+          marginBottom: 20,
+          alignSelf: "center",
+          width: "100%",
+        }}
+        mainColor="#4831d4"
+        label="Password"
+        secureTextEntry={true}
+        onChangeText={(text) => {
+          handleChange("password", text);
+        }}
+        placeholder=""
+        keyboardType="web-search"
+        onSubmitEditing={handleSubmit}
+      />
+      <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+        <Text style={styles.buttontitle}>Login</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -92,5 +101,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "800",
     alignSelf: "center",
+  },
+  inputLabel: {
+    marginBottom: 8,
+    marginTop: 20,
+    fontFamily: "Ubuntu",
+    fontSize: 16,
   },
 });
