@@ -1,13 +1,13 @@
-import { StyleSheet, View, Button, Text, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, View, Button, Text, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { useState } from "react";
-import { Alert } from "react-native";
 import React from "react";
 import TextInput from "react-native-text-input-interactive";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
+import PhoneInput from "react-native-phone-number-input";
 import AppLoading from "expo-app-loading";
 
-export default function Email({ navigation, route }) {
+export default function PhoneNo({ navigation, route }) {
   const { itemId } = route.params;
   const [user, setUser] = useState(itemId);
   const [checkValidation, setCheckValidation] = useState(true);
@@ -19,6 +19,7 @@ export default function Email({ navigation, route }) {
     const check = checkEntry(value);
     if(check === true){
       setUser({ ...user, [name]: value });
+      console.log('user.phone', user.phone)
       setCheckValidation(false);
       setCheckValidationColor("#4831d4");
       setShowError(false);
@@ -29,9 +30,11 @@ export default function Email({ navigation, route }) {
       setShowError(true);
     } 
   };
-  const checkEntry = (email) => {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
+  const checkEntry = (phoneNumber) => {
+    // const re = new RegExp("^(?=.[0-9]{7,7}$)");
+    const re = new RegExp("^(?=.[0-9]{11,11}$)");
+    // ^[0-9]{4} ^(?=.{8,})
+    return re.test(phoneNumber);
   };
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
@@ -43,7 +46,6 @@ export default function Email({ navigation, route }) {
   return (
     <KeyboardAvoidingView
     behavior={Platform.OS === "ios" ? "padding" : "height"}
- 
   >
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <View
@@ -82,7 +84,7 @@ export default function Email({ navigation, route }) {
             textAlign: "center",
           }}
         >
-          Enter Email
+          Enter Phone Number
         </Text>
         <Text
           style={{
@@ -96,32 +98,32 @@ export default function Email({ navigation, route }) {
             lineHeight: 20,
           }}
         >
-          Add an email for your account to recive confirmation emails
+          Add a phone number for your account (Must be at least 8 numbers)
         </Text>
         <View style={{ width: "110%", alignSelf: "center", display:"flex", flexDirection:"column", justifyContent:"space-between", height:"73%" }}>
           <View style={styles.container}>
-            <TextInput
+            {/* <TextInput
               textInputStyle={{
                 alignSelf: "center",
-                width: "103%",
+                width: "100%",
                 marginBottom: 10,
                 padding: 14,
                 paddingLeft: 50,
                 fontFamily: "Ubuntu", 
               }}
               mainColor={checkValidationColor}
-              label="Email"
+              label="Phone Number"
               onChangeText={(text) => {
-                handleChange("email", text);
+                handleChange("phone", text);
               }}
-              placeholder="Email"
-              keyboardType="email-address"
+              placeholder="Phone Number"
+              keyboardType="phone-pad"
               onSubmitEditing={() => {
-                checkValidation===false? navigation.navigate("Password", { itemId: user }) : Alert.alert("Invalid Email Adress", "", [{ text: "Try Again" }]);;
+                navigation.navigate("Email", { itemId: user });
               }}
             />
             {begining === true ? (
-              <Ionicons style={styles.icon} name="mail" size={18} color="#4831d4" />
+              <Ionicons style={styles.icon} name="call" size={18} color="#4831d4" />
             ) : (
               <>
                 {showError === true ? (
@@ -130,20 +132,34 @@ export default function Email({ navigation, route }) {
                   <Ionicons style={styles.icon} name="checkmark" size={16} color="#00b100" />
                 )}
               </>
-            )}
+            )} */}
+            <PhoneInput
+                // ref={phoneInput}
+                containerStyle={{
+                    alignSelf: "center",
+                    width: "103%",
+                    marginBottom: 10,
+                    // padding: 14, 
+                }}
+                textInputStyle={{
+                    fontFamily: "Ubuntu", 
+                }}
+                defaultValue={user.phoneNumber}
+                defaultCode="KW"
+                layout="first"
+                // second
+                // onChangeText={(text) => {
+                //     handleChange("phone", text);
+                // }}
+                onChangeFormattedText={(text) => {
+                    handleChange("phone", text);
+                }}
+                withDarkTheme
+                withShadow
+                autoFocus
+            />
           </View>
-          {/* {showError === true ? 
-            <View style={styles.errorContainer}>
-              <Ionicons name="close-outline" size={18} color="red" />
-              <Text style={styles.errorText}>Invalid Email</Text>
-            </View>
-            :
-            <View style={styles.errorContainer}>
-              <Ionicons name="checkmark" size={16} color="green" />
-              <Text style={styles.correctText}>Valid Email</Text>
-            </View> 
-          } */}
-         <View style={{flex:1, justifyContent:"flex-end"}}>
+          <View style={{flex:1, justifyContent:"flex-end"}}>
           {checkValidation === true ? 
             <View style={styles.buttonx}>
               <Button
@@ -151,7 +167,7 @@ export default function Email({ navigation, route }) {
                 color="white"
                 disabled={checkValidation}
                 onPress={() => {
-                  navigation.navigate("Password", { itemId: user });
+                  navigation.navigate("Email", { itemId: user });
                 }}
               />
             </View>
@@ -162,12 +178,11 @@ export default function Email({ navigation, route }) {
                 color="white"
                 disabled={checkValidation}
                 onPress={() => {
-                  navigation.navigate("Password", { itemId: user });
+                  navigation.navigate("Email", { itemId: user });
                 }}
               />
             </View>
-          }
-          </View>
+          }</View>
         </View>
       </View>
     </View>

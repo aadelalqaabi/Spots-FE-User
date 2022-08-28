@@ -1,5 +1,6 @@
-import { StyleSheet, View, Button, Text } from "react-native";
+import { StyleSheet, View, Button, Text, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { useState } from "react";
+import { Alert } from "react-native";
 import React from "react";
 import TextInput from "react-native-text-input-interactive";
 import { Ionicons } from "@expo/vector-icons";
@@ -10,6 +11,7 @@ export default function Password({ navigation, route }) {
   const { itemId } = route.params;
   const [user, setUser] = useState(itemId);
   const [checkValidation, setCheckValidation] = useState(true);
+  const [checkValidationColor, setCheckValidationColor] = useState("#4831d4");
   const [showError, setShowError] = useState(true);
   const [lowerCase, setLowerCase] = useState(true);
   const [upperCase, setUpperCase] = useState(true);
@@ -22,9 +24,11 @@ export default function Password({ navigation, route }) {
     if(check === true){
       setUser({ ...user, [name]: value });
       setCheckValidation(false);
+      setCheckValidationColor("#4831d4");
       setShowError(false);
     } else{
       setCheckValidation(true);
+      setCheckValidationColor("red");
       setShowError(true);
     } 
   };
@@ -76,6 +80,13 @@ export default function Password({ navigation, route }) {
     return <AppLoading />;
   }
   return (
+    <KeyboardAvoidingView
+    behavior={Platform.OS === "ios" ? "padding" : "height"}
+ 
+  >
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+
+    
     <View
       style={{
         width: "100%",
@@ -126,16 +137,17 @@ export default function Password({ navigation, route }) {
             lineHeight: 20,
           }}
         >
-          Create a password to protect your account with it
+          Create a password to protect your account
         </Text>
-        <View style={{ width: "100%", alignSelf: "center" }}>
+        <View style={{ width: "110%", alignSelf: "center", display:"flex", flexDirection:"column", justifyContent:"space-between", height:"73%" }}>
+        <View style={styles.container}>
           <TextInput
             textInputStyle={{
               alignSelf: "center",
-              width: "100%",
-              marginBottom: 10,
+              width: "103%",
+              marginBottom: 20,
             }}
-            mainColor="#4831d4"
+            mainColor={checkValidationColor}
             label="Password"
             secureTextEntry={true}
             onChangeText={(text) => {
@@ -144,7 +156,7 @@ export default function Password({ navigation, route }) {
             placeholder="Enter Password"
             keyboardType="web-search"
             onSubmitEditing={() => {
-              navigation.navigate("MyImage", { itemId: user });
+              checkValidation===false? navigation.navigate("MyImage", { itemId: user }) : Alert.alert("Invalid Password", "", [{ text: "Try Again" }]);;
             }}
           />
           {/* {showError === true ? 
@@ -158,72 +170,90 @@ export default function Password({ navigation, route }) {
           } */}
           {lowerCase === true ? 
             <View style={styles.errorContainer}>
-              <Ionicons name="close-outline" size={18} color="red" />
-              <Text style={styles.errorText}>The password must contain at least one lowercase character</Text>
+              <Ionicons name="close-circle" size={22} color="red" />
+              <Text style={styles.errorText}>At least 1 lowercase character</Text>
             </View>
             :
             <View style={styles.errorContainer}>
-              <Ionicons name="checkmark" size={16} color="green" />
-              <Text style={styles.correctText}>The password must contain at least one lowercase character</Text>
+              <Ionicons name="checkmark-circle" size={22} color="#00b100" />
+              <Text style={styles.correctText}>At least 1 lowercase character</Text>
             </View>
           }
           {upperCase === true ? 
             <View style={styles.errorContainer}>
-              <Ionicons name="close-outline" size={18} color="red" />
-              <Text style={styles.errorText}>The password must contain at least one uppercase character</Text>
+              <Ionicons name="close-circle" size={22} color="red" />
+              <Text style={styles.errorText}>At least 1 uppercase character</Text>
             </View>
             :
             <View style={styles.errorContainer}>
-              <Ionicons name="checkmark" size={16} color="green" />
-              <Text style={styles.correctText}>The password must contain at least one uppercase character</Text>
+              <Ionicons name="checkmark-circle" size={22} color="#00b100" />
+              <Text style={styles.correctText}>At least 1 uppercase character</Text>
             </View>
           }
           {number === true ? 
             <View style={styles.errorContainer}>
-              <Ionicons name="close-outline" size={18} color="red" />
-              <Text style={styles.errorText}>The password must contain at least one number</Text>
+              <Ionicons name="close-circle" size={22} color="red" />
+              <Text style={styles.errorText}>At least 1 number</Text>
             </View>
             :
             <View style={styles.errorContainer}>
-              <Ionicons name="checkmark" size={16} color="green" />
-              <Text style={styles.correctText}>The password must contain at least one number</Text>
+              <Ionicons name="checkmark-circle" size={22} color="#00b100" />
+              <Text style={styles.correctText}>At least 1 number</Text>
             </View>
           }
           {specialCharacter === true ? 
             <View style={styles.errorContainer}>
-              <Ionicons name="close-outline" size={18} color="red" />
-              <Text style={styles.errorText}>The password must contain at least one special character</Text>
+              <Ionicons name="close-circle" size={22} color="red" />
+              <Text style={styles.errorText}>At least 1 special character</Text>
             </View>
             :
             <View style={styles.errorContainer}>
-              <Ionicons name="checkmark" size={16} color="green" />
-              <Text style={styles.correctText}>The password must contain at least one special character</Text>
+              <Ionicons name="checkmark-circle" size={22} color="#00b100" />
+              <Text style={styles.correctText}>At least 1 special character</Text>
             </View>
           }
           {characterLength === true ? 
             <View style={styles.errorContainer}>
-              <Ionicons name="close-outline" size={18} color="red" />
-              <Text style={styles.errorText}>The password must be eight characters or longer</Text>
+              <Ionicons name="close-circle" size={22} color="red" />
+              <Text style={styles.errorText}>At least 8 characters</Text>
             </View>
             :
             <View style={styles.errorContainer}>
-              <Ionicons name="checkmark" size={16} color="green" />
-              <Text style={styles.correctText}>The password must be eight characters or longer</Text>
+              <Ionicons name="checkmark-circle" size={22} color="#00b100" />
+              <Text style={styles.correctText}>At least 8 characters</Text>
             </View>
           }
-          <View style={styles.button}>
-            <Button
-              title="Next"
-              color="white"
-              disabled={checkValidation}
-              onPress={() => {
-                navigation.navigate("MyImage", { itemId: user });
-              }}
-            />
+          </View>
+          <View style={{flex:1, justifyContent:"flex-end"}}>
+          {checkValidation === true ? 
+            <View style={styles.buttonx}>
+              <Button
+                title="Next"
+                color="white"
+                disabled={checkValidation}
+                onPress={() => {
+                  navigation.navigate("MyImage", { itemId: user });
+                }}
+              />
+            </View>
+            :
+            <View style={styles.button}>
+              <Button
+                title="Next"
+                color="white"
+                disabled={checkValidation}
+                onPress={() => {
+                  navigation.navigate("MyImage", { itemId: user });
+                }}
+              />
+            </View>
+          }
           </View>
         </View>
       </View>
     </View>
+    </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -250,6 +280,13 @@ const styles = StyleSheet.create({
     elevation: 3,
     backgroundColor: "#4831d4",
   },
+  buttonx: {
+    paddingVertical: 8,
+    paddingHorizontal: 32,
+    borderRadius: 10,
+    elevation: 3,
+    backgroundColor: "#988be6",
+  },
   errorContainer: {
     // borderWidth: 2,
     // borderTopWidth: 5,
@@ -268,14 +305,29 @@ const styles = StyleSheet.create({
   },
   errorText: {
     marginTop: 3,
-    marginLeft: -3,
-    color:"red",
-    fontSize: 10
+    marginLeft: 10,
+    color:"#525252",
+    fontSize: 15
   },
   correctText: {
     marginTop: 3,
-    marginLeft: -2,
-    color:"green",
-    fontSize: 10
-  }
+    marginLeft: 10,
+    color:"#525252",
+    fontSize: 15
+  },
+  container: {
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 1.41,
+    elevation: 2,
+    marginTop: 5,
+    marginRight: 15,
+    marginLeft: 5,
+    flex:1
+  },
 });
