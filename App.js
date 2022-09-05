@@ -18,7 +18,10 @@ import PhoneNo from "./screens/authScreens/PhoneNo";
 import MyImage from "./screens/authScreens/MyImage";
 import * as Linking from "expo-linking";
 import { Text } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from "@react-navigation/stack";
 import Explore from "./screens/Explore";
 import { SpotDetails } from "./screens/spots/SpotDetails";
 import OrganizerProfile from "./screens/OrganizerProfile";
@@ -63,10 +66,17 @@ function App() {
   } else if (isFirstLaunch === true) {
     return (
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+            gestureEnabled: true,
+            gestureDirection: "vetrical",
+          }}
+        >
           <Stack.Screen name="OnBoarding" component={OnBoarding} />
           <Stack.Screen name="Set Up Account" component={AuthButtons} />
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="PhoneNo" component={PhoneNo} />
           <Stack.Screen name="MainPageRegister" component={MainPageRegister} />
           <Stack.Screen name="Email" component={Email} />
           <Stack.Screen name="Password" component={Password} />
@@ -85,13 +95,31 @@ function App() {
             {checkUser ? (
               <RootNavigator />
             ) : (
-              <Stack.Navigator screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="Set Up Account" component={AuthButtons} />
+              <Stack.Navigator
+                screenOptions={{
+                  headerShown: false,
+                  gestureEnabled: true,
+                  gestureDirection: "horizontal",
+                }}
+              >
+                <Stack.Screen
+                  name="Set Up Account"
+                  component={AuthButtons}
+                  options={{
+                    gestureEnabled: true,
+                  }}
+                />
                 <Stack.Screen name="Login" component={Login} />
+
                 <Stack.Screen
                   name="MainPageRegister"
                   component={MainPageRegister}
+                  options={{
+                    gestureEnabled: true,
+                  }}
                 />
+                <Stack.Screen name="PhoneNo" component={PhoneNo} />
+
                 <Stack.Screen name="Email" component={Email} />
                 <Stack.Screen name="Password" component={Password} />
                 <Stack.Screen name="MyImage" component={MyImage} />

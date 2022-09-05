@@ -10,11 +10,25 @@ import { Ionicons } from "@expo/vector-icons";
 import TextInput from "react-native-text-input-interactive";
 import Spot from "./spots/Spot";
 import Carousel from "react-native-snap-carousel";
-import spotStore from "../stores/spotStore";
 import { FlatList } from "react-native-gesture-handler";
 import SearchSpot from "./spots/SearchSpot";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
 
 export default function Search({ route, navigation }) {
+  const translations = {
+    en: {
+      suggested: "Suggested Spot",
+      search: "Search",
+    },
+    ar: {
+      suggested: "وجهة مقترحة",
+      search: "ابحث",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
   const [query, setQuery] = useState("");
   const [toggle, setToggle] = useState(true);
   const spots = route.params.spots;
@@ -33,19 +47,65 @@ export default function Search({ route, navigation }) {
   }
   return (
     <View style={{ backgroundColor: "white", height: "100%", width: "100%" }}>
-      <View style={styles.searchView}>
+      <View
+        style={{
+          marginTop: 60,
+          marginRight: 20,
+          marginLeft: 20,
+          marginBottom: 15,
+          display: "flex",
+          alignSelf: "center",
+          flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+          alignItems: "center",
+          alignContent: "center",
+          justifyContent: "space-between",
+        }}
+      >
         <TouchableOpacity
           onPress={() => {
             navigation.goBack();
           }}
           style={{ zIndex: 99 }}
         >
-          <Ionicons style={styles.back} name="chevron-back-outline"></Ionicons>
+          <Ionicons
+            style={styles.back}
+            name={
+              i18n.locale === "en-US"
+                ? "chevron-back-outline"
+                : "chevron-forward-outline"
+            }
+          ></Ionicons>
         </TouchableOpacity>
-        <View style={styles.container}>
+        <View
+          style={{
+            width: "90%",
+            alignSelf: "center",
+            flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 1,
+            },
+            shadowOpacity: 0.1,
+            shadowRadius: 1.41,
+            elevation: 2,
+            marginTop: 5,
+            marginRight: 5,
+            marginLeft: 5,
+          }}
+        >
           <TextInput
-            textInputStyle={styles.formField}
-            placeholder="Search"
+            textInputStyle={{
+              padding: 14,
+              paddingLeft: 50,
+              paddingRight: 50,
+              borderRadius: 13,
+              fontSize: 18,
+              fontFamily: "Ubuntu",
+              width: "100%",
+              textAlign: i18n.locale === "en-US" ? "left" : "right",
+            }}
+            placeholder={i18n.t("search")}
             placeholderTextColor={"grey"}
             onChangeText={(text) => {
               setQuery(text);
@@ -64,12 +124,13 @@ export default function Search({ route, navigation }) {
             style={{
               fontFamily: "UbuntuBold",
               fontSize: 20,
-              marginLeft: 30,
-              marginTop: 30,
+              margin: 32,
               marginBottom: 0,
+              marginTop: 15,
+              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
             }}
           >
-            Suggested Spot
+            {i18n.t("suggested")}
           </Text>
           <Carousel
             style={styles.spotsList}
@@ -118,45 +179,12 @@ const styles = StyleSheet.create({
     fontSize: 40,
     alignSelf: "center",
   },
-  container: {
-    width: "90%",
-    alignSelf: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 1.41,
-    elevation: 2,
-    marginTop: 5,
-    marginRight: 15,
-    marginLeft: 5,
-  },
-  searchView: {
-    marginTop: 60,
-    marginRight: 20,
-    marginLeft: 20,
-    marginBottom: 15,
-    display: "flex",
-    alignSelf: "center",
-    flexDirection: "row",
-    alignItems: "center",
-    alignContent: "center",
-    justifyContent: "space-between",
-  },
-  formField: {
-    padding: 14,
-    paddingLeft: 50,
-    borderRadius: 13,
-    fontSize: 18,
-    fontFamily: "Ubuntu",
-    width: "100%",
-  },
+
   icon: {
     zIndex: 99,
     position: "absolute",
     marginLeft: 12,
+    marginRight: 12,
     marginTop: 12,
     fontSize: 25,
     color: "grey",

@@ -21,6 +21,8 @@ export default function ScrollTabs() {
     spotStore.getSpotsById(spotId)
   );
   const today = new Date();
+  today.setHours(3, 0, 0, 0);
+
   const activeSpots = userSpots.filter(
     // Active spots
     (spot) => new Date(spot.startDate) === today

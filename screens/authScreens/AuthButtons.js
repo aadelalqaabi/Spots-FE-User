@@ -1,7 +1,6 @@
 import {
   TouchableOpacity,
   View,
-  ScrollView,
   Image,
   Text,
   KeyboardAvoidingView,
@@ -10,12 +9,29 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState } from "react";
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 import Login from "./Login";
+import * as Localization from "expo-localization";
+import { I18n } from "i18n-js";
 
 export default function AuthButtons({ navigation }) {
+  const translations = {
+    en: {
+      title: "Go Where You Want To",
+      new: "New to GoTo?",
+      register: "Register Here",
+    },
+    ar: {
+      title: "اذهب الى اين ما شئت",
+      new: "جديد على غوتو؟",
+      register: "سجل هنا ",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
@@ -40,8 +56,7 @@ export default function AuthButtons({ navigation }) {
           <View
             style={{
               justifyContent: "center",
-              marginTop: -155,
-              marginBottom: -50,
+
               width: "70%",
               alignSelf: "center",
               flex: 1,
@@ -54,11 +69,16 @@ export default function AuthButtons({ navigation }) {
                 height: 75,
                 alignSelf: "center",
                 resizeMode: "contain",
+                marginTop: -150,
+                marginBottom: 50,
               }}
               source={require("../../assets/icony.png")}
             />
-            <Text style={styles.title}>Go Where You Want To</Text>
-
+            <Text
+              style={i18n.locale === "en-US" ? styles.title : styles.artitle}
+            >
+              {i18n.t("title")}
+            </Text>
             <Login />
             <View
               style={{
@@ -66,18 +86,34 @@ export default function AuthButtons({ navigation }) {
                 justifyContent: "center",
                 alignContent: "center",
                 alignItems: "center",
-                flexDirection: "row",
+                flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
                 marginTop: 20,
               }}
             >
-              <Text style={styles.checktext}>New to GoTo?</Text>
+              <Text
+                style={
+                  i18n.locale === "en-US"
+                    ? styles.checktext
+                    : styles.checktextar
+                }
+              >
+                {i18n.t("new")}
+              </Text>
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate("MainPageRegister");
                 }}
                 style={styles.signUp}
               >
-                <Text style={styles.signUpText}>Register Here</Text>
+                <Text
+                  style={
+                    i18n.locale === "en-US"
+                      ? styles.signUpText
+                      : styles.signUpTextar
+                  }
+                >
+                  {i18n.t("register")}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -96,11 +132,22 @@ const styles = StyleSheet.create({
     fontFamily: "UbuntuBold",
     fontSize: 20,
   },
+  signUpTextar: {
+    color: "#4831d4",
+    fontFamily: "UbuntuBold",
+    fontSize: 20,
+  },
   checktext: {
     color: "#64666b",
     fontFamily: "Ubuntu",
     fontSize: 20,
     paddingRight: 8,
+  },
+  checktextar: {
+    color: "#64666b",
+    fontFamily: "Ubuntu",
+    fontSize: 20,
+    padding: 8,
   },
   image: {
     flex: 1,
@@ -110,8 +157,16 @@ const styles = StyleSheet.create({
     fontSize: 45,
     fontFamily: "UbuntuBold",
     width: "100%",
-    marginTop: 100,
-    marginBottom: 30,
+    marginTop: 80,
+    marginBottom: 70,
+  },
+  artitle: {
+    fontSize: 45,
+    fontFamily: "UbuntuBold",
+    width: "100%",
+    marginTop: 80,
+    marginBottom: 70,
+    textAlign: "right",
   },
   container: {
     flex: 1,

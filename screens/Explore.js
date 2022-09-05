@@ -21,9 +21,23 @@ import { useScrollToTop } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import ContentLoader, { Circle, Rect } from "react-content-loader/native";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
+
 LogBox.ignoreAllLogs(true);
 
 function Explore() {
+  const translations = {
+    en: {
+      explore: "Explore",
+    },
+    ar: {
+      explore: "اكتشف",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
   const ref = React.useRef(null);
   useScrollToTop(ref);
   const navigation = useNavigation();
@@ -43,8 +57,7 @@ function Explore() {
     return <AppLoading />;
   }
   const today = new Date();
-  today.setHours(0, 33, 30);
-  console.log("today", today);
+  today.setHours(3, 0, 0, 0);
   const spotsByDate = spotStore.spots.filter(
     (spot) => new Date(spot.startDate) >= today
   );
@@ -52,7 +65,7 @@ function Explore() {
     (objA, objB) => new Date(objA.startDate) - new Date(objB.startDate)
   );
   const spots = sortedSpots
-    .filter((spot) => (!category ? spot : spot.category._id === category?._id))
+    .filter((spot) => (!category ? spot : spot.category === category?._id))
     .filter((category) =>
       category?.name?.toLowerCase().includes(query.toLowerCase())
     );
@@ -85,8 +98,18 @@ function Explore() {
           </ContentLoader>
         ) : (
           <>
-            <View style={styles.exploreView}>
-              <Text style={styles.maintitle}>Explore</Text>
+            <View
+              style={{
+                margin: 30,
+                marginBottom: 0,
+                display: "flex",
+                flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+                alignItems: "center",
+                flexWrap: "wrap",
+                justifyContent: "space-between",
+              }}
+            >
+              <Text style={styles.maintitle}>{i18n.t("explore")}</Text>
 
               <TouchableOpacity
                 onPress={() => {
@@ -313,15 +336,7 @@ const styles = StyleSheet.create({
     fontSize: 35,
     marginBottom: 10,
   },
-  exploreView: {
-    margin: 30,
-    marginBottom: 0,
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-  },
+
   closeicon: {
     fontSize: 30,
     color: "#cecece",
