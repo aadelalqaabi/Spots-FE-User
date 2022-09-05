@@ -6,10 +6,24 @@ import moment from "moment";
 import { useFonts } from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
 import AppLoading from "expo-app-loading";
-import authStore from "../../stores/organizerStore";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
 import organizerStore from "../../stores/organizerStore";
+import "moment/locale/ar";
 
 function Spot({ spot, navigation }) {
+  const translations = {
+    en: {
+      suggested: "Suggested Spot",
+      search: "Search",
+    },
+    ar: {
+      suggested: "وجهة مقترحة",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
   const [isSmallScreen] = useMediaQuery({
     minHeight: 180,
     maxHeight: 900,
@@ -26,8 +40,10 @@ function Spot({ spot, navigation }) {
   let user1 = spot?.users[0]?.image;
   let user2 = spot?.users[1]?.image;
   let user3 = spot?.users[2]?.image;
-  let month = moment(spot.startDate).format("MMM");
-  let day = moment(spot.startDate).format("DD");
+  let monthEn = moment(spot.startDate).locale("en").format("MMM");
+  let dayEn = moment(spot.startDate).locale("en").format("DD");
+  let monthAr = moment(spot.startDate).locale("ar").format("MMM");
+  let dayAr = moment(spot.startDate).locale("ar").format("DD");
   return (
     <TouchableOpacity
       style={styles.card}
@@ -85,7 +101,7 @@ function Spot({ spot, navigation }) {
                 color: "#0a0a0b",
               }}
             >
-              {day}
+              {i18n.locale === "en-US" ? dayEn : dayAr}
             </Text>
 
             <Text
@@ -95,27 +111,61 @@ function Spot({ spot, navigation }) {
                 color: "grey",
               }}
             >
-              {month}
+              {i18n.locale === "en-US" ? monthEn : monthAr}
             </Text>
           </View>
         </View>
         <LinearGradient
-          colors={["rgba(0,0,0,0.7)", "transparent"]}
+          colors={["rgba(0,0,0,0.75)", "transparent"]}
           start={{ x: 0, y: 0.8 }}
           end={{ x: 0, y: 0 }}
           style={styles.infoContainer}
         >
           {spot.isFree === true ? (
-            <Text style={styles.isFree}>Free</Text>
+            <Text
+              style={{
+                fontSize: 16,
+                color: "white",
+                fontFamily: "Ubuntu",
+                paddingBottom: 10,
+                alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+              }}
+            >
+              {i18n.locale === "en-US" ? "Free" : "مجاني"}
+            </Text>
           ) : (
-            <Text style={styles.isFree}>{spot.price} KD per person</Text>
+            <Text
+              style={{
+                fontSize: 16,
+                color: "white",
+                fontFamily: "Ubuntu",
+                paddingBottom: 10,
+                alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+              }}
+            >
+              {i18n.locale === "en-US"
+                ? spot.price + " KD per person"
+                : spot.price + " للشخص الواحد"}
+            </Text>
           )}
-          <Text style={styles.name}>{spot.name}</Text>
+          <Text
+            style={{
+              fontSize: 30,
+              fontWeight: "bold",
+              color: "white",
+              fontFamily: "UbuntuBold",
+              paddingBottom: 10,
+              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+            }}
+          >
+            {i18n.locale === "en-US" ? spot.name : spot.name}
+          </Text>
           <View
             style={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "flex-start",
+              justifyContent:
+                i18n.locale === "en-US" ? "flex-start" : "flex-end",
               alignContent: "center",
               alignItems: "center",
             }}
@@ -259,12 +309,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     margin: 10,
   },
-  isFree: {
-    fontSize: 16,
-    color: "white",
-    fontFamily: "Ubuntu",
-    paddingBottom: 10,
-  },
+
   priceBack: {
     backgroundColor: "rgba(0,0,0,0.6)",
     alignSelf: "center",
@@ -295,13 +340,7 @@ const styles = StyleSheet.create({
     paddingLeft: 40,
     paddingTop: 40,
   },
-  name: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "white",
-    fontFamily: "UbuntuBold",
-    paddingBottom: 10,
-  },
+
   ownername: {
     fontSize: 20,
     color: "#fffffc",

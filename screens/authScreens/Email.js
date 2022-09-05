@@ -1,4 +1,12 @@
-import { StyleSheet, View, Button, Text, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Button,
+  Text,
+  Keyboard,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { useState } from "react";
 import { Alert } from "react-native";
 import React from "react";
@@ -6,6 +14,8 @@ import TextInput from "react-native-text-input-interactive";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
 
 export default function Email({ navigation, route }) {
   const { itemId } = route.params;
@@ -14,23 +24,42 @@ export default function Email({ navigation, route }) {
   const [checkValidationColor, setCheckValidationColor] = useState("#4831d4");
   const [begining, setBegining] = useState(true);
   const [showError, setShowError] = useState(true);
-
+  const translations = {
+    en: {
+      name: "Enter Your Email",
+      description:
+        "Choose an email for your account\n to receive confirmation emails",
+      next: "Next",
+      email: "Email",
+    },
+    ar: {
+      name: "ادخل بريدك الالكتروني",
+      description:
+        "اختر البريد الالكتروني الخاص بك \nلاستلام بريد تأكيد حجز لاحقا",
+      next: "التالي",
+      email: "بريدك الالكتروني",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
   const handleChange = (name, value) => {
     const check = checkEntry(value);
-    if(check === true){
+    if (check === true) {
       setUser({ ...user, [name]: value });
       setCheckValidation(false);
       setCheckValidationColor("#4831d4");
       setShowError(false);
-    } else{
+    } else {
       setCheckValidation(true);
       setCheckValidationColor("red");
       setBegining(false);
       setShowError(true);
-    } 
+    }
   };
   const checkEntry = (email) => {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   };
   let [fontsLoaded] = useFonts({
@@ -42,136 +71,181 @@ export default function Email({ navigation, route }) {
   }
   return (
     <KeyboardAvoidingView
-    behavior={Platform.OS === "ios" ? "padding" : "height"}
- 
-  >
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <View
-      style={{
-        width: "100%",
-        height: "100%",
-        backgroundColor: "white",
-      }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <Ionicons
-        style={{
-          position: "absolute",
-          fontSize: 35,
-          marginTop: 80,
-          marginLeft: 20,
-        }}
-        name="chevron-back-outline"
-        onPress={() => navigation.goBack()}
-      ></Ionicons>
-      <View
-        style={{
-          justifyContent: "center",
-          marginTop: 130,
-          width: "70%",
-          alignSelf: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View
           style={{
-            fontFamily: "UbuntuBold",
-            fontSize: 30,
-            margin: 20,
-            marginTop: 0,
             width: "100%",
-            textAlign: "center",
+            height: "100%",
+            backgroundColor: "white",
           }}
         >
-          Enter Email
-        </Text>
-        <Text
-          style={{
-            fontFamily: "Ubuntu",
-            fontSize: 16,
-            margin: 20,
-            marginTop: 0,
-            width: "100%",
-            textAlign: "center",
-            color: "#64666b",
-            lineHeight: 20,
-          }}
-        >
-          Add an email for your account to recive confirmation emails
-        </Text>
-        <View style={{ width: "110%", alignSelf: "center", display:"flex", flexDirection:"column", justifyContent:"space-between", height:"73%" }}>
-          <View style={styles.container}>
-            <TextInput
-              textInputStyle={{
+          <Ionicons
+            style={{
+              position: "absolute",
+              fontSize: 35,
+              marginTop: 80,
+              marginLeft: 20,
+              paddingRight: 20,
+              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+            }}
+            name={
+              i18n.locale === "en-US"
+                ? "chevron-back-outline"
+                : "chevron-forward-outline"
+            }
+            onPress={() => navigation.goBack()}
+          ></Ionicons>
+          <View
+            style={{
+              justifyContent: "center",
+              marginTop: 130,
+              width: "70%",
+              alignSelf: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: "UbuntuBold",
+                fontSize: i18n.locale === "en-US" ? 30 : 32,
+                margin: 20,
+                marginTop: 0,
+                width: "100%",
+                textAlign: "center",
+              }}
+            >
+              {i18n.t("name")}
+            </Text>
+            <Text
+              style={{
+                fontFamily: "Ubuntu",
+                fontSize: i18n.locale === "en-US" ? 16 : 18,
+                margin: 20,
+                marginTop: 0,
+                width: "100%",
+                textAlign: "center",
+                color: "#64666b",
+                lineHeight: 23,
+              }}
+            >
+              {i18n.t("description")}
+            </Text>
+            <View
+              style={{
+                width: "110%",
                 alignSelf: "center",
-                width: "103%",
-                marginBottom: 10,
-                padding: 14,
-                paddingLeft: 50,
-                fontFamily: "Ubuntu", 
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                height: "73%",
               }}
-              mainColor={checkValidationColor}
-              label="Email"
-              onChangeText={(text) => {
-                handleChange("email", text);
-              }}
-              placeholder="Email"
-              keyboardType="email-address"
-              onSubmitEditing={() => {
-                checkValidation===false? navigation.navigate("Password", { itemId: user }) : Alert.alert("Invalid Email Adress", "", [{ text: "Try Again" }]);;
-              }}
-            />
-            {begining === true ? (
-              <Ionicons style={styles.icon} name="mail" size={18} color="#4831d4" />
-            ) : (
-              <>
-                {showError === true ? (
-                  <Ionicons style={styles.icon} name="close-outline" size={18} color="red" />
+            >
+              <View style={styles.container}>
+                <TextInput
+                  textInputStyle={{
+                    alignSelf: "center",
+                    width: "103%",
+                    marginBottom: 10,
+                    padding: 14,
+                    paddingLeft: 50,
+                    paddingRight: 50,
+                    fontFamily: "Ubuntu",
+                    textAlign: i18n.locale === "en-US" ? "left" : "right",
+                  }}
+                  mainColor={checkValidationColor}
+                  label="Email"
+                  onChangeText={(text) => {
+                    handleChange("email", text);
+                  }}
+                  placeholder=""
+                  keyboardType="email-address"
+                  onSubmitEditing={() => {
+                    checkValidation === false
+                      ? navigation.navigate("Password", { itemId: user })
+                      : Alert.alert("Invalid Email Adress", "", [
+                          { text: "Try Again" },
+                        ]);
+                  }}
+                />
+                {begining === true ? (
+                  <Ionicons
+                    style={{
+                      zIndex: 99,
+                      position: "absolute",
+                      margin: 12,
+                      fontSize: 25,
+                      alignSelf:
+                        i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                    }}
+                    name="mail"
+                    size={18}
+                    color="#4831d4"
+                  />
                 ) : (
-                  <Ionicons style={styles.icon} name="checkmark" size={16} color="#00b100" />
+                  <>
+                    {showError === true ? (
+                      <Ionicons
+                        style={{
+                          zIndex: 99,
+                          position: "absolute",
+                          margin: 12,
+                          fontSize: 25,
+                          alignSelf:
+                            i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                        }}
+                        name="close-outline"
+                        size={18}
+                        color="red"
+                      />
+                    ) : (
+                      <Ionicons
+                        style={{
+                          zIndex: 99,
+                          position: "absolute",
+                          margin: 12,
+                          fontSize: 25,
+                          alignSelf:
+                            i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                        }}
+                        name="checkmark"
+                        size={16}
+                        color="#00b100"
+                      />
+                    )}
+                  </>
                 )}
-              </>
-            )}
-          </View>
-          {/* {showError === true ? 
-            <View style={styles.errorContainer}>
-              <Ionicons name="close-outline" size={18} color="red" />
-              <Text style={styles.errorText}>Invalid Email</Text>
+              </View>
+              <View style={{ flex: 1, justifyContent: "flex-end" }}>
+                {checkValidation === true ? (
+                  <View style={styles.buttonx}>
+                    <Button
+                      title={i18n.t("next")}
+                      color="white"
+                      disabled={checkValidation}
+                      onPress={() => {
+                        navigation.navigate("Password", { itemId: user });
+                      }}
+                    />
+                  </View>
+                ) : (
+                  <View style={styles.button}>
+                    <Button
+                      title={i18n.t("next")}
+                      color="white"
+                      disabled={checkValidation}
+                      onPress={() => {
+                        navigation.navigate("Password", { itemId: user });
+                      }}
+                    />
+                  </View>
+                )}
+              </View>
             </View>
-            :
-            <View style={styles.errorContainer}>
-              <Ionicons name="checkmark" size={16} color="green" />
-              <Text style={styles.correctText}>Valid Email</Text>
-            </View> 
-          } */}
-         <View style={{flex:1, justifyContent:"flex-end"}}>
-          {checkValidation === true ? 
-            <View style={styles.buttonx}>
-              <Button
-                title="Next"
-                color="white"
-                disabled={checkValidation}
-                onPress={() => {
-                  navigation.navigate("Password", { itemId: user });
-                }}
-              />
-            </View>
-            :
-            <View style={styles.button}>
-              <Button
-                title="Next"
-                color="white"
-                disabled={checkValidation}
-                onPress={() => {
-                  navigation.navigate("Password", { itemId: user });
-                }}
-              />
-            </View>
-          }
           </View>
         </View>
-      </View>
-    </View>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
 }
@@ -214,24 +288,24 @@ const styles = StyleSheet.create({
     // borderRightWidth: 5,
     // borderColor: '#000',
     // paddingBottom: 10,
-    flexDirection: 'row',
+    flexDirection: "row",
     // borderBottomWidth: 1,
-    borderColor: '#000',
+    borderColor: "#000",
     paddingBottom: 10,
     marginTop: -12,
-    marginLeft: 8
+    marginLeft: 8,
   },
   errorText: {
     marginTop: 3,
     marginLeft: -3,
-    color:"red",
-    fontSize: 10
+    color: "red",
+    fontSize: 10,
   },
   correctText: {
     marginTop: 3,
     marginLeft: -2,
-    color:"green",
-    fontSize: 10
+    color: "green",
+    fontSize: 10,
   },
   container: {
     //width: "90%",
@@ -247,7 +321,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginRight: 15,
     marginLeft: 5,
-    flex:1
+    flex: 1,
   },
   icon: {
     zIndex: 99,

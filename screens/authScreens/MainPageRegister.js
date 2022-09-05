@@ -1,4 +1,12 @@
-import { StyleSheet, View, Text, Button, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  Button,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import { useState } from "react";
 import { Alert } from "react-native";
 import React from "react";
@@ -7,8 +15,26 @@ import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import { Ionicons } from "@expo/vector-icons";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
 
 export default function MainPageRegister() {
+  const translations = {
+    en: {
+      name: "Enter Your Name",
+      description:
+        "Choose a name for your account\n (Must be at least 2 characters)",
+      next: "Next",
+    },
+    ar: {
+      name: "ادخل اسمك",
+      description: "اختر اسم ليظهر في حسابك \n(يجب ان يكون حرفين على الاقل)",
+      next: "التالي",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
   const navigation = useNavigation();
   const [user, setUser] = useState({
     username: "",
@@ -49,131 +75,184 @@ export default function MainPageRegister() {
   }
   return (
     <KeyboardAvoidingView
-    behavior={Platform.OS === "ios" ? "padding" : "height"}
- 
-  >
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <View
-      style={{
-        width: "100%",
-        height: "100%",
-        backgroundColor: "white",
-      }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <Ionicons
-        style={{
-          position: "absolute",
-          fontSize: 35,
-          marginTop: 80,
-          marginLeft: 20,
-        }}
-        name="chevron-back-outline"
-        onPress={() => navigation.goBack()}
-      ></Ionicons>
-      <View
-        style={{
-          justifyContent: "center",
-          marginTop: 130,
-          width: "70%",
-          alignSelf: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View
           style={{
-            fontFamily: "UbuntuBold",
-            fontSize: 30,
-            margin: 20,
-            marginTop: 0,
             width: "100%",
-            textAlign: "center",
+            height: "100%",
+            backgroundColor: "white",
           }}
         >
-          Enter username
-        </Text>
-        <Text
-          style={{
-            fontFamily: "Ubuntu",
-            fontSize: 16,
-            margin: 20,
-            marginTop: 0,
-            width: "100%",
-            textAlign: "center",
-            color: "#64666b",
-            lineHeight: 20,
-          }}
-        >
-          Choose a username for your account (Must be at least 2 characters)
-        </Text>
-      
-        <View style={{ width: "110%", alignSelf: "center", display:"flex", flexDirection:"column", justifyContent:"space-between", height:"73%" }}>
-       
-          <View style={styles.container}>
-            <TextInput
-              textInputStyle={{
+          <Ionicons
+            style={{
+              position: "absolute",
+              fontSize: 35,
+              marginTop: 80,
+              marginLeft: 20,
+              paddingRight: 20,
+              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+            }}
+            name={
+              i18n.locale === "en-US"
+                ? "chevron-back-outline"
+                : "chevron-forward-outline"
+            }
+            onPress={() => navigation.goBack()}
+          ></Ionicons>
+          <View
+            style={{
+              justifyContent: "center",
+              marginTop: 130,
+              width: "70%",
+              alignSelf: "center",
+              alignItems: "center",
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: "UbuntuBold",
+                fontSize: i18n.locale === "en-US" ? 30 : 35,
+                margin: 20,
+                marginTop: 0,
+                width: "100%",
+                textAlign: "center",
+              }}
+            >
+              {i18n.t("name")}
+            </Text>
+            <Text
+              style={{
+                fontFamily: "Ubuntu",
+                fontSize: i18n.locale === "en-US" ? 16 : 18,
+                margin: 20,
+                marginTop: 0,
+                width: "100%",
+                textAlign: "center",
+                color: "#64666b",
+                lineHeight: 23,
+              }}
+            >
+              {i18n.t("description")}
+            </Text>
+
+            <View
+              style={{
+                width: "110%",
                 alignSelf: "center",
-                width: "103%",
-                marginBottom: 10,
-                padding: 14,
-                paddingLeft: 50,
-                fontFamily: "Ubuntu", 
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                height: "73%",
               }}
-              mainColor={checkValidationColor}
-              label="Username"
-              onChangeText={(text) => {
-                handleChange("username", text);
-              }}
-              placeholder="Enter Username"
-              keyboardType="url"
-              enableIcon="true"
-              onSubmitEditing={() => {
-                checkValidation===false? navigation.navigate("PhoneNo", { itemId: user }) : Alert.alert("Invalid Username", "", [{ text: "Try Again" }]);;
-              }}
-            />
-            {begining === true ? (
-              <Ionicons style={styles.icon} name="person-circle" size={30} color="#4831d4" />
-            ) : (
-              <>
-                {showError === true ? (
-                  <Ionicons style={styles.icon} name="close-outline" size={18} color="red" />
-               
+            >
+              <View style={styles.container}>
+                <TextInput
+                  textInputStyle={{
+                    alignSelf: "center",
+                    width: "103%",
+                    marginBottom: 10,
+                    padding: 14,
+                    paddingLeft: 50,
+                    paddingRight: 50,
+                    fontFamily: "Ubuntu",
+                    textAlign: i18n.locale === "en-US" ? "left" : "right",
+                  }}
+                  mainColor={checkValidationColor}
+                  label="Username"
+                  onChangeText={(text) => {
+                    handleChange("username", text);
+                  }}
+                  placeholder=""
+                  keyboardType="url"
+                  enableIcon="true"
+                  onSubmitEditing={() => {
+                    checkValidation === false
+                      ? navigation.navigate("PhoneNo", { itemId: user })
+                      : Alert.alert("Invalid Username", "", [
+                          { text: "Try Again" },
+                        ]);
+                  }}
+                />
+                {begining === true ? (
+                  <Ionicons
+                    style={{
+                      zIndex: 99,
+                      position: "absolute",
+                      margin: 12,
+                      fontSize: 25,
+                      alignSelf:
+                        i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                    }}
+                    name="person-circle"
+                    size={30}
+                    color="#4831d4"
+                  />
                 ) : (
-                  <Ionicons style={styles.icon} name="checkmark" size={16} color="#00b100" />
-               
+                  <>
+                    {showError === true ? (
+                      <Ionicons
+                        style={{
+                          zIndex: 99,
+                          position: "absolute",
+                          margin: 12,
+                          fontSize: 25,
+                          alignSelf:
+                            i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                        }}
+                        name="close-outline"
+                        size={18}
+                        color="red"
+                      />
+                    ) : (
+                      <Ionicons
+                        style={{
+                          zIndex: 99,
+                          position: "absolute",
+                          margin: 12,
+                          fontSize: 25,
+                          alignSelf:
+                            i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                        }}
+                        name="checkmark"
+                        size={16}
+                        color="#00b100"
+                      />
+                    )}
+                  </>
                 )}
-              </>
-            )}
-          </View>
-          <View style={{flex:1, justifyContent:"flex-end"}}>
-          {checkValidation === true ? 
-            <View style={styles.buttonx}>
-              <Button
-                title="Next"
-                color="white"
-                disabled={checkValidation}
-                onPress={() => {
-                  navigation.navigate("PhoneNo", { itemId: user });
-                }}
-              />
+              </View>
+              <View style={{ flex: 1, justifyContent: "flex-end" }}>
+                {checkValidation === true ? (
+                  <View style={styles.buttonx}>
+                    <Button
+                      title={i18n.t("next")}
+                      color="white"
+                      disabled={checkValidation}
+                      onPress={() => {
+                        navigation.navigate("PhoneNo", { itemId: user });
+                      }}
+                    />
+                  </View>
+                ) : (
+                  <View style={styles.button}>
+                    <Button
+                      title={i18n.t("next")}
+                      color="white"
+                      disabled={checkValidation}
+                      onPress={() => {
+                        navigation.navigate("PhoneNo", { itemId: user });
+                      }}
+                    />
+                  </View>
+                )}
+              </View>
             </View>
-            :
-            <View style={styles.button}>
-              <Button
-                title="Next"
-                color="white"
-                disabled={checkValidation}
-                onPress={() => {
-                  navigation.navigate("PhoneNo", { itemId: user });
-                }}
-              />
-            </View>
-          }
           </View>
         </View>
-      </View>
-    </View>
-        </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -249,7 +328,7 @@ const styles = StyleSheet.create({
   //   color: "grey",
   // },
   container: {
-   /// width: "90%",
+    /// width: "90%",
     alignSelf: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -262,16 +341,9 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginRight: 15,
     marginLeft: 5,
-    flex:1
+    flex: 1,
   },
-  icon: {
-    zIndex: 99,
-    position: "absolute",
-    marginLeft: 12,
-    marginTop: 12,
-    fontSize: 25,
-    // color: "grey",
-  },
+
   formField: {
     padding: 14,
     paddingLeft: 50,

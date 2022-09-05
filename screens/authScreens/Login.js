@@ -3,14 +3,27 @@ import { useState } from "react";
 import authStore from "../../stores/authStore";
 import React from "react";
 import TextInput from "react-native-text-input-interactive";
-
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
-
 import PhoneInput from "react-native-phone-number-input";
-
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
 
 export default function Login() {
+  const translations = {
+    en: {
+      phone: "Phone Number",
+      login: "Login",
+    },
+    ar: {
+      phone: "رقم الهاتف",
+      login: "تسجيل دخول",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
+
   const [user, setUser] = useState({
     // phone: "",
     username: "",
@@ -22,7 +35,6 @@ export default function Login() {
   };
 
   const handleSubmit = (event) => {
-    console.log('user', user)
     authStore.login(user);
   };
   let [fontsLoaded] = useFonts({
@@ -40,67 +52,33 @@ export default function Login() {
         alignSelf: "center",
       }}
     >
-
       <View style={{ display: "flex", width: "100%" }}>
-        {/* <TextInput
-          textInputStyle={{
-            alignSelf: "center",
-            width: "100%",
-          }}
-          mainColor="#4831d4"
-          label="phone"
-          onChangeText={(text) => {
-            handleChange("phone", text);
-          }}
-          placeholder="Username"
-          keyboardType="web-search"
-          onSubmitEditing={handleSubmit}
-        /> */}
         <PhoneInput
-                containerStyle={{
-                    alignSelf: "center",
-                    width: "100%",
-                    marginBottom: 10,
-                }}
-                textInputStyle={{
-                    fontFamily: "Ubuntu", 
-                }}
-                defaultValue={user.phone}
-                defaultCode="KW"
-                layout="first"
-                // second
-                // onChangeText={(text) => {
-                //     handleChange("phone", text);
-                // }}
-                onChangeFormattedText={(text) => {
-                  handleChange("username", text);
-                }}
-                withDarkTheme
-                withShadow
-                autoFocus
-        />
-        <TextInput
-          textInputStyle={{
-            marginTop: 10,
-            marginBottom: 20,
+          containerStyle={{
             alignSelf: "center",
             width: "100%",
+            marginBottom: 10,
           }}
-          mainColor="#4831d4"
-          label="Password"
-          secureTextEntry={true}
-          onChangeText={(text) => {
-            handleChange("password", text);
+          textInputStyle={{
+            fontFamily: "Ubuntu",
+            textAlign: i18n.locale === "en-US" ? "left" : "right",
           }}
-          placeholder="Password"
-          keyboardType="web-search"
-          onSubmitEditing={handleSubmit}
+          defaultValue={user.phone}
+          defaultCode="KW"
+          layout="first"
+          placeholder={i18n.t("phone")}
+          onChangeFormattedText={(text) => {
+            handleChange("username", text);
+          }}
+          withDarkTheme
+          withShadow
+          autoFocus
         />
+
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttontitle}>Login</Text>
+          <Text style={styles.buttontitle}>{i18n.t("login")}</Text>
         </TouchableOpacity>
       </View>
-
     </View>
   );
 }
@@ -123,6 +101,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 3,
     backgroundColor: "#4831d4",
+    marginTop: 20,
   },
   buttontitle: {
     paddingVertical: 10,
@@ -134,8 +113,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   inputLabel: {
-    marginBottom: 8,
-    marginTop: 20,
+    marginBottom: 0,
+    marginTop: 8,
     fontFamily: "Ubuntu",
     fontSize: 16,
   },

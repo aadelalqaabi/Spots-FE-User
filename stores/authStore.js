@@ -26,11 +26,11 @@ class AuthStore {
     if (token) {
       const currentTime = Date.now();
       const user = decode(token);
-      if (user.exp >= currentTime) {
-        this.setUser(token);
-      } else {
-        this.logout();
-      }
+      // if (user.exp >= currentTime) {
+      this.setUser(token);
+      // } else {
+      //   this.logout();
+      // }
     }
   };
 
