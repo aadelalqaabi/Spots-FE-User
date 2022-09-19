@@ -3,7 +3,7 @@ import {
   View,
   Image,
   Button,
-  TouchableOpacity,
+  useColorScheme,
   Text,
 } from "react-native";
 import { useState, useEffect } from "react";
@@ -13,8 +13,32 @@ import * as ImagePicker from "expo-image-picker";
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
+import * as Localization from "expo-localization";
+import { I18n } from "i18n-js";
 
 export default function MyImage({ navigation, route }) {
+  const colorScheme = useColorScheme();
+  const translations = {
+    en: {
+      image: "Choose Profile Image",
+      description: "Add profile image so your friends know your reviews",
+      pick: "Pick Image",
+      skip: "Skip",
+      done: "Done",
+      choose: "Choose another image",
+    },
+    ar: {
+      image: "اختر صورة لحسابك",
+      description: "اختر صورة لحسابك، ليرى اصدقائك تقاييمك",
+      pick: "اختر صورة",
+      skip: "تخطى",
+      done: "تم",
+      choose: "اختر صورة اخرى",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
   const [image, setImage] = useState(null);
   const [toggle, setToggle] = useState(false);
   const { itemId } = route.params;
@@ -35,6 +59,8 @@ export default function MyImage({ navigation, route }) {
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
+    Noto: require("../../assets/fonts/Noto.ttf"),
+    NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -81,7 +107,7 @@ export default function MyImage({ navigation, route }) {
         alignSelf: "center",
         alignContent: "center",
         justifyContent: "space-between",
-        backgroundColor: "white",
+        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
       }}
     >
       <Ionicons
@@ -90,8 +116,15 @@ export default function MyImage({ navigation, route }) {
           fontSize: 35,
           marginTop: 80,
           marginLeft: 20,
+          paddingRight: 20,
+          alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}
-        name="chevron-back-outline"
+        name={
+          i18n.locale === "en-US"
+            ? "chevron-back-outline"
+            : "chevron-forward-outline"
+        }
         onPress={() => navigation.goBack()}
       ></Ionicons>
       <View
@@ -105,29 +138,36 @@ export default function MyImage({ navigation, route }) {
       >
         <Text
           style={{
-            fontFamily: "UbuntuBold",
-            fontSize: 30,
+            fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+            fontSize: i18n.locale === "en-US" ? 28 : 30,
+            marginBottom: i18n.locale === "en-US" ? 20 : 10,
             margin: 20,
             marginTop: 0,
             width: "100%",
             textAlign: "center",
+            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
-          Add Profile Image
+          {i18n.t("image")}
         </Text>
         <Text
           style={{
-            fontFamily: "Ubuntu",
-            fontSize: 16,
+            fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+            fontSize: i18n.locale === "en-US" ? 16 : 18,
+            paddingTop: 3,
             margin: 20,
             marginTop: 0,
+            marginBottom: i18n.locale === "en-US" ? 20 : 10,
+
             width: "100%",
             textAlign: "center",
             color: "#64666b",
-            lineHeight: 20,
+            lineHeight: 23,
+            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            opacity: 0.8,
           }}
         >
-          Add profile image so your friends know your reviews
+          {i18n.t("description")}
         </Text>
         <View
           style={{
@@ -144,22 +184,13 @@ export default function MyImage({ navigation, route }) {
                 flexDirection: "column",
               }}
             >
-              <View
+              <Ionicons
                 style={{
-                  shadowColor: "#000",
-                  backgroundColor: "white",
-                  borderRadius: "150%",
-                  alignSelf: "center",
+                  fontSize: 165,
+                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 }}
-              >
-                <Image
-                  style={{
-                    width: 180,
-                    height: 180,
-                  }}
-                  source={require("../../assets/addImage.png")}
-                ></Image>
-              </View>
+                name="image-outline"
+              ></Ionicons>
             </View>
           ) : (
             <></>
@@ -192,7 +223,7 @@ export default function MyImage({ navigation, route }) {
               >
                 <Button
                   color="#4831d4"
-                  title="Choose another image"
+                  title={i18n.t("choose")}
                   onPress={pickImage}
                 />
               </View>
@@ -206,16 +237,28 @@ export default function MyImage({ navigation, route }) {
         >
           {toggle === false ? (
             <View style={styles.button}>
-              <Button onPress={pickImage} title="Pick Image" color="white" />
+              <Button
+                onPress={pickImage}
+                title={i18n.t("pick")}
+                color="white"
+              />
             </View>
           ) : (
             <View style={styles.button}>
-              <Button title="Done" color="white" onPress={handleSubmit} />
+              <Button
+                title={i18n.t("done")}
+                color="white"
+                onPress={handleSubmit}
+              />
             </View>
           )}
           {!toggle && (
             <View>
-              <Button title="Skip" color="#4831d4" onPress={handleSubmit} />
+              <Button
+                title={i18n.t("skip")}
+                color="#7758F6"
+                onPress={handleSubmit}
+              />
             </View>
           )}
         </View>
@@ -245,7 +288,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 15,
     elevation: 3,
-    backgroundColor: "#4831d4",
+    backgroundColor: "#7758F6",
     alignSelf: "center",
     width: "100%",
     marginBottom: 15,

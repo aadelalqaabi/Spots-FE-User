@@ -38,10 +38,10 @@ export default observer(ReviewList);
 
 const styles = StyleSheet.create({
   spotsList: {
-    backgroundColor: "#fffffc",
+    backgroundColor: "transparent",
   },
   spotsListContainer: {
-    backgroundColor: "#fffffc",
+    backgroundColor: "transparent",
   },
   descriptionTitle: {
     fontSize: 22,

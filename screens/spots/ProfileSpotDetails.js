@@ -8,6 +8,7 @@ import {
   Button,
   FlatList,
   TouchableOpacity,
+  useColorScheme,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import spotStore from "../../stores/spotStore";
@@ -29,10 +30,10 @@ import pointStore from "../../stores/pointStore";
 import authStore from "../../stores/authStore";
 import Modal from "react-native-modal";
 import { observer } from "mobx-react";
-//import "moment/locale/ar";
 LogBox.ignoreAllLogs();
 
 function ProfileSpotDetails({ route }) {
+  const colorScheme = useColorScheme();
   const spot = spotStore.getSpotsById(route.params.id);
   let point = pointStore.points.find(
     (point) => point?.user === authStore.user.id && point?.spot === spot?._id
@@ -47,7 +48,6 @@ function ProfileSpotDetails({ route }) {
   function renderReward({ item: reward }) {
     return <RewardItem reward={reward} />;
   }
-
   const [reviewText, setReviewText] = useState({
     stars: "",
     description: "",
@@ -88,23 +88,48 @@ function ProfileSpotDetails({ route }) {
     <ScrollView
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
-      style={{ backgroundColor: "white" }}
+      style={{
+        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+      }}
     >
-      <StatusBar barStyle="dark-content" />
+      <StatusBar
+        barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
+      />
       <View style={styles.titlelocation}>
         <Ionicons
           onPress={() => {
             navigation.goBack();
           }}
-          style={styles.back}
+          style={{
+            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            zIndex: 99,
+            fontSize: 35,
+            margin: 15,
+          }}
           name="chevron-back-outline"
         ></Ionicons>
-        <Text style={styles.mainTitle}>{spot.name}</Text>
+        <Text
+          style={{
+            fontSize: 26,
+            alignSelf: "center",
+            textAlign: "center",
+            fontFamily: "Ubuntu",
+            width: "50%",
+            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+          }}
+        >
+          {spot.name}
+        </Text>
         <Ionicons
           onPress={() => {
             navigation.navigate("Info");
           }}
-          style={styles.back}
+          style={{
+            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            zIndex: 99,
+            fontSize: 35,
+            margin: 15,
+          }}
           name="information-outline"
         ></Ionicons>
       </View>
@@ -123,7 +148,7 @@ function ProfileSpotDetails({ route }) {
               fontFamily: "UbuntuBold",
               padding: 15,
               width: "100%",
-              color: "black",
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               borderRadius: 500,
               backgroundColor: "#f2f4f6",
             }}
@@ -133,7 +158,7 @@ function ProfileSpotDetails({ route }) {
             repeatSpacer={0}
             shouldAnimateTreshold={40}
           >
-            <FontAwesome name="bullhorn" size={22} color="#4831d4" />
+            <FontAwesome name="bullhorn" size={22} color="#7758F6" />
             {"  "}
             {spot.announcement}
           </TextTicker>
@@ -155,7 +180,8 @@ function ProfileSpotDetails({ route }) {
             style={{
               fontFamily: "Ubuntu",
               fontSize: 20,
-              color: "grey",
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              opacity: 0.8,
             }}
           >
             Your Points
@@ -164,7 +190,7 @@ function ProfileSpotDetails({ route }) {
             style={{
               fontFamily: "UbuntuBold",
               fontSize: 40,
-              color: "black",
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               margin: 10,
               marginLeft: 0,
               marginBottom: 20,
@@ -177,8 +203,8 @@ function ProfileSpotDetails({ route }) {
             style={{
               fontFamily: "Ubuntu",
               fontSize: 15,
-
-              color: "grey",
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              opacity: 0.8,
             }}
           >
             Valid during spot's date only
@@ -189,7 +215,7 @@ function ProfileSpotDetails({ route }) {
             width: 120,
             height: 50,
             borderRadius: 10,
-            borderColor: "#4831d4",
+            borderColor: "#7758F6",
             borderWidth: 1,
             margin: 50,
             marginRight: 0,
@@ -200,6 +226,13 @@ function ProfileSpotDetails({ route }) {
             justifyContent: "center",
             alignItems: "center",
             flexDirection: "row",
+            shadowOpacity: 0.2,
+            shadowRadius: 10,
+            shadowColor: "white",
+            shadowOffset: {
+              height: 0,
+              width: 0,
+            },
           }}
           onPress={() =>
             navigation.navigate("Scanner", { spot: spot, point: point })
@@ -209,54 +242,75 @@ function ProfileSpotDetails({ route }) {
             style={{
               fontSize: 25,
               zIndex: 99,
-              color: "#4831d4",
+              color: "#7758F6",
             }}
             name="scan"
           ></Ionicons>
 
-          <Text style={styles.scantext}>Scan QR</Text>
+          <Text
+            style={{
+              color: "#7758F6",
+              fontSize: 17,
+              fontFamily: "Ubuntu",
+              marginLeft: 10,
+            }}
+          >
+            Scan QR
+          </Text>
         </TouchableOpacity>
       </View>
-
-      <Text
-        style={{
-          fontFamily: "UbuntuBold",
-          fontSize: 20,
-          marginLeft: 28,
-          marginTop: 20,
-        }}
-      >
-        Rewards
-      </Text>
-      <FlatList
-        horizontal={true}
-        style={styles.spotsList}
-        contentContainerStyle={styles.spotsListContainer}
-        data={rewards}
-        renderItem={renderReward}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      />
-      <Text
-        style={{
-          fontFamily: "UbuntuBold",
-          fontSize: 20,
-          marginLeft: 28,
-          marginTop: 20,
-        }}
-      >
-        Offers
-      </Text>
-
-      <FlatList
-        horizontal={true}
-        style={styles.spotsList}
-        contentContainerStyle={styles.spotsListContainer}
-        data={offers}
-        renderItem={renderOffer}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-      />
+      {spot.rewards.length !== 0 ? (
+        <>
+          <Text
+            style={{
+              fontFamily: "UbuntuBold",
+              fontSize: 20,
+              marginLeft: 28,
+              marginTop: 20,
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            }}
+          >
+            Rewards
+          </Text>
+          <FlatList
+            horizontal={true}
+            style={styles.spotsList}
+            contentContainerStyle={styles.spotsListContainer}
+            data={rewards}
+            renderItem={renderReward}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+          />
+        </>
+      ) : (
+        <></>
+      )}
+      {spot.offers.length !== 0 ? (
+        <>
+          <Text
+            style={{
+              fontFamily: "UbuntuBold",
+              fontSize: 20,
+              marginLeft: 28,
+              marginTop: 20,
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            }}
+          >
+            Offers
+          </Text>
+          <FlatList
+            horizontal={true}
+            style={styles.spotsList}
+            contentContainerStyle={styles.spotsListContainer}
+            data={offers}
+            renderItem={renderOffer}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+          />
+        </>
+      ) : (
+        <></>
+      )}
       <View
         style={{
           display: "flex",
@@ -272,6 +326,7 @@ function ProfileSpotDetails({ route }) {
           style={{
             fontFamily: "UbuntuBold",
             fontSize: 20,
+            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
           Reviews
@@ -283,8 +338,8 @@ function ProfileSpotDetails({ route }) {
               fontSize: 19,
               borderWidth: 1,
               padding: 10,
-              color: "#4831d4",
-              borderColor: "#4831d4",
+              color: "#7758F6",
+              borderColor: "#7758F6",
               borderRadius: 10,
             }}
           >
@@ -396,6 +451,7 @@ function ProfileSpotDetails({ route }) {
             marginTop: 40,
             marginBottom: 40,
             alignSelf: "center",
+            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
           No Reviews Yet
@@ -407,12 +463,10 @@ function ProfileSpotDetails({ route }) {
 export default observer(ProfileSpotDetails);
 const styles = StyleSheet.create({
   spotsList: {
-    backgroundColor: "#fffffc",
-    height: "100%",
-    width: "100%",
+    backgroundColor: "transparent",
   },
   spotsListContainer: {
-    backgroundColor: "#fffffc",
+    backgroundColor: "transparent",
     paddingRight: 40,
   },
   image: {

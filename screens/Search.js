@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  useColorScheme,
 } from "react-native";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -14,8 +15,11 @@ import { FlatList } from "react-native-gesture-handler";
 import SearchSpot from "./spots/SearchSpot";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
+import { useFonts } from "expo-font";
+import AppLoading from "expo-app-loading";
 
 export default function Search({ route, navigation }) {
+  const colorScheme = useColorScheme();
   const translations = {
     en: {
       suggested: "Suggested Spot",
@@ -39,6 +43,15 @@ export default function Search({ route, navigation }) {
   const filteredSpots = spots.filter((spot) =>
     spot.name.toLowerCase().includes(query?.toLowerCase())
   );
+  let [fontsLoaded] = useFonts({
+    UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
+    Ubuntu: require("../assets/fonts/Ubuntu.ttf"),
+    Noto: require("../assets/fonts/Noto.ttf"),
+    NotoBold: require("../assets/fonts/NotoBold.ttf"),
+  });
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
   function renderSpot({ item: spot }) {
     return <Spot spot={spot} navigation={navigation} />;
   }
@@ -46,7 +59,13 @@ export default function Search({ route, navigation }) {
     return <SearchSpot spot={spot} navigation={navigation} />;
   }
   return (
-    <View style={{ backgroundColor: "white", height: "100%", width: "100%" }}>
+    <View
+      style={{
+        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+        height: "100%",
+        width: "100%",
+      }}
+    >
       <View
         style={{
           marginTop: 60,
@@ -68,7 +87,12 @@ export default function Search({ route, navigation }) {
           style={{ zIndex: 99 }}
         >
           <Ionicons
-            style={styles.back}
+            style={{
+              zIndex: 100,
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              fontSize: 40,
+              alignSelf: "center",
+            }}
             name={
               i18n.locale === "en-US"
                 ? "chevron-back-outline"
@@ -101,7 +125,8 @@ export default function Search({ route, navigation }) {
               paddingRight: 50,
               borderRadius: 13,
               fontSize: 18,
-              fontFamily: "Ubuntu",
+              fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+
               width: "100%",
               textAlign: i18n.locale === "en-US" ? "left" : "right",
             }}
@@ -112,7 +137,7 @@ export default function Search({ route, navigation }) {
               setToggle(false);
               if (text === "") setToggle(true);
             }}
-            mainColor="#4831d4"
+            mainColor="#7758F6"
           />
           <Ionicons style={styles.icon} name="search-outline"></Ionicons>
         </View>
@@ -122,12 +147,13 @@ export default function Search({ route, navigation }) {
         <>
           <Text
             style={{
-              fontFamily: "UbuntuBold",
+              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
               fontSize: 20,
               margin: 32,
               marginBottom: 0,
               marginTop: 15,
               alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
           >
             {i18n.t("suggested")}

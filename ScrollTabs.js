@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Text,
   ScrollView,
+  useColorScheme,
 } from "react-native";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import ProfileSpot from "./screens/spots/ProfileSpot";
@@ -14,24 +15,35 @@ import spotStore from "./stores/spotStore";
 import FinishedSpot from "./screens/spots/FinishedSpot";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
 
-export default function ScrollTabs() {
+export default function ScrollTabs({ userSpots }) {
+  const colorScheme = useColorScheme();
+  const translations = {
+    en: {
+      active: "Active",
+      finished: "Finished",
+    },
+    ar: {
+      active: "نشط",
+      finished: "انتهى",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
   const layout = useWindowDimensions();
-  const userSpots = authStore.user.spots?.map((spotId) =>
-    spotStore.getSpotsById(spotId)
-  );
   const today = new Date();
   today.setHours(3, 0, 0, 0);
-
   const activeSpots = userSpots.filter(
     // Active spots
-    (spot) => new Date(spot.startDate) === today
+    (spot) => new Date(spot.startDate) >= today
   );
   const finishedSpots = userSpots.filter(
     // Finshed spots
     (spot) => new Date(spot.startDate) < today
   );
-
   const sortedActiveSpots = activeSpots.sort(
     // Sorted Active spots
     (objA, objB) => new Date(objA.startDate) - new Date(objB.startDate)
@@ -49,23 +61,42 @@ export default function ScrollTabs() {
     return <FinishedSpot spot={spot} />;
   };
   const FirstRoute = () => (
-    <ScrollView style={{ flex: 1, zIndex: 99, marginBottom: 240 }}>
+    <ScrollView
+      style={{
+        flex: 1,
+        zIndex: 99,
+        marginBottom: 240,
+        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+      }}
+    >
       <FlatList
         data={sortedActiveSpots}
         renderItem={renderSpotActive}
-        style={styles.spotsList}
+        style={{
+          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+        }}
         contentContainerStyle={styles.spotsListContainer}
       />
     </ScrollView>
   );
 
   const SecondRoute = () => (
-    <ScrollView style={{ flex: 1, zIndex: 99, marginBottom: 250 }}>
+    <ScrollView
+      style={{
+        flex: 1,
+        zIndex: 99,
+        marginBottom: 250,
+        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+      }}
+    >
       <FlatList
         data={sortedFinishedSpots}
         renderItem={renderSpotFinished}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
+        style={{
+          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+        }}
       />
     </ScrollView>
   );
@@ -76,12 +107,14 @@ export default function ScrollTabs() {
   });
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: "first", title: "Active" },
-    { key: "second", title: "Finished" },
+    { key: "first", title: i18n.t("active") },
+    { key: "second", title: i18n.t("finished") },
   ]);
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("./assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("./assets/fonts/Ubuntu.ttf"),
+    Noto: require("./assets/fonts/Noto.ttf"),
+    NotoBold: require("./assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -97,13 +130,28 @@ export default function ScrollTabs() {
           {...props}
           renderLabel={({ focused, route }) => {
             return (
-              <Text style={{ fontFamily: "Ubuntu", fontSize: 22 }}>
+              <Text
+                style={{
+                  fontFamily: i18n === "en-US" ? "Ubuntu" : "Noto",
+                  fontSize: 22,
+                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  margin: -10,
+                }}
+              >
                 {route.title}
               </Text>
             );
           }}
-          indicatorStyle={styles.indicatorStyle}
-          style={{ backgroundColor: "white", shadowOpacity: 0 }}
+          indicatorStyle={{
+            backgroundColor: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            marginBottom: -1,
+            opacity: 0.6,
+            width: "20%",
+            height: "6%",
+            borderRadius: 100,
+            marginLeft: 64,
+          }}
+          style={{ backgroundColor: "transparent", shadowOpacity: 0 }}
         />
       )}
     />
@@ -112,18 +160,9 @@ export default function ScrollTabs() {
 
 const styles = StyleSheet.create({
   spotsList: {
-    backgroundColor: "#ffffff",
     height: "100%",
   },
   spotsListContainer: {
-    backgroundColor: "#ffffff",
     height: "100%",
-  },
-  indicatorStyle: {
-    backgroundColor: "black",
-    marginBottom: -1,
-    opacity: 0.6,
-    width: "20%",
-    marginLeft: 64,
   },
 });

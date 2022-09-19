@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View, useColorScheme } from "react-native";
 import React from "react";
 import { observer } from "mobx-react";
 import { baseURL } from "../../stores/instance";
@@ -6,6 +6,8 @@ import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 
 function OfferItem({ offer }) {
+  const colorScheme = useColorScheme();
+
   let [fontsLoaded] = useFonts({
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
@@ -25,10 +27,31 @@ function OfferItem({ offer }) {
         />
       </View>
       <View style={styles.titleContainer}>
-        <Text style={styles.name}>{offer?.title}</Text>
+        <Text
+          style={{
+            textTransform: "capitalize",
+            marginTop: 10,
+            fontSize: 22,
+            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            fontFamily: "UbuntuBold",
+          }}
+        >
+          {offer?.title}
+        </Text>
       </View>
       <View style={styles.descriptionContainer}>
-        <Text style={styles.description}>{offer?.description}</Text>
+        <Text
+          style={{
+            marginTop: 10,
+            fontSize: 18,
+            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            fontFamily: "Cabin",
+            width: 300,
+            lineHeight: 25,
+          }}
+        >
+          {offer?.description}
+        </Text>
       </View>
     </View>
   );

@@ -17,7 +17,7 @@ import Password from "./screens/authScreens/Password";
 import PhoneNo from "./screens/authScreens/PhoneNo";
 import MyImage from "./screens/authScreens/MyImage";
 import * as Linking from "expo-linking";
-import { Text } from "react-native";
+import { Text, useColorScheme } from "react-native";
 import {
   createStackNavigator,
   TransitionPresets,
@@ -137,13 +137,14 @@ export default observer(App);
 
 function RootNavigator() {
   const { Navigator, Screen, Group } = createStackNavigator();
+  const colorScheme = useColorScheme();
 
   return (
     <Navigator
       screenOptions={{
         headerShown: false,
         cardStyle: {
-          backgroundColor: "white",
+          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
         },
       }}
     >
@@ -201,12 +202,14 @@ function RootNavigator() {
 }
 
 function TabBar() {
+  const colorScheme = useColorScheme();
+
   return (
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: "white",
+          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
           marginBottom: 10,
           marginLeft: 5,
           marginRight: 5,
@@ -229,8 +232,9 @@ function TabBar() {
             ></Ionicons>
           ),
 
-          tabBarActiveTintColor: "#4831d4",
-          tabBarInactiveTintColor: "#8D9C98",
+          tabBarActiveTintColor: "#7758F6",
+          tabBarInactiveTintColor:
+            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}
       />
       <Tab.Screen
@@ -249,8 +253,9 @@ function TabBar() {
               }}
             />
           ),
-          tabBarActiveTintColor: "#4831d4",
-          tabBarInactiveTintColor: "#8D9C98",
+          tabBarActiveTintColor: "#7758F6",
+          tabBarInactiveTintColor:
+            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}
       />
 
@@ -267,8 +272,9 @@ function TabBar() {
               style={{ position: "absolute", paddingTop: "13%" }}
             />
           ),
-          tabBarActiveTintColor: "#4831d4",
-          tabBarInactiveTintColor: "#8D9C98",
+          tabBarActiveTintColor: "#7758F6",
+          tabBarInactiveTintColor:
+            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}
       />
     </Tab.Navigator>

@@ -4,6 +4,7 @@ import {
   SafeAreaView,
   View,
   RefreshControl,
+  useColorScheme,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import authStore from "../stores/authStore";
@@ -15,9 +16,23 @@ import Spotted from "./spots/Spotted";
 import AppLoading from "expo-app-loading";
 import ticketStore from "../stores/ticketStore";
 import ContentLoader, { Facebook, Rect } from "react-content-loader/native";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
+import { StatusBar } from "react-native";
 
 function MySpots() {
-  // let spots = [];
+  const colorScheme = useColorScheme();
+  const translations = {
+    en: {
+      myspots: "My Spots",
+    },
+    ar: {
+      myspots: "النقاط الخاصة بي",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
 
@@ -40,16 +55,16 @@ function MySpots() {
   const navigation = useNavigation();
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
+    NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
     return <AppLoading />;
   }
-  // const tickets = authStore.user.tickets.map((ticketId) =>
-  //   ticketStore.tickets.find((ticket) => ticket._id === ticketId)
-  // );
+
   const today = new Date();
+  today.setHours(3, 0, 0, 0);
   let ticketsByDate = ticketStore.tickets.filter(
-    (ticket) => new Date(ticket.spot?.startDate) > today
+    (ticket) => new Date(ticket.spot?.startDate) >= today
   );
   const sortedTickets = ticketsByDate.sort(
     (objA, objB) =>
@@ -58,20 +73,6 @@ function MySpots() {
   const tickets = sortedTickets.filter(
     (ticket) => ticket.user === authStore.user.id
   );
-
-  // const today = new Date();
-  // const ticketsByDate = tickets.filter((ticket) => new Date(ticket.spot.startDate) > today,);
-  // const sortedTickets = ticketsByDate.sort(
-  //   (objA, objB) => new Date(objA.spot.startDate) - new Date(objB.spot.startDate),
-  // );
-  // const tickets = ticketStore.tickets;
-  console.log("tickets", tickets);
-
-  // const tickets = ticketStore.tickets.filter((ticket) => ticket.user._id === authStore.user.id);
-
-  // authStore.user.spots.map((spotId) =>
-  //   spots.push(spotStore.getSpotsById(spotId))
-  // );
 
   function renderTicket({ item: ticket }) {
     return <Spotted ticket={ticket} navigation={navigation} />;
@@ -82,20 +83,26 @@ function MySpots() {
       style={{
         width: "100%",
         height: "100%",
-        backgroundColor: "white",
+        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
         marginBottom: 150,
       }}
     >
+      <StatusBar
+        barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
+      />
       <Text
         style={{
           fontSize: 30,
           margin: 30,
           marginBottom: 10,
           marginTop: 15,
-          fontFamily: "UbuntuBold",
+          fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+
+          alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}
       >
-        My Spots
+        {i18n.t("myspots")}
       </Text>
 
       {loading ? (

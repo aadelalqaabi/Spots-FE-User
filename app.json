@@ -5,12 +5,12 @@
     "slug": "Spots-FE-User",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "icon": "./assets/icon.jpg",
+    "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/Splash.png",
+      "image": "./assets/Splash.jpg",
       "resizeMode": "contain",
-      "backgroundColor": "#4831D4"
+      "backgroundColor": "#7758F6"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -24,7 +24,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/adaptive-icon.jpg",
         "backgroundColor": "#FFFFFF"
       }
     },
@@ -35,7 +35,7 @@
       [
         "expo-notifications",
         {
-          "icon": "./assets/icon.png",
+          "icon": "./assets/icon.jpg",
           "color": "#ffffff",
           "sounds": [
             "./local/assets/notification-sound.wav",

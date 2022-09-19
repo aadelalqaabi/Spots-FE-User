@@ -2,13 +2,28 @@ import { useNavigation } from "@react-navigation/native";
 import { observer } from "mobx-react";
 import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
 import { baseURL } from "../../stores/instance";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
 
 function ProfileSpot({ spot }) {
   const navigation = useNavigation();
+  const translations = {
+    en: {
+      active: "Active",
+      finished: "Finished",
+    },
+    ar: {
+      active: "نشط",
+      finished: "انتهى",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
   return (
     <View
       style={{
-        backgroundColor: "white",
+        backgroundColor: "transparent",
       }}
     >
       <TouchableOpacity
@@ -23,8 +38,26 @@ function ProfileSpot({ spot }) {
           style={styles.thumb}
           source={{ uri: `${baseURL}${spot?.image}` }}
         />
+        <View style={styles.overlay}></View>
+
         <View style={styles.infoContainer}>
-          <Text style={styles.name}>{spot?.name}</Text>
+          <Text
+            style={{
+              fontSize: 40,
+              color: "#fffffc",
+              shadowOpacity: 1,
+              shadowRadius: 4,
+              shadowColor: "black",
+              shadowOffset: {
+                height: 1,
+                width: 1,
+              },
+              fontFamily: i18n === "en-US" ? "UbuntuBold" : "NotoBold",
+              textAlign: "center",
+            }}
+          >
+            {spot?.name}
+          </Text>
         </View>
       </TouchableOpacity>
     </View>
@@ -34,24 +67,37 @@ function ProfileSpot({ spot }) {
 export default observer(ProfileSpot);
 
 const styles = StyleSheet.create({
+  overlay: {
+    display: "flex",
+    position: "absolute",
+    zIndex: 99,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    width: 384,
+    height: 470,
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    borderRadius: 20,
+  },
   card: {
     display: "flex",
     flexDirection: "row",
-    flexWrap: "wrap",
+    alignContent: "center",
     alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 16,
-    shadowOpacity: 0.8,
-    shadowRadius: 4,
-    shadowColor: "black",
+    shadowColor: "#161616",
     shadowOffset: {
-      height: 0,
       width: 0,
+      height: 3,
     },
-    elevation: 1,
-    marginVertical: 5,
-    height: 470,
-    marginBottom: 30,
-    marginLeft: 2,
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    margin: 1.5,
+    marginLeft: 0,
+    marginRight: 0,
   },
   thumb: {
     alignSelf: "center",
@@ -63,10 +109,14 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   infoContainer: {
+    display: "flex",
     position: "absolute",
-    alignSelf: "flex-end",
-    paddingLeft: 28,
-    paddingBottom: 22,
+    zIndex: 99,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    width: "80%",
   },
   name: {
     fontSize: 34,

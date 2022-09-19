@@ -9,6 +9,7 @@ import {
   Linking,
   Alert,
   LogBox,
+  Share,
 } from "react-native";
 import React, { useState } from "react";
 import spotStore from "../../stores/spotStore";
@@ -26,11 +27,24 @@ import {
   ImageHeaderScrollView,
   TriggeringView,
 } from "react-native-image-header-scroll-view";
-//import "moment/locale/ar";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
+import "moment/locale/ar";
 LogBox.ignoreAllLogs();
 
 export function SpotDetails({ route }) {
   const spot = spotStore.getSpotsById(route.params.id);
+  const translations = {
+    en: {
+      more: "More Info",
+    },
+    ar: {
+      more: "التفاصيل",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
   const [newTicket, setNewTicket] = useState({
     amount: 0,
     image: "",
@@ -51,6 +65,8 @@ export function SpotDetails({ route }) {
     Cabin: require("../../assets/fonts/Cabin.ttf"),
     CabinMedium: require("../../assets/fonts/CabinMedium.ttf"),
     UbuntuLight: require("../../assets/fonts/Ubuntu-Light.ttf"),
+    Noto: require("../../assets/fonts/Noto.ttf"),
+    NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -61,7 +77,11 @@ export function SpotDetails({ route }) {
       setQuantity(quantity + 1);
       setCheckSeats(quantity + 1);
     } else {
-      Alert.alert("You exceeded the available amount of seats");
+      Alert.alert(
+        i18n.locale === "en-US"
+          ? "You exceeded the available amount of seats"
+          : "لقد تجاوزت عدد المقاعد المتوفرة"
+      );
     }
   };
 
@@ -72,17 +92,38 @@ export function SpotDetails({ route }) {
       setCheckSeats(quantity - 1);
     }
   };
-
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: `${authStore.user.username} wants you to check this spot out!!!`,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
   const handleSpots = async (spot) => {
     const found = userTickets.some((ticket) => ticket.spot._id === spot._id);
     console.log("found", found);
     if (!found) {
       await ticketStore.createTicket(newTicket, spot._id);
-      Alert.alert("Added to your spots");
+      Alert.alert(
+        i18n.locale === "en-US" ? "Added to your spots" : "تم الاضافة لنقاطك"
+      );
       navigation.navigate("Explore");
       await ticketStore.fetchTickets();
     } else {
-      Alert.alert("Already in your spots");
+      Alert.alert(
+        i18n.locale === "en-US" ? "Already in your spots" : "موجودة في نقاطك"
+      );
     }
   };
   const handleBook = (spot) => {
@@ -91,9 +132,14 @@ export function SpotDetails({ route }) {
       quantity: quantity,
     });
   };
-  let date = moment(spot.startDate).format("LL");
-  let month = moment(spot.startDate).format("MMMM");
-  let year = moment(spot.startDate).format("YYYY");
+
+  let dateEn = moment(spot.startDate).locale("en").format("LL");
+  let dateAr = moment(spot.startDate).locale("ar").format("LL");
+  let monthEn = moment(spot.startDate).locale("en").format("MMMM");
+  let monthAr = moment(spot.startDate).locale("ar").format("MMMM");
+  let yearEn = moment(spot.startDate).locale("en").format("YYYY");
+  let yearAr = moment(spot.startDate).locale("ar").format("YYYY");
+
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
       <TouchableOpacity
@@ -103,6 +149,14 @@ export function SpotDetails({ route }) {
         style={{ zIndex: 99 }}
       >
         <Ionicons style={styles.back} name="chevron-back-outline"></Ionicons>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          onShare();
+        }}
+        style={{ zIndex: 99 }}
+      >
+        <Ionicons style={styles.share} name="share-outline"></Ionicons>
       </TouchableOpacity>
       <ImageHeaderScrollView
         scrollViewBackgroundColor="transparent"
@@ -126,7 +180,29 @@ export function SpotDetails({ route }) {
                 style={styles.down}
                 name="chevron-up-outline"
               ></Ionicons>
-              <Text style={styles.downText}>More Info</Text>
+              <Text
+                style={{
+                  position: "absolute",
+                  zIndex: 100,
+                  color: "white",
+                  opacity: 0.7,
+                  alignSelf: "center",
+                  marginTop: 870,
+                  fontSize: i18n.locale === "en-US" ? 20 : 16,
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 8,
+                  },
+                  shadowOpacity: 0.46,
+                  shadowRadius: 11.14,
+                  elevation: 17,
+                  fontFamily:
+                    i18n.locale === "en-US" ? "CabinMedium" : "NotoBold",
+                }}
+              >
+                {i18n.t("more")}
+              </Text>
             </View>
             <View
               style={{
@@ -136,15 +212,73 @@ export function SpotDetails({ route }) {
                 marginBottom: 10,
               }}
             >
-              <Text style={styles.mainTitle}>{spot.name}</Text>
+              <Text
+                style={{
+                  fontSize: 45,
+                  margin: 10,
+                  marginLeft: 0,
+                  marginTop: i18n.locale === "en-US" ? 600 : 560,
+                  marginRight: 10,
+                  fontWeight: "700",
+                  fontFamily:
+                    i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                  color: "white",
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 3,
+                  },
+                  shadowOpacity: 0.29,
+                  shadowRadius: 4.65,
+                  elevation: 7,
+                }}
+              >
+                {spot.name}
+              </Text>
               <View style={styles.ownerContainer}>
                 <Image
                   style={styles.ownerthumb}
                   source={{ uri: `${baseURL}${organizer.image}` }}
                 />
-                <Text style={styles.ownername}>{organizer.username}</Text>
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 22,
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 8,
+                    },
+                    shadowOpacity: 0.46,
+                    shadowRadius: 11.14,
+                    elevation: 17,
+                    fontFamily:
+                      i18n.locale === "en-US" ? "CabinMedium" : "NotoBold",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  {organizer.username}
+                </Text>
               </View>
-              <Text style={styles.description}>{spot.description}</Text>
+              <Text
+                style={{
+                  fontSize: 18,
+                  color: "white",
+                  fontFamily:
+                    i18n.locale === "en-US" ? "CabinMedium" : "NotoBold",
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 3,
+                  },
+                  shadowOpacity: 0.29,
+                  shadowRadius: 4.65,
+                  elevation: 7,
+                  lineHeight: 28,
+                }}
+              >
+                {spot.description}
+              </Text>
             </View>
           </View>
         )}
@@ -168,19 +302,21 @@ export function SpotDetails({ route }) {
           <View>
             <Text
               style={{
-                fontFamily: "UbuntuLight",
+                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
                 fontSize: 25,
                 alignSelf: "center",
                 margin: 20,
                 letterSpacing: 3,
               }}
             >
-              Spot Information
+              {i18n.locale === "en-US"
+                ? "More Informations"
+                : "المزيد من المعلومات"}
             </Text>
             <View
               style={{
                 display: "flex",
-                flexDirection: "row",
+                flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
                 alignContent: "center",
                 alignItems: "center",
                 margin: 30,
@@ -191,25 +327,33 @@ export function SpotDetails({ route }) {
               <Ionicons
                 style={{
                   marginRight: 5,
-                  color: "#4831d4",
+                  marginLeft: 5,
+                  color: "#7758F6",
                   fontSize: 30,
                 }}
                 name="calendar-outline"
               ></Ionicons>
               {spot.numOfDays === 1 ? (
-                <Text style={{ fontFamily: "UbuntuBold", fontSize: 20 }}>
-                  {date}
+                <Text
+                  style={{
+                    fontFamily:
+                      i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                    fontSize: 20,
+                  }}
+                >
+                  {i18n.locale === "en-US" ? dateEn : dateAr}
                 </Text>
               ) : (
                 <Text style={{ fontFamily: "UbuntuBold", fontSize: 20 }}>
-                  {month}, {year}
+                  {i18n.locale === "en-US" ? monthEn : monthAr},{" "}
+                  {i18n.locale === "en-US" ? yearEn : yearAr}
                 </Text>
               )}
             </View>
             <View
               style={{
                 display: "flex",
-                flexDirection: "row",
+                flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
                 alignContent: "center",
                 alignItems: "center",
                 margin: 30,
@@ -218,17 +362,28 @@ export function SpotDetails({ route }) {
               }}
             >
               <Ionicons
-                style={{ marginRight: 5, color: "#4831d4", fontSize: 32 }}
+                style={{
+                  marginRight: 5,
+                  marginLeft: 5,
+                  color: "#7758F6",
+                  fontSize: 32,
+                }}
                 name="time-outline"
               ></Ionicons>
-              <Text style={{ fontFamily: "UbuntuBold", fontSize: 20 }}>
+              <Text
+                style={{
+                  fontFamily:
+                    i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                  fontSize: 20,
+                }}
+              >
                 {spot.startTime}
               </Text>
             </View>
             <View
               style={{
                 display: "flex",
-                flexDirection: "row",
+                flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
                 alignContent: "center",
                 alignItems: "center",
                 margin: 30,
@@ -237,18 +392,29 @@ export function SpotDetails({ route }) {
               }}
             >
               <Ionicons
-                style={{ marginRight: 5, color: "#4831d4", fontSize: 32 }}
+                style={{
+                  marginRight: 5,
+                  marginLeft: 5,
+                  color: "#7758F6",
+                  fontSize: 32,
+                  transform: [{ scaleX: i18n.locale === "en-US" ? 1 : -1 }],
+                }}
                 name="ios-call-outline"
               ></Ionicons>
               <View
                 style={{
-                  borderBottomWidth: 1,
-                  borderColor: "#4831d4",
+                  borderBottomWidth: 2,
+                  borderColor: "#7758F6",
                 }}
               >
                 <Text
                   onPress={() => Linking.openURL(`tel:${organizer.phone}`)}
-                  style={{ fontFamily: "UbuntuBold", fontSize: 20 }}
+                  style={{
+                    fontFamily:
+                      i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                    fontSize: 20,
+                    marginBottom: i18n.locale === "en-US" ? 0 : -5,
+                  }}
                 >
                   {organizer.phone}
                 </Text>
@@ -257,7 +423,7 @@ export function SpotDetails({ route }) {
             <View
               style={{
                 display: "flex",
-                flexDirection: "row",
+                flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
                 alignContent: "center",
                 alignItems: "center",
                 margin: 30,
@@ -266,50 +432,70 @@ export function SpotDetails({ route }) {
               }}
             >
               <Ionicons
-                style={{ marginRight: 5, color: "#4831d4", fontSize: 32 }}
+                style={{
+                  marginRight: 5,
+                  marginLeft: 5,
+                  color: "#7758F6",
+                  fontSize: 32,
+                }}
                 name="navigate-circle-outline"
               ></Ionicons>
               <View
                 style={{
-                  borderBottomWidth: 1,
-                  borderColor: "#4831d4",
+                  borderBottomWidth: 2,
+                  borderColor: "#7758F6",
                 }}
               >
                 <Text
                   style={{
-                    fontFamily: "UbuntuBold",
+                    fontFamily:
+                      i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
                     fontSize: 20,
+                    marginBottom: i18n.locale === "en-US" ? 0 : -5,
                   }}
                   onPress={() => Linking.openURL(spot.location)}
                 >
-                  View Location
+                  {i18n.locale === "en-US" ? "View Location" : "عرض الموقع"}
                 </Text>
               </View>
             </View>
             <Text
               style={{
-                fontFamily: "UbuntuBold",
+                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
                 fontSize: 20,
+                alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
                 margin: 30,
                 marginTop: 10,
                 marginBottom: 0,
               }}
             >
-              Details
+              {i18n.locale === "en-US" ? "Details" : "تفاصيل"}
             </Text>
-            <Text style={styles.details}>{spot.details}</Text>
+            <Text
+              style={{
+                fontSize: 18,
+                color: "black",
+                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                paddingTop: 3,
+                margin: 30,
+                marginBottom: 0,
+                marginTop: 10,
+                lineHeight: 25,
+                textAlign: i18n.locale === "en-US" ? "left" : "right",
+              }}
+            >
+              {spot.detailsAr}
+            </Text>
           </View>
           <TouchableOpacity
             style={{
-              fontFamily: "Ubuntu",
               fontSize: 20,
               margin: 10,
-              marginBottom: 15,
-              marginTop: 15,
+              paddingBottom: 15,
               height: 70,
               padding: 20,
               display: "flex",
-              flexDirection: "row",
+              flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
               alignContent: "center",
               alignItems: "center",
               justifyContent: "space-between",
@@ -321,7 +507,7 @@ export function SpotDetails({ route }) {
             <View
               style={{
                 display: "flex",
-                flexDirection: "row",
+                flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
                 alignContent: "center",
                 alignItems: "center",
                 justifyContent: "center",
@@ -329,22 +515,28 @@ export function SpotDetails({ route }) {
             >
               <Text
                 style={{
-                  fontFamily: "UbuntuBold",
+                  fontFamily:
+                    i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
                   fontSize: 20,
                 }}
               >
-                Reviews
+                {i18n.locale === "en-US" ? "Reviews" : "المراجعات"}
               </Text>
               <Text
                 style={{
-                  fontFamily: "UbuntuBold",
+                  fontFamily:
+                    i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                  marginBottom: i18n.locale === "en-US" ? 0 : -6,
                   fontSize: 20,
                   marginLeft: 15,
+                  marginRight: 15,
                   alignSelf: "center",
                   borderRadius: "150%",
                 }}
               >
-                {reviewCount}+
+                {i18n.locale === "en-US"
+                  ? reviewCount + "+"
+                  : "+" + reviewCount}
               </Text>
             </View>
             {!toggle && (
@@ -381,7 +573,7 @@ export function SpotDetails({ route }) {
               ) : (
                 <Text
                   style={{
-                    fontFamily: "Ubuntu",
+                    fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
                     fontSize: 20,
                     marginTop: 0,
                     margin: 20,
@@ -389,19 +581,51 @@ export function SpotDetails({ route }) {
                   }}
                   key="2"
                 >
-                  No Reviews Yet
+                  {i18n.locale === "en-US"
+                    ? "No Reviews Yet"
+                    : "لا يوجد مراجعات حاليا"}
                 </Text>
               )}
             </View>
           )}
           {spot.isFree === true ? (
             <TouchableOpacity
-              style={styles.spotthis}
+              style={{
+                display: "flex",
+                alignSelf: "center",
+                borderRadius: 25,
+                height: 60,
+                width: 380,
+                backgroundColor: "#7758F6",
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 3,
+                },
+                shadowOpacity: 0.29,
+                shadowRadius: 4.65,
+                elevation: 7,
+                marginBottom: 25,
+                justifyContent: "center",
+                zIndex: 99,
+                flexDirection: i18n.locale === "en-US" ? "row-reverse" : "row",
+              }}
               onPress={() => {
                 handleSpots(spot);
               }}
             >
-              <Text style={styles.spotext}>Spot this</Text>
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: 22,
+                  alignSelf: "center",
+                  marginLeft: 10,
+                  marginRight: 10,
+                  fontFamily: "Ubuntu",
+                }}
+              >
+                {i18n.locale === "en-US" ? "Go here" : "اذهب هنا"}
+              </Text>
               <Ionicons style={styles.spoticon} name="location"></Ionicons>
             </TouchableOpacity>
           ) : spot.seats !== 0 ? (
@@ -409,10 +633,13 @@ export function SpotDetails({ route }) {
               <View
                 style={{
                   display: "flex",
-                  flexDirection: "row",
+                  flexDirection:
+                    i18n.locale === "en-US" ? "row" : "row-reverse",
                   alignItems: "center",
                   justifyContent: "center",
                   alignContent: "center",
+                  margin: 5,
+                  marginTop: 0,
                 }}
               >
                 <View
@@ -435,7 +662,7 @@ export function SpotDetails({ route }) {
                 >
                   <Ionicons
                     style={{
-                      color: "#4831d4",
+                      color: "#7758F6",
                       fontFamily: "Ubuntu",
                       fontSize: 28,
                       marginLeft: 10,
@@ -448,8 +675,8 @@ export function SpotDetails({ route }) {
                   </Text>
                   <Ionicons
                     style={{
-                      color: "#4831d4",
-                      fontFamily: "Ubuntu",
+                      color: "#7758F6",
+                      fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
                       fontSize: 28,
                       marginRight: 10,
                     }}
@@ -458,13 +685,43 @@ export function SpotDetails({ route }) {
                   ></Ionicons>
                 </View>
                 <TouchableOpacity
-                  style={styles.spotthisbook}
+                  style={{
+                    display: "flex",
+                    alignSelf: "center",
+                    borderRadius: 20,
+                    height: 60,
+                    width: "60%",
+                    backgroundColor: "#7758F6",
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 3,
+                    },
+                    shadowOpacity: 0.29,
+                    shadowRadius: 4.65,
+                    elevation: 7,
+                    margin: 10,
+                    marginBottom: 25,
+                    justifyContent: "center",
+                    zIndex: 99,
+                    flexDirection:
+                      i18n.locale === "en-US" ? "row-reverse" : "row",
+                  }}
                   onPress={() => {
                     handleBook(spot);
                   }}
                 >
-                  <Text style={styles.spotext}>
-                    Book ({spot.price * quantity} KD)
+                  <Text
+                    style={{
+                      color: "white",
+                      fontSize: 22,
+                      alignSelf: "center",
+                      marginLeft: 10,
+                      marginRight: 10,
+                      fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                    }}
+                  >
+                    {i18n.locale === "en-US" ? "Book" : "احجز"}
                   </Text>
                   <Ionicons style={styles.spoticon} name="location"></Ionicons>
                 </TouchableOpacity>
@@ -473,7 +730,18 @@ export function SpotDetails({ route }) {
           ) : (
             <>
               <TouchableOpacity style={styles.spotthisbookout}>
-                <Text style={styles.spotext}>Sold Out</Text>
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 22,
+                    alignSelf: "center",
+                    marginLeft: 10,
+                    marginRight: 10,
+                    fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                  }}
+                >
+                  {i18n.locale === "en-US" ? "Sold Out" : "نفذت الكمية"}
+                </Text>
               </TouchableOpacity>
             </>
           )}
@@ -518,6 +786,23 @@ const styles = StyleSheet.create({
     shadowRadius: 11.14,
     elevation: 17,
   },
+  share: {
+    position: "absolute",
+    zIndex: 100,
+    color: "white",
+    marginTop: 73,
+    marginLeft: 368,
+    fontSize: 35,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.46,
+    shadowRadius: 11.14,
+
+    elevation: 17,
+  },
   downText: {
     position: "absolute",
     zIndex: 100,
@@ -541,6 +826,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     alignSelf: "center",
     marginLeft: 10,
+    marginRight: 10,
     fontFamily: "Ubuntu",
   },
   spoticon: {
@@ -549,47 +835,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     zIndex: 99,
   },
-  spotthisbook: {
-    display: "flex",
-    alignSelf: "center",
-    borderRadius: 20,
-    height: 60,
-    width: "60%",
-    backgroundColor: "#4831d4",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.29,
-    shadowRadius: 4.65,
-    elevation: 7,
-    margin: 10,
-    marginBottom: 25,
-    justifyContent: "center",
-    zIndex: 99,
-    flexDirection: "row-reverse",
-  },
-  spotthis: {
-    display: "flex",
-    alignSelf: "center",
-    borderRadius: 25,
-    height: 60,
-    width: 380,
-    backgroundColor: "#4831d4",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.29,
-    shadowRadius: 4.65,
-    elevation: 7,
-    marginBottom: 25,
-    justifyContent: "center",
-    zIndex: 99,
-    flexDirection: "row-reverse",
-  },
+
   mainTitle: {
     fontSize: 45,
     margin: 10,
@@ -597,7 +843,6 @@ const styles = StyleSheet.create({
     marginTop: 600,
     marginRight: 10,
     fontWeight: "700",
-    fontFamily: "UbuntuBold",
     color: "white",
     shadowColor: "#000",
     shadowOffset: {
@@ -687,14 +932,7 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 7,
   },
-  details: {
-    fontSize: 18,
-    color: "black",
-    fontFamily: "Ubuntu",
-    margin: 30,
-    marginBottom: 0,
-    marginTop: 10,
-  },
+
   actionButtonIcon: {
     fontSize: 20,
     height: 22,

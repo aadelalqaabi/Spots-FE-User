@@ -1,7 +1,7 @@
 import { observer } from "mobx-react";
 import Carousel from "react-native-snap-carousel";
 import {
-  TextInput,
+  useColorScheme,
   SafeAreaView,
   StatusBar,
   LogBox,
@@ -27,6 +27,8 @@ import * as Localization from "expo-localization";
 LogBox.ignoreAllLogs(true);
 
 function Explore() {
+  const scrollViewRef = React.useRef(null);
+  const colorScheme = useColorScheme();
   const translations = {
     en: {
       explore: "Explore",
@@ -52,6 +54,8 @@ function Explore() {
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../assets/fonts/Ubuntu.ttf"),
+    Noto: require("../assets/fonts/Noto.ttf"),
+    NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -77,8 +81,16 @@ function Explore() {
   };
 
   return (
-    <View style={{ width: "100%", height: "100%", backgroundColor: "white" }}>
-      <StatusBar barStyle="dark-content" />
+    <View
+      style={{
+        width: "100%",
+        height: "100%",
+        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+      }}
+    >
+      <StatusBar
+        barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
+      />
       <SafeAreaView>
         {loading ? (
           <ContentLoader
@@ -101,7 +113,8 @@ function Explore() {
             <View
               style={{
                 margin: 30,
-                marginBottom: 0,
+                marginTop: 10,
+                marginBottom: i18n.locale === "en-US" ? 45 : 15,
                 display: "flex",
                 flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
                 alignItems: "center",
@@ -109,15 +122,29 @@ function Explore() {
                 justifyContent: "space-between",
               }}
             >
-              <Text style={styles.maintitle}>{i18n.t("explore")}</Text>
-
+              <Text
+                style={{
+                  fontSize: 30,
+                  fontFamily:
+                    i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                  fontSize: 35,
+                  marginBottom: 10,
+                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                }}
+              >
+                {i18n.t("explore")}
+              </Text>
               <TouchableOpacity
                 onPress={() => {
                   navigation.navigate("Search", { spots: sortedSpots });
                 }}
               >
                 <Ionicons
-                  style={styles.searchicon}
+                  style={{
+                    fontSize: 30,
+                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                    margin: 5,
+                  }}
                   name="search-outline"
                 ></Ionicons>
               </TouchableOpacity>
@@ -127,7 +154,28 @@ function Explore() {
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
               horizontal={true}
-              style={styles.categories}
+              style={{
+                display: "flex",
+                borderRadius: "10%",
+                margin: 28,
+                marginTop: -25,
+                marginBottom: 0,
+                height: 45,
+              }}
+              contentContainerStyle={{
+                display: "flex",
+                flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+              }}
+              ref={scrollViewRef}
+              onContentSizeChange={() =>
+                i18n.locale === "en-US"
+                  ? scrollViewRef.current.scrollTo({
+                      x: 0,
+                      y: 0,
+                      animated: true,
+                    })
+                  : scrollViewRef.current.scrollToEnd({ animated: true })
+              }
             >
               <TouchableOpacity
                 style={
@@ -143,11 +191,30 @@ function Explore() {
                 <Text
                   style={
                     selectedCategory === -1
-                      ? styles.catTextAtive
-                      : styles.catText
+                      ? {
+                          flexWrap: "wrap",
+                          borderRadius: "10%",
+                          fontSize: 20,
+                          alignSelf: "center",
+                          marginTop: i18n.locale === "en-US" ? 11 : 0,
+                          fontFamily:
+                            i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                          color: "#9279f7",
+                        }
+                      : {
+                          color:
+                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          flexWrap: "wrap",
+                          borderRadius: "10%",
+                          fontSize: 20,
+                          alignSelf: "center",
+                          marginTop: i18n.locale === "en-US" ? 11 : 0,
+                          fontFamily:
+                            i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        }
                   }
                 >
-                  All
+                  {i18n.locale === "en-US" ? "All" : "الكل"}
                 </Text>
                 <Text
                   style={
@@ -158,39 +225,75 @@ function Explore() {
                 </Text>
               </TouchableOpacity>
               {categories.map((category) => (
-                <View style={styles.catButton}>
-                  <TouchableOpacity
-                    key={categories.indexOf(category)}
+                <TouchableOpacity
+                  key={categories.indexOf(category)}
+                  style={
+                    selectedCategory === categories.indexOf(category)
+                      ? styles.overleyactive
+                      : styles.overley
+                  }
+                  onPress={() => {
+                    setCategory(category);
+                    handleCategory(categories.indexOf(category));
+                  }}
+                >
+                  <Text
                     style={
                       selectedCategory === categories.indexOf(category)
-                        ? styles.overleyactive
+                        ? {
+                            color:
+                              colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                            flexWrap: "wrap",
+                            borderRadius: "10%",
+                            fontSize: 20,
+                            alignSelf: "center",
+                            marginTop: i18n.locale === "en-US" ? 11 : 0,
+                            fontFamily:
+                              i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                            color: "#9279f7",
+                          }
+                        : {
+                            color:
+                              colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                            flexWrap: "wrap",
+                            borderRadius: "10%",
+                            fontSize: 20,
+                            alignSelf: "center",
+                            marginTop: i18n.locale === "en-US" ? 11 : 0,
+                            fontFamily:
+                              i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                          }
+                    }
+                  >
+                    {i18n.locale === "ar-US" && category?.name === "Food"
+                      ? "طعام"
+                      : i18n.locale === "ar-US" && category?.name === "Music"
+                      ? "موسيقى"
+                      : i18n.locale === "ar-US" && category?.name === "Sports"
+                      ? "رياضة"
+                      : i18n.locale === "ar-US" && category?.name === "Health"
+                      ? "صحة"
+                      : i18n.locale === "ar-US" &&
+                        category?.name === "Education"
+                      ? "تعليم"
+                      : i18n.locale === "ar-US" && category?.name === "Fashion"
+                      ? "موضة"
+                      : i18n.locale === "ar-US" && category?.name === "Carnival"
+                      ? "كرنفال"
+                      : i18n.locale === "ar-US" && category?.name === "Other"
+                      ? "اخرى"
+                      : category?.name}
+                  </Text>
+                  <Text
+                    style={
+                      selectedCategory === categories.indexOf(category)
+                        ? styles.catdot
                         : styles.overley
                     }
-                    onPress={() => {
-                      setCategory(category);
-                      handleCategory(categories.indexOf(category));
-                    }}
                   >
-                    <Text
-                      style={
-                        selectedCategory === categories.indexOf(category)
-                          ? styles.catTextAtive
-                          : styles.catText
-                      }
-                    >
-                      {category?.name}
-                    </Text>
-                    <Text
-                      style={
-                        selectedCategory === categories.indexOf(category)
-                          ? styles.catdot
-                          : styles.overley
-                      }
-                    >
-                      .
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+                    .
+                  </Text>
+                </TouchableOpacity>
               ))}
             </ScrollView>
 
@@ -203,7 +306,9 @@ function Explore() {
               sliderWidth={450}
               itemWidth={360}
               layout={"default"}
-              containerCustomStyle={{ alignSelf: "center" }}
+              containerCustomStyle={{
+                alignSelf: "center",
+              }}
               useScrollView={true}
             />
           </>
@@ -218,6 +323,8 @@ export default observer(Explore);
 const styles = StyleSheet.create({
   spotsList: {
     backgroundColor: "#ffffff",
+    display: "flex",
+    flexDirection: "row-reverse",
   },
   spotsListContainer: {
     backgroundColor: "#ffffff",
@@ -247,36 +354,16 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     fontFamily: "Ubuntu",
   },
-  categories: {
-    display: "flex",
-    flexDirection: "row",
-    borderRadius: "10%",
-    margin: 28,
-    marginTop: 15,
-    marginBottom: 0,
-    height: 45,
-  },
+
   catButton: {
     color: "white",
     flexWrap: "wrap",
-    marginRight: 8,
-    borderRadius: "10%",
     fontWeight: "700",
     fontSize: "16",
     fontFamily: "Ubuntu",
   },
-  catText: {
-    color: "black",
-    flexWrap: "wrap",
-    borderRadius: "10%",
-    fontWeight: "700",
-    fontSize: 20,
-    alignSelf: "center",
-    marginVertical: 10,
-    fontFamily: "Ubuntu",
-  },
   catdot: {
-    color: "#4831d4",
+    color: "#9279f7",
     fontSize: 45,
     fontFamily: "Ubuntu",
     position: "absolute",
@@ -290,14 +377,13 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 20,
     alignSelf: "center",
-    marginVertical: 10,
+    marginTop: 11,
     fontFamily: "Ubuntu",
-    color: "#4831d4",
+    color: "#9279f7",
   },
   overley: {
     width: 100,
-    height: 40,
-    borderRadius: 50,
+    height: 50,
     zIndex: -1,
     display: "flex",
   },
@@ -306,7 +392,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 50,
     zIndex: -1,
-    color: "#4831d4",
+    color: "#9279f7",
   },
   icon: {
     zIndex: 99,
@@ -316,11 +402,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: "grey",
   },
-  searchicon: {
-    fontSize: 30,
-    color: "black",
-    margin: 5,
-  },
+
   searchView: {
     margin: 30,
     marginBottom: 0,
@@ -329,12 +411,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexWrap: "wrap",
     justifyContent: "space-between",
-  },
-  maintitle: {
-    fontSize: 30,
-    fontFamily: "UbuntuBold",
-    fontSize: 35,
-    marginBottom: 10,
   },
 
   closeicon: {

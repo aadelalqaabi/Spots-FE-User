@@ -6,6 +6,7 @@ import {
   Keyboard,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
+  useColorScheme,
 } from "react-native";
 import { useState } from "react";
 import { Alert } from "react-native";
@@ -18,6 +19,7 @@ import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 
 export default function Email({ navigation, route }) {
+  const colorScheme = useColorScheme();
   const { itemId } = route.params;
   const [user, setUser] = useState(itemId);
   const [checkValidation, setCheckValidation] = useState(true);
@@ -48,11 +50,11 @@ export default function Email({ navigation, route }) {
     if (check === true) {
       setUser({ ...user, [name]: value });
       setCheckValidation(false);
-      setCheckValidationColor("#4831d4");
+      setCheckValidationColor("#7758F6");
       setShowError(false);
     } else {
       setCheckValidation(true);
-      setCheckValidationColor("red");
+      setCheckValidationColor("#ea3e29");
       setBegining(false);
       setShowError(true);
     }
@@ -65,6 +67,8 @@ export default function Email({ navigation, route }) {
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
+    Noto: require("../../assets/fonts/Noto.ttf"),
+    NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -78,7 +82,7 @@ export default function Email({ navigation, route }) {
           style={{
             width: "100%",
             height: "100%",
-            backgroundColor: "white",
+            backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
           <Ionicons
@@ -89,6 +93,7 @@ export default function Email({ navigation, route }) {
               marginLeft: 20,
               paddingRight: 20,
               alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
             name={
               i18n.locale === "en-US"
@@ -108,26 +113,32 @@ export default function Email({ navigation, route }) {
           >
             <Text
               style={{
-                fontFamily: "UbuntuBold",
-                fontSize: i18n.locale === "en-US" ? 30 : 32,
+                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                fontSize: 30,
                 margin: 20,
                 marginTop: 0,
+                marginBottom: i18n.locale === "en-US" ? 20 : 10,
                 width: "100%",
                 textAlign: "center",
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
             >
               {i18n.t("name")}
             </Text>
             <Text
               style={{
-                fontFamily: "Ubuntu",
+                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
                 fontSize: i18n.locale === "en-US" ? 16 : 18,
                 margin: 20,
                 marginTop: 0,
+                marginBottom: i18n.locale === "en-US" ? 20 : 10,
+                paddingTop: 3,
                 width: "100%",
                 textAlign: "center",
                 color: "#64666b",
                 lineHeight: 23,
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                opacity: 0.8,
               }}
             >
               {i18n.t("description")}
@@ -151,8 +162,17 @@ export default function Email({ navigation, route }) {
                     padding: 14,
                     paddingLeft: 50,
                     paddingRight: 50,
-                    fontFamily: "Ubuntu",
+                    fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
                     textAlign: i18n.locale === "en-US" ? "left" : "right",
+                    backgroundColor: "white",
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 1,
+                    },
+                    shadowOpacity: 0.1,
+                    shadowRadius: 1.41,
+                    elevation: 2,
                   }}
                   mainColor={checkValidationColor}
                   label="Email"
@@ -181,7 +201,7 @@ export default function Email({ navigation, route }) {
                     }}
                     name="mail"
                     size={18}
-                    color="#4831d4"
+                    color="#7758F6"
                   />
                 ) : (
                   <>
@@ -197,7 +217,7 @@ export default function Email({ navigation, route }) {
                         }}
                         name="close-outline"
                         size={18}
-                        color="red"
+                        color="#ea3e29"
                       />
                     ) : (
                       <Ionicons
@@ -211,7 +231,7 @@ export default function Email({ navigation, route }) {
                         }}
                         name="checkmark"
                         size={16}
-                        color="#00b100"
+                        color="#5fcf40"
                       />
                     )}
                   </>
@@ -271,14 +291,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 10,
     elevation: 3,
-    backgroundColor: "#4831d4",
+    backgroundColor: "#7758F6",
   },
   buttonx: {
     paddingVertical: 8,
     paddingHorizontal: 32,
     borderRadius: 10,
     elevation: 3,
-    backgroundColor: "#988be6",
+    backgroundColor: "#a08cf3",
   },
   errorContainer: {
     // borderWidth: 2,
