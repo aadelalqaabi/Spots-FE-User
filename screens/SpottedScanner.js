@@ -5,7 +5,6 @@ import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import authStore from "../stores/authStore";
 import pointStore from "../stores/pointStore";
-import spotStore from "../stores/spotStore";
 
 export default function SpottedScanner({ route }) {
   const spot = route.params.spot;
@@ -22,13 +21,15 @@ export default function SpottedScanner({ route }) {
   const handleBarCodeScanned = ({ data }) => {
     setScanned(true);
     const spotId = data.split("spots://Profile/")[1];
-    const found = authStore.user.spots.some((spot) => spot === spotId);
-    console.log("found", found);
-    if (!found && data) {
+
+    const found = pointStore.points.some(
+      (point) => point.user === authStore.user.id && point.spot === spotId
+    );
+    if (!found) {
       authStore.spotAdd(spotId);
       pointStore.createPoint(spotId);
       alert("added");
-      navigation.navigate("Profile", { id: spot._id });
+      navigation.navigate("Profile");
     } else {
       alert("Spot already added");
       navigation.goBack();

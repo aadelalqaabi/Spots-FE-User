@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  useColorScheme,
 } from "react-native";
 import { useState } from "react";
 import { Alert } from "react-native";
@@ -18,6 +19,7 @@ import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 
 export default function Password({ navigation, route }) {
+  const colorScheme = useColorScheme();
   const { itemId } = route.params;
   const [user, setUser] = useState(itemId);
   const [checkValidation, setCheckValidation] = useState(true);
@@ -62,11 +64,11 @@ export default function Password({ navigation, route }) {
     if (check === true) {
       setUser({ ...user, [name]: value });
       setCheckValidation(false);
-      setCheckValidationColor("#4831d4");
+      setCheckValidationColor("#7758F6");
       setShowError(false);
     } else {
       setCheckValidation(true);
-      setCheckValidationColor("red");
+      setCheckValidationColor("#ea3e29");
       setShowError(true);
     }
   };
@@ -115,6 +117,8 @@ export default function Password({ navigation, route }) {
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
+    Noto: require("../../assets/fonts/Noto.ttf"),
+    NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -128,7 +132,7 @@ export default function Password({ navigation, route }) {
           style={{
             width: "100%",
             height: "100%",
-            backgroundColor: "white",
+            backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
           <Ionicons
@@ -139,6 +143,7 @@ export default function Password({ navigation, route }) {
               marginLeft: 20,
               paddingRight: 20,
               alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
             name={
               i18n.locale === "en-US"
@@ -158,26 +163,31 @@ export default function Password({ navigation, route }) {
           >
             <Text
               style={{
-                fontFamily: "UbuntuBold",
-                fontSize: i18n.locale === "en-US" ? 30 : 35,
+                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                fontSize: 30,
                 margin: 20,
                 marginTop: 0,
+                marginBottom: i18n.locale === "en-US" ? 20 : 10,
                 width: "100%",
                 textAlign: "center",
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
             >
               {i18n.t("name")}
             </Text>
             <Text
               style={{
-                fontFamily: "Ubuntu",
+                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
                 fontSize: i18n.locale === "en-US" ? 16 : 18,
                 margin: 20,
                 marginTop: 0,
+                marginBottom: i18n.locale === "en-US" ? 20 : 10,
                 width: "100%",
                 textAlign: "center",
-                color: "#64666b",
                 lineHeight: 23,
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                opacity: 0.8,
+                paddingTop: 3,
               }}
             >
               {i18n.t("description")}
@@ -199,6 +209,17 @@ export default function Password({ navigation, route }) {
                     alignSelf: "center",
                     width: "103%",
                     marginBottom: 20,
+                    padding: 14,
+                    fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                    backgroundColor: "white",
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 1,
+                    },
+                    shadowOpacity: 0.1,
+                    shadowRadius: 1.41,
+                    elevation: 2,
                   }}
                   mainColor={checkValidationColor}
                   label="Password"
@@ -226,10 +247,9 @@ export default function Password({ navigation, route }) {
                   }}
                   name={secure === true ? "eye" : "eye-off"}
                   size={30}
-                  color="#4831d4"
+                  color="#7758F6"
                   onPress={() => setSecure(!secure)}
                 />
-
                 {lowerCase === true ? (
                   <View
                     style={{
@@ -238,8 +258,20 @@ export default function Password({ navigation, route }) {
                       paddingBottom: 15,
                     }}
                   >
-                    <Ionicons name="close-circle" size={22} color="red" />
-                    <Text style={styles.errorText}>{i18n.t("lower")}</Text>
+                    <Ionicons name="close-circle" size={22} color="#ea3e29" />
+                    <Text
+                      style={{
+                        marginTop: i18n.locale === "en-US" ? 3 : -3,
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginLeft: 10,
+                        marginRight: 10,
+                        fontSize: 15,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        opacity: 0.8,
+                      }}
+                    >
+                      {i18n.t("lower")}
+                    </Text>
                   </View>
                 ) : (
                   <View
@@ -252,9 +284,22 @@ export default function Password({ navigation, route }) {
                     <Ionicons
                       name="checkmark-circle"
                       size={22}
-                      color="#00b100"
+                      color="#5fcf40"
                     />
-                    <Text style={styles.correctText}>{i18n.t("lower")}</Text>
+                    <Text
+                      style={{
+                        marginTop: i18n.locale === "en-US" ? 3 : -3,
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginLeft: 10,
+                        marginRight: 10,
+                        color: "#525252",
+                        fontSize: 15,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        opacity: 0.8,
+                      }}
+                    >
+                      {i18n.t("lower")}
+                    </Text>
                   </View>
                 )}
                 {upperCase === true ? (
@@ -265,8 +310,20 @@ export default function Password({ navigation, route }) {
                       paddingBottom: 15,
                     }}
                   >
-                    <Ionicons name="close-circle" size={22} color="red" />
-                    <Text style={styles.errorText}>{i18n.t("upper")}</Text>
+                    <Ionicons name="close-circle" size={22} color="#ea3e29" />
+                    <Text
+                      style={{
+                        marginTop: i18n.locale === "en-US" ? 3 : -3,
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginLeft: 10,
+                        marginRight: 10,
+                        fontSize: 15,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        opacity: 0.8,
+                      }}
+                    >
+                      {i18n.t("upper")}
+                    </Text>
                   </View>
                 ) : (
                   <View
@@ -279,9 +336,22 @@ export default function Password({ navigation, route }) {
                     <Ionicons
                       name="checkmark-circle"
                       size={22}
-                      color="#00b100"
+                      color="#5fcf40"
                     />
-                    <Text style={styles.correctText}>{i18n.t("upper")}</Text>
+                    <Text
+                      style={{
+                        marginTop: i18n.locale === "en-US" ? 3 : -3,
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginLeft: 10,
+                        marginRight: 10,
+                        color: "#525252",
+                        fontSize: 15,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        opacity: 0.8,
+                      }}
+                    >
+                      {i18n.t("upper")}
+                    </Text>
                   </View>
                 )}
                 {number === true ? (
@@ -292,8 +362,20 @@ export default function Password({ navigation, route }) {
                       paddingBottom: 15,
                     }}
                   >
-                    <Ionicons name="close-circle" size={22} color="red" />
-                    <Text style={styles.errorText}>{i18n.t("number")}</Text>
+                    <Ionicons name="close-circle" size={22} color="#ea3e29" />
+                    <Text
+                      style={{
+                        marginTop: i18n.locale === "en-US" ? 3 : -3,
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginLeft: 10,
+                        marginRight: 10,
+                        fontSize: 15,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        opacity: 0.8,
+                      }}
+                    >
+                      {i18n.t("number")}
+                    </Text>
                   </View>
                 ) : (
                   <View
@@ -306,9 +388,22 @@ export default function Password({ navigation, route }) {
                     <Ionicons
                       name="checkmark-circle"
                       size={22}
-                      color="#00b100"
+                      color="#5fcf40"
                     />
-                    <Text style={styles.correctText}>{i18n.t("number")}</Text>
+                    <Text
+                      style={{
+                        marginTop: i18n.locale === "en-US" ? 3 : -3,
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginLeft: 10,
+                        marginRight: 10,
+                        color: "#525252",
+                        fontSize: 15,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        opacity: 0.8,
+                      }}
+                    >
+                      {i18n.t("number")}
+                    </Text>
                   </View>
                 )}
                 {specialCharacter === true ? (
@@ -319,8 +414,20 @@ export default function Password({ navigation, route }) {
                       paddingBottom: 15,
                     }}
                   >
-                    <Ionicons name="close-circle" size={22} color="red" />
-                    <Text style={styles.errorText}>{i18n.t("special")}</Text>
+                    <Ionicons name="close-circle" size={22} color="#ea3e29" />
+                    <Text
+                      style={{
+                        marginTop: i18n.locale === "en-US" ? 3 : -3,
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginLeft: 10,
+                        marginRight: 10,
+                        fontSize: 15,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        opacity: 0.8,
+                      }}
+                    >
+                      {i18n.t("special")}
+                    </Text>
                   </View>
                 ) : (
                   <View
@@ -333,9 +440,22 @@ export default function Password({ navigation, route }) {
                     <Ionicons
                       name="checkmark-circle"
                       size={22}
-                      color="#00b100"
+                      color="#5fcf40"
                     />
-                    <Text style={styles.correctText}>{i18n.t("special")}</Text>
+                    <Text
+                      style={{
+                        marginTop: i18n.locale === "en-US" ? 3 : -3,
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginLeft: 10,
+                        marginRight: 10,
+                        color: "#525252",
+                        fontSize: 15,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        opacity: 0.8,
+                      }}
+                    >
+                      {i18n.t("special")}
+                    </Text>
                   </View>
                 )}
                 {characterLength === true ? (
@@ -346,8 +466,20 @@ export default function Password({ navigation, route }) {
                       paddingBottom: 15,
                     }}
                   >
-                    <Ionicons name="close-circle" size={22} color="red" />
-                    <Text style={styles.errorText}>{i18n.t("eight")}</Text>
+                    <Ionicons name="close-circle" size={22} color="#ea3e29" />
+                    <Text
+                      style={{
+                        marginTop: i18n.locale === "en-US" ? 3 : -3,
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginLeft: 10,
+                        marginRight: 10,
+                        fontSize: 15,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        opacity: 0.8,
+                      }}
+                    >
+                      {i18n.t("eight")}
+                    </Text>
                   </View>
                 ) : (
                   <View
@@ -360,9 +492,22 @@ export default function Password({ navigation, route }) {
                     <Ionicons
                       name="checkmark-circle"
                       size={22}
-                      color="#00b100"
+                      color="#5fcf40"
                     />
-                    <Text style={styles.correctText}>{i18n.t("eight")}</Text>
+                    <Text
+                      style={{
+                        marginTop: i18n.locale === "en-US" ? 3 : -3,
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginLeft: 10,
+                        marginRight: 10,
+                        color: "#525252",
+                        fontSize: 15,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        opacity: 0.8,
+                      }}
+                    >
+                      {i18n.t("eight")}
+                    </Text>
                   </View>
                 )}
               </View>
@@ -420,29 +565,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 10,
     elevation: 3,
-    backgroundColor: "#4831d4",
+    backgroundColor: "#7758F6",
   },
   buttonx: {
     paddingVertical: 8,
     paddingHorizontal: 32,
     borderRadius: 10,
     elevation: 3,
-    backgroundColor: "#988be6",
-  },
-
-  errorText: {
-    marginTop: 3,
-    marginLeft: 10,
-    marginRight: 10,
-    color: "#525252",
-    fontSize: 15,
-  },
-  correctText: {
-    marginTop: 3,
-    marginLeft: 10,
-    marginRight: 10,
-    color: "#525252",
-    fontSize: 15,
+    backgroundColor: "#a08cf3",
   },
   container: {
     alignSelf: "center",

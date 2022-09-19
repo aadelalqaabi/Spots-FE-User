@@ -7,7 +7,7 @@ import {
   FlatList,
   ScrollView,
   TouchableOpacity,
-  Button,
+  useColorScheme,
 } from "react-native";
 import OrganizerSpot from "../screens/spots/OrganizerSpot";
 import { observer } from "mobx-react";
@@ -19,6 +19,7 @@ import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 
 function OrganizerProfile({ route }) {
+  const colorScheme = useColorScheme();
   const navigation = useNavigation();
   const [notification, setNotification] = useState();
   const organizer = route.params.organizer;
@@ -41,7 +42,7 @@ function OrganizerProfile({ route }) {
       style={{
         width: "100%",
         height: "100%",
-        backgroundColor: "white",
+        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
       }}
     >
       <View
@@ -58,60 +59,106 @@ function OrganizerProfile({ route }) {
           style={{
             fontSize: 35,
             marginLeft: 20,
+            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
           name="chevron-back-outline"
           onPress={() => navigation.goBack()}
         ></Ionicons>
-        <Text style={styles.profile}>{organizer?.username}</Text>
+        <Text
+          style={{
+            fontSize: 30,
+            marginLeft: 0,
+            marginRight: 0,
+            marginBottom: 10,
+            marginTop: 15,
+            fontFamily: "UbuntuBold",
+            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+          }}
+        >
+          {organizer?.username}
+        </Text>
         <TouchableOpacity /*onPress={handleNotification}*/>
           {notification === false ? (
             <Fontisto
               style={{ alignSelf: "flex-end", marginRight: 20 }}
               name="bell-alt"
               size={24}
-              color="grey"
+              color="#7758F6"
             />
           ) : (
             <Fontisto
               style={{ alignSelf: "flex-end", marginRight: 20 }}
               name="bell-alt"
               size={24}
-              color="#4831d4"
+              color="#7758F6"
             />
           )}
         </TouchableOpacity>
       </View>
-      <SafeAreaView style={styles.container}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-        >
-          <View style={styles.imageUserName}>
-            {organizer?.image === "" ? (
-              <Image
-                style={styles.profileImage}
-                source={{
-                  uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPWpbYe9c5YS6KNOXFWiawk-ox545j3ya978qwGXmcladr3eLFh6IabWhNFVtFRI0YNjI&usqp=CAU",
-                }}
-              />
-            ) : (
-              <Image
-                style={styles.profileImage}
-                source={{
-                  uri: baseURL + organizer?.image,
-                }}
-              />
-            )}
-            <View style={styles.counter}>
-              <Text style={styles.spotsNum}>{organizer?.spots?.length}</Text>
-              <Text style={styles.spotsTitle}>Spots</Text>
-            </View>
-          </View>
 
-          <View>
-            <Text style={styles.bio}>{organizer?.bio}</Text>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        style={{
+          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+        }}
+      >
+        <View style={styles.imageUserName}>
+          {organizer?.image === "" ? (
+            <Image
+              style={styles.profileImage}
+              source={{
+                uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPWpbYe9c5YS6KNOXFWiawk-ox545j3ya978qwGXmcladr3eLFh6IabWhNFVtFRI0YNjI&usqp=CAU",
+              }}
+            />
+          ) : (
+            <Image
+              style={styles.profileImage}
+              source={{
+                uri: baseURL + organizer?.image,
+              }}
+            />
+          )}
+          <View style={styles.counter}>
+            <Text
+              style={{
+                fontSize: 35,
+                fontFamily: "Ubuntu",
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              }}
+            >
+              {organizer?.spots?.length}
+            </Text>
+            <Text
+              style={{
+                fontSize: 25,
+                fontFamily: "Ubuntu",
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              }}
+            >
+              Spots
+            </Text>
           </View>
+        </View>
 
+        <View>
+          <Text
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "center",
+              fontFamily: "Cabin",
+              margin: 35,
+              fontSize: 22,
+              marginTop: 20,
+              marginBottom: 20,
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            }}
+          >
+            {organizer?.bio}
+          </Text>
+        </View>
+        <View>
           <FlatList
             style={styles.spotsList}
             contentContainerStyle={styles.spotsListContainer}
@@ -120,9 +167,8 @@ function OrganizerProfile({ route }) {
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
           />
-          <Text style={{ margin: 250, color: "white" }}>HELP</Text>
-        </ScrollView>
-      </SafeAreaView>
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -138,7 +184,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
     flexDirection: "row",
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: "transparent",
     borderRadius: 20,
     alignSelf: "center",
     width: "100%",
@@ -187,7 +233,7 @@ const styles = StyleSheet.create({
   bio: {
     justifyContent: "center",
     alignItems: "center",
-    textAlign: "justify",
+    textAlign: "center",
     fontFamily: "Cabin",
     margin: 35,
     fontSize: 22,
@@ -211,12 +257,12 @@ const styles = StyleSheet.create({
     opacity: 0.8,
   },
   spotsList: {
-    backgroundColor: "#fffffc",
+    backgroundColor: "transparent",
     height: "100%",
     width: "100%",
   },
   spotsListContainer: {
-    backgroundColor: "#fffffc",
+    backgroundColor: "transparent",
   },
 
   cancel: {

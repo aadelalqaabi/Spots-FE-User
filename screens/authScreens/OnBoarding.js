@@ -4,6 +4,8 @@ import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
 
 export default function OnBoarding() {
   let [fontsLoaded] = useFonts({
@@ -13,10 +15,37 @@ export default function OnBoarding() {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
+  const translations = {
+    en: {
+      start: "Get Started",
+      out: "Going out never felt this fun",
+      or: "Or",
+      login: "Login",
+    },
+    ar: {
+      start: "ابدأ",
+      out: "الذهاب للخارج لم يكن بهذه المتعة",
+      or: "او",
+      login: "تسجيل التدخول",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Going out never felt this fun</Text>
+      <Text
+        style={{
+          fontSize: 48,
+          fontFamily: "UbuntuBold",
+          width: "75%",
+          marginTop: 200,
+          textAlign: i18n.locale === "en-US" ? "left" : "right",
+        }}
+      >
+        {i18n.t("out")}
+      </Text>
       <View
         style={{
           width: "100%",
@@ -30,7 +59,7 @@ export default function OnBoarding() {
           style={styles.button}
           onPress={() => navigation.navigate("MainPageRegister")}
         >
-          <Text style={styles.text}>Get Started</Text>
+          <Text style={styles.text}>{i18n.t("start")}</Text>
           <Ionicons
             style={styles.icon}
             name="chevron-forward-outline"
@@ -45,12 +74,12 @@ export default function OnBoarding() {
             marginTop: 5,
           }}
         >
-          <Text style={styles.logintext}>Or</Text>
+          <Text style={styles.logintext}>{i18n.t("or")}</Text>
           <Text
             style={styles.loginbutton}
             onPress={() => navigation.navigate("Set Up Account")}
           >
-            Login
+            {i18n.t("login")}
           </Text>
         </View>
       </View>
@@ -71,12 +100,6 @@ const styles = StyleSheet.create({
     fontFamily: "UbuntuBold",
     marginTop: 10,
     color: "#4831d4",
-  },
-  title: {
-    fontSize: 48,
-    fontFamily: "UbuntuBold",
-    width: "75%",
-    marginTop: 200,
   },
   container: {
     width: "100%",

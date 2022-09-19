@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   Linking,
+  useColorScheme,
 } from "react-native";
 import moment from "moment";
 import { Ionicons } from "@expo/vector-icons";
@@ -14,29 +15,55 @@ import { baseURL } from "../../stores/instance";
 import spotStore from "../../stores/spotStore";
 import React from "react";
 import organizerStore from "../../stores/organizerStore";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
+import "moment/locale/ar";
 
 export default function SpotttedDetails({ navigation, route }) {
+  const colorScheme = useColorScheme();
+  const translations = {
+    en: {
+      details: "Spot Details",
+      date: "Date",
+      time: "Time",
+      entry: "Entry",
+      location: "location",
+      scan: "scan QR",
+    },
+    ar: {
+      details: "تفاصيل النقطة",
+      date: "التاريخ",
+      time: "الوقت",
+      entry: "الدخول",
+      location: "الموقع",
+      scan: "امسح QR",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
   const spot = spotStore.getSpotsById(route.params.id);
-
   const organizer = organizerStore.getOrganizerById(spot.organizer);
   const ticket = route.params.ticket;
-
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
     UbuntuLight: require("../../assets/fonts/Ubuntu-Light.ttf"),
+    Noto: require("../../assets/fonts/Noto.ttf"),
+    NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
     return <AppLoading />;
   }
-  let date = moment(spot.startDate).format("LL");
-
+  let dateEn = moment(spot.startDate).locale("en").format("LL");
+  let dateAr = moment(spot.startDate).locale("ar").format("LL");
   return (
     <View
       style={{
         width: "100%",
         height: "100%",
-        backgroundColor: "white",
+        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+
         flex: 1,
       }}
     >
@@ -50,10 +77,59 @@ export default function SpotttedDetails({ navigation, route }) {
           borderRadius: "100%",
         }}
       ></View>
-      <Text style={styles.thanks}>Spot Details</Text>
+      <Text
+        style={{
+          fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+          alignSelf: "center",
+          letterSpacing: 4,
+          fontSize: 40,
+          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+          alignSelf: "center",
+          marginTop: i18n.locale === "en-US" ? "9%" : 0,
+          paddingTop: i18n.locale === "en-US" ? 0 : 30,
+          marginBottom: i18n.locale === "en-US" ? 0 : -30,
+        }}
+      >
+        {i18n.t("details")}
+      </Text>
 
-      <View style={styles.box}>
-        <Text style={styles.spotName}>{spot.name}</Text>
+      <View
+        style={{
+          shadowColor: "#000",
+          shadowOffset: {
+            width: 0,
+            height: 2,
+          },
+          shadowOpacity: 0.23,
+          shadowRadius: 2.62,
+          elevation: 4,
+          backgroundColor: "#7758F6",
+          borderRadius: "50%",
+          margin: 15,
+          marginTop: 40,
+          height: "78%",
+        }}
+      >
+        <Text
+          style={{
+            color: "white",
+            margin: 50,
+            fontSize: 35,
+            alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+            textAlign: i18n.locale === "en-US" ? "left" : "right",
+            marginBottom: 15,
+            fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+            shadowOffset: {
+              width: 0,
+              height: 2,
+            },
+            shadowOpacity: 0.23,
+            shadowRadius: 2.62,
+            elevation: 4,
+          }}
+        >
+          {spot.name}
+        </Text>
 
         <View
           style={{
@@ -71,7 +147,15 @@ export default function SpotttedDetails({ navigation, route }) {
             elevation: 4,
           }}
         >
-          <View style={styles.ownerContainer}>
+          <View
+            style={{
+              marginBottom: 0,
+              display: "flex",
+              flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+              flexWrap: "wrap",
+              alignItems: "center",
+            }}
+          >
             <Image
               style={styles.ownerthumb}
               source={{ uri: `${baseURL}${organizer.image}` }}
@@ -83,29 +167,34 @@ export default function SpotttedDetails({ navigation, route }) {
               display: "flex",
               flexDirection: "column",
               alignContent: "center",
-              // alignItems: "center",
               margin: 10,
             }}
           >
             <Text
               style={{
-                fontFamily: "Ubuntu",
+                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                marginTop: i18n.locale === "en-US" ? 10 : -5,
+                marginBottom: i18n.locale === "en-US" ? 10 : -5,
                 fontSize: 25,
-                margin: 10,
                 color: "white",
                 marginLeft: 0,
+                marginRight: 0,
+                alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
               }}
             >
-              Date
+              {i18n.t("date")}
             </Text>
             <Text
               style={{
-                fontFamily: "UbuntuBold",
+                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                marginTop: i18n.locale === "en-US" ? 0 : -10,
+                marginBottom: i18n.locale === "en-US" ? 0 : -10,
                 fontSize: 25,
                 color: "white",
+                alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
               }}
             >
-              {date}
+              {i18n.locale === "en-US" ? dateEn : dateAr}
             </Text>
           </View>
           <View
@@ -113,24 +202,33 @@ export default function SpotttedDetails({ navigation, route }) {
               display: "flex",
               flexDirection: "column",
               alignContent: "center",
-              // alignItems: "center",
+
               margin: 10,
             }}
           >
             <Text
               style={{
-                fontFamily: "Ubuntu",
+                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                marginTop: i18n.locale === "en-US" ? 10 : -5,
+                marginBottom: i18n.locale === "en-US" ? 10 : -5,
                 fontSize: 25,
-                margin: 10,
                 color: "white",
-                textAlign: "left",
                 marginLeft: 0,
+                marginRight: 0,
+                alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
               }}
             >
-              Time
+              {i18n.t("time")}
             </Text>
             <Text
-              style={{ fontFamily: "UbuntuBold", fontSize: 25, color: "white" }}
+              style={{
+                alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                marginTop: i18n.locale === "en-US" ? 0 : -10,
+                marginBottom: i18n.locale === "en-US" ? 0 : -10,
+                fontSize: 25,
+                color: "white",
+              }}
             >
               {spot.startTime}
             </Text>
@@ -140,47 +238,68 @@ export default function SpotttedDetails({ navigation, route }) {
               display: "flex",
               flexDirection: "column",
               alignContent: "center",
-              // alignItems: "center",
               margin: 10,
             }}
           >
             <Text
               style={{
-                fontFamily: "Ubuntu",
+                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                marginTop: i18n.locale === "en-US" ? 10 : -5,
+                marginBottom: i18n.locale === "en-US" ? 10 : -5,
                 fontSize: 25,
                 margin: 10,
                 marginLeft: 0,
+                marginRight: 0,
                 color: "white",
-                textAlign: "left",
+                alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
               }}
             >
-              Entry
+              {i18n.t("entry")}
             </Text>
             <Text
-              style={{ fontFamily: "UbuntuBold", fontSize: 25, color: "white" }}
+              style={{
+                alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                marginTop: i18n.locale === "en-US" ? 0 : -10,
+                marginBottom: i18n.locale === "en-US" ? 0 : -10,
+                fontSize: 25,
+                color: "white",
+              }}
             >
               {ticket.isFree === false ? (
                 <>
                   <Text
                     style={{
-                      fontFamily: "UbuntuBold",
+                      fontFamily:
+                        i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                      marginTop: i18n.locale === "en-US" ? 0 : -10,
+                      marginBottom: i18n.locale === "en-US" ? 0 : -10,
                       fontSize: 25,
                       color: "white",
+                      alignSelf:
+                        i18n.locale === "en-US" ? "flex-start" : "flex-end",
                     }}
                   >
-                    {ticket.amount} x tickets
+                    {i18n.locale === "en-US"
+                      ? ticket.amount + "x tickets"
+                      : "تذاكر X" + ticket.amount}
                   </Text>
                 </>
               ) : (
                 <>
                   <Text
                     style={{
-                      fontFamily: "UbuntuBold",
+                      fontFamily:
+                        i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                      marginTop: i18n.locale === "en-US" ? 0 : -10,
+                      marginBottom: i18n.locale === "en-US" ? 0 : -10,
                       fontSize: 25,
                       color: "white",
+                      alignSelf:
+                        i18n.locale === "en-US" ? "flex-start" : "flex-end",
                     }}
                   >
-                    Free
+                    {i18n.locale === "en-US" ? "Free" : "مجاني"}
                   </Text>
                 </>
               )}
@@ -202,7 +321,7 @@ export default function SpotttedDetails({ navigation, route }) {
             alignContent: "center",
             justifyContent: "center",
             alignItems: "center",
-            flexDirection: "row",
+            flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
             shadowOffset: {
               width: 0,
               height: 2,
@@ -217,13 +336,22 @@ export default function SpotttedDetails({ navigation, route }) {
             style={{
               fontSize: 32,
               zIndex: 99,
-
               color: "white",
             }}
             name="location"
           ></Ionicons>
 
-          <Text style={styles.location}>Location</Text>
+          <Text
+            style={{
+              color: "white",
+              fontSize: 20,
+              fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+              marginLeft: 10,
+              marginRight: 10,
+            }}
+          >
+            {i18n.t("location")}
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{
@@ -239,7 +367,7 @@ export default function SpotttedDetails({ navigation, route }) {
             alignContent: "center",
             justifyContent: "center",
             alignItems: "center",
-            flexDirection: "row",
+            flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
             shadowOffset: {
               width: 0,
               height: 2,
@@ -254,12 +382,22 @@ export default function SpotttedDetails({ navigation, route }) {
             style={{
               fontSize: 35,
               zIndex: 99,
-              color: "#4831d4",
+              color: "#7758F6",
             }}
             name="scan"
           ></Ionicons>
 
-          <Text style={styles.scantext}>Scan QR</Text>
+          <Text
+            style={{
+              color: "#7758F6",
+              fontSize: 20,
+              fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+              marginLeft: 10,
+              marginRight: 10,
+            }}
+          >
+            {i18n.t("scan")}
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -336,21 +474,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontFamily: "UbuntuBold",
   },
-  spotName: {
-    color: "white",
-    margin: 50,
-    fontSize: 35,
-    alignSelf: "left",
-    marginBottom: 10,
-    fontFamily: "UbuntuBold",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
-    elevation: 4,
-  },
   tickets: {
     color: "white",
     marginTop: 30,
@@ -370,13 +493,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Ubuntu",
     marginLeft: 10,
+    marginRight: 10,
   },
-  scantext: {
-    color: "#4831d4",
-    fontSize: 20,
-    fontFamily: "Ubuntu",
-    marginLeft: 10,
-  },
+
   spotext: {
     color: "white",
     fontSize: 22,
@@ -420,19 +539,13 @@ const styles = StyleSheet.create({
     left: 25,
     top: 150,
   },
-  ownerContainer: {
-    marginBottom: 10,
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center",
-  },
   ownerthumb: {
     width: 40,
     height: 40,
     borderRadius: "50%",
     zIndex: -1,
     marginRight: 10,
+    marginLeft: 10,
   },
   ownername: {
     color: "white",

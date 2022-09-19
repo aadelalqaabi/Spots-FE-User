@@ -31,6 +31,8 @@ function Spot({ spot, navigation }) {
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
+    Noto: require("../../assets/fonts/Noto.ttf"),
+    NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -72,7 +74,25 @@ function Spot({ spot, navigation }) {
               style={styles.ownerthumb}
               source={{ uri: `${baseURL}${organizer?.image}` }}
             />
-            <Text style={styles.ownername}>{organizer?.username}</Text>
+            <Text
+              style={{
+                fontSize: 20,
+                color: "#fffffc",
+                shadowOpacity: 0.2,
+                shadowRadius: 10,
+                shadowColor: "#004365",
+                shadowOffset: {
+                  height: 5,
+                  width: 0,
+                },
+                fontFamily: "Ubuntu",
+                alignSelf: "center",
+                flex: 1,
+                textTransform: "capitalize",
+              }}
+            >
+              {organizer?.username}
+            </Text>
           </TouchableOpacity>
           <View
             style={{
@@ -96,9 +116,10 @@ function Spot({ spot, navigation }) {
           >
             <Text
               style={{
-                fontFamily: "UbuntuBold",
+                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
                 fontSize: 23,
                 color: "#0a0a0b",
+                marginTop: i18n.locale === "en-US" ? 0 : -5,
               }}
             >
               {i18n.locale === "en-US" ? dayEn : dayAr}
@@ -106,9 +127,10 @@ function Spot({ spot, navigation }) {
 
             <Text
               style={{
-                fontFamily: "Ubuntu",
+                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
                 fontSize: 17,
                 color: "grey",
+                marginTop: i18n.locale === "en-US" ? 0 : -20,
               }}
             >
               {i18n.locale === "en-US" ? monthEn : monthAr}
@@ -116,19 +138,48 @@ function Spot({ spot, navigation }) {
           </View>
         </View>
         <LinearGradient
-          colors={["rgba(0,0,0,0.75)", "transparent"]}
-          start={{ x: 0, y: 0.8 }}
+          colors={["rgba(0,0,0,0.5)", "transparent"]}
+          start={{ x: 0, y: 0.7 }}
           end={{ x: 0, y: 0 }}
           style={styles.infoContainer}
         >
+          <Text
+            style={{
+              fontSize: 30,
+              fontWeight: "bold",
+              color: "white",
+              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+              marginBottom: i18n.locale === "en-US" ? 0 : -20,
+              paddingBottom: 10,
+              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+              shadowOpacity: 0.5,
+              shadowRadius: 10,
+              shadowColor: "#004365",
+              shadowOffset: {
+                height: 0,
+                width: 0,
+              },
+            }}
+          >
+            {i18n.locale === "en-US" ? spot.name : spot.name}
+          </Text>
           {spot.isFree === true ? (
             <Text
               style={{
                 fontSize: 16,
                 color: "white",
-                fontFamily: "Ubuntu",
-                paddingBottom: 10,
+                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+
+                //paddingBottom: 10,
                 alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                shadowOpacity: 0.1,
+                shadowOpacity: 0.5,
+                shadowRadius: 10,
+                shadowColor: "#004365",
+                shadowOffset: {
+                  height: 0,
+                  width: 0,
+                },
               }}
             >
               {i18n.locale === "en-US" ? "Free" : "مجاني"}
@@ -138,82 +189,25 @@ function Spot({ spot, navigation }) {
               style={{
                 fontSize: 16,
                 color: "white",
-                fontFamily: "Ubuntu",
-                paddingBottom: 10,
+                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+
+                //paddingBottom: 10,
                 alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                shadowOpacity: 0.1,
+                shadowOpacity: 0.5,
+                shadowRadius: 10,
+                shadowColor: "#004365",
+                shadowOffset: {
+                  height: 0,
+                  width: 0,
+                },
               }}
             >
               {i18n.locale === "en-US"
                 ? spot.price + " KD per person"
-                : spot.price + " للشخص الواحد"}
+                : spot.price + " دك للتذكرة "}
             </Text>
           )}
-          <Text
-            style={{
-              fontSize: 30,
-              fontWeight: "bold",
-              color: "white",
-              fontFamily: "UbuntuBold",
-              paddingBottom: 10,
-              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
-            }}
-          >
-            {i18n.locale === "en-US" ? spot.name : spot.name}
-          </Text>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent:
-                i18n.locale === "en-US" ? "flex-start" : "flex-end",
-              alignContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {user1 !== null && (
-              <Image
-                style={{
-                  borderRadius: "50%",
-                  borderWidth: 0.2,
-                  borderColor: "white",
-                  height: 35,
-                  width: 35,
-                }}
-                source={{ uri: `${baseURL}${user1}` }}
-              ></Image>
-            )}
-            {user2 !== null && (
-              <Image
-                style={{
-                  borderRadius: "50%",
-                  borderWidth: 0.2,
-                  borderColor: "white",
-                  height: 35,
-                  width: 35,
-                  marginLeft: -5,
-                }}
-                source={{
-                  uri: `${baseURL}${user2}`,
-                }}
-              ></Image>
-            )}
-            {user3 !== null && (
-              <Image
-                style={{
-                  borderRadius: "50%",
-                  borderWidth: 0.2,
-                  borderColor: "white",
-                  height: 35,
-                  width: 35,
-                  marginLeft: -5,
-                }}
-                source={{ uri: `${baseURL}${user3}` }}
-              ></Image>
-            )}
-            <View style={styles.spottedview}>
-              <Text style={styles.spotted}>{users}+</Text>
-            </View>
-          </View>
         </LinearGradient>
       </>
     </TouchableOpacity>

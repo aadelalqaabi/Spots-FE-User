@@ -76,8 +76,12 @@ class AuthStore {
 
   spotAdd = async (spotId) => {
     try {
+      const formData = new FormData();
+      for (const key in updatedUser) formData.append(key, updatedUser[key]);
       const res = await instance.put(`/user/spots/${spotId}`);
-      for (const key in this.user) this.user[key] = res.data[key];
+      runInAction(() => {
+        for (const key in this.user) this.user[key] = res.data[key];
+      });
     } catch (error) {
       console.log("here", error);
     }

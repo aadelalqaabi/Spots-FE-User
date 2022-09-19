@@ -14,7 +14,11 @@ function FinishedSpot({ spot }) {
     return <AppLoading />;
   }
   return (
-    <View>
+    <View
+      style={{
+        backgroundColor: "transparent",
+      }}
+    >
       <View
         style={styles.card}
         showsVerticalScrollIndicator={false}
@@ -58,7 +62,6 @@ const styles = StyleSheet.create({
   thumb: {
     width: "100%",
     height: 180,
-    // borderRadius: 20,
     alignSelf: "center",
     zIndex: -1,
     opacity: 0.9,

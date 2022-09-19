@@ -1,28 +1,24 @@
-import { useNavigation } from "@react-navigation/native";
 import { observer } from "mobx-react";
-import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, Image, View, StyleSheet } from "react-native";
 import { baseURL } from "../../stores/instance";
 
 function OrganizerSpot({ spot }) {
-    const navigation = useNavigation();
   return (
-    <View style={{ backgroundColor: "white",}}>
-      <TouchableOpacity
+    <View style={{ backgroundColor: "transparent" }}>
+      <View
         style={styles.card}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
-        onPress={() => {
-          navigation.navigate("SpotDetails", { id: spot._id });
-        }}
       >
         <Image
           style={styles.thumb}
           source={{ uri: `${baseURL}${spot.image}` }}
         />
+        <View style={styles.overlay}></View>
         <View style={styles.infoContainer}>
           <Text style={styles.name}>{spot.name}</Text>
         </View>
-      </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -33,21 +29,34 @@ const styles = StyleSheet.create({
   card: {
     display: "flex",
     flexDirection: "row",
-    flexWrap: "wrap",
+    alignContent: "center",
     alignSelf: "center",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 16,
-    shadowOpacity: 0.8,
-    shadowRadius: 4,
-    shadowColor: "black",
+    shadowColor: "#161616",
     shadowOffset: {
-      height: 0,
       width: 0,
+      height: 3,
     },
-    elevation: 1,
-    marginVertical: 5,
-    height: 290,
-    marginBottom: 30,
-    marginLeft: 2
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    margin: 1.5,
+    marginLeft: 0,
+    marginRight: 0,
+  },
+  overlay: {
+    display: "flex",
+    position: "absolute",
+    zIndex: 99,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    width: 384,
+    height: 300,
+    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    borderRadius: 20,
   },
   thumb: {
     alignSelf: "center",
@@ -56,17 +65,20 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     margin: 10,
     zIndex: -1,
-    opacity: 0.7,
+    opacity: 0.9,
   },
   infoContainer: {
+    display: "flex",
     position: "absolute",
-    alignSelf: "flex-end",
-    paddingLeft: 28,
-    paddingBottom: 22,
+    zIndex: 99,
+    alignSelf: "center",
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
+    width: "80%",
   },
   name: {
-    fontSize: 34,
-    fontWeight: "bold",
+    fontSize: 35,
     color: "#fffffc",
     shadowOpacity: 1,
     shadowRadius: 4,
@@ -75,6 +87,8 @@ const styles = StyleSheet.create({
       height: 1,
       width: 1,
     },
+    fontFamily: "UbuntuBold",
+    textAlign: "center",
   },
   edit: {
     borderRadius: 10,

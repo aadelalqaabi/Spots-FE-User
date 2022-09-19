@@ -1,4 +1,4 @@
-import { Button, Image, StyleSheet, Text, View } from "react-native";
+import { useColorScheme, Image, StyleSheet, Text, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { baseURL } from "../../stores/instance";
@@ -12,6 +12,7 @@ import authStore from "../../stores/authStore";
 import rewardStore from "../../stores/rewardStore";
 
 function RewardItem({ reward }) {
+  const colorScheme = useColorScheme();
   useEffect(() => {
     authStore.checkForToken();
     pointStore.fetchPoints();
@@ -61,9 +62,8 @@ function RewardItem({ reward }) {
             style={{
               position: "absolute",
               margin: 8,
-              backgroundColor: "#4831d4",
+              backgroundColor: "#7758F6",
               padding: 15,
-
               paddingLeft: 20,
               paddingRight: 20,
               borderRadius: "50%",
@@ -73,10 +73,31 @@ function RewardItem({ reward }) {
           </View>
         </View>
         <View style={styles.titleContainer}>
-          <Text style={styles.name}>{reward?.title}</Text>
+          <Text
+            style={{
+              textTransform: "capitalize",
+              marginTop: 10,
+              fontSize: 22,
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              fontFamily: "UbuntuBold",
+            }}
+          >
+            {reward?.title}
+          </Text>
         </View>
         <View style={styles.descriptionContainer}>
-          <Text style={styles.description}>{reward?.description}</Text>
+          <Text
+            style={{
+              marginTop: 10,
+              fontSize: 18,
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              fontFamily: "Cabin",
+              width: 300,
+              lineHeight: 25,
+            }}
+          >
+            {reward?.description}
+          </Text>
         </View>
       </TouchableOpacity>
 

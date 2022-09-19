@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Keyboard,
   TouchableWithoutFeedback,
+  useColorScheme,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
@@ -17,16 +18,17 @@ import * as Localization from "expo-localization";
 import { I18n } from "i18n-js";
 
 export default function AuthButtons({ navigation }) {
+  const colorScheme = useColorScheme();
   const translations = {
     en: {
       title: "Go Where You Want To",
-      new: "New to GoTo?",
-      register: "Register Here",
+      new: "New to GOTO?",
+      register: "Register Now",
     },
     ar: {
       title: "اذهب الى اين ما شئت",
       new: "جديد على غوتو؟",
-      register: "سجل هنا ",
+      register: "سجل الآن ",
     },
   };
   const i18n = new I18n(translations);
@@ -35,6 +37,8 @@ export default function AuthButtons({ navigation }) {
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
+    Noto: require("../../assets/fonts/Noto.ttf"),
+    NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -49,20 +53,19 @@ export default function AuthButtons({ navigation }) {
           style={{
             width: "100%",
             height: "100%",
-            backgroundColor: "white",
+            backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
             flex: 1,
           }}
         >
           <View
             style={{
               justifyContent: "center",
-
               width: "70%",
               alignSelf: "center",
               flex: 1,
             }}
           >
-            <StatusBar style={"dark"} />
+            <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
             <Image
               style={{
                 width: 55,
@@ -72,10 +75,18 @@ export default function AuthButtons({ navigation }) {
                 marginTop: -150,
                 marginBottom: 50,
               }}
-              source={require("../../assets/icony.png")}
+              source={require("../../assets/iconSign.png")}
             />
             <Text
-              style={i18n.locale === "en-US" ? styles.title : styles.artitle}
+              style={{
+                fontSize: i18n.locale === "en-US" ? 45 : 38,
+                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                width: "100%",
+                marginTop: 80,
+                marginBottom: 70,
+                textAlign: i18n.locale === "en-US" ? "left" : "right",
+                color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
+              }}
             >
               {i18n.t("title")}
             </Text>
@@ -91,11 +102,14 @@ export default function AuthButtons({ navigation }) {
               }}
             >
               <Text
-                style={
-                  i18n.locale === "en-US"
-                    ? styles.checktext
-                    : styles.checktextar
-                }
+                style={{
+                  color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
+                  fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                  fontSize: 18,
+                  paddingRight: 8,
+                  paddingLeft: 8,
+                  opacity: 0.8,
+                }}
               >
                 {i18n.t("new")}
               </Text>
@@ -106,11 +120,12 @@ export default function AuthButtons({ navigation }) {
                 style={styles.signUp}
               >
                 <Text
-                  style={
-                    i18n.locale === "en-US"
-                      ? styles.signUpText
-                      : styles.signUpTextar
-                  }
+                  style={{
+                    color: "#7758F6",
+                    fontFamily:
+                      i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                    fontSize: 20,
+                  }}
                 >
                   {i18n.t("register")}
                 </Text>
@@ -127,22 +142,12 @@ const styles = StyleSheet.create({
   signUp: {
     borderRadius: 15,
   },
-  signUpText: {
-    color: "#4831d4",
-    fontFamily: "UbuntuBold",
-    fontSize: 20,
-  },
   signUpTextar: {
     color: "#4831d4",
     fontFamily: "UbuntuBold",
     fontSize: 20,
   },
-  checktext: {
-    color: "#64666b",
-    fontFamily: "Ubuntu",
-    fontSize: 20,
-    paddingRight: 8,
-  },
+
   checktextar: {
     color: "#64666b",
     fontFamily: "Ubuntu",
@@ -153,21 +158,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  title: {
-    fontSize: 45,
-    fontFamily: "UbuntuBold",
-    width: "100%",
-    marginTop: 80,
-    marginBottom: 70,
-  },
-  artitle: {
-    fontSize: 45,
-    fontFamily: "UbuntuBold",
-    width: "100%",
-    marginTop: 80,
-    marginBottom: 70,
-    textAlign: "right",
-  },
+
   container: {
     flex: 1,
   },
