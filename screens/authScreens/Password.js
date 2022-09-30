@@ -232,9 +232,11 @@ export default function Password({ navigation, route }) {
                   onSubmitEditing={() => {
                     checkValidation === false
                       ? navigation.navigate("MyImage", { itemId: user })
-                      : Alert.alert("Invalid Password", "", [
-                          { text: "Try Again" },
-                        ]);
+                      : i18n.locale === "en-US" ? (
+                          Alert.alert("Invalid Password", "", [{ text: "Try Again" },])
+                        ) : (
+                          Alert.alert("كلمة سر غير صالحة", "", [{ text: "حاول مرة اخرى" },])
+                        )
                   }}
                 />
                 <Ionicons

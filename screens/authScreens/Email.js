@@ -184,9 +184,11 @@ export default function Email({ navigation, route }) {
                   onSubmitEditing={() => {
                     checkValidation === false
                       ? navigation.navigate("Password", { itemId: user })
-                      : Alert.alert("Invalid Email Adress", "", [
-                          { text: "Try Again" },
-                        ]);
+                      : i18n.locale === "en-US" ? (
+                          Alert.alert("Invalid Email Adress", "", [{ text: "Try Again" },])
+                        ) : (
+                          Alert.alert("البريد الإلكتروني غير صالح", "", [{ text: "حاول مرة اخرى" },])
+                        )
                   }}
                 />
                 {begining === true ? (
