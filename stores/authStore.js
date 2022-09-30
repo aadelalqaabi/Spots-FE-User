@@ -6,7 +6,25 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import spotStore from "./spotStore";
 import moment from "moment";
 import emailjs from "emailjs-com";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
 
+const translations = {
+  en: {
+    name: "Enter Your Name",
+    description:
+      "Choose a name for your account\n (Must be at least 2 characters)",
+    next: "Next",
+  },
+  ar: {
+    name: "ادخل اسمك",
+    description: "اختر اسم ليظهر في حسابك \n(يجب ان يكون حرفين على الاقل)",
+    next: "التالي",
+  },
+};
+const i18n = new I18n(translations);
+i18n.locale = Localization.locale;
+i18n.enableFallback = true;
 class AuthStore {
   constructor() {
     makeAutoObservable(this);
@@ -51,7 +69,11 @@ class AuthStore {
       this.setUser(response.data.token);
     } catch (error) {
       console.log(error);
-      Alert.alert("Wrong username or password", "", [{ text: "Try Again" }]);
+      i18n.locale === "en-US" ? (
+        Alert.alert("Wrong username or password", "", [{ text: "Try Again" }])
+      ) : (
+        Alert.alert("مستخدم او كلمه سر خاطئه", "", [{ text: "حاول مرة اخرى" }])
+      )
     }
   };
 

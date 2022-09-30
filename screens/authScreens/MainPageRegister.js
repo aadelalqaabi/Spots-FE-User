@@ -190,9 +190,11 @@ export default function MainPageRegister() {
                   onSubmitEditing={() => {
                     checkValidation === false
                       ? navigation.navigate("PhoneNo", { itemId: user })
-                      : Alert.alert("Invalid Username", "", [
-                          { text: "Try Again" },
-                        ]);
+                      : i18n.locale === "en-US" ? (
+                          Alert.alert("Invalid Username", "", ["Try Again" ])
+                      ) : (
+                        Alert.alert("اسم المستخدم غير صالح", "", [{ text: "حاول مرة اخرى" },])
+                      )
                   }}
                 />
                 {begining === true ? (
