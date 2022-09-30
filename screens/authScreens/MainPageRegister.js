@@ -46,7 +46,7 @@ export default function MainPageRegister() {
     image: "",
   });
   const [checkValidation, setCheckValidation] = useState(true);
-  const [checkValidationColor, setCheckValidationColor] = useState("#4831d4");
+  const [checkValidationColor, setCheckValidationColor] = useState("#9279f7");
   const [begining, setBegining] = useState(true);
   const [showError, setShowError] = useState(true);
 
@@ -55,7 +55,7 @@ export default function MainPageRegister() {
     if (check === true) {
       setUser({ ...user, [name]: value });
       setCheckValidation(false);
-      setCheckValidationColor("#7758F6");
+      setCheckValidationColor("#9279f7");
       setShowError(false);
     } else {
       setCheckValidation(true);
@@ -207,7 +207,7 @@ export default function MainPageRegister() {
                     }}
                     name="person-circle"
                     size={30}
-                    color="#7758F6"
+                    color="#9279f7"
                   />
                 ) : (
                   <>
@@ -297,7 +297,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 10,
     elevation: 3,
-    backgroundColor: "#7758F6",
+    backgroundColor: "#9279f7",
   },
   buttonx: {
     paddingVertical: 8,

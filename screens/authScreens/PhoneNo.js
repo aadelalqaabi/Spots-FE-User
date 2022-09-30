@@ -23,7 +23,7 @@ export default function PhoneNo({ navigation, route }) {
   const { itemId } = route.params;
   const [user, setUser] = useState(itemId);
   const [checkValidation, setCheckValidation] = useState(true);
-  const [checkValidationColor, setCheckValidationColor] = useState("#4831d4");
+  const [checkValidationColor, setCheckValidationColor] = useState("#9279f7");
   const [begining, setBegining] = useState(true);
   const [showError, setShowError] = useState(true);
 
@@ -52,7 +52,7 @@ export default function PhoneNo({ navigation, route }) {
       setUser({ ...user, [name]: value });
       console.log("user.phone", user.phone);
       setCheckValidation(false);
-      setCheckValidationColor("#7758F6");
+      setCheckValidationColor("#9279f7");
       setShowError(false);
     } else {
       setCheckValidation(true);
@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 10,
     elevation: 3,
-    backgroundColor: "#7758F6",
+    backgroundColor: "#9279f7",
   },
   buttonx: {
     paddingVertical: 8,

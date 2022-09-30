@@ -2,17 +2,32 @@ import { observer } from "mobx-react";
 import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
 import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
-import moment from "moment";
 import AppLoading from "expo-app-loading";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
 
 function FinishedSpot({ spot }) {
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
+    NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
+
   if (!fontsLoaded) {
     return <AppLoading />;
   }
+  const translations = {
+    en: {
+      suggested: "Suggested Spot",
+      search: "Search",
+    },
+    ar: {
+      suggested: "وجهة مقترحة",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
   return (
     <View
       style={{
@@ -30,7 +45,23 @@ function FinishedSpot({ spot }) {
         />
         <View style={styles.overlay}></View>
         <View style={styles.infoContainer}>
-          <Text style={styles.name}>{spot?.name}</Text>
+          <Text
+            style={{
+              fontSize: 28,
+              color: "#fffffc",
+              shadowOpacity: 1,
+              shadowRadius: 4,
+              shadowColor: "black",
+              shadowOffset: {
+                height: 1,
+                width: 1,
+              },
+              fontFamily: i18n === "en-US" ? "UbuntuBold" : "NotoBold",
+              textAlign: "center",
+            }}
+          >
+            {i18n.locale === "en-US" ? spot.name : spot.nameAr}
+          </Text>
         </View>
       </View>
     </View>

@@ -40,8 +40,10 @@ export default function Search({ route, navigation }) {
   const randomIndex = Math.floor(Math.random() * spots.length);
   const item = spots[randomIndex];
   suggested.push(item);
-  const filteredSpots = spots.filter((spot) =>
-    spot.name.toLowerCase().includes(query?.toLowerCase())
+  const filteredSpots = spots.filter(
+    (spot) =>
+      spot.name.toLowerCase().includes(query?.toLowerCase()) ||
+      spot.nameAr.toLowerCase().includes(query?.toLowerCase())
   );
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
@@ -137,7 +139,7 @@ export default function Search({ route, navigation }) {
               setToggle(false);
               if (text === "") setToggle(true);
             }}
-            mainColor="#7758F6"
+            mainColor="#9279f7"
           />
           <Ionicons style={styles.icon} name="search-outline"></Ionicons>
         </View>

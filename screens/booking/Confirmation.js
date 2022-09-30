@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     top: 186,
     // width: 380,
     // height: 500,
-    backgroundColor: "#4831d4",
+    backgroundColor: "#9279f7",
     // backgroundColor: "#B4E155",
     // backgroundColor: "#C9fb5f",
     // boxShadow: 0 4 11 rgba(0, 0, 0, 0.25),
@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     height: 60,
     width: 380,
-    backgroundColor: "#4831d4",
+    backgroundColor: "#9279f7",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

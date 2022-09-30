@@ -9,7 +9,6 @@ import AuthButtons from "./screens/authScreens/AuthButtons";
 import MainPageRegister from "./screens/authScreens/MainPageRegister";
 import Login from "./screens/authScreens/Login";
 import authStore from "./stores/authStore";
-import ProfileNav from "./index/ProfileNav";
 import Toast from "react-native-toast-message";
 import { MenuProvider } from "react-native-popup-menu";
 import Email from "./screens/authScreens/Email";
@@ -18,9 +17,12 @@ import PhoneNo from "./screens/authScreens/PhoneNo";
 import MyImage from "./screens/authScreens/MyImage";
 import * as Linking from "expo-linking";
 import { Text, useColorScheme } from "react-native";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
 import {
   createStackNavigator,
   TransitionPresets,
+  CardStyleInterpolators,
 } from "@react-navigation/stack";
 import Explore from "./screens/Explore";
 import { SpotDetails } from "./screens/spots/SpotDetails";
@@ -36,6 +38,10 @@ import Search from "./screens/Search";
 import Info from "./screens/spots/Info";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import OnBoarding from "./screens/authScreens/OnBoarding";
+import Settings from "./screens/Settings";
+import EditScreen from "./screens/EditScreen";
+import ProfileSpotDetails from "./screens/spots/ProfileSpotDetails";
+import Profile from "./screens/Profile";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -138,66 +144,253 @@ export default observer(App);
 function RootNavigator() {
   const { Navigator, Screen, Group } = createStackNavigator();
   const colorScheme = useColorScheme();
-
-  return (
-    <Navigator
-      screenOptions={{
-        headerShown: false,
-        cardStyle: {
-          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-        },
-      }}
-    >
-      <Screen name="Explore" component={TabBar} />
-      <Screen
-        name="SpotDetails"
-        component={SpotDetails}
-        options={{
-          gestureDirection: "horizontal",
-          gestureEnabled: "true",
-          presentation: "transparentModal",
-        }}
-      />
-      <Screen
-        options={{ headerShown: false }}
-        name="MySpots"
-        component={MySpots}
-      />
-      <Group
+  const translations = {
+    en: {
+      explore: "Explore",
+    },
+    ar: {
+      explore: "اكتشف",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
+  return i18n.locale === "en-US" ? (
+    <>
+      <Navigator
         screenOptions={{
-          presentation: "modal",
+          headerShown: false,
           cardStyle: {
-            borderTopRightRadius: 30,
-            borderTopLeftRadius: 30,
+            backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
           },
-          gestureEnabled: "true",
-          gestureDirection: "vertical",
-          gestureResponseDistance: 10000,
         }}
       >
-        <Screen name="SpotttedDetails" component={SpotttedDetails} />
-      </Group>
-      <Screen name="Scanner" component={Scanner} />
-      <Screen name="SpottedScanner" component={SpottedScanner} />
-      <Screen
-        name="Search"
-        options={{
-          gestureDirection: "horizontal",
-          gestureEnabled: "true",
-          presentation: "transparentModal",
+        <Screen name="Explore" component={TabBar} />
+        <Screen
+          name="SpotDetails"
+          component={SpotDetails}
+          options={{
+            gestureDirection: "horizontal",
+            gestureEnabled: "true",
+            presentation: "transparentModal",
+          }}
+        />
+        <Screen
+          options={{ headerShown: false }}
+          name="MySpots"
+          component={MySpots}
+        />
+        <Group
+          screenOptions={{
+            presentation: "modal",
+            cardStyle: {
+              borderTopRightRadius: 30,
+              borderTopLeftRadius: 30,
+            },
+            gestureEnabled: "true",
+            gestureDirection: "vertical",
+            gestureResponseDistance: 10000,
+          }}
+        >
+          <Screen name="SpotttedDetails" component={SpotttedDetails} />
+        </Group>
+        <Screen name="Scanner" component={Scanner} />
+        <Screen name="SpottedScanner" component={SpottedScanner} />
+        <Screen
+          name="Search"
+          options={{
+            gestureDirection: "horizontal",
+            gestureEnabled: "true",
+            presentation: "transparentModal",
+          }}
+          component={Search}
+        />
+
+        <Screen name="BookingDetails" component={BookingDetails} />
+        <Screen name="Info" component={Info} />
+        <Screen name="Payment" component={Payment} />
+        <Screen name="Confirmation" component={Confirmation} />
+        <Screen
+          options={{ headerShown: false }}
+          name="Profile"
+          component={Profile}
+        />
+        <Screen name="ProfileSpotDetails" component={ProfileSpotDetails} />
+        <Group
+          screenOptions={{
+            presentation: "modal",
+
+            cardStyle: {
+              borderTopRightRadius: 30,
+              borderTopLeftRadius: 30,
+            },
+
+            gestureEnabled: "true",
+            gestureDirection: "vertical",
+            gestureResponseDistance: 10000,
+          }}
+        >
+          <Screen name="Settings" component={Settings} />
+        </Group>
+        <Screen
+          name="Edit"
+          component={EditScreen}
+          options={{ headerShown: false }}
+        />
+        <Screen
+          name="Organizer"
+          component={OrganizerProfile}
+          options={{ headerShown: false }}
+        />
+      </Navigator>
+    </>
+  ) : (
+    <>
+      <Navigator
+        screenOptions={{
+          headerShown: false,
+          cardStyle: {
+            backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+          },
         }}
-        component={Search}
-      />
-      <Screen
-        name="Organizer"
-        component={OrganizerProfile}
-        options={{ headerShown: false }}
-      />
-      <Screen name="BookingDetails" component={BookingDetails} />
-      <Screen name="Info" component={Info} />
-      <Screen name="Payment" component={Payment} />
-      <Screen name="Confirmation" component={Confirmation} />
-    </Navigator>
+      >
+        <Screen name="Explore" component={TabBar} />
+        <Screen
+          name="SpotDetails"
+          component={SpotDetails}
+          options={{
+            gestureEnabled: "true",
+            presentation: "transparentModal",
+            headerShown: false,
+            gestureDirection: "horizontal-inverted",
+          }}
+        />
+        <Screen
+          options={{ headerShown: false }}
+          name="MySpots"
+          component={MySpots}
+        />
+        <Group
+          screenOptions={{
+            presentation: "modal",
+            cardStyle: {
+              borderTopRightRadius: 30,
+              borderTopLeftRadius: 30,
+            },
+            gestureEnabled: "true",
+            gestureDirection: "vertical",
+            gestureResponseDistance: 10000,
+          }}
+        >
+          <Screen name="SpotttedDetails" component={SpotttedDetails} />
+        </Group>
+        <Screen
+          name="Scanner"
+          component={Scanner}
+          options={{
+            gestureDirection: "horizontal-inverted",
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          }}
+        />
+        <Screen
+          name="SpottedScanner"
+          component={SpottedScanner}
+          options={{
+            gestureDirection: "horizontal-inverted",
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          }}
+        />
+        <Screen
+          name="Search"
+          options={{
+            gestureDirection: "horizontal-inverted",
+            gestureEnabled: "true",
+            presentation: "transparentModal",
+          }}
+          component={Search}
+        />
+
+        <Screen
+          name="BookingDetails"
+          component={BookingDetails}
+          options={{
+            gestureDirection: "horizontal-inverted",
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          }}
+        />
+        <Screen
+          name="Info"
+          component={Info}
+          options={{
+            gestureDirection: "horizontal-inverted",
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          }}
+        />
+        <Screen
+          name="Payment"
+          component={Payment}
+          options={{
+            gestureDirection: "horizontal-inverted",
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          }}
+        />
+        <Screen
+          name="Confirmation"
+          component={Confirmation}
+          options={{
+            gestureDirection: "horizontal-inverted",
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          }}
+        />
+        <Screen
+          options={{ headerShown: false }}
+          name="Profile"
+          component={Profile}
+        />
+        <Screen
+          name="ProfileSpotDetails"
+          component={ProfileSpotDetails}
+          options={{
+            gestureDirection: "horizontal-inverted",
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          }}
+        />
+        <Group
+          screenOptions={{
+            presentation: "modal",
+
+            cardStyle: {
+              borderTopRightRadius: 30,
+              borderTopLeftRadius: 30,
+            },
+
+            gestureEnabled: "true",
+            gestureDirection: "vertical",
+            gestureResponseDistance: 10000,
+          }}
+        >
+          <Screen name="Settings" component={Settings} />
+        </Group>
+        <Screen
+          name="Edit"
+          component={EditScreen}
+          options={{
+            headerShown: false,
+            gestureDirection: "horizontal-inverted",
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          }}
+        />
+        <Screen
+          name="Organizer"
+          component={OrganizerProfile}
+          options={{
+            headerShown: false,
+            gestureDirection: "horizontal-inverted",
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          }}
+        />
+      </Navigator>
+    </>
   );
 }
 
@@ -232,7 +425,7 @@ function TabBar() {
             ></Ionicons>
           ),
 
-          tabBarActiveTintColor: "#7758F6",
+          tabBarActiveTintColor: "#9279f7",
           tabBarInactiveTintColor:
             colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}
@@ -253,7 +446,7 @@ function TabBar() {
               }}
             />
           ),
-          tabBarActiveTintColor: "#7758F6",
+          tabBarActiveTintColor: "#9279f7",
           tabBarInactiveTintColor:
             colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}
@@ -261,7 +454,7 @@ function TabBar() {
 
       <Tab.Screen
         name="Profile"
-        component={ProfileNav}
+        component={Profile}
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ color, focused, tintColor }) => (
@@ -272,7 +465,7 @@ function TabBar() {
               style={{ position: "absolute", paddingTop: "13%" }}
             />
           ),
-          tabBarActiveTintColor: "#7758F6",
+          tabBarActiveTintColor: "#9279f7",
           tabBarInactiveTintColor:
             colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}

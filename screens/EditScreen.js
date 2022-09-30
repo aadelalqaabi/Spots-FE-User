@@ -113,17 +113,16 @@ function EditScreen() {
 
         <View
           style={{
-            borderColor: "#4831d4",
+            borderColor: "#9279f7",
             borderWidth: 0.5,
             width: 150,
             alignSelf: "center",
             borderRadius: "50%",
             backgroundColor: "white",
-
           }}
         >
           {/* <View style={styles.button}> */}
-            <Button color={"#4831d4"} title="Update" onPress={handleSubmit} />
+          <Button color={"#9279f7"} title="Update" onPress={handleSubmit} />
           {/* </View> */}
         </View>
       </View>
@@ -169,6 +168,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 15,
     elevation: 3,
-    backgroundColor: "#4831d4",
+    backgroundColor: "#9279f7",
   },
 });

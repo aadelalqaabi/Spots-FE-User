@@ -4,16 +4,30 @@ import { observer } from "mobx-react";
 import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
 
 function OfferItem({ offer }) {
   const colorScheme = useColorScheme();
-
+  const translations = {
+    en: {
+      explore: "Explore",
+    },
+    ar: {
+      explore: "اكتشف",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
   let [fontsLoaded] = useFonts({
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Cabin: require("../../assets/fonts/Cabin.ttf"),
     CabinMedium: require("../../assets/fonts/CabinMedium.ttf"),
     UbuntuLight: require("../../assets/fonts/Ubuntu-Light.ttf"),
+    Noto: require("../../assets/fonts/Noto.ttf"),
+    NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -31,26 +45,31 @@ function OfferItem({ offer }) {
           style={{
             textTransform: "capitalize",
             marginTop: 10,
+            marginRight: -20,
             fontSize: 22,
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-            fontFamily: "UbuntuBold",
+            fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+            alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
           }}
         >
-          {offer?.title}
+          {i18n.locale === "en-US" ? offer?.title : offer.titleAr}
         </Text>
       </View>
       <View style={styles.descriptionContainer}>
         <Text
           style={{
             marginTop: 10,
+            marginRight: -20,
             fontSize: 18,
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-            fontFamily: "Cabin",
+            fontFamily: i18n.locale === "en-US" ? "Cabin" : "Noto",
+            alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
             width: 300,
             lineHeight: 25,
+            textAlign: i18n.locale === "en-US" ? "left" : "right",
           }}
         >
-          {offer?.description}
+          {i18n.locale === "en-US" ? offer?.description : offer?.descriptionAr}
         </Text>
       </View>
     </View>

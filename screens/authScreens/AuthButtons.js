@@ -82,8 +82,8 @@ export default function AuthButtons({ navigation }) {
                 fontSize: i18n.locale === "en-US" ? 45 : 38,
                 fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
                 width: "100%",
-                marginTop: 80,
-                marginBottom: 70,
+                marginTop: 50,
+                marginBottom: 60,
                 textAlign: i18n.locale === "en-US" ? "left" : "right",
                 color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
               }}
@@ -121,7 +121,7 @@ export default function AuthButtons({ navigation }) {
               >
                 <Text
                   style={{
-                    color: "#7758F6",
+                    color: "#9279f7",
                     fontFamily:
                       i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
                     fontSize: 20,
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   signUpTextar: {
-    color: "#4831d4",
+    color: "#9279f7",
     fontFamily: "UbuntuBold",
     fontSize: 20,
   },

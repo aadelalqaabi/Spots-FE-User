@@ -27,7 +27,6 @@ import * as Localization from "expo-localization";
 LogBox.ignoreAllLogs(true);
 
 function Explore() {
-  const scrollViewRef = React.useRef(null);
   const colorScheme = useColorScheme();
   const translations = {
     en: {
@@ -40,6 +39,7 @@ function Explore() {
   const i18n = new I18n(translations);
   i18n.locale = Localization.locale;
   i18n.enableFallback = true;
+  const scrollViewRef = React.useRef(null);
   const ref = React.useRef(null);
   useScrollToTop(ref);
   const navigation = useNavigation();

@@ -11,12 +11,31 @@ import { Ionicons } from "@expo/vector-icons";
 import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 import moment from "moment";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
 
 export default function BookingDetails({ navigation, route }) {
   const spot = route.params.itemId;
   const tickets = route.params.quantity;
   const [quantity, setQuantity] = useState(tickets);
   const [checkSeats, setCheckSeats] = useState(quantity);
+  const translations = {
+    en: {
+      Settings: "Settings",
+      edit: "Edit Profile",
+      Account: "Account",
+      log: "Log out",
+    },
+    ar: {
+      Settings: "الاعدادات",
+      edit: "تعديل الحساب",
+      Account: "الحساب",
+      log: "تسجيل الخروج",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
@@ -32,7 +51,11 @@ export default function BookingDetails({ navigation, route }) {
       setQuantity(quantity + 1);
       setCheckSeats(quantity + 1);
     } else {
-      Alert.alert("You exceeded the available amount of seats");
+      i18n.locale === "en-US"
+        ? Alert.alert("You exceeded the available amount of seats", "", ["ok"])
+        : Alert.alert("لقد تجاوزت عدد المقاعد المتوفرة", "", [
+            { text: "حَسَنًا" },
+          ]);
     }
   };
 
@@ -86,7 +109,7 @@ export default function BookingDetails({ navigation, route }) {
             justifyContent: "center",
             borderWidth: 1,
             // borderColor: "#C9fb5f",
-            borderColor: "#4831d4",
+            borderColor: "#9279f7",
           }}
         >
           <Text
@@ -121,7 +144,7 @@ export default function BookingDetails({ navigation, route }) {
               <Ionicons
                 style={{
                   marginRight: 5,
-                  color: "#4831d4",
+                  color: "#9279f7",
                   fontSize: 30,
                 }}
                 name="calendar-outline"
@@ -141,7 +164,7 @@ export default function BookingDetails({ navigation, route }) {
               }}
             >
               <Ionicons
-                style={{ marginRight: 5, color: "#4831d4", fontSize: 30 }}
+                style={{ marginRight: 5, color: "#9279f7", fontSize: 30 }}
                 name="time-outline"
               ></Ionicons>
               <Text style={{ fontFamily: "Ubuntu", fontSize: 20 }}>
@@ -160,7 +183,7 @@ export default function BookingDetails({ navigation, route }) {
               alignContent: "center",
               alignItems: "center",
               padding: 10,
-              borderColor: "#4831d4",
+              borderColor: "#9279f7",
               width: "80%",
               alignSelf: "center",
               height: 60,
@@ -169,7 +192,7 @@ export default function BookingDetails({ navigation, route }) {
           >
             <Ionicons
               style={{
-                color: "#4831d4",
+                color: "#9279f7",
                 fontFamily: "Ubuntu",
                 fontSize: 35,
                 marginLeft: 40,
@@ -182,7 +205,7 @@ export default function BookingDetails({ navigation, route }) {
             </Text>
             <Ionicons
               style={{
-                color: "#4831d4",
+                color: "#9279f7",
                 fontFamily: "Ubuntu",
                 fontSize: 35,
                 marginRight: 40,
@@ -235,7 +258,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     height: 60,
     width: 380,
-    backgroundColor: "#4831d4",
+    backgroundColor: "#9279f7",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

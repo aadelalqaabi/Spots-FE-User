@@ -24,10 +24,12 @@ export default function Payment({ navigation, route }) {
       ></Image>
       <View style={styles.button}>
         <Button
-          onPress={() => (navigation.navigate("Confirmation", {
-            itemId: spot,
-            quantity: tickets,
-          }))}
+          onPress={() =>
+            navigation.navigate("Confirmation", {
+              itemId: spot,
+              quantity: tickets,
+            })
+          }
           title="Done"
           color={"white"}
         />
@@ -40,9 +42,9 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 8,
     elevation: 3,
-    backgroundColor: "#4831d4",
+    backgroundColor: "#9279f7",
     width: 125,
     height: 40,
-    alignSelf: "center"
+    alignSelf: "center",
   },
 });
