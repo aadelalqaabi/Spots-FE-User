@@ -216,11 +216,10 @@ function Spotted({ ticket, navigation }) {
                     },
                     fontFamily:
                       i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-
                     textAlign: "center",
                   }}
                 >
-                  {spot?.name}
+                  {i18n.locale === "en-US" ? spot.name : spot.nameAr}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -340,7 +339,7 @@ function Spotted({ ticket, navigation }) {
                     textAlign: "center",
                   }}
                 >
-                  {spot?.name}
+                  {i18n.locale === "en-US" ? spot.name : spot.nameAr}{" "}
                 </Text>
               </View>
             </TouchableOpacity>

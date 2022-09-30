@@ -10,9 +10,23 @@ import Modal from "react-native-modal";
 import pointStore from "../../stores/pointStore";
 import authStore from "../../stores/authStore";
 import rewardStore from "../../stores/rewardStore";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
 
 function RewardItem({ reward }) {
   const colorScheme = useColorScheme();
+  const translations = {
+    en: {
+      explore: "Explore",
+    },
+    ar: {
+      explore: "اكتشف",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
+
   useEffect(() => {
     authStore.checkForToken();
     pointStore.fetchPoints();
@@ -23,14 +37,14 @@ function RewardItem({ reward }) {
     Cabin: require("../../assets/fonts/Cabin.ttf"),
     CabinMedium: require("../../assets/fonts/CabinMedium.ttf"),
     UbuntuLight: require("../../assets/fonts/Ubuntu-Light.ttf"),
+    Noto: require("../../assets/fonts/Noto.ttf"),
+    NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   const [isModalVisible, setModalVisible] = useState(false);
   const userRewards = rewardStore.rewards.filter((rewardo) =>
     rewardo.users.includes(authStore.user.id)
   );
-
   const found = userRewards.some((rewardo) => rewardo._id === reward._id);
-  console.log("found", found);
   let myPoints = pointStore.points.find(
     (point) => point?.user === authStore.user.id && point?.spot === reward?.spot
   );
@@ -47,6 +61,7 @@ function RewardItem({ reward }) {
     myPoints = { ...myPoints, amount };
     await authStore.checkForToken();
     await authStore.rewardAdd(reward._id);
+    await pointStore.fetchPoints();
     toggleModal();
   };
 
@@ -62,11 +77,13 @@ function RewardItem({ reward }) {
             style={{
               position: "absolute",
               margin: 8,
-              backgroundColor: "#7758F6",
-              padding: 15,
-              paddingLeft: 20,
-              paddingRight: 20,
-              borderRadius: "50%",
+              right: 0,
+              backgroundColor: "#9279f7",
+              padding: 10,
+              paddingLeft: 10,
+              paddingRight: 10,
+              borderRadius: "40%",
+              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
             }}
           >
             <Text style={styles.pointsAmount}>{reward?.points}</Text>
@@ -77,26 +94,33 @@ function RewardItem({ reward }) {
             style={{
               textTransform: "capitalize",
               marginTop: 10,
+              marginRight: -20,
               fontSize: 22,
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              fontFamily: "UbuntuBold",
+              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
             }}
           >
-            {reward?.title}
+            {i18n.locale === "en-US" ? reward?.title : reward.titleAr}
           </Text>
         </View>
         <View style={styles.descriptionContainer}>
           <Text
             style={{
               marginTop: 10,
+              marginRight: -20,
               fontSize: 18,
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              fontFamily: "Cabin",
+              fontFamily: i18n.locale === "en-US" ? "Cabin" : "Noto",
+              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
               width: 300,
               lineHeight: 25,
+              textAlign: i18n.locale === "en-US" ? "left" : "right",
             }}
           >
-            {reward?.description}
+            {i18n.locale === "en-US"
+              ? reward?.description
+              : reward?.descriptionAr}
           </Text>
         </View>
       </TouchableOpacity>
@@ -141,36 +165,114 @@ function RewardItem({ reward }) {
                   onPress={toggleModal}
                 ></Ionicons>
 
-                <Text style={styles.heading}>{reward.title}</Text>
+                <Text
+                  style={{
+                    fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                    fontSize: 30,
+                    alignSelf: "center",
+                    margin: i18n.locale === "en-US" ? 35 : 10,
+                    marginTop: i18n.locale === "en-US" ? 45 : 35,
+                  }}
+                >
+                  {i18n.locale === "en-US" ? reward.title : reward.titleAr}
+                </Text>
                 <View
                   style={{
                     display: "flex",
-                    flexDirection: "row",
+                    flexDirection:
+                      i18n.locale === "en-US" ? "row" : "row-reverse",
                     alignSelf: "center",
                   }}
                 >
                   <View>
-                    <Text style={styles.points}>{reward.points}</Text>
-                    <Text style={styles.pointsTitle}>Reward Points</Text>
+                    <Text
+                      style={{
+                        fontFamily: "UbuntuBold",
+                        fontSize: 25,
+                        alignSelf:
+                          i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                        margin: 35,
+                        marginTop: 2,
+                        marginBottom: 0,
+                      }}
+                    >
+                      {reward.points}
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        fontSize: 18,
+                        alignSelf: "flex-start",
+                        margin: 35,
+                        marginTop: i18n.locale === "en-US" ? 2 : -2,
+                        marginBottom: 0,
+                        color: "#7a797a",
+                      }}
+                    >
+                      {i18n.locale === "en-US"
+                        ? "Reward Points"
+                        : "نقاط المكافأة"}
+                    </Text>
                   </View>
                   <View>
-                    <Text style={styles.points}>{myPoints?.amount}</Text>
-                    <Text style={styles.pointsTitle}>Your Points</Text>
+                    <Text
+                      style={{
+                        fontFamily: "UbuntuBold",
+                        fontSize: 25,
+                        alignSelf:
+                          i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                        margin: 35,
+                        marginTop: 2,
+                        marginBottom: 0,
+                      }}
+                    >
+                      {myPoints?.amount}
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        fontSize: 18,
+                        alignSelf: "flex-start",
+                        margin: 35,
+                        marginTop: i18n.locale === "en-US" ? 2 : -2,
+                        marginBottom: 0,
+                        color: "#7a797a",
+                      }}
+                    >
+                      {i18n.locale === "en-US" ? "Your Points" : "نقاطك حاليا"}
+                    </Text>
                   </View>
                 </View>
                 {myPoints?.amount < reward.points ? (
-                  <Text style={styles.pointsNotEnough}>
-                    You need{" "}
+                  <Text
+                    style={{
+                      fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                      textAlign: i18n.locale === "en-US" ? "left" : "right",
+                      fontSize: 20,
+                      alignSelf: "center",
+                      margin: 35,
+                      marginTop: 20,
+                      paddingTop: 3,
+                      marginBottom: 25,
+                      color: "#cc0000",
+                      lineHeight: 30,
+                    }}
+                  >
+                    {i18n.locale === "en-US" ? "You Need" : "تحتاج"}{" "}
                     {
                       <Text style={styles.pointsNotEnoughNum}>
                         {reward.points - myPoints?.amount}
                       </Text>
                     }{" "}
-                    more points to claim this reward
+                    {i18n.locale === "en-US"
+                      ? "more points to claim this reward"
+                      : "نقطة اكثر للحصول على هذه المكافأة"}
                   </Text>
                 ) : (
                   <Text style={styles.claimNow}>
-                    You can claim this reward now!
+                    {i18n.locale === "en-US"
+                      ? "You can claim this reward now!"
+                      : "تستطيع الحصول على هذه الجائزة!"}
                   </Text>
                 )}
                 {myPoints?.amount >= reward.points ? (
@@ -182,7 +284,7 @@ function RewardItem({ reward }) {
                         fontFamily: "Ubuntu",
                       }}
                     >
-                      Claim
+                      {i18n.locale === "en-US" ? "Claim" : "الحصول الآن"}
                     </Text>
                   </TouchableOpacity>
                 ) : (
@@ -194,7 +296,7 @@ function RewardItem({ reward }) {
                         fontFamily: "Ubuntu",
                       }}
                     >
-                      Claim
+                      {i18n.locale === "en-US" ? "Claim" : "الحصول الآن"}
                     </Text>
                   </View>
                 )}
@@ -234,10 +336,32 @@ function RewardItem({ reward }) {
                   onPress={toggleModal}
                 ></Ionicons>
 
-                <Text style={styles.heading}>{reward.title}</Text>
-                <Text style={styles.heading}>
-                  You already claimed this reward, it cannot be claimed multiple
-                  times.
+                <Text
+                  style={{
+                    fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                    fontSize: 30,
+                    alignSelf: "center",
+                    margin: i18n.locale === "en-US" ? 35 : 10,
+                    marginTop: i18n.locale === "en-US" ? 45 : 35,
+                  }}
+                >
+                  {i18n.locale === "en-US" ? reward.title : reward.titleAr}
+                </Text>
+                <Text
+                  style={{
+                    fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                    fontSize: 28,
+                    alignSelf: "center",
+                    margin: i18n.locale === "en-US" ? 35 : 10,
+                    marginTop: i18n.locale === "en-US" ? 35 : 25,
+                    textAlign: i18n.locale === "en-US" ? "left" : "right",
+                    width: "80%",
+                    lineHeight: i18n.locale === "en-US" ? 40 : 50,
+                  }}
+                >
+                  {i18n.locale === "en-US"
+                    ? "You already claimed this reward, it cannot be claimed multiple times."
+                    : "لقد حصلت على هذه الجائزة من قبل، لا يمكنك الحصول عليها اكثر من مرة."}
                 </Text>
               </View>
             </View>
@@ -295,7 +419,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 8,
     elevation: 3,
-    backgroundColor: "#4831d4",
+    backgroundColor: "#9279f7",
     width: 225,
     height: 50,
     alignSelf: "center",
@@ -307,7 +431,7 @@ const styles = StyleSheet.create({
   disbutton: {
     borderRadius: 8,
     elevation: 3,
-    backgroundColor: "#988be6",
+    backgroundColor: "grey",
     width: 225,
     height: 50,
     alignSelf: "center",

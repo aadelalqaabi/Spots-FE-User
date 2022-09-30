@@ -161,7 +161,7 @@ function Spot({ spot, navigation }) {
               },
             }}
           >
-            {i18n.locale === "en-US" ? spot.name : spot.name}
+            {i18n.locale === "en-US" ? spot.name : spot.nameAr}
           </Text>
           {spot.isFree === true ? (
             <Text
@@ -169,8 +169,6 @@ function Spot({ spot, navigation }) {
                 fontSize: 16,
                 color: "white",
                 fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-
-                //paddingBottom: 10,
                 alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
                 shadowOpacity: 0.1,
                 shadowOpacity: 0.5,

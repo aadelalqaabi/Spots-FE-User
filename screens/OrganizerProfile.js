@@ -83,14 +83,14 @@ function OrganizerProfile({ route }) {
               style={{ alignSelf: "flex-end", marginRight: 20 }}
               name="bell-alt"
               size={24}
-              color="#7758F6"
+              color="#9279f7"
             />
           ) : (
             <Fontisto
               style={{ alignSelf: "flex-end", marginRight: 20 }}
               name="bell-alt"
               size={24}
-              color="#7758F6"
+              color="#9279f7"
             />
           )}
         </TouchableOpacity>

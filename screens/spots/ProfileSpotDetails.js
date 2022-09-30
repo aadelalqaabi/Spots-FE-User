@@ -6,7 +6,7 @@ import {
   View,
   LogBox,
   Button,
-  FlatList,
+  RefreshControl,
   TouchableOpacity,
   useColorScheme,
 } from "react-native";
@@ -15,7 +15,7 @@ import spotStore from "../../stores/spotStore";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import { Rating } from "react-native-ratings";
 import Toast from "react-native-toast-message";
 import ReviewList from "../reviews/ReviewList";
@@ -30,10 +30,49 @@ import pointStore from "../../stores/pointStore";
 import authStore from "../../stores/authStore";
 import Modal from "react-native-modal";
 import { observer } from "mobx-react";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
 LogBox.ignoreAllLogs();
 
 function ProfileSpotDetails({ route }) {
   const colorScheme = useColorScheme();
+  const scrollViewRef = React.useRef(null);
+  const scrollViewRef2 = React.useRef(null);
+  const ref = React.useRef(null);
+  useScrollToTop(ref);
+  const translations = {
+    en: {
+      explore: "Explore",
+    },
+    ar: {
+      explore: "اكتشف",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = React.useState(false);
+
+  const wait = (timeout) => {
+    return new Promise((resolve) => setTimeout(resolve, timeout));
+  };
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    pointStore.fetchPoints();
+    rewardStore.fetchRewards();
+    offerStore.fetchOffers();
+    reviewStore.fetchReviews();
+    wait(2000).then(() => {
+      setRefreshing(false);
+    });
+  }, []);
   const spot = spotStore.getSpotsById(route.params.id);
   let point = pointStore.points.find(
     (point) => point?.user === authStore.user.id && point?.spot === spot?._id
@@ -42,12 +81,6 @@ function ProfileSpotDetails({ route }) {
   const rewards = rewardStore.rewards.filter(
     (offer) => offer.spot === spot?._id
   );
-  function renderOffer({ item: offer }) {
-    return <OfferItem offer={offer} />;
-  }
-  function renderReward({ item: reward }) {
-    return <RewardItem reward={reward} />;
-  }
   const [reviewText, setReviewText] = useState({
     stars: "",
     description: "",
@@ -79,6 +112,8 @@ function ProfileSpotDetails({ route }) {
   let [fontsLoaded] = useFonts({
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
     UbuntuLight: require("../../assets/fonts/Ubuntu-Light.ttf"),
+    Noto: require("../../assets/fonts/Noto.ttf"),
+    NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -91,38 +126,58 @@ function ProfileSpotDetails({ route }) {
       style={{
         backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
       }}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
     >
       <StatusBar
         barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
       />
-      <View style={styles.titlelocation}>
-        <Ionicons
+      <View
+        style={{
+          display: "flex",
+          flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+          alignContent: "center",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginTop: 50,
+        }}
+      >
+        <TouchableOpacity
           onPress={() => {
             navigation.goBack();
           }}
-          style={{
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-            zIndex: 99,
-            fontSize: 35,
-            margin: 15,
-          }}
-          name="chevron-back-outline"
-        ></Ionicons>
+          style={{ zIndex: 99 }}
+        >
+          <Ionicons
+            style={{
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              zIndex: 99,
+              fontSize: 35,
+              margin: 15,
+            }}
+            name={
+              i18n.locale === "en-US"
+                ? "chevron-back-outline"
+                : "chevron-forward-outline"
+            }
+          ></Ionicons>
+        </TouchableOpacity>
         <Text
           style={{
             fontSize: 26,
             alignSelf: "center",
             textAlign: "center",
-            fontFamily: "Ubuntu",
+            fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
             width: "50%",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
-          {spot.name}
+          {i18n.locale === "en-US" ? spot.name : spot.nameAr}
         </Text>
         <Ionicons
           onPress={() => {
-            navigation.navigate("Info");
+            navigation.navigate("Info", { spot: spot });
           }}
           style={{
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
@@ -145,12 +200,13 @@ function ProfileSpotDetails({ route }) {
           <TextTicker
             style={{
               fontSize: 20,
-              fontFamily: "UbuntuBold",
+              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
               padding: 15,
               width: "100%",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               borderRadius: 500,
-              backgroundColor: "#f2f4f6",
+              marginBottom: i18n.locale === "en-US" ? 0 : -10,
+              marginTop: i18n.locale === "en-US" ? 0 : -10,
             }}
             scroll
             duration={10000}
@@ -158,7 +214,7 @@ function ProfileSpotDetails({ route }) {
             repeatSpacer={0}
             shouldAnimateTreshold={40}
           >
-            <FontAwesome name="bullhorn" size={22} color="#7758F6" />
+            <FontAwesome name="bullhorn" size={22} color="#9279f7" />
             {"  "}
             {spot.announcement}
           </TextTicker>
@@ -169,7 +225,7 @@ function ProfileSpotDetails({ route }) {
           margin: 30,
           marginBottom: 10,
           display: "flex",
-          flexDirection: "row",
+          flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
           alignItems: "center",
           alignContent: "center",
           justifyContent: "space-between",
@@ -178,36 +234,43 @@ function ProfileSpotDetails({ route }) {
         <View>
           <Text
             style={{
-              fontFamily: "Ubuntu",
+              fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
               fontSize: 20,
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               opacity: 0.8,
+              textAlign: i18n.locale === "en-US" ? "left" : "right",
+              marginBottom: i18n.locale === "en-US" ? 0 : -10,
+              marginTop: i18n.locale === "en-US" ? 0 : -10,
             }}
           >
-            Your Points
+            {i18n.locale === "en-US" ? "My Points" : "نقاطي"}
           </Text>
           <Text
             style={{
-              fontFamily: "UbuntuBold",
+              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
               fontSize: 40,
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              textAlign: i18n.locale === "en-US" ? "left" : "right",
               margin: 10,
-              marginLeft: 0,
-              marginBottom: 20,
-              marginTop: 15,
+              marginBottom: i18n.locale === "en-US" ? 20 : 0,
+              marginTop: i18n.locale === "en-US" ? 15 : 0,
             }}
           >
             {point?.amount}
           </Text>
           <Text
             style={{
-              fontFamily: "Ubuntu",
+              fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
               fontSize: 15,
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               opacity: 0.8,
+              textAlign: i18n.locale === "en-US" ? "left" : "right",
+              marginTop: i18n.locale === "en-US" ? 0 : -10,
             }}
           >
-            Valid during spot's date only
+            {i18n.locale === "en-US"
+              ? "Valid during spot's date only"
+              : "صالح لمدة النقطة فقط"}
           </Text>
         </View>
         <TouchableOpacity
@@ -215,17 +278,18 @@ function ProfileSpotDetails({ route }) {
             width: 120,
             height: 50,
             borderRadius: 10,
-            borderColor: "#7758F6",
+            borderColor: "#9279f7",
             borderWidth: 1,
             margin: 50,
             marginRight: 0,
+            marginLeft: 0,
             marginBottom: 0,
-            marginTop: 15,
+            marginTop: 0,
             display: "flex",
             alignContent: "center",
             justifyContent: "center",
             alignItems: "center",
-            flexDirection: "row",
+            flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
             shadowOpacity: 0.2,
             shadowRadius: 10,
             shadowColor: "white",
@@ -242,20 +306,21 @@ function ProfileSpotDetails({ route }) {
             style={{
               fontSize: 25,
               zIndex: 99,
-              color: "#7758F6",
+              color: "#9279f7",
             }}
             name="scan"
           ></Ionicons>
 
           <Text
             style={{
-              color: "#7758F6",
+              color: "#9279f7",
               fontSize: 17,
               fontFamily: "Ubuntu",
-              marginLeft: 10,
+              marginLeft: i18n.locale === "en-US" ? 10 : 0,
+              marginRight: i18n.locale === "en-US" ? 0 : 10,
             }}
           >
-            Scan QR
+            {i18n.locale === "en-US" ? "Scan QR" : "امسح Qr"}
           </Text>
         </TouchableOpacity>
       </View>
@@ -263,24 +328,47 @@ function ProfileSpotDetails({ route }) {
         <>
           <Text
             style={{
-              fontFamily: "UbuntuBold",
+              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
               fontSize: 20,
               marginLeft: 28,
+              marginRight: 28,
               marginTop: 20,
+              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
           >
-            Rewards
+            {i18n.locale === "en-US" ? "Rewards" : "المكافآت"}
           </Text>
-          <FlatList
+          <ScrollView
             horizontal={true}
-            style={styles.spotsList}
-            contentContainerStyle={styles.spotsListContainer}
-            data={rewards}
-            renderItem={renderReward}
+            style={{
+              backgroundColor: "transparent",
+              display: "flex",
+            }}
+            contentContainerStyle={{
+              backgroundColor: "transparent",
+              paddingRight: 30,
+              paddingLeft: i18n.locale === "en-US" ? 10 : 30,
+              display: "flex",
+              flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+            }}
+            ref={scrollViewRef}
+            onContentSizeChange={() =>
+              i18n.locale === "en-US"
+                ? scrollViewRef.current.scrollTo({
+                    x: 0,
+                    y: 0,
+                    animated: true,
+                  })
+                : scrollViewRef.current.scrollToEnd({ animated: true })
+            }
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
-          />
+          >
+            {rewards.map((reward) => (
+              <RewardItem reward={reward} />
+            ))}
+          </ScrollView>
         </>
       ) : (
         <></>
@@ -289,24 +377,46 @@ function ProfileSpotDetails({ route }) {
         <>
           <Text
             style={{
-              fontFamily: "UbuntuBold",
+              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
               fontSize: 20,
               marginLeft: 28,
+              marginRight: 28,
               marginTop: 20,
+              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
           >
-            Offers
+            {i18n.locale === "en-US" ? "Offers" : "العروض"}
           </Text>
-          <FlatList
+          <ScrollView
             horizontal={true}
-            style={styles.spotsList}
-            contentContainerStyle={styles.spotsListContainer}
-            data={offers}
-            renderItem={renderOffer}
+            style={{
+              backgroundColor: "transparent",
+            }}
+            contentContainerStyle={{
+              backgroundColor: "transparent",
+              paddingRight: 30,
+              paddingLeft: i18n.locale === "en-US" ? 10 : 30,
+              display: "flex",
+              flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+            }}
+            ref={scrollViewRef2}
+            onContentSizeChange={() =>
+              i18n.locale === "en-US"
+                ? scrollViewRef2.current.scrollTo({
+                    x: 0,
+                    y: 0,
+                    animated: true,
+                  })
+                : scrollViewRef2.current.scrollToEnd({ animated: true })
+            }
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
-          />
+          >
+            {offers.map((offer) => (
+              <OfferItem offer={offer} />
+            ))}
+          </ScrollView>
         </>
       ) : (
         <></>
@@ -314,7 +424,7 @@ function ProfileSpotDetails({ route }) {
       <View
         style={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
           alignContent: "center",
           alignItems: "center",
           margin: 30,
@@ -324,12 +434,12 @@ function ProfileSpotDetails({ route }) {
       >
         <Text
           style={{
-            fontFamily: "UbuntuBold",
+            fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
             fontSize: 20,
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
-          Reviews
+          {i18n.locale === "en-US" ? "Reviews" : "المراجعات"}
         </Text>
         <TouchableOpacity onPress={toggleModal}>
           <Text
@@ -338,12 +448,12 @@ function ProfileSpotDetails({ route }) {
               fontSize: 19,
               borderWidth: 1,
               padding: 10,
-              color: "#7758F6",
-              borderColor: "#7758F6",
+              color: "#9279f7",
+              borderColor: "#9279f7",
               borderRadius: 10,
             }}
           >
-            Add Review
+            {i18n.locale === "en-US" ? "Add Review" : "اضف مراجعة"}
           </Text>
         </TouchableOpacity>
       </View>
@@ -377,13 +487,13 @@ function ProfileSpotDetails({ route }) {
                 style={{
                   alignSelf: "center",
                   margin: 30,
-                  marginBottom: 10,
+                  marginBottom: i18n.locale === "en-US" ? 10 : -10,
                   marginTop: 0,
                   fontSize: 30,
-                  fontFamily: "UbuntuLight",
+                  fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
                 }}
               >
-                Add Your Review
+                {i18n.locale === "en-US" ? "Add Your Review" : "اضف مراجعتك"}
               </Text>
               <TouchableOpacity
                 style={{
@@ -407,15 +517,27 @@ function ProfileSpotDetails({ route }) {
               <Rating
                 showRating
                 startingValue={1}
-                selectedColor="#4831d4"
-                reviewColor="#4831d4"
-                ratingBackgroundColor="#4831d4"
+                selectedColor="#9279f7"
+                reviewColor="#9279f7"
+                ratingBackgroundColor="#9279f7"
                 ratingTextColor="grey"
                 unSelectedColor="grey"
                 onFinishRating={ratingCompleted}
                 style={{ margin: 20, marginBottom: 30, marginTop: 10 }}
               />
-              <Text style={styles.heading}>Enter Description:</Text>
+              <Text
+                style={{
+                  fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                  fontSize: 20,
+                  marginLeft: 28,
+                  marginRight: 28,
+                  margin: -10,
+                  alignSelf:
+                    i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                }}
+              >
+                {i18n.locale === "en-US" ? "Enter Description" : "اضف الوصف"}
+              </Text>
               <TextInput
                 textInputStyle={{
                   height: 100,
@@ -423,19 +545,45 @@ function ProfileSpotDetails({ route }) {
                   margin: 20,
                   paddingTop: 15,
                 }}
-                mainColor="#4831d4"
+                mainColor="#9279f7"
                 multiline
                 numberOfLines={4}
                 label="Description"
-                placeholder="Description"
+                placeholder=""
                 onChangeText={(text) => {
                   handleChange("description", text);
                 }}
                 clearButtonMode="always"
               />
-              <View style={styles.button}>
-                <Button title="Submit" color="white" onPress={handleSubmit} />
-              </View>
+              <TouchableOpacity
+                style={{
+                  borderRadius: 8,
+                  elevation: 3,
+                  backgroundColor: "#9279f7",
+                  width: 125,
+                  height: 40,
+                  alignSelf:
+                    i18n.locale === "en-US" ? "flex-end" : "flex-start",
+                  marginRight: 25,
+                  marginLeft: 25,
+                  display: "flex",
+                  alignContent: "center",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                onPress={handleSubmit}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 20,
+                    marginTop: i18n.locale === "en-US" ? 0 : -2,
+                    fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                  }}
+                >
+                  {i18n.locale === "en-US" ? "Submit" : "ارسال"}
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         </Modal>
@@ -446,15 +594,17 @@ function ProfileSpotDetails({ route }) {
       ) : (
         <Text
           style={{
-            fontFamily: "Ubuntu",
+            fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
             fontSize: 20,
-            marginTop: 40,
-            marginBottom: 40,
+            marginTop: 20,
+            marginBottom: 80,
             alignSelf: "center",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
-          No Reviews Yet
+          {i18n.locale === "en-US"
+            ? " No Reviews Yet"
+            : "لا يوجد مراجعات حتى الآن"}
         </Text>
       )}
     </ScrollView>
@@ -499,7 +649,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     height: 60,
     width: "60%",
-    backgroundColor: "#4831d4",
+    backgroundColor: "#9279f7",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -519,7 +669,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     height: 60,
     width: 380,
-    backgroundColor: "#4831d4",
+    backgroundColor: "#9279f7",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -541,7 +691,7 @@ const styles = StyleSheet.create({
     width: "50%",
   },
   scantext: {
-    color: "#4831d4",
+    color: "#9279f7",
     fontSize: 17,
     fontFamily: "Ubuntu",
     marginLeft: 10,
@@ -549,7 +699,7 @@ const styles = StyleSheet.create({
   icon: {
     fontSize: 40,
     fontWeight: "700",
-    color: "#4831d4",
+    color: "#9279f7",
     alignSelf: "center",
     paddingTop: 4,
   },
@@ -606,7 +756,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 8,
     elevation: 3,
-    backgroundColor: "#4831d4",
+    backgroundColor: "#9279f7",
     width: 125,
     height: 40,
     alignSelf: "flex-end",

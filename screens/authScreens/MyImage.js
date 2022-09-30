@@ -222,7 +222,7 @@ export default function MyImage({ navigation, route }) {
                 }}
               >
                 <Button
-                  color="#4831d4"
+                  color="#9279f7"
                   title={i18n.t("choose")}
                   onPress={pickImage}
                 />
@@ -256,7 +256,7 @@ export default function MyImage({ navigation, route }) {
             <View>
               <Button
                 title={i18n.t("skip")}
-                color="#7758F6"
+                color="#9279f7"
                 onPress={handleSubmit}
               />
             </View>
@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 15,
     elevation: 3,
-    backgroundColor: "#7758F6",
+    backgroundColor: "#9279f7",
     alignSelf: "center",
     width: "100%",
     marginBottom: 15,

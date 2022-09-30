@@ -7,18 +7,13 @@ import {
   Alert,
   LogBox,
   useColorScheme,
+  TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import spotStore from "../stores/spotStore";
 import authStore from "../stores/authStore";
 import { observer } from "mobx-react";
 import { baseURL } from "../stores/instance";
-import {
-  Menu,
-  MenuOptions,
-  MenuOption,
-  MenuTrigger,
-} from "react-native-popup-menu";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import React from "react";
@@ -26,6 +21,7 @@ import pointStore from "../stores/pointStore";
 import ScrollTabs from "../ScrollTabs";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
+import { Ionicons } from "@expo/vector-icons";
 LogBox.ignoreAllLogs();
 
 function Profile() {
@@ -70,33 +66,6 @@ function Profile() {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
-  const triggerStyles = {
-    triggerText: {
-      fontSize: 35,
-      margin: 30,
-      marginBottom: 10,
-      marginTop: 0,
-      fontFamily: "Ubuntu",
-    },
-    triggerWrapper: {},
-    triggerTouchable: {
-      activeOpacity: 70,
-    },
-  };
-  const optionsStyles = {
-    optionsContainer: {
-      padding: 10,
-      marginTop: 50,
-      width: 150,
-    },
-    optionText: {
-      fontSize: 20,
-    },
-    optionWrapper: {
-      borderBottomWidth: 0.3,
-      borderColor: "lightgrey",
-    },
-  };
   return (
     <SafeAreaView
       style={{
@@ -107,16 +76,16 @@ function Profile() {
       <View
         style={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
           alignContent: "center",
           justifyContent: "center",
+          alignItems: "center",
         }}
       >
         <Text
           style={{
             fontSize: 30,
-            margin: 30,
-            marginBottom: 10,
+            marginBottom: 15,
             marginTop: 15,
             fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
@@ -124,39 +93,25 @@ function Profile() {
         >
           {authStore.user.username}
         </Text>
-        <Menu>
-          <MenuTrigger text="-" customStyles={triggerStyles} />
-          <MenuOptions customStyles={optionsStyles}>
-            <MenuOption
-              onSelect={() => navigation.navigate("Edit")}
-              text="Edit"
-            />
-            <MenuOption
-              customStyles={{
-                optionWrapper: {
-                  borderBottomWidth: 0,
-                },
-              }}
-              onSelect={() =>
-                Alert.alert("Do You Want to Logout?", "", [
-                  {
-                    text: "Cancel",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel",
-                  },
-                  { text: "OK", onPress: () => authStore.logout() },
-                ])
-              }
-            >
-              <Text
-                style={{ color: "red", fontFamily: "Ubuntu", fontSize: 20 }}
-              >
-                Logout
-              </Text>
-            </MenuOption>
-          </MenuOptions>
-        </Menu>
       </View>
+      <TouchableOpacity
+        style={{
+          position: "absolute",
+          alignSelf: i18n.locale === "en-US" ? "flex-end" : "flex-start",
+          marginTop: 65,
+          marginLeft: 25,
+          paddingRight: 25,
+        }}
+        onPress={() => navigation.navigate("Settings")}
+      >
+        <Ionicons
+          style={{
+            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            fontSize: 30,
+          }}
+          name="settings-outline"
+        ></Ionicons>
+      </TouchableOpacity>
       <View
         style={{
           display: "flex",

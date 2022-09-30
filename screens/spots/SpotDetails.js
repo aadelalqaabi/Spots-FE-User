@@ -77,11 +77,11 @@ export function SpotDetails({ route }) {
       setQuantity(quantity + 1);
       setCheckSeats(quantity + 1);
     } else {
-      Alert.alert(
-        i18n.locale === "en-US"
-          ? "You exceeded the available amount of seats"
-          : "لقد تجاوزت عدد المقاعد المتوفرة"
-      );
+      i18n.locale === "en-US"
+        ? Alert.alert("You exceeded the available amount of seats", "", ["ok"])
+        : Alert.alert("لقد تجاوزت عدد المقاعد المتوفرة", "", [
+            { text: "حَسَنًا" },
+          ]);
     }
   };
 
@@ -148,7 +148,32 @@ export function SpotDetails({ route }) {
         }}
         style={{ zIndex: 99 }}
       >
-        <Ionicons style={styles.back} name="chevron-back-outline"></Ionicons>
+        <Ionicons
+          style={{
+            position: "absolute",
+            alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+            zIndex: 100,
+            color: "white",
+            marginTop: 70,
+            marginLeft: 20,
+            paddingRight: 20,
+            fontSize: 40,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 8,
+            },
+            shadowOpacity: 0.46,
+            shadowRadius: 11.14,
+
+            elevation: 17,
+          }}
+          name={
+            i18n.locale === "en-US"
+              ? "chevron-back-outline"
+              : "chevron-forward-outline"
+          }
+        ></Ionicons>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
@@ -156,7 +181,29 @@ export function SpotDetails({ route }) {
         }}
         style={{ zIndex: 99 }}
       >
-        <Ionicons style={styles.share} name="share-outline"></Ionicons>
+        <Ionicons
+          style={{
+            position: "absolute",
+            alignSelf: i18n.locale === "en-US" ? "flex-end" : "flex-start",
+            zIndex: 100,
+            color: "white",
+            marginTop: 70,
+            marginLeft: 20,
+            paddingRight: 20,
+            paddingLeft: 10,
+            fontSize: 40,
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 8,
+            },
+            shadowOpacity: 0.46,
+            shadowRadius: 11.14,
+
+            elevation: 17,
+          }}
+          name="share-outline"
+        ></Ionicons>
       </TouchableOpacity>
       <ImageHeaderScrollView
         scrollViewBackgroundColor="transparent"
@@ -188,7 +235,9 @@ export function SpotDetails({ route }) {
                   opacity: 0.7,
                   alignSelf: "center",
                   marginTop: 870,
+
                   fontSize: i18n.locale === "en-US" ? 20 : 16,
+                  paddingTop: 5,
                   shadowColor: "#000",
                   shadowOffset: {
                     width: 0,
@@ -214,16 +263,18 @@ export function SpotDetails({ route }) {
             >
               <Text
                 style={{
-                  fontSize: 45,
+                  fontSize: 40,
                   margin: 10,
                   marginLeft: 0,
                   marginTop: i18n.locale === "en-US" ? 600 : 560,
-                  marginRight: 10,
+                  marginRight: 0,
                   fontWeight: "700",
                   fontFamily:
                     i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
                   color: "white",
                   shadowColor: "#000",
+                  alignSelf:
+                    i18n.locale === "en-US" ? "flex-start" : "flex-end",
                   shadowOffset: {
                     width: 0,
                     height: 3,
@@ -233,9 +284,19 @@ export function SpotDetails({ route }) {
                   elevation: 7,
                 }}
               >
-                {spot.name}
+                {i18n.locale === "en-US" ? spot.name : spot.nameAr}
               </Text>
-              <View style={styles.ownerContainer}>
+              <View
+                style={{
+                  marginBottom: i18n.locale === "en-US" ? 10 : 20,
+                  marginTop: i18n.locale === "en-US" ? 0 : -20,
+                  display: "flex",
+                  flexDirection:
+                    i18n.locale === "en-US" ? "row" : "row-reverse",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                }}
+              >
                 <Image
                   style={styles.ownerthumb}
                   source={{ uri: `${baseURL}${organizer.image}` }}
@@ -275,9 +336,12 @@ export function SpotDetails({ route }) {
                   shadowRadius: 4.65,
                   elevation: 7,
                   lineHeight: 28,
+                  textAlign: i18n.locale === "en-US" ? "left" : "right",
                 }}
               >
-                {spot.description}
+                {i18n.locale === "en-US"
+                  ? spot.description
+                  : spot.descriptionAr}
               </Text>
             </View>
           </View>
@@ -328,7 +392,7 @@ export function SpotDetails({ route }) {
                 style={{
                   marginRight: 5,
                   marginLeft: 5,
-                  color: "#7758F6",
+                  color: "#9279f7",
                   fontSize: 30,
                 }}
                 name="calendar-outline"
@@ -365,7 +429,7 @@ export function SpotDetails({ route }) {
                 style={{
                   marginRight: 5,
                   marginLeft: 5,
-                  color: "#7758F6",
+                  color: "#9279f7",
                   fontSize: 32,
                 }}
                 name="time-outline"
@@ -395,7 +459,7 @@ export function SpotDetails({ route }) {
                 style={{
                   marginRight: 5,
                   marginLeft: 5,
-                  color: "#7758F6",
+                  color: "#9279f7",
                   fontSize: 32,
                   transform: [{ scaleX: i18n.locale === "en-US" ? 1 : -1 }],
                 }}
@@ -404,7 +468,7 @@ export function SpotDetails({ route }) {
               <View
                 style={{
                   borderBottomWidth: 2,
-                  borderColor: "#7758F6",
+                  borderColor: "#9279f7",
                 }}
               >
                 <Text
@@ -435,7 +499,7 @@ export function SpotDetails({ route }) {
                 style={{
                   marginRight: 5,
                   marginLeft: 5,
-                  color: "#7758F6",
+                  color: "#9279f7",
                   fontSize: 32,
                 }}
                 name="navigate-circle-outline"
@@ -443,7 +507,7 @@ export function SpotDetails({ route }) {
               <View
                 style={{
                   borderBottomWidth: 2,
-                  borderColor: "#7758F6",
+                  borderColor: "#9279f7",
                 }}
               >
                 <Text
@@ -484,7 +548,7 @@ export function SpotDetails({ route }) {
                 textAlign: i18n.locale === "en-US" ? "left" : "right",
               }}
             >
-              {spot.detailsAr}
+              {i18n.locale === "en-US" ? spot.details : spot.detailsAr}
             </Text>
           </View>
           <TouchableOpacity
@@ -596,7 +660,7 @@ export function SpotDetails({ route }) {
                 borderRadius: 25,
                 height: 60,
                 width: 380,
-                backgroundColor: "#7758F6",
+                backgroundColor: "#9279f7",
                 shadowColor: "#000",
                 shadowOffset: {
                   width: 0,
@@ -654,7 +718,7 @@ export function SpotDetails({ route }) {
                     alignItems: "center",
                     padding: 10,
                     marginBottom: 16,
-                    borderColor: "#4831d4",
+                    borderColor: "#9279f7",
                     width: "30%",
                     alignSelf: "center",
                     height: 60,
@@ -662,7 +726,7 @@ export function SpotDetails({ route }) {
                 >
                   <Ionicons
                     style={{
-                      color: "#7758F6",
+                      color: "#9279f7",
                       fontFamily: "Ubuntu",
                       fontSize: 28,
                       marginLeft: 10,
@@ -675,7 +739,7 @@ export function SpotDetails({ route }) {
                   </Text>
                   <Ionicons
                     style={{
-                      color: "#7758F6",
+                      color: "#9279f7",
                       fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
                       fontSize: 28,
                       marginRight: 10,
@@ -691,7 +755,7 @@ export function SpotDetails({ route }) {
                     borderRadius: 20,
                     height: 60,
                     width: "60%",
-                    backgroundColor: "#7758F6",
+                    backgroundColor: "#9279f7",
                     shadowColor: "#000",
                     shadowOffset: {
                       width: 0,
@@ -856,7 +920,7 @@ const styles = StyleSheet.create({
   icon: {
     fontSize: 40,
     fontWeight: "700",
-    color: "#4831d4",
+    color: "#9279f7",
     alignSelf: "center",
     paddingTop: 4,
   },
@@ -879,6 +943,7 @@ const styles = StyleSheet.create({
     borderRadius: "50%",
     zIndex: -1,
     marginRight: 10,
+    marginLeft: 10,
   },
   isFree: {
     fontSize: 20,
@@ -941,7 +1006,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 8,
     elevation: 3,
-    backgroundColor: "#4831d4",
+    backgroundColor: "#9279f7",
     width: 125,
     height: 40,
     marginLeft: 290,

@@ -103,7 +103,7 @@ export default function SpotttedDetails({ navigation, route }) {
           shadowOpacity: 0.23,
           shadowRadius: 2.62,
           elevation: 4,
-          backgroundColor: "#7758F6",
+          backgroundColor: "#9279f7",
           borderRadius: "50%",
           margin: 15,
           marginTop: 40,
@@ -114,7 +114,7 @@ export default function SpotttedDetails({ navigation, route }) {
           style={{
             color: "white",
             margin: 50,
-            fontSize: 35,
+            fontSize: 33,
             alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
             textAlign: i18n.locale === "en-US" ? "left" : "right",
             marginBottom: 15,
@@ -128,14 +128,14 @@ export default function SpotttedDetails({ navigation, route }) {
             elevation: 4,
           }}
         >
-          {spot.name}
+          {i18n.locale === "en-US" ? spot.name : spot.nameAr}
         </Text>
 
         <View
           style={{
             display: "flex",
             flexDirection: "column",
-            margin: 50,
+            margin: 40,
             marginTop: 0,
             marginBottom: 0,
             shadowOffset: {
@@ -382,14 +382,14 @@ export default function SpotttedDetails({ navigation, route }) {
             style={{
               fontSize: 35,
               zIndex: 99,
-              color: "#7758F6",
+              color: "#9279f7",
             }}
             name="scan"
           ></Ionicons>
 
           <Text
             style={{
-              color: "#7758F6",
+              color: "#9279f7",
               fontSize: 20,
               fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
               marginLeft: 10,
@@ -414,7 +414,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 4,
-    backgroundColor: "#4831d4",
+    backgroundColor: "#9279f7",
     borderRadius: "50%",
     margin: 15,
     marginTop: 40,
@@ -515,7 +515,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     height: 60,
     width: 380,
-    backgroundColor: "#4831d4",
+    backgroundColor: "#9279f7",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

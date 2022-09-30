@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontFamily: "UbuntuBold",
     marginTop: 10,
-    color: "#4831d4",
+    color: "#9279f7",
   },
   container: {
     width: "100%",
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     height: 70,
     width: "75%",
-    backgroundColor: "#4831d4",
+    backgroundColor: "#9279f7",
     justifyContent: "space-between",
     flexDirection: "row",
     padding: 10,
