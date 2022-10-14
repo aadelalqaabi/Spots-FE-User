@@ -2,9 +2,9 @@ import {
   StyleSheet,
   Text,
   SafeAreaView,
-  View,
   RefreshControl,
   useColorScheme,
+  View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import authStore from "../stores/authStore";
@@ -21,13 +21,16 @@ import * as Localization from "expo-localization";
 import { StatusBar } from "react-native";
 
 function MySpots() {
+  ticketStore.fetchTickets();
   const colorScheme = useColorScheme();
   const translations = {
     en: {
       myspots: "My Spots",
+      empty: "You don't have any spots",
     },
     ar: {
       myspots: "النقاط الخاصة بي",
+      empty: "ليس لديك اي نقاط",
     },
   };
   const i18n = new I18n(translations);
@@ -35,7 +38,6 @@ function MySpots() {
   i18n.enableFallback = true;
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
-
   const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
   };
@@ -73,7 +75,6 @@ function MySpots() {
   const tickets = sortedTickets.filter(
     (ticket) => ticket.user === authStore.user.id
   );
-
   function renderTicket({ item: ticket }) {
     return <Spotted ticket={ticket} navigation={navigation} />;
   }
@@ -97,14 +98,12 @@ function MySpots() {
           marginBottom: 10,
           marginTop: 15,
           fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-
           alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
           color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}
       >
         {i18n.t("myspots")}
       </Text>
-
       {loading ? (
         <ContentLoader
           speed={2}
@@ -121,7 +120,7 @@ function MySpots() {
           <Rect x="80" y="385" rx="15" ry="15" width="248" height="159" />
           <Rect x="15" y="435" rx="15" ry="15" width="48" height="59" />
         </ContentLoader>
-      ) : (
+      ) : tickets.length !== 0 ? (
         <ScrollView
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
@@ -140,6 +139,28 @@ function MySpots() {
             showsHorizontalScrollIndicator={false}
           />
         </ScrollView>
+      ) : (
+        <View
+          style={{
+            display: "flex",
+            alignSelf: "center",
+            height: "90%",
+            alignItems: "center",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
+        >
+          <Text
+            style={{
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              fontSize: i18n.locale === "en-US" ? 50 : 40,
+              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+              alignSelf: "center",
+            }}
+          >
+            {i18n.t("empty")}
+          </Text>
+        </View>
       )}
     </SafeAreaView>
   );

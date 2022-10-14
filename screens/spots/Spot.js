@@ -38,10 +38,6 @@ function Spot({ spot, navigation }) {
     return <AppLoading />;
   }
   const organizer = organizerStore.getOrganizerById(spot.organizer);
-  let users = spot.users.length;
-  let user1 = spot?.users[0]?.image;
-  let user2 = spot?.users[1]?.image;
-  let user3 = spot?.users[2]?.image;
   let monthEn = moment(spot.startDate).locale("en").format("MMM");
   let dayEn = moment(spot.startDate).locale("en").format("DD");
   let monthAr = moment(spot.startDate).locale("ar").format("MMM");
@@ -70,10 +66,43 @@ function Spot({ spot, navigation }) {
               });
             }}
           >
-            <Image
-              style={styles.ownerthumb}
-              source={{ uri: `${baseURL}${organizer?.image}` }}
-            />
+            <View
+              style={{
+                alignSelf: "center",
+                width: 60,
+                height: 60,
+                borderRadius: "50%",
+                zIndex: -1,
+                shadowOpacity: 0.1,
+                shadowRadius: 20,
+                marginRight: 10,
+                shadowColor: "#004365",
+                shadowOffset: {
+                  height: 10,
+                  width: 0,
+                },
+                backgroundColor: "white",
+                display: "flex",
+                alignContent: "center",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Image
+                style={{
+                  alignSelf: "center",
+                  width: 60,
+                  height: 60,
+                  borderRadius: "50%",
+                  zIndex: -1,
+                  borderWidth: 1.5,
+                  borderColor: "white",
+                  backgroundColor: "white",
+                  resizeMode: "contain",
+                }}
+                source={{ uri: `${baseURL}${organizer?.image}` }}
+              />
+            </View>
             <Text
               style={{
                 fontSize: 20,
@@ -247,7 +276,6 @@ const styles = StyleSheet.create({
     height: 55,
     borderRadius: "50%",
     zIndex: -1,
-    opacity: 1,
     marginRight: 10,
     shadowOpacity: 0.2,
     shadowRadius: 10,
@@ -258,6 +286,7 @@ const styles = StyleSheet.create({
     },
     borderWidth: 1.5,
     borderColor: "white",
+    backgroundColor: "white",
   },
   sthumb: {
     marginTop: 12,

@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
+  Linking,
 } from "react-native";
 import React from "react";
 import { I18n } from "i18n-js";
@@ -16,16 +17,23 @@ import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import authStore from "../../stores/authStore";
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
+import rewardStore from "../../stores/rewardStore";
+import RewardItem from "../rewards/RewardItem";
+import organizerStore from "../../stores/organizerStore";
 
 export default function Info({ route }) {
   const spot = route.params.spot;
+  const organizer = organizerStore.getOrganizerById(spot.organizer);
   const colorScheme = useColorScheme();
   const scrollViewRef = React.useRef(null);
   const ref = React.useRef(null);
   const navigation = useNavigation();
   let users = 0;
   spot.users.forEach((user) => users++);
-  console.log("rewards", authStore.user);
+  const rewards = rewardStore.rewards.filter(
+    (reward) => reward.user === authStore.user._id && reward.spot === spot._id
+  );
+  console.log("rewards", rewards);
   useScrollToTop(ref);
   const translations = {
     en: {
@@ -131,7 +139,7 @@ export default function Info({ route }) {
               : "مستخدمين اتوا هنا"}
           </Text>
         </View>
-        <View style={{ marginTop: 20 }}>
+        <View style={{ marginTop: 30 }}>
           <Text
             style={{
               fontSize: 20,
@@ -139,36 +147,7 @@ export default function Info({ route }) {
               textAlign: "center",
               fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
               margin: 20,
-
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              marginTop: i18n.locale === "en-US" ? 10 : 0,
-            }}
-          >
-            {i18n.locale === "en-US" ? "Spot Details" : "تفاصيل النقطة"}
-          </Text>
-          <Text
-            style={{
-              fontSize: 20,
-              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
-              textAlign: i18n.locale === "en-US" ? "left" : "right",
-              fontFamily: i18n.locale === "en-US" ? "Cabin" : "Noto",
-              margin: 20,
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              marginTop: i18n.locale === "en-US" ? -10 : -20,
-            }}
-          >
-            {i18n.locale === "en-US" ? spot.details : spot.detailsAr}
-          </Text>
-        </View>
-        <View style={{ marginTop: 0 }}>
-          <Text
-            style={{
-              fontSize: 20,
-              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
-              textAlign: "center",
-              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-              margin: 20,
-
+              marginBottom: -5,
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               marginTop: i18n.locale === "en-US" ? 10 : 0,
             }}
@@ -203,10 +182,134 @@ export default function Info({ route }) {
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
           >
-            {/*  {rewards.map((reward) => (
+            {rewards.map((reward) => (
               <RewardItem reward={reward} />
-            ))}*/}
+            ))}
           </ScrollView>
+        </View>
+        <View style={{ marginTop: 0 }}>
+          <Text
+            style={{
+              fontSize: 20,
+              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+              textAlign: "center",
+              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+              margin: 20,
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              marginTop: i18n.locale === "en-US" ? 10 : 0,
+            }}
+          >
+            {i18n.locale === "en-US" ? "Spot Details" : "تفاصيل النقطة"}
+          </Text>
+          <Text
+            style={{
+              fontSize: 20,
+              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+              textAlign: i18n.locale === "en-US" ? "left" : "right",
+              fontFamily: i18n.locale === "en-US" ? "Cabin" : "Noto",
+              margin: 20,
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              marginTop: i18n.locale === "en-US" ? -10 : -20,
+              lineHeight: 40,
+            }}
+          >
+            {i18n.locale === "en-US" ? spot.details : spot.detailsAr}
+          </Text>
+        </View>
+        <View style={{ marginTop: 0 }}>
+          <Text
+            style={{
+              fontSize: 20,
+              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+              textAlign: "center",
+              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+              margin: 20,
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              marginTop: i18n.locale === "en-US" ? 10 : 0,
+            }}
+          >
+            {i18n.locale === "en-US" ? "Contact Info" : "ملعومات الاتصال"}
+          </Text>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+              alignContent: "center",
+              alignItems: "center",
+              margin: 15,
+              marginBottom: 10,
+              marginTop: 0,
+            }}
+          >
+            <Ionicons
+              style={{
+                marginRight: 5,
+                marginLeft: 5,
+                color: "#9279f7",
+                fontSize: 32,
+                transform: [{ scaleX: i18n.locale === "en-US" ? 1 : -1 }],
+              }}
+              name="ios-call-outline"
+            ></Ionicons>
+            <View
+              style={{
+                borderBottomWidth: 2,
+                borderColor: "#9279f7",
+              }}
+            >
+              <Text
+                onPress={() => Linking.openURL(`tel:${organizer.phone}`)}
+                style={{
+                  fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                  fontSize: 20,
+                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  marginBottom: i18n.locale === "en-US" ? 5 : -5,
+                }}
+              >
+                {organizer.phone}
+              </Text>
+            </View>
+          </View>
+          <View
+            style={{
+              display: "flex",
+              flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+              alignContent: "center",
+              alignItems: "center",
+              margin: 15,
+              marginBottom: 10,
+              marginTop: 0,
+            }}
+          >
+            <Ionicons
+              style={{
+                marginRight: 5,
+                marginLeft: 5,
+                color: "#9279f7",
+                fontSize: 32,
+                transform: [{ scaleX: i18n.locale === "en-US" ? 1 : -1 }],
+              }}
+              name="mail-outline"
+            ></Ionicons>
+            <View
+              style={{
+                borderBottomWidth: 2,
+                borderColor: "#9279f7",
+              }}
+            >
+              <Text
+                onPress={() => Linking.openURL(`mailto:${organizer.email}`)}
+                style={{
+                  fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                  fontSize: 20,
+                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  marginBottom: i18n.locale === "en-US" ? 5 : -5,
+                }}
+              >
+                {organizer.email}
+              </Text>
+            </View>
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

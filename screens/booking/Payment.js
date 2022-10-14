@@ -1,9 +1,30 @@
 import { StyleSheet, Image, View, Button } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import spotStore from "../../stores/spotStore";
+import ticketStore from "../../stores/ticketStore";
+import authStore from "../../stores/authStore";
 
 export default function Payment({ navigation, route }) {
   const spot = route.params.itemId;
   const tickets = route.params.quantity;
+  const [newTicket, setNewTicket] = useState({
+    amount: 0,
+    image: "",
+    isFree: false,
+  });
+  const handleBooking = async () => {
+    spot.seats = spot.seats - tickets;
+    spot.spotRevenue = tickets * spot.price;
+    newTicket.amount = tickets;
+    try {
+      await spotStore.updateSpot(spot, spot._id);
+      await ticketStore.createTicket(newTicket, spot._id);
+      authStore.sendBookingEmail(tickets, spot);
+      navigation.navigate("MySpots");
+    } catch (e) {
+      alert(e.message);
+    }
+  };
   return (
     <View
       style={{
@@ -23,16 +44,7 @@ export default function Payment({ navigation, route }) {
         source={{ uri: "https://kabkg.com/images/knet.png" }}
       ></Image>
       <View style={styles.button}>
-        <Button
-          onPress={() =>
-            navigation.navigate("Confirmation", {
-              itemId: spot,
-              quantity: tickets,
-            })
-          }
-          title="Done"
-          color={"white"}
-        />
+        <Button onPress={handleBooking} title="Done" color={"white"} />
       </View>
     </View>
   );

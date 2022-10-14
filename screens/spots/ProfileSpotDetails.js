@@ -9,6 +9,7 @@ import {
   RefreshControl,
   TouchableOpacity,
   useColorScheme,
+  SafeAreaView,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import spotStore from "../../stores/spotStore";
@@ -61,6 +62,9 @@ function ProfileSpotDetails({ route }) {
     setTimeout(() => {
       setLoading(false);
     }, 2000);
+  }, []);
+  useEffect(() => {
+    rewardStore.fetchRewards();
   }, []);
 
   const onRefresh = React.useCallback(() => {
@@ -120,494 +124,496 @@ function ProfileSpotDetails({ route }) {
   }
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      showsHorizontalScrollIndicator={false}
-      style={{
-        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-      }}
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    >
-      <StatusBar
-        barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
-      />
-      <View
+    <SafeAreaView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
         style={{
-          display: "flex",
-          flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
-          alignContent: "center",
-          alignItems: "center",
-          justifyContent: "space-between",
-          marginTop: 50,
+          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
         }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       >
-        <TouchableOpacity
-          onPress={() => {
-            navigation.goBack();
+        <StatusBar
+          barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
+        />
+        <View
+          style={{
+            display: "flex",
+            flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+            alignContent: "center",
+            alignItems: "center",
+            justifyContent: "space-between",
+            // marginTop: 50,
           }}
-          style={{ zIndex: 99 }}
         >
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}
+            style={{ zIndex: 99 }}
+          >
+            <Ionicons
+              style={{
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                zIndex: 99,
+                fontSize: 35,
+                margin: 15,
+              }}
+              name={
+                i18n.locale === "en-US"
+                  ? "chevron-back-outline"
+                  : "chevron-forward-outline"
+              }
+            ></Ionicons>
+          </TouchableOpacity>
+          <Text
+            style={{
+              fontSize: 26,
+              alignSelf: "center",
+              textAlign: "center",
+              fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+              width: "70%",
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            }}
+          >
+            {i18n.locale === "en-US" ? spot.name : spot.nameAr}
+          </Text>
           <Ionicons
+            onPress={() => {
+              navigation.navigate("Info", { spot: spot });
+            }}
             style={{
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               zIndex: 99,
               fontSize: 35,
               margin: 15,
             }}
-            name={
-              i18n.locale === "en-US"
-                ? "chevron-back-outline"
-                : "chevron-forward-outline"
-            }
+            name="information-outline"
           ></Ionicons>
-        </TouchableOpacity>
-        <Text
-          style={{
-            fontSize: 26,
-            alignSelf: "center",
-            textAlign: "center",
-            fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-            width: "50%",
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-          }}
-        >
-          {i18n.locale === "en-US" ? spot.name : spot.nameAr}
-        </Text>
-        <Ionicons
-          onPress={() => {
-            navigation.navigate("Info", { spot: spot });
-          }}
-          style={{
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-            zIndex: 99,
-            fontSize: 35,
-            margin: 15,
-          }}
-          name="information-outline"
-        ></Ionicons>
-      </View>
-      {spot.announcement !== "" && (
-        <View
-          style={{
-            width: "100%",
-            alignSelf: "center",
-            margin: 10,
-            marginBottom: 0,
-          }}
-        >
-          <TextTicker
-            style={{
-              fontSize: 20,
-              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-              padding: 15,
-              width: "100%",
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              borderRadius: 500,
-              marginBottom: i18n.locale === "en-US" ? 0 : -10,
-              marginTop: i18n.locale === "en-US" ? 0 : -10,
-            }}
-            scroll
-            duration={10000}
-            bounce={false}
-            repeatSpacer={0}
-            shouldAnimateTreshold={40}
-          >
-            <FontAwesome name="bullhorn" size={22} color="#9279f7" />
-            {"  "}
-            {spot.announcement}
-          </TextTicker>
         </View>
-      )}
-      <View
-        style={{
-          margin: 30,
-          marginBottom: 10,
-          display: "flex",
-          flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
-          alignItems: "center",
-          alignContent: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <View>
-          <Text
-            style={{
-              fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-              fontSize: 20,
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              opacity: 0.8,
-              textAlign: i18n.locale === "en-US" ? "left" : "right",
-              marginBottom: i18n.locale === "en-US" ? 0 : -10,
-              marginTop: i18n.locale === "en-US" ? 0 : -10,
-            }}
-          >
-            {i18n.locale === "en-US" ? "My Points" : "نقاطي"}
-          </Text>
-          <Text
-            style={{
-              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-              fontSize: 40,
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              textAlign: i18n.locale === "en-US" ? "left" : "right",
-              margin: 10,
-              marginBottom: i18n.locale === "en-US" ? 20 : 0,
-              marginTop: i18n.locale === "en-US" ? 15 : 0,
-            }}
-          >
-            {point?.amount}
-          </Text>
-          <Text
-            style={{
-              fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-              fontSize: 15,
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              opacity: 0.8,
-              textAlign: i18n.locale === "en-US" ? "left" : "right",
-              marginTop: i18n.locale === "en-US" ? 0 : -10,
-            }}
-          >
-            {i18n.locale === "en-US"
-              ? "Valid during spot's date only"
-              : "صالح لمدة النقطة فقط"}
-          </Text>
-        </View>
-        <TouchableOpacity
-          style={{
-            width: 120,
-            height: 50,
-            borderRadius: 10,
-            borderColor: "#9279f7",
-            borderWidth: 1,
-            margin: 50,
-            marginRight: 0,
-            marginLeft: 0,
-            marginBottom: 0,
-            marginTop: 0,
-            display: "flex",
-            alignContent: "center",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
-            shadowOpacity: 0.2,
-            shadowRadius: 10,
-            shadowColor: "white",
-            shadowOffset: {
-              height: 0,
-              width: 0,
-            },
-          }}
-          onPress={() =>
-            navigation.navigate("Scanner", { spot: spot, point: point })
-          }
-        >
-          <Ionicons
-            style={{
-              fontSize: 25,
-              zIndex: 99,
-              color: "#9279f7",
-            }}
-            name="scan"
-          ></Ionicons>
-
-          <Text
-            style={{
-              color: "#9279f7",
-              fontSize: 17,
-              fontFamily: "Ubuntu",
-              marginLeft: i18n.locale === "en-US" ? 10 : 0,
-              marginRight: i18n.locale === "en-US" ? 0 : 10,
-            }}
-          >
-            {i18n.locale === "en-US" ? "Scan QR" : "امسح Qr"}
-          </Text>
-        </TouchableOpacity>
-      </View>
-      {spot.rewards.length !== 0 ? (
-        <>
-          <Text
-            style={{
-              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-              fontSize: 20,
-              marginLeft: 28,
-              marginRight: 28,
-              marginTop: 20,
-              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-            }}
-          >
-            {i18n.locale === "en-US" ? "Rewards" : "المكافآت"}
-          </Text>
-          <ScrollView
-            horizontal={true}
-            style={{
-              backgroundColor: "transparent",
-              display: "flex",
-            }}
-            contentContainerStyle={{
-              backgroundColor: "transparent",
-              paddingRight: 30,
-              paddingLeft: i18n.locale === "en-US" ? 10 : 30,
-              display: "flex",
-              flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
-            }}
-            ref={scrollViewRef}
-            onContentSizeChange={() =>
-              i18n.locale === "en-US"
-                ? scrollViewRef.current.scrollTo({
-                    x: 0,
-                    y: 0,
-                    animated: true,
-                  })
-                : scrollViewRef.current.scrollToEnd({ animated: true })
-            }
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-          >
-            {rewards.map((reward) => (
-              <RewardItem reward={reward} />
-            ))}
-          </ScrollView>
-        </>
-      ) : (
-        <></>
-      )}
-      {spot.offers.length !== 0 ? (
-        <>
-          <Text
-            style={{
-              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-              fontSize: 20,
-              marginLeft: 28,
-              marginRight: 28,
-              marginTop: 20,
-              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-            }}
-          >
-            {i18n.locale === "en-US" ? "Offers" : "العروض"}
-          </Text>
-          <ScrollView
-            horizontal={true}
-            style={{
-              backgroundColor: "transparent",
-            }}
-            contentContainerStyle={{
-              backgroundColor: "transparent",
-              paddingRight: 30,
-              paddingLeft: i18n.locale === "en-US" ? 10 : 30,
-              display: "flex",
-              flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
-            }}
-            ref={scrollViewRef2}
-            onContentSizeChange={() =>
-              i18n.locale === "en-US"
-                ? scrollViewRef2.current.scrollTo({
-                    x: 0,
-                    y: 0,
-                    animated: true,
-                  })
-                : scrollViewRef2.current.scrollToEnd({ animated: true })
-            }
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-          >
-            {offers.map((offer) => (
-              <OfferItem offer={offer} />
-            ))}
-          </ScrollView>
-        </>
-      ) : (
-        <></>
-      )}
-      <View
-        style={{
-          display: "flex",
-          flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
-          alignContent: "center",
-          alignItems: "center",
-          margin: 30,
-          marginTop: 20,
-          justifyContent: "space-between",
-        }}
-      >
-        <Text
-          style={{
-            fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-            fontSize: 20,
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-          }}
-        >
-          {i18n.locale === "en-US" ? "Reviews" : "المراجعات"}
-        </Text>
-        <TouchableOpacity onPress={toggleModal}>
-          <Text
-            style={{
-              fontFamily: "Ubuntu",
-              fontSize: 19,
-              borderWidth: 1,
-              padding: 10,
-              color: "#9279f7",
-              borderColor: "#9279f7",
-              borderRadius: 10,
-            }}
-          >
-            {i18n.locale === "en-US" ? "Add Review" : "اضف مراجعة"}
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <View style={{ flex: 1 }}>
-        <Modal
-          isVisible={isModalVisible}
-          onBackdropPress={() => setModalVisible(false)}
-          style={{ height: 450 }}
-        >
+        {spot.announcement !== "" && (
           <View
             style={{
+              width: "100%",
+              alignSelf: "center",
+              margin: 10,
+              marginBottom: 0,
+            }}
+          >
+            <TextTicker
+              style={{
+                fontSize: 20,
+                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                padding: 15,
+                width: "100%",
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                borderRadius: 500,
+                marginBottom: i18n.locale === "en-US" ? 0 : -10,
+                marginTop: i18n.locale === "en-US" ? 0 : -10,
+              }}
+              scroll
+              duration={10000}
+              bounce={false}
+              repeatSpacer={0}
+              shouldAnimateTreshold={40}
+            >
+              <FontAwesome name="bullhorn" size={22} color="#9279f7" />
+              {"  "}
+              {spot.announcement}
+            </TextTicker>
+          </View>
+        )}
+        <View
+          style={{
+            margin: 30,
+            marginBottom: 10,
+            display: "flex",
+            flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+            alignItems: "center",
+            alignContent: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <View>
+            <Text
+              style={{
+                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                fontSize: 20,
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                opacity: 0.8,
+                textAlign: i18n.locale === "en-US" ? "left" : "right",
+                marginBottom: i18n.locale === "en-US" ? 0 : -10,
+                marginTop: i18n.locale === "en-US" ? 0 : -10,
+              }}
+            >
+              {i18n.locale === "en-US" ? "My Points" : "نقاطي"}
+            </Text>
+            <Text
+              style={{
+                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                fontSize: 40,
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                textAlign: i18n.locale === "en-US" ? "left" : "right",
+                margin: 10,
+                marginBottom: i18n.locale === "en-US" ? 20 : 0,
+                marginTop: i18n.locale === "en-US" ? 15 : 0,
+              }}
+            >
+              {point?.amount}
+            </Text>
+            <Text
+              style={{
+                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                fontSize: 15,
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                opacity: 0.8,
+                textAlign: i18n.locale === "en-US" ? "left" : "right",
+                marginTop: i18n.locale === "en-US" ? 0 : -10,
+              }}
+            >
+              {i18n.locale === "en-US"
+                ? "Valid during spot's date only"
+                : "صالح لمدة النقطة فقط"}
+            </Text>
+          </View>
+          <TouchableOpacity
+            style={{
+              width: 120,
+              height: 50,
+              borderRadius: 10,
+              borderColor: "#9279f7",
+              borderWidth: 1,
+              margin: 50,
+              marginRight: 0,
+              marginLeft: 0,
+              marginBottom: 0,
+              marginTop: 0,
               display: "flex",
-              alignItems: "center",
               alignContent: "center",
               justifyContent: "center",
+              alignItems: "center",
+              flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+              shadowOpacity: 0.2,
+              shadowRadius: 10,
+              shadowColor: "white",
+              shadowOffset: {
+                height: 0,
+                width: 0,
+              },
             }}
+            onPress={() =>
+              navigation.navigate("Scanner", { spot: spot, point: point })
+            }
+          >
+            <Ionicons
+              style={{
+                fontSize: 25,
+                zIndex: 99,
+                color: "#9279f7",
+              }}
+              name="scan"
+            ></Ionicons>
+
+            <Text
+              style={{
+                color: "#9279f7",
+                fontSize: 17,
+                fontFamily: "Ubuntu",
+                marginLeft: i18n.locale === "en-US" ? 10 : 0,
+                marginRight: i18n.locale === "en-US" ? 0 : 10,
+              }}
+            >
+              {i18n.locale === "en-US" ? "Scan QR" : "امسح Qr"}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        {spot.rewards.length !== 0 ? (
+          <>
+            <Text
+              style={{
+                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                fontSize: 20,
+                marginLeft: 28,
+                marginRight: 28,
+                marginTop: 20,
+                alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              }}
+            >
+              {i18n.locale === "en-US" ? "Rewards" : "المكافآت"}
+            </Text>
+            <ScrollView
+              horizontal={true}
+              style={{
+                backgroundColor: "transparent",
+                display: "flex",
+              }}
+              contentContainerStyle={{
+                backgroundColor: "transparent",
+                paddingRight: 30,
+                paddingLeft: i18n.locale === "en-US" ? 10 : 30,
+                display: "flex",
+                flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+              }}
+              ref={scrollViewRef}
+              onContentSizeChange={() =>
+                i18n.locale === "en-US"
+                  ? scrollViewRef.current.scrollTo({
+                      x: 0,
+                      y: 0,
+                      animated: true,
+                    })
+                  : scrollViewRef.current.scrollToEnd({ animated: true })
+              }
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+            >
+              {rewards.map((reward) => (
+                <RewardItem reward={reward} onRefresh={onRefresh} />
+              ))}
+            </ScrollView>
+          </>
+        ) : (
+          <></>
+        )}
+        {spot.offers.length !== 0 ? (
+          <>
+            <Text
+              style={{
+                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                fontSize: 20,
+                marginLeft: 28,
+                marginRight: 28,
+                marginTop: 20,
+                alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              }}
+            >
+              {i18n.locale === "en-US" ? "Offers" : "العروض"}
+            </Text>
+            <ScrollView
+              horizontal={true}
+              style={{
+                backgroundColor: "transparent",
+              }}
+              contentContainerStyle={{
+                backgroundColor: "transparent",
+                paddingRight: 30,
+                paddingLeft: i18n.locale === "en-US" ? 10 : 30,
+                display: "flex",
+                flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+              }}
+              ref={scrollViewRef2}
+              onContentSizeChange={() =>
+                i18n.locale === "en-US"
+                  ? scrollViewRef2.current.scrollTo({
+                      x: 0,
+                      y: 0,
+                      animated: true,
+                    })
+                  : scrollViewRef2.current.scrollToEnd({ animated: true })
+              }
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+            >
+              {offers.map((offer) => (
+                <OfferItem offer={offer} />
+              ))}
+            </ScrollView>
+          </>
+        ) : (
+          <></>
+        )}
+        <View
+          style={{
+            display: "flex",
+            flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+            alignContent: "center",
+            alignItems: "center",
+            margin: 30,
+            marginTop: 20,
+            justifyContent: "space-between",
+          }}
+        >
+          <Text
+            style={{
+              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+              fontSize: 20,
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            }}
+          >
+            {i18n.locale === "en-US" ? "Reviews" : "المراجعات"}
+          </Text>
+          <TouchableOpacity onPress={toggleModal}>
+            <Text
+              style={{
+                fontFamily: "Ubuntu",
+                fontSize: 19,
+                borderWidth: 1,
+                padding: 10,
+                color: "#9279f7",
+                borderColor: "#9279f7",
+                borderRadius: 10,
+              }}
+            >
+              {i18n.locale === "en-US" ? "Add Review" : "اضف مراجعة"}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Modal
+            isVisible={isModalVisible}
+            onBackdropPress={() => setModalVisible(false)}
+            style={{ height: 450 }}
           >
             <View
               style={{
-                backgroundColor: "white",
-                borderRadius: 40,
-                height: 450,
-                width: 400,
                 display: "flex",
                 alignItems: "center",
                 alignContent: "center",
                 justifyContent: "center",
               }}
             >
-              <Text
+              <View
                 style={{
-                  alignSelf: "center",
-                  margin: 30,
-                  marginBottom: i18n.locale === "en-US" ? 10 : -10,
-                  marginTop: 0,
-                  fontSize: 30,
-                  fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                }}
-              >
-                {i18n.locale === "en-US" ? "Add Your Review" : "اضف مراجعتك"}
-              </Text>
-              <TouchableOpacity
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                  margin: 20,
-                  marginTop: 15,
-                }}
-                onPress={toggleModal}
-              >
-                <Ionicons
-                  style={{
-                    color: "#aba9aa",
-                    opacity: 0.8,
-                    fontSize: 35,
-                  }}
-                  name="close-outline"
-                ></Ionicons>
-              </TouchableOpacity>
-              <Rating
-                showRating
-                startingValue={1}
-                selectedColor="#9279f7"
-                reviewColor="#9279f7"
-                ratingBackgroundColor="#9279f7"
-                ratingTextColor="grey"
-                unSelectedColor="grey"
-                onFinishRating={ratingCompleted}
-                style={{ margin: 20, marginBottom: 30, marginTop: 10 }}
-              />
-              <Text
-                style={{
-                  fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                  fontSize: 20,
-                  marginLeft: 28,
-                  marginRight: 28,
-                  margin: -10,
-                  alignSelf:
-                    i18n.locale === "en-US" ? "flex-start" : "flex-end",
-                }}
-              >
-                {i18n.locale === "en-US" ? "Enter Description" : "اضف الوصف"}
-              </Text>
-              <TextInput
-                textInputStyle={{
-                  height: 100,
-                  width: 350,
-                  margin: 20,
-                  paddingTop: 15,
-                }}
-                mainColor="#9279f7"
-                multiline
-                numberOfLines={4}
-                label="Description"
-                placeholder=""
-                onChangeText={(text) => {
-                  handleChange("description", text);
-                }}
-                clearButtonMode="always"
-              />
-              <TouchableOpacity
-                style={{
-                  borderRadius: 8,
-                  elevation: 3,
-                  backgroundColor: "#9279f7",
-                  width: 125,
-                  height: 40,
-                  alignSelf:
-                    i18n.locale === "en-US" ? "flex-end" : "flex-start",
-                  marginRight: 25,
-                  marginLeft: 25,
+                  backgroundColor: "white",
+                  borderRadius: 40,
+                  height: 450,
+                  width: 400,
                   display: "flex",
+                  alignItems: "center",
                   alignContent: "center",
                   justifyContent: "center",
-                  alignItems: "center",
                 }}
-                onPress={handleSubmit}
               >
                 <Text
                   style={{
-                    color: "white",
-                    fontSize: 20,
-                    marginTop: i18n.locale === "en-US" ? 0 : -2,
+                    alignSelf: "center",
+                    margin: 30,
+                    marginBottom: i18n.locale === "en-US" ? 10 : -10,
+                    marginTop: 0,
+                    fontSize: 30,
                     fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
                   }}
                 >
-                  {i18n.locale === "en-US" ? "Submit" : "ارسال"}
+                  {i18n.locale === "en-US" ? "Add Your Review" : "اضف مراجعتك"}
                 </Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    margin: 20,
+                    marginTop: 15,
+                  }}
+                  onPress={toggleModal}
+                >
+                  <Ionicons
+                    style={{
+                      color: "#aba9aa",
+                      opacity: 0.8,
+                      fontSize: 35,
+                    }}
+                    name="close-outline"
+                  ></Ionicons>
+                </TouchableOpacity>
+                <Rating
+                  showRating
+                  startingValue={1}
+                  selectedColor="#9279f7"
+                  reviewColor="#9279f7"
+                  ratingBackgroundColor="#9279f7"
+                  ratingTextColor="grey"
+                  unSelectedColor="grey"
+                  onFinishRating={ratingCompleted}
+                  style={{ margin: 20, marginBottom: 30, marginTop: 10 }}
+                />
+                <Text
+                  style={{
+                    fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                    fontSize: 20,
+                    marginLeft: 28,
+                    marginRight: 28,
+                    margin: -10,
+                    alignSelf:
+                      i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                  }}
+                >
+                  {i18n.locale === "en-US" ? "Enter Description" : "اضف الوصف"}
+                </Text>
+                <TextInput
+                  textInputStyle={{
+                    height: 100,
+                    width: 350,
+                    margin: 20,
+                    paddingTop: 15,
+                  }}
+                  mainColor="#9279f7"
+                  multiline
+                  numberOfLines={4}
+                  label="Description"
+                  placeholder=""
+                  onChangeText={(text) => {
+                    handleChange("description", text);
+                  }}
+                  clearButtonMode="always"
+                />
+                <TouchableOpacity
+                  style={{
+                    borderRadius: 8,
+                    elevation: 3,
+                    backgroundColor: "#9279f7",
+                    width: 125,
+                    height: 40,
+                    alignSelf:
+                      i18n.locale === "en-US" ? "flex-end" : "flex-start",
+                    marginRight: 25,
+                    marginLeft: 25,
+                    display: "flex",
+                    alignContent: "center",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                  onPress={handleSubmit}
+                >
+                  <Text
+                    style={{
+                      color: "white",
+                      fontSize: 20,
+                      marginTop: i18n.locale === "en-US" ? 0 : -2,
+                      fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                    }}
+                  >
+                    {i18n.locale === "en-US" ? "Submit" : "ارسال"}
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </Modal>
-      </View>
+          </Modal>
+        </View>
 
-      {spot?.reviews.length !== 0 ? (
-        <ReviewList reviews={spot?.reviews} spotId={spot?._id} />
-      ) : (
-        <Text
-          style={{
-            fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-            fontSize: 20,
-            marginTop: 20,
-            marginBottom: 80,
-            alignSelf: "center",
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-          }}
-        >
-          {i18n.locale === "en-US"
-            ? " No Reviews Yet"
-            : "لا يوجد مراجعات حتى الآن"}
-        </Text>
-      )}
-    </ScrollView>
+        {spot?.reviews.length !== 0 ? (
+          <ReviewList reviews={spot?.reviews} spotId={spot?._id} />
+        ) : (
+          <Text
+            style={{
+              fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+              fontSize: 20,
+              marginTop: 20,
+              marginBottom: 80,
+              alignSelf: "center",
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            }}
+          >
+            {i18n.locale === "en-US"
+              ? " No Reviews Yet"
+              : "لا يوجد مراجعات حتى الآن"}
+          </Text>
+        )}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 export default observer(ProfileSpotDetails);

@@ -2,7 +2,6 @@ import {
   StyleSheet,
   Text,
   View,
-  SafeAreaView,
   Image,
   FlatList,
   ScrollView,
@@ -17,12 +16,25 @@ import { Fontisto, Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
 
 function OrganizerProfile({ route }) {
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
   const [notification, setNotification] = useState();
   const organizer = route.params.organizer;
+  const translations = {
+    en: {
+      more: "More Info",
+    },
+    ar: {
+      more: "التفاصيل",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
   function renderSpot({ item: spot }) {
     return <OrganizerSpot spot={spot} />;
   }
@@ -32,6 +44,8 @@ function OrganizerProfile({ route }) {
     UbuntuLight: require("../assets/fonts/Ubuntu-Light.ttf"),
     Cabin: require("../assets/fonts/Cabin.ttf"),
     CabinMedium: require("../assets/fonts/CabinMedium.ttf"),
+    Noto: require("../assets/fonts/Noto.ttf"),
+    NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -48,22 +62,38 @@ function OrganizerProfile({ route }) {
       <View
         style={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
           alignItems: "center",
-          justifyContent: "space-between",
-          alignContent: "center",
+          justifyContent: "center",
           marginTop: 50,
+          width: "100%",
         }}
       >
-        <Ionicons
-          style={{
-            fontSize: 35,
-            marginLeft: 20,
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
           }}
-          name="chevron-back-outline"
-          onPress={() => navigation.goBack()}
-        ></Ionicons>
+          style={{
+            zIndex: 99,
+            position: "absolute",
+            width: "100%",
+          }}
+        >
+          <Ionicons
+            style={{
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              zIndex: 99,
+              fontSize: 35,
+              margin: 20,
+              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+            }}
+            name={
+              i18n.locale === "en-US"
+                ? "chevron-back-outline"
+                : "chevron-forward-outline"
+            }
+          ></Ionicons>
+        </TouchableOpacity>
         <Text
           style={{
             fontSize: 30,
@@ -77,23 +107,6 @@ function OrganizerProfile({ route }) {
         >
           {organizer?.username}
         </Text>
-        <TouchableOpacity /*onPress={handleNotification}*/>
-          {notification === false ? (
-            <Fontisto
-              style={{ alignSelf: "flex-end", marginRight: 20 }}
-              name="bell-alt"
-              size={24}
-              color="#9279f7"
-            />
-          ) : (
-            <Fontisto
-              style={{ alignSelf: "flex-end", marginRight: 20 }}
-              name="bell-alt"
-              size={24}
-              color="#9279f7"
-            />
-          )}
-        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -132,11 +145,11 @@ function OrganizerProfile({ route }) {
             <Text
               style={{
                 fontSize: 25,
-                fontFamily: "Ubuntu",
+                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
             >
-              Spots
+              {i18n.locale === "en-US" ? "Spots" : "نقاط"}
             </Text>
           </View>
         </View>
