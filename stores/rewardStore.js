@@ -24,6 +24,17 @@ class RewardStore {
   getRewardss = () => {
     return this.rewards;
   };
+
+  userAdd = async (rewardId) => {
+    try {
+      const res = await instance.put(`/reward/user/${rewardId}`);
+      this.rewards = this.rewards.map((reward) =>
+        reward._id === rewardId ? res.data : reward
+      );
+    } catch (error) {
+      console.log("reward error: ", error);
+    }
+  };
 }
 
 const rewardStore = new RewardStore();

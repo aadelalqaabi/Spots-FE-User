@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, useColorScheme } from "react-native";
 import Stars from "./Stars";
 import { baseURL } from "../../stores/instance";
 import moment from "moment";
@@ -6,6 +6,7 @@ import React from "react";
 
 function ReviewItem({ review }) {
   let date = moment(review?.date).format("LL");
+  const colorScheme = useColorScheme();
   return (
     <View
       style={{
@@ -30,13 +31,41 @@ function ReviewItem({ review }) {
             alignContent: "center",
           }}
         >
-          <Text style={styles.reviewName}>{review?.user?.username}</Text>
-          <Text style={styles.reviewName}>{date}</Text>
+          <Text
+            style={{
+              fontSize: 16,
+              margin: 0,
+              marginBottom: 4,
+              color: colorScheme === "light" ? "#1b1b1b" : "f1f1f1",
+            }}
+          >
+            {review?.user?.username}
+          </Text>
+          <Text
+            style={{
+              fontSize: 16,
+              margin: 0,
+              marginBottom: 4,
+              color: colorScheme === "light" ? "#1b1b1b" : "f1f1f1",
+            }}
+          >
+            {date}
+          </Text>
         </View>
       </View>
       <View style={{ padding: 5 }}>
         <Stars stars={review?.stars} />
-        <Text style={styles.description}>{review?.description}</Text>
+        <Text
+          style={{
+            fontSize: 20,
+            color: "black",
+            alignSelf: "flex-start",
+            margin: 10,
+            color: colorScheme === "light" ? "#1b1b1b" : "f1f1f1",
+          }}
+        >
+          {review?.description}
+        </Text>
       </View>
     </View>
   );

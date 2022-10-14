@@ -5,7 +5,7 @@ import {
   Button,
   StyleSheet,
   Image,
-  TextInput,
+  useColorScheme,
   Platform,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -15,16 +15,18 @@ import authStore from "../stores/authStore";
 import { observer } from "mobx-react";
 import { baseURL } from "../stores/instance";
 import Toast from "react-native-toast-message";
+import { StatusBar } from "expo-status-bar";
 
 function EditScreen() {
+  const colorScheme = useColorScheme();
   const [image, setImage] = useState(baseURL + authStore.user.image);
   const [user, setUser] = useState();
   const navigation = useNavigation();
   const cancelButton = () => {
-    navigation.navigate("Profile");
+    navigation.goBack();
     console.log("cancel");
   };
-
+  console.log("image", image);
   useEffect(() => {
     (async () => {
       if (Platform.OS !== "web") {
@@ -74,7 +76,13 @@ function EditScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+      }}
+    >
+      <StatusBar backgroundColor="black" />
       <View style={styles.cancel}>
         <Button onPress={cancelButton} title="Cancel" color="red" />
       </View>
@@ -89,7 +97,13 @@ function EditScreen() {
           {image && (
             <View>
               <Image
-                source={{ uri: image }}
+                source={
+                  image !== baseURL
+                    ? {
+                        uri: image,
+                      }
+                    : require("../assets/PP.jpeg")
+                }
                 style={{
                   alignSelf: "center",
                   width: 200,
@@ -169,5 +183,13 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     elevation: 3,
     backgroundColor: "#9279f7",
+  },
+  profileImage: {
+    width: 180,
+    height: 180,
+    borderRadius: 150,
+    alignItems: "center",
+    alignSelf: "center",
+    marginRight: 35,
   },
 });

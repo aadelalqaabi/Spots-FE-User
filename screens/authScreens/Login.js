@@ -110,11 +110,6 @@ export default function Login() {
           }}
           placeholder=""
           keyboardType="web-search"
-          onSubmitEditing={() => {
-            checkValidation === false
-              ? navigation.navigate("MyImage", { itemId: user })
-              : Alert.alert("Invalid Password", "", [{ text: "Try Again" }]);
-          }}
         />
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text

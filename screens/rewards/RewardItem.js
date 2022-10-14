@@ -12,8 +12,10 @@ import authStore from "../../stores/authStore";
 import rewardStore from "../../stores/rewardStore";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
+import { useNavigation } from "@react-navigation/native";
+import spotStore from "../../stores/spotStore";
 
-function RewardItem({ reward }) {
+function RewardItem({ reward, onRefresh }) {
   const colorScheme = useColorScheme();
   const translations = {
     en: {
@@ -27,10 +29,21 @@ function RewardItem({ reward }) {
   i18n.locale = Localization.locale;
   i18n.enableFallback = true;
 
+  const spot = spotStore.getSpotsById(reward.spot);
+  let userRewards = rewardStore.rewards.filter((rewardo) =>
+    rewardo.users.includes(authStore.user.id)
+  );
+  let found = userRewards.some((rewardo) => rewardo._id === reward._id);
+  let myPoints = pointStore.points.find(
+    (point) => point?.user === authStore.user.id && point?.spot === reward?.spot
+  );
+
   useEffect(() => {
     authStore.checkForToken();
     pointStore.fetchPoints();
+    rewardStore.fetchRewards();
   }, []);
+
   let [fontsLoaded] = useFonts({
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
@@ -41,13 +54,8 @@ function RewardItem({ reward }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   const [isModalVisible, setModalVisible] = useState(false);
-  const userRewards = rewardStore.rewards.filter((rewardo) =>
-    rewardo.users.includes(authStore.user.id)
-  );
-  const found = userRewards.some((rewardo) => rewardo._id === reward._id);
-  let myPoints = pointStore.points.find(
-    (point) => point?.user === authStore.user.id && point?.spot === reward?.spot
-  );
+
+  const navigation = useNavigation();
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
@@ -57,11 +65,7 @@ function RewardItem({ reward }) {
 
   const handleClaim = async () => {
     pointStore.updatePoint(myPoints.amount - reward.points, myPoints._id);
-    const amount = myPoints.amount - reward.points;
-    myPoints = { ...myPoints, amount };
-    await authStore.checkForToken();
-    await authStore.rewardAdd(reward._id);
-    await pointStore.fetchPoints();
+    await rewardStore.userAdd(reward._id);
     toggleModal();
   };
 

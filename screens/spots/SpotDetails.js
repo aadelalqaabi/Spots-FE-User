@@ -57,7 +57,7 @@ export function SpotDetails({ route }) {
   const [checkSeats, setCheckSeats] = useState(quantity);
   const [toggle, setToggle] = useState(false);
   const userTickets = ticketStore.tickets.filter(
-    (ticket) => ticket.user === authStore.user.id
+    (ticket) => ticket.user === authStore.user._id
   );
   let [fontsLoaded] = useFonts({
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
@@ -112,9 +112,9 @@ export function SpotDetails({ route }) {
   };
   const handleSpots = async (spot) => {
     const found = userTickets.some((ticket) => ticket.spot._id === spot._id);
-    console.log("found", found);
     if (!found) {
       await ticketStore.createTicket(newTicket, spot._id);
+      console.log("im here");
       Alert.alert(
         i18n.locale === "en-US" ? "Added to your spots" : "تم الاضافة لنقاطك"
       );
@@ -298,7 +298,18 @@ export function SpotDetails({ route }) {
                 }}
               >
                 <Image
-                  style={styles.ownerthumb}
+                  style={{
+                    alignSelf: "center",
+                    width: 50,
+                    height: 50,
+                    borderRadius: "50%",
+                    zIndex: -1,
+                    marginRight: 10,
+                    borderWidth: 1.5,
+                    borderColor: "white",
+                    backgroundColor: "white",
+                    resizeMode: "contain",
+                  }}
                   source={{ uri: `${baseURL}${organizer.image}` }}
                 />
                 <Text

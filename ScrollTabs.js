@@ -24,10 +24,14 @@ export default function ScrollTabs({ userSpots }) {
     en: {
       active: "Active",
       finished: "Finished",
+      empty: "You don't have any active spots",
+      emptyE: "You don't have any finished spots",
     },
     ar: {
       active: "نشط",
       finished: "انتهى",
+      empty: "ليس لديك اي نقاط نشطة",
+      emptyE: "ليس لديك اي نقاط منتهية",
     },
   };
   const i18n = new I18n(translations);
@@ -61,44 +65,98 @@ export default function ScrollTabs({ userSpots }) {
     return <FinishedSpot spot={spot} />;
   };
   const FirstRoute = () => (
-    <ScrollView
-      style={{
-        flex: 1,
-        zIndex: 99,
-        marginBottom: 240,
-        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-      }}
-    >
-      <FlatList
-        data={sortedActiveSpots}
-        renderItem={renderSpotActive}
-        style={{
-          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-        }}
-        contentContainerStyle={styles.spotsListContainer}
-      />
-    </ScrollView>
+    <>
+      {sortedActiveSpots.length === 0 ? (
+        <View
+          style={{
+            display: "flex",
+            alignSelf: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            justifyContent: "center",
+            height: "70%",
+          }}
+        >
+          <Text
+            style={{
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              fontSize: i18n.locale === "en-US" ? 35 : 30,
+              padding: 35,
+              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+              textAlign: "center",
+            }}
+          >
+            {i18n.t("empty")}
+          </Text>
+        </View>
+      ) : (
+        <ScrollView
+          style={{
+            flex: 1,
+            zIndex: 99,
+            marginBottom: 240,
+            backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+          }}
+        >
+          <FlatList
+            data={sortedActiveSpots}
+            renderItem={renderSpotActive}
+            style={{
+              backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+            }}
+            contentContainerStyle={styles.spotsListContainer}
+          />
+        </ScrollView>
+      )}
+    </>
   );
 
   const SecondRoute = () => (
-    <ScrollView
-      style={{
-        flex: 1,
-        zIndex: 99,
-        marginBottom: 250,
-        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-      }}
-    >
-      <FlatList
-        data={sortedFinishedSpots}
-        renderItem={renderSpotFinished}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        style={{
-          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-        }}
-      />
-    </ScrollView>
+    <>
+      {sortedFinishedSpots.length === 0 ? (
+        <View
+          style={{
+            display: "flex",
+            alignSelf: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            justifyContent: "center",
+            height: "70%",
+          }}
+        >
+          <Text
+            style={{
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              fontSize: i18n.locale === "en-US" ? 35 : 30,
+              padding: 35,
+              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+              textAlign: "center",
+            }}
+          >
+            {i18n.t("emptyE")}
+          </Text>
+        </View>
+      ) : (
+        <ScrollView
+          style={{
+            flex: 1,
+            zIndex: 99,
+            marginBottom: 250,
+            backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+          }}
+        >
+          <FlatList
+            data={sortedFinishedSpots}
+            renderItem={renderSpotFinished}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            style={{
+              backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+            }}
+          />
+        </ScrollView>
+      )}
+    </>
   );
 
   const renderScene = SceneMap({

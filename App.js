@@ -175,11 +175,6 @@ function RootNavigator() {
             presentation: "transparentModal",
           }}
         />
-        <Screen
-          options={{ headerShown: false }}
-          name="MySpots"
-          component={MySpots}
-        />
         <Group
           screenOptions={{
             presentation: "modal",
@@ -265,11 +260,7 @@ function RootNavigator() {
             gestureDirection: "horizontal-inverted",
           }}
         />
-        <Screen
-          options={{ headerShown: false }}
-          name="MySpots"
-          component={MySpots}
-        />
+
         <Group
           screenOptions={{
             presentation: "modal",

@@ -128,7 +128,6 @@ const styles = StyleSheet.create({
       height: 1,
       width: 1,
     },
-    fontFamily: "UbuntuBold",
     textAlign: "center",
   },
   edit: {
