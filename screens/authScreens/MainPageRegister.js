@@ -18,8 +18,10 @@ import AppLoading from "expo-app-loading";
 import { Ionicons } from "@expo/vector-icons";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
+import authStore from "../../stores/authStore";
 
 export default function MainPageRegister() {
+  authStore.getUsernames();
   const colorScheme = useColorScheme();
   const translations = {
     en: {
@@ -49,19 +51,31 @@ export default function MainPageRegister() {
   const [checkValidationColor, setCheckValidationColor] = useState("#9279f7");
   const [begining, setBegining] = useState(true);
   const [showError, setShowError] = useState(true);
+  const [uniqueUsername, setUniqueUsername] = useState(true);
 
   const handleChange = (name, value) => {
-    const check = checkEntry(value);
-    if (check === true) {
-      setUser({ ...user, [name]: value });
-      setCheckValidation(false);
-      setCheckValidationColor("#9279f7");
-      setShowError(false);
-    } else {
+    const foundUsername = authStore.useUsernames.filter((current) => current.username.toLowerCase() === value.toLowerCase());
+    if(foundUsername.length !== 0){
+      setUniqueUsername(false)
       setCheckValidation(true);
       setCheckValidationColor("#ea3e29");
       setBegining(false);
       setShowError(true);
+    } else {
+      const check = checkEntry(value);
+      if (check === true) {
+        setUser({ ...user, [name]: value });
+        setCheckValidation(false);
+        setCheckValidationColor("#9279f7");
+        setShowError(false);
+        setUniqueUsername(true)
+      } else {
+        setCheckValidation(true);
+        setCheckValidationColor("#ea3e29");
+        setBegining(false);
+        setShowError(true);
+        setUniqueUsername(true)
+      }
     }
   };
   const checkEntry = (username) => {
@@ -189,7 +203,7 @@ export default function MainPageRegister() {
                   enableIcon="true"
                   onSubmitEditing={() => {
                     checkValidation === false
-                      ? navigation.navigate("PhoneNo", { itemId: user })
+                      ? navigation.navigate("Email", { itemId: user })
                       : i18n.locale === "en-US" ? (
                           Alert.alert("Invalid Username", "", ["Try Again" ])
                       ) : (
@@ -197,6 +211,11 @@ export default function MainPageRegister() {
                       )
                   }}
                 />
+                {uniqueUsername === false ? (
+                  <Text style={{color: "#ea3e29", marginTop: -8, marginLeft: 10 }}>Username is already taken</Text>
+                ) : (
+                  <></>
+                )}
                 {begining === true ? (
                   <Ionicons
                     style={{
@@ -253,7 +272,7 @@ export default function MainPageRegister() {
                       color="white"
                       disabled={checkValidation}
                       onPress={() => {
-                        navigation.navigate("PhoneNo", { itemId: user });
+                        navigation.navigate("Email", { itemId: user });
                       }}
                     />
                   </View>
@@ -264,7 +283,7 @@ export default function MainPageRegister() {
                       color="white"
                       disabled={checkValidation}
                       onPress={() => {
-                        navigation.navigate("PhoneNo", { itemId: user });
+                        navigation.navigate("Email", { itemId: user });
                       }}
                     />
                   </View>

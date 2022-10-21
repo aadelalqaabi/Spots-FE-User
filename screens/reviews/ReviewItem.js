@@ -8,65 +8,70 @@ function ReviewItem({ review }) {
   let date = moment(review?.date).format("LL");
   const colorScheme = useColorScheme();
   return (
-    <View
-      style={{
-        borderBottomColor: "rgba(178, 174, 174, 0.658)",
-        borderBottomWidth: 0.4,
-        borderBottomStyle: "solid",
-        padding: 25,
-        paddingBottom: 0,
-      }}
-    >
-      <View style={styles.card}>
-        <Image
-          style={styles.reviewImage}
-          source={{ uri: `${baseURL}${review?.user?.image}` }}
-        />
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            alignContent: "center",
-          }}
-        >
-          <Text
+    <View>
+      <View
+        style={{
+          borderWidth: 1,
+          borderColor: colorScheme === "light" ? "#1b1b1b" : "#9279f7",
+          borderRadius: 20,
+          backgroundColor: colorScheme === "light" ? "#1b1b1b" : "#333333",
+          width: "96%",
+          paddingTop: 5,
+          alignSelf: "center"
+        }}
+      >
+        <View style={styles.card}>
+          <Image
+            style={styles.reviewImage}
+            source={{ uri: `${baseURL}${review?.user?.image}` }}
+          />
+          <View
             style={{
-              fontSize: 16,
-              margin: 0,
-              marginBottom: 4,
-              color: colorScheme === "light" ? "#1b1b1b" : "f1f1f1",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "flex-start",
+              alignContent: "center",
             }}
           >
-            {review?.user?.username}
-          </Text>
+            <Text
+              style={{
+                fontSize: 16,
+                margin: 0,
+                marginBottom: 4,
+                color: colorScheme === "light" ? "#1b1b1b" : "white",
+              }}
+            >
+              {review?.user?.username}
+            </Text>
+            <Text
+              style={{
+                fontSize: 16,
+                margin: 0,
+                marginBottom: 4,
+                color: colorScheme === "light" ? "#1b1b1b" : "white",
+              }}
+            >
+              {date}
+            </Text>
+          </View>
+        </View>
+        <View style={{ padding: 5 }}>
+          <Stars stars={review?.stars} />
           <Text
             style={{
-              fontSize: 16,
-              margin: 0,
-              marginBottom: 4,
-              color: colorScheme === "light" ? "#1b1b1b" : "f1f1f1",
+              fontSize: 20,
+              color: "black",
+              alignSelf: "flex-start",
+              margin: 10,
+              color: colorScheme === "light" ? "#1b1b1b" : "white",
             }}
           >
-            {date}
+            {review?.description}
           </Text>
         </View>
       </View>
-      <View style={{ padding: 5 }}>
-        <Stars stars={review?.stars} />
-        <Text
-          style={{
-            fontSize: 20,
-            color: "black",
-            alignSelf: "flex-start",
-            margin: 10,
-            color: colorScheme === "light" ? "#1b1b1b" : "f1f1f1",
-          }}
-        >
-          {review?.description}
-        </Text>
-      </View>
+      <View style={{marginBottom: 20}}></View>
     </View>
   );
 }
@@ -77,6 +82,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     marginRight: 10,
+    marginLeft: 8,
     borderRadius: "50%",
     objectFit: "cover",
   },

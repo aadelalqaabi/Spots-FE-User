@@ -31,7 +31,8 @@ export default function Info({ route }) {
   let users = 0;
   spot.users.forEach((user) => users++);
   const rewards = rewardStore.rewards.filter(
-    (reward) => reward.user === authStore.user._id && reward.spot === spot._id
+    (reward) =>
+      reward.users.includes(authStore.user.id) && reward.spot === spot._id
   );
   console.log("rewards", rewards);
   useScrollToTop(ref);
