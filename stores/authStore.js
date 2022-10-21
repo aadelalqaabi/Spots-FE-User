@@ -30,6 +30,8 @@ class AuthStore {
     makeAutoObservable(this);
   }
   user = null;
+  OTP = 1;
+  useUsernames = "";
 
   setUser = async (token) => {
     await AsyncStorage.setItem("myToken", JSON.stringify(token));
@@ -53,6 +55,7 @@ class AuthStore {
   };
 
   register = async (newUser) => {
+    newUser.username = newUser.username.toLowerCase();
     try {
       const formData = new FormData();
       for (const key in newUser) formData.append(key, newUser[key]);
@@ -64,6 +67,7 @@ class AuthStore {
   };
 
   login = async (userData) => {
+    userData.username = userData.username.toLowerCase();
     try {
       const response = await instance.post("/user/login", userData);
       this.setUser(response.data.token);
@@ -96,6 +100,24 @@ class AuthStore {
     }
   };
 
+  changeUser = async (userChange) => {
+    try {
+      await instance.put(`/user/change`, userChange);
+    } catch (error) {
+      console.log("change", error);
+    }
+  };
+
+  forgotUser = async (userForgot) => {
+    userForgot.username = userForgot.username.toLowerCase();
+    try {
+      console.log("userForgot", userForgot)
+      await instance.put(`/user/forgot`, userForgot);
+    } catch (error) {
+      console.log("forgot", error);
+    }
+  };
+
   spotAdd = async (spotId) => {
     try {
       const formData = new FormData();
@@ -123,6 +145,25 @@ class AuthStore {
       this.user.spots = res.data.spots.filter((spot) => spot._id !== spotId);
     } catch (error) {
       console.log("here", error);
+    }
+  };
+
+  getOTP = async () => {
+    try {
+      const res = await instance.get(`/user/OTP`);
+      this.OTP = res.data;
+    } catch (error) {
+      console.log("OTP", error);
+    }
+  };
+
+  getUsernames = async () => {
+    try {
+      const res =  await instance.get(`/user/usernames`);
+      // console.log('useUsernames', res.data)
+      this.useUsernames = res.data;
+    } catch (error) {
+      console.log("OTP", error);
     }
   };
 

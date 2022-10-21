@@ -18,12 +18,14 @@ export default function Settings() {
       edit: "Edit Profile",
       Account: "Account",
       log: "Log out",
+      Change: "Change Password",
     },
     ar: {
       Settings: "الاعدادات",
       edit: "تعديل الحساب",
       Account: "الحساب",
       log: "تسجيل الخروج",
+      Change: "تغير كلمة السر",
     },
   };
   const i18n = new I18n(translations);
@@ -134,6 +136,7 @@ export default function Settings() {
           alignContent: "center",
           alignItems: "center",
           marginTop: 20,
+          marginBottom: 20,
           justifyContent: "space-between",
         }}
         onPress={() =>
@@ -168,6 +171,49 @@ export default function Settings() {
           }}
         >
           {i18n.t("log")}
+        </Text>
+        <Ionicons
+          style={{
+            color: "#1b1b1b",
+            fontSize: 18,
+            fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+            margin: 22,
+            opacity: 0.8,
+          }}
+          name={
+            i18n.locale === "en-US"
+              ? "chevron-forward-outline"
+              : "chevron-back-outline"
+          }
+        ></Ionicons>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{
+          backgroundColor: "#e8e8e8",
+          height: 60,
+          width: "90%",
+          alignSelf: "center",
+          borderRadius: 10,
+          display: "flex",
+          flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+          alignContent: "center",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+        onPress={() => navigation.navigate("ChangePassword")}
+      >
+        <Text
+          style={{
+            color: "#1b1b1b",
+            fontSize: 18,
+            fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+            margin: 10,
+            marginRight: 15,
+            marginLeft: 15,
+            opacity: 0.8,
+          }}
+        >
+          {i18n.t("Change")}
         </Text>
         <Ionicons
           style={{

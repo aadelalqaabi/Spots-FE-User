@@ -14,9 +14,13 @@ import PhoneInput from "react-native-phone-number-input";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import TextInput from "react-native-text-input-interactive";
+import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 export default function Login() {
+  const navigation = useNavigation();
   const colorScheme = useColorScheme();
+  const [secure, setSecure] = useState(true);
   const translations = {
     en: {
       phone: "Phone Number",
@@ -32,8 +36,7 @@ export default function Login() {
   i18n.enableFallback = true;
 
   const [user, setUser] = useState({
-    phone: "",
-    // username: "",
+    username: "",
     password: "",
   });
 
@@ -62,7 +65,7 @@ export default function Login() {
       }}
     >
       <View style={{ display: "flex", width: "100%" }}>
-        <PhoneInput
+        {/* <PhoneInput
           containerStyle={{
             alignSelf: "center",
             width: "100%",
@@ -89,13 +92,13 @@ export default function Login() {
           defaultValue={user.phone}
           defaultCode="KW"
           layout="first"
-          placeholder={i18n.t("phone")}
+          placeholder={i18n.t("Enter username or phone number")}
           onChangeFormattedText={(text) => {
             handleChange("username", text);
           }}
           withDarkTheme
           autoFocus
-        />
+        /> */}
         <TextInput
           textInputStyle={{
             alignSelf: "center",
@@ -106,10 +109,53 @@ export default function Login() {
           label="Password"
           // secureTextEntry={secure}
           onChangeText={(text) => {
+            handleChange("username", text);
+          }}
+          placeholder="username or email"
+          placeholderTextColor={"grey"}
+          keyboardType="web-search"
+        />
+        <TextInput
+          textInputStyle={{
+            alignSelf: "center",
+            width: "103%",
+            marginBottom: 20,
+            padding: 14,
+            fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+            backgroundColor: "white",
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 1,
+            },
+            shadowOpacity: 0.1,
+            shadowRadius: 1.41,
+            elevation: 2,
+          }}
+          label="Password"
+          secureTextEntry={secure}
+          onChangeText={(text) => {
             handleChange("password", text);
           }}
-          placeholder=""
+          placeholder="password"
+          placeholderTextColor={"grey"}
           keyboardType="web-search"
+        />
+         <TouchableOpacity onPress={() => {navigation.navigate("UsernameCheck");}}>
+           <Text style={{color: "#9279f7", marginTop: -16, marginLeft: 10 }}>Forget password?</Text>
+          </TouchableOpacity>
+        <Ionicons
+          style={{
+            zIndex: 99,
+            position: "absolute",
+            margin: 82,
+            fontSize: 25,
+            alignSelf: "flex-end",
+          }}
+          name={secure === true ? "eye" : "eye-off"}
+          size={30}
+          color="#9279f7"
+          onPress={() => setSecure(!secure)}
         />
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text

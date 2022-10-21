@@ -42,6 +42,10 @@ import Settings from "./screens/Settings";
 import EditScreen from "./screens/EditScreen";
 import ProfileSpotDetails from "./screens/spots/ProfileSpotDetails";
 import Profile from "./screens/Profile";
+import ForgotPassword from "./screens/changePass/ForgotPassword"
+import UsernameCheck from "./screens/changePass/UsernameCheck";
+import CheckOTP from "./screens/changePass/CheckOTP";
+import ChangePassword from "./screens/changePass/ChangePassword";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -87,6 +91,9 @@ function App() {
           <Stack.Screen name="Email" component={Email} />
           <Stack.Screen name="Password" component={Password} />
           <Stack.Screen name="MyImage" component={MyImage} />
+          <Stack.Screen name="UsernameCheck" component={UsernameCheck} />
+          <Stack.Screen name="CheckOTP" component={CheckOTP} />
+          <Stack.Screen name="ForgotPassword" component={ForgotPassword} /> 
         </Stack.Navigator>
       </NavigationContainer>
     );
@@ -129,6 +136,9 @@ function App() {
                 <Stack.Screen name="Email" component={Email} />
                 <Stack.Screen name="Password" component={Password} />
                 <Stack.Screen name="MyImage" component={MyImage} />
+                <Stack.Screen name="UsernameCheck" component={UsernameCheck} />
+                <Stack.Screen name="CheckOTP" component={CheckOTP} />
+                <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
               </Stack.Navigator>
             )}
           </MenuProvider>
@@ -237,6 +247,7 @@ function RootNavigator() {
           component={OrganizerProfile}
           options={{ headerShown: false }}
         />
+        <Screen name="ChangePassword" component={ChangePassword} options={{ headerShown: false }}/> 
       </Navigator>
     </>
   ) : (
