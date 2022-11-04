@@ -2,7 +2,6 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
 import authStore from "../../stores/authStore";
 import { observer } from "mobx-react";
-import Toast from "react-native-toast-message";
 import { StatusBar } from "expo-status-bar";
 import {
   View,
@@ -28,7 +27,8 @@ export default function ChangePassword() {
   const colorScheme = useColorScheme();
   const [user, setUser] = useState({
     username: `${authStore.user.username}`,
-    newPassword: ""
+    newPassword: "",
+    currentPassword: ""
   });
 
   const navigation = useNavigation();
@@ -38,21 +38,17 @@ export default function ChangePassword() {
   const [showError, setShowError] = useState(true);
   const [lowerCase, setLowerCase] = useState(true);
   const [upperCase, setUpperCase] = useState(true);
+  const [secureCur, setSecureCur] = useState(true);
   const [securePass, setSecurePass] = useState(true);
   const [secureConfirm, setSecureConfirm] = useState(true);
   const [number, setNumber] = useState(true);
   const [specialCharacter, setSpecialCharacter] = useState(true);
   const [characterLength, setCharacterLength] = useState(true); 
   const [begining, setBegining] = useState(true);
+  const [isCurrent, setIsCurrent] = useState(false);
 
   const handleSubmit = async () => {
-    Toast.show({
-      type: "success",
-      text1: "Password Changed 👍",
-      text2: "try to sign back in 🤷‍♂️",
-    });
-    authStore.logout();
-    await authStore.changeUser(user);
+    await authStore.changeUser(user);    
   };
 
 const translations = {
@@ -94,6 +90,15 @@ const handleChange = (name, value) => {
     setCheckValidation(true);
     setCheckValidationColor("#ea3e29");
     setShowError(true);
+  }
+};
+
+const handleCurrent = (name, value) => {
+  if (name !== '') {
+    setUser({ ...user, [name]: value });
+    setIsCurrent(true)
+  } else {
+    setIsCurrent(false)
   }
 };
 
@@ -239,6 +244,50 @@ const checkEntry = (password) => {
             }}
           >
             <View style={styles.container}>
+            <TextInput
+                textInputStyle={{
+                  alignSelf: "center",
+                  width: "103%",
+                  marginBottom: 20,
+                  padding: 14,
+                  fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                  backgroundColor: "white",
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 1,
+                  },
+                  shadowOpacity: 0.1,
+                  shadowRadius: 1.41,
+                  elevation: 2,
+                }}
+                mainColor={"blue"}
+                label="Password"
+                secureTextEntry={secureCur}
+                onChangeText={(text) => {
+                  handleCurrent("currentPassword", text);
+                }}
+                
+                placeholder="Current Password"
+                placeholderTextColor={"grey"}
+                keyboardType="web-search"
+                onSubmitEditing={() => {
+                  console.log('first')
+                }}
+              />
+              <Ionicons
+                style={{
+                  zIndex: 99,
+                  position: "absolute",
+                  margin: 12,
+                  fontSize: 25,
+                  alignSelf: "flex-end",
+                }}
+                name={secureCur === true ? "eye" : "eye-off"}
+                size={30}
+                color="#9279f7"
+                onPress={() => setSecureCur(!secureCur)}
+              />
               <TextInput
                 textInputStyle={{
                   alignSelf: "center",
@@ -256,6 +305,7 @@ const checkEntry = (password) => {
                   shadowRadius: 1.41,
                   elevation: 2,
                 }}
+                editable={isCurrent}
                 mainColor={checkValidationColor}
                 label="Password"
                 secureTextEntry={securePass}
@@ -274,7 +324,7 @@ const checkEntry = (password) => {
                 style={{
                   zIndex: 99,
                   position: "absolute",
-                  margin: 12,
+                  margin: 82,
                   fontSize: 25,
                   alignSelf: "flex-end",
                 }}
@@ -302,6 +352,7 @@ const checkEntry = (password) => {
                 }}
                 mainColor={checkValidationColor}
                 label="Password"
+                editable={isCurrent}
                 secureTextEntry={secureConfirm}
                 onChangeText={(text) => {
                   handleConfirm(text);
@@ -323,7 +374,7 @@ const checkEntry = (password) => {
                 style={{
                   zIndex: 99,
                   position: "absolute",
-                  margin: 82,
+                  marginTop: 152,
                   fontSize: 25,
                   alignSelf: "flex-end",
                 }}

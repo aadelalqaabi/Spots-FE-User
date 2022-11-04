@@ -7,6 +7,7 @@ import spotStore from "./spotStore";
 import moment from "moment";
 import emailjs from "emailjs-com";
 import { I18n } from "i18n-js";
+import Toast from "react-native-toast-message";
 import * as Localization from "expo-localization";
 
 const translations = {
@@ -32,6 +33,7 @@ class AuthStore {
   user = null;
   OTP = 1;
   useUsernames = "";
+  isChanged = "";
 
   setUser = async (token) => {
     await AsyncStorage.setItem("myToken", JSON.stringify(token));
@@ -67,17 +69,18 @@ class AuthStore {
   };
 
   login = async (userData) => {
-    userData.username = userData.username.toLowerCase();
+    // userData.username = userData.username.toLowerCase();
+    console.log('userData', userData)
     try {
       const response = await instance.post("/user/login", userData);
       this.setUser(response.data.token);
     } catch (error) {
       console.log(error);
-      i18n.locale === "en-US" ? (
-        Alert.alert("Wrong username or password", "", [{ text: "Try Again" }])
-      ) : (
-        Alert.alert("مستخدم او كلمه سر خاطئه", "", [{ text: "حاول مرة اخرى" }])
-      )
+      i18n.locale === "en-US"
+        ? Alert.alert("Wrong username or password", "", [{ text: "Try Again" }])
+        : Alert.alert("مستخدم او كلمه سر خاطئه", "", [
+            { text: "حاول مرة اخرى" },
+          ]);
     }
   };
 
@@ -102,7 +105,22 @@ class AuthStore {
 
   changeUser = async (userChange) => {
     try {
-      await instance.put(`/user/change`, userChange);
+      await instance.put(`/user/change`, userChange).then(response => {
+        if(response?.data?.isChanged === true){
+          Toast.show({
+            type: "success",
+            text1: "Password Changed 👍",
+            text2: "try to sign back in 🤷‍♂️",
+          });
+          // this.logout()
+        }else {
+          i18n.locale === "en-US" ? (
+            Alert.alert("Passwords Don't Match", "", [{ text: "Try Again" }])
+          ) : (
+            Alert.alert("كلمات السر غير متطابقة", "", [{ text: "حاول مرة اخرى" }])
+          )
+        }
+      }); 
     } catch (error) {
       console.log("change", error);
     }
