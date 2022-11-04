@@ -21,7 +21,6 @@ import * as Localization from "expo-localization";
 import { StatusBar } from "react-native";
 
 function MySpots() {
-  ticketStore.fetchTickets();
   const colorScheme = useColorScheme();
   const translations = {
     en: {
@@ -70,7 +69,7 @@ function MySpots() {
   );
   const sortedTickets = ticketsByDate.sort(
     (objA, objB) =>
-      new Date(objA.spot.startDate) - new Date(objB.spot.startDate)
+      new Date(objA.spot?.startDate) - new Date(objB.spot?.startDate)
   );
   const tickets = sortedTickets.filter(
     (ticket) => ticket.user === authStore.user.id

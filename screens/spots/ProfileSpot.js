@@ -38,32 +38,67 @@ function ProfileSpot({ spot }) {
       }}
     >
       <TouchableOpacity
-        style={styles.card}
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignContent: "center",
+          alignSelf: "center",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: 16,
+          shadowColor: "#161616",
+          shadowOffset: {
+            width: 0,
+            height: 3,
+          },
+          shadowOpacity: 0.2,
+          shadowRadius: 5,
+          margin: "5%",
+          marginLeft: 0,
+          marginRight: 0,
+        }}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         onPress={() => {
           navigation.navigate("ProfileSpotDetails", { id: spot._id });
         }}
       >
-        <Image
-          style={styles.thumb}
-          source={{ uri: `${baseURL}${spot?.image}` }}
-        />
-        <View style={styles.overlay}></View>
-
+        <View
+          style={{
+            alignSelf: "center",
+            width: "95%",
+            height: 350,
+            borderRadius: 20,
+            zIndex: -1,
+            opacity: 0.9,
+          }}
+        >
+          <Image
+            style={{
+              alignSelf: "center",
+              width: "95%",
+              height: 330,
+              borderRadius: 20,
+              zIndex: -1,
+              opacity: 1,
+            }}
+            source={{ uri: `${baseURL}${spot?.image}` }}
+          />
+        </View>
         <View style={styles.infoContainer}>
           <Text
             style={{
-              fontSize: 40,
+              fontSize: 30,
               color: "#fffffc",
-              shadowOpacity: 1,
-              shadowRadius: 4,
-              shadowColor: "black",
+              shadowColor: "#1b1b1b",
               shadowOffset: {
-                height: 1,
-                width: 1,
+                width: 0,
+                height: 2,
               },
-              fontFamily: i18n === "en-US" ? "UbuntuBold" : "NotoBold",
+              shadowOpacity: 1,
+              shadowRadius: 2.62,
+              elevation: 4,
+              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
               textAlign: "center",
             }}
           >
@@ -106,7 +141,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 5,
-    margin: 1.5,
+    margin: "5%",
     marginLeft: 0,
     marginRight: 0,
   },

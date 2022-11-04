@@ -76,42 +76,40 @@ function Profile() {
       <View
         style={{
           display: "flex",
-          flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
-          alignContent: "center",
+          width: "100%",
           justifyContent: "center",
-          alignItems: "center",
+          alignContent: "center",
+          marginTop: "2%",
         }}
       >
+        <TouchableOpacity
+          style={{
+            alignSelf: i18n.locale === "en-US" ? "flex-end" : "flex-start",
+            position: "absolute",
+            marginLeft: 20,
+            paddingRight: 20,
+          }}
+          onPress={() => navigation.navigate("Settings")}
+        >
+          <Ionicons
+            style={{
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              fontSize: 30,
+            }}
+            name="settings-outline"
+          ></Ionicons>
+        </TouchableOpacity>
         <Text
           style={{
             fontSize: 30,
-            marginBottom: 15,
-            marginTop: 15,
             fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            alignSelf: "center",
           }}
         >
           {authStore.user.username}
         </Text>
       </View>
-      <TouchableOpacity
-        style={{
-          position: "absolute",
-          alignSelf: i18n.locale === "en-US" ? "flex-end" : "flex-start",
-          marginTop: 65,
-          marginLeft: 25,
-          paddingRight: 25,
-        }}
-        onPress={() => navigation.navigate("Settings")}
-      >
-        <Ionicons
-          style={{
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-            fontSize: 30,
-          }}
-          name="settings-outline"
-        ></Ionicons>
-      </TouchableOpacity>
       <View
         style={{
           display: "flex",

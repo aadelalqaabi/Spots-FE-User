@@ -114,7 +114,7 @@ export default function Email({ navigation, route }) {
             <Text
               style={{
                 fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-                fontSize: 30,
+                fontSize: 27,
                 margin: 20,
                 marginTop: 0,
                 marginBottom: i18n.locale === "en-US" ? 20 : 10,
@@ -184,11 +184,13 @@ export default function Email({ navigation, route }) {
                   onSubmitEditing={() => {
                     checkValidation === false
                       ? navigation.navigate("Password", { itemId: user })
-                      : i18n.locale === "en-US" ? (
-                          Alert.alert("Invalid Email Adress", "", [{ text: "Try Again" },])
-                        ) : (
-                          Alert.alert("البريد الإلكتروني غير صالح", "", [{ text: "حاول مرة اخرى" },])
-                        )
+                      : i18n.locale === "en-US"
+                      ? Alert.alert("Invalid Email Adress", "", [
+                          { text: "Try Again" },
+                        ])
+                      : Alert.alert("البريد الإلكتروني غير صالح", "", [
+                          { text: "حاول مرة اخرى" },
+                        ]);
                   }}
                 />
                 {begining === true ? (
@@ -239,7 +241,13 @@ export default function Email({ navigation, route }) {
                   </>
                 )}
               </View>
-              <View style={{ flex: 1, justifyContent: "flex-end" }}>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "flex-end",
+                  marginBottom: 40,
+                }}
+              >
                 {checkValidation === true ? (
                   <View style={styles.buttonx}>
                     <Button

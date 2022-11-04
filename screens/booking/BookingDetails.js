@@ -77,38 +77,10 @@ export default function BookingDetails({ navigation, route }) {
         backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
       }}
     >
-      <TouchableOpacity
-        onPress={() => {
-          navigation.goBack();
-        }}
-        style={{
-          position: "absolute",
-          fontSize: 35,
-          marginTop: 80,
-          marginLeft: 30,
-          paddingRight: 30,
-          zIndex: 99,
-          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-          alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
-        }}
-      >
-        <Ionicons
-          style={{
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-
-            fontSize: 35,
-          }}
-          name={
-            i18n.locale === "en-US"
-              ? "chevron-back-outline"
-              : "chevron-forward-outline"
-          }
-        ></Ionicons>
-      </TouchableOpacity>
       <ScrollView>
         <View
           style={{
-            width: 360,
+            width: "90%",
             height: 330,
             shadowColor: "#000",
             shadowOffset: {
@@ -122,7 +94,7 @@ export default function BookingDetails({ navigation, route }) {
             alignSelf: "center",
             alignContent: "center",
             borderRadius: 50,
-            marginTop: 150,
+            marginTop: "20%",
             display: "flex",
             flexDirection: "column",
             padding: 40,
@@ -301,7 +273,7 @@ export default function BookingDetails({ navigation, route }) {
             margin: 30,
             marginTop: 25,
             marginBottom: i18n.locale === "en-US" ? 10 : 0,
-            fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+            fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
           }}
@@ -329,7 +301,7 @@ export default function BookingDetails({ navigation, route }) {
           alignSelf: "center",
           borderRadius: 25,
           height: 60,
-          width: 380,
+          width: "90%",
           backgroundColor: "#9279f7",
           shadowColor: "#000",
           shadowOffset: {
@@ -339,7 +311,7 @@ export default function BookingDetails({ navigation, route }) {
           shadowOpacity: 0.29,
           shadowRadius: 4.65,
           elevation: 7,
-          margin: 20,
+          margin: 25,
           justifyContent: "center",
           zIndex: 99,
           flexDirection: "row-reverse",

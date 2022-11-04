@@ -5,10 +5,10 @@
     "slug": "Spots-FE-User",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.jpg",
+    "icon": "./assets/GOTO.png",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/Splash.jpg",
+      "image": "./assets/GotoSplash.png",
       "resizeMode": "contain",
       "backgroundColor": "#9279f7"
     },
@@ -24,7 +24,6 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.jpg",
         "backgroundColor": "#FFFFFF"
       }
     },
@@ -35,7 +34,7 @@
       [
         "expo-notifications",
         {
-          "icon": "./assets/icon.jpg",
+          "icon": "./assets/GOTO.png",
           "color": "#ffffff",
           "sounds": [
             "./local/assets/notification-sound.wav",

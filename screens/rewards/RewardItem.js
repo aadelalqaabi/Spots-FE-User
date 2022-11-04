@@ -146,17 +146,21 @@ function RewardItem({ reward, onRefresh }) {
             >
               <View
                 style={{
+                  display: "flex",
+                  alignItems: "center",
+                  alignContent: "center",
+                  justifyContent: "center",
                   backgroundColor: "white",
                   borderRadius: 40,
-                  height: 360,
-                  width: 400,
+                  height: "68%",
+                  width: "105%",
                   display: "flex",
                 }}
               >
                 <Ionicons
                   style={{
                     color: "#aba9aa",
-                    opacity: 0.8,
+                    opacity: 0.9,
                     fontSize: 35,
                     zIndex: 99,
                     position: "absolute",
@@ -174,8 +178,8 @@ function RewardItem({ reward, onRefresh }) {
                     fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
                     fontSize: 30,
                     alignSelf: "center",
-                    margin: i18n.locale === "en-US" ? 35 : 10,
-                    marginTop: i18n.locale === "en-US" ? 45 : 35,
+                    // margin: i18n.locale === "en-US" ? 35 : 10,
+                    // marginTop: i18n.locale === "en-US" ? 10 : 35,
                   }}
                 >
                   {i18n.locale === "en-US" ? reward.title : reward.titleAr}
@@ -186,6 +190,7 @@ function RewardItem({ reward, onRefresh }) {
                     flexDirection:
                       i18n.locale === "en-US" ? "row" : "row-reverse",
                     alignSelf: "center",
+                    marginTop: -10,
                   }}
                 >
                   <View>
@@ -196,7 +201,7 @@ function RewardItem({ reward, onRefresh }) {
                         alignSelf:
                           i18n.locale === "en-US" ? "flex-start" : "flex-end",
                         margin: 35,
-                        marginTop: 2,
+                        // marginTop: 2,
                         marginBottom: 0,
                       }}
                     >
@@ -226,7 +231,7 @@ function RewardItem({ reward, onRefresh }) {
                         alignSelf:
                           i18n.locale === "en-US" ? "flex-start" : "flex-end",
                         margin: 35,
-                        marginTop: 2,
+                        //marginTop: 2,
                         marginBottom: 0,
                       }}
                     >
@@ -421,11 +426,11 @@ const styles = StyleSheet.create({
     marginTop: 45,
   },
   button: {
-    borderRadius: 8,
+    borderRadius: 15,
     elevation: 3,
     backgroundColor: "#9279f7",
-    width: 225,
-    height: 50,
+    width: "75%",
+    height: 55,
     alignSelf: "center",
     display: "flex",
     alignContent: "center",
@@ -433,11 +438,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   disbutton: {
-    borderRadius: 8,
+    borderRadius: 15,
     elevation: 3,
     backgroundColor: "grey",
-    width: 225,
-    height: 50,
+    width: "75%",
+    height: 55,
     alignSelf: "center",
     display: "flex",
     alignContent: "center",

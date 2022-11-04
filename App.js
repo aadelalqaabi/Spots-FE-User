@@ -42,10 +42,12 @@ import Settings from "./screens/Settings";
 import EditScreen from "./screens/EditScreen";
 import ProfileSpotDetails from "./screens/spots/ProfileSpotDetails";
 import Profile from "./screens/Profile";
-import ForgotPassword from "./screens/changePass/ForgotPassword"
+import ForgotPassword from "./screens/changePass/ForgotPassword";
 import UsernameCheck from "./screens/changePass/UsernameCheck";
 import CheckOTP from "./screens/changePass/CheckOTP";
 import ChangePassword from "./screens/changePass/ChangePassword";
+import EndedSpot from "./screens/spots/EndedSpot";
+import Advertisments from "./Advertisments";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -93,7 +95,7 @@ function App() {
           <Stack.Screen name="MyImage" component={MyImage} />
           <Stack.Screen name="UsernameCheck" component={UsernameCheck} />
           <Stack.Screen name="CheckOTP" component={CheckOTP} />
-          <Stack.Screen name="ForgotPassword" component={ForgotPassword} /> 
+          <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         </Stack.Navigator>
       </NavigationContainer>
     );
@@ -132,13 +134,15 @@ function App() {
                   }}
                 />
                 <Stack.Screen name="PhoneNo" component={PhoneNo} />
-
                 <Stack.Screen name="Email" component={Email} />
                 <Stack.Screen name="Password" component={Password} />
                 <Stack.Screen name="MyImage" component={MyImage} />
                 <Stack.Screen name="UsernameCheck" component={UsernameCheck} />
                 <Stack.Screen name="CheckOTP" component={CheckOTP} />
-                <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+                <Stack.Screen
+                  name="ForgotPassword"
+                  component={ForgotPassword}
+                />
               </Stack.Navigator>
             )}
           </MenuProvider>
@@ -175,7 +179,21 @@ function RootNavigator() {
           },
         }}
       >
-        <Screen name="Explore" component={TabBar} />
+        <Screen
+          name="Advertisments"
+          component={Advertisments}
+          options={{
+            presentation: "modal",
+            gestureEnabled: true,
+            gestureResponseDistance: 135,
+          }}
+        />
+
+        <Screen
+          name="Explore"
+          component={TabBar}
+          options={{ gestureEnabled: false }}
+        />
         <Screen
           name="SpotDetails"
           component={SpotDetails}
@@ -247,7 +265,11 @@ function RootNavigator() {
           component={OrganizerProfile}
           options={{ headerShown: false }}
         />
-        <Screen name="ChangePassword" component={ChangePassword} options={{ headerShown: false }}/> 
+        <Screen
+          name="ChangePassword"
+          component={ChangePassword}
+          options={{ headerShown: false }}
+        />
       </Navigator>
     </>
   ) : (
@@ -260,7 +282,16 @@ function RootNavigator() {
           },
         }}
       >
-        <Screen name="Explore" component={TabBar} />
+        <Screen
+          name="Advertisments"
+          component={Advertisments}
+          options={{ gestureEnabled: true, gestureResponseDistance: 135 }}
+        />
+        <Screen
+          name="Explore"
+          component={TabBar}
+          options={{ gestureEnabled: false }}
+        />
         <Screen
           name="SpotDetails"
           component={SpotDetails}
@@ -271,7 +302,6 @@ function RootNavigator() {
             gestureDirection: "horizontal-inverted",
           }}
         />
-
         <Group
           screenOptions={{
             presentation: "modal",
@@ -323,6 +353,14 @@ function RootNavigator() {
         <Screen
           name="Info"
           component={Info}
+          options={{
+            gestureDirection: "horizontal-inverted",
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          }}
+        />
+        <Screen
+          name="EndedSpot"
+          component={EndedSpot}
           options={{
             gestureDirection: "horizontal-inverted",
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
@@ -404,7 +442,7 @@ function TabBar() {
       initialRouteName="Home"
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+          backgroundColor: "transparent",
           marginBottom: 10,
           marginLeft: 5,
           marginRight: 5,

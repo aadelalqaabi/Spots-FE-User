@@ -158,7 +158,6 @@ export default function MyImage({ navigation, route }) {
             margin: 20,
             marginTop: 0,
             marginBottom: i18n.locale === "en-US" ? 20 : 10,
-
             width: "100%",
             textAlign: "center",
             color: "#64666b",
@@ -171,7 +170,7 @@ export default function MyImage({ navigation, route }) {
         </Text>
         <View
           style={{
-            marginTop: "40%",
+            marginTop: "30%",
           }}
         >
           {image === null ? (
@@ -182,6 +181,7 @@ export default function MyImage({ navigation, route }) {
                 alignContent: "center",
                 alignItems: "center",
                 flexDirection: "column",
+                marginBottom: "-30%",
               }}
             >
               <Ionicons
@@ -211,7 +211,7 @@ export default function MyImage({ navigation, route }) {
                 alignSelf: "center",
                 width: 240,
                 height: 240,
-                marginTop: -10,
+                marginTop: -20,
                 borderRadius: 150,
               }}
             />
@@ -244,7 +244,18 @@ export default function MyImage({ navigation, route }) {
               />
             </View>
           ) : (
-            <View style={styles.button}>
+            <View
+              style={{
+                paddingVertical: 12,
+                paddingHorizontal: 32,
+                borderRadius: 15,
+                elevation: 3,
+                backgroundColor: "#9279f7",
+                alignSelf: "center",
+                width: "100%",
+                marginBottom: 45,
+              }}
+            >
               <Button
                 title={i18n.t("done")}
                 color="white"

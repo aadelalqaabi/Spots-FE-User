@@ -105,7 +105,7 @@ function ProfileSpotDetails({ route }) {
 
   const handleSubmit = () => {
     reviewStore.createReview(reviewText, numOfSrtars, spot?._id);
-
+    toggleModal();
     Toast.show({
       type: "success",
       text1: "Review Added 👍",
@@ -144,8 +144,7 @@ function ProfileSpotDetails({ route }) {
             flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
             alignContent: "center",
             alignItems: "center",
-            justifyContent: "space-between",
-            // marginTop: 50,
+            justifyContent: "space-evenly",
           }}
         >
           <TouchableOpacity
@@ -479,13 +478,15 @@ function ProfileSpotDetails({ route }) {
               <View
                 style={{
                   backgroundColor: "white",
-                  borderRadius: 40,
-                  height: 450,
-                  width: 400,
                   display: "flex",
                   alignItems: "center",
                   alignContent: "center",
                   justifyContent: "center",
+                  backgroundColor: "white",
+                  borderRadius: 40,
+                  height: "68%",
+                  width: "105%",
+                  display: "flex",
                 }}
               >
                 <Text
@@ -494,7 +495,7 @@ function ProfileSpotDetails({ route }) {
                     margin: 30,
                     marginBottom: i18n.locale === "en-US" ? 10 : -10,
                     marginTop: 0,
-                    fontSize: 30,
+                    fontSize: 28,
                     fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
                   }}
                 >
@@ -513,14 +514,13 @@ function ProfileSpotDetails({ route }) {
                   <Ionicons
                     style={{
                       color: "#aba9aa",
-                      opacity: 0.8,
+                      opacity: 0.9,
                       fontSize: 35,
                     }}
                     name="close-outline"
                   ></Ionicons>
                 </TouchableOpacity>
                 <Rating
-                  showRating
                   startingValue={1}
                   selectedColor="#9279f7"
                   reviewColor="#9279f7"
@@ -536,7 +536,7 @@ function ProfileSpotDetails({ route }) {
                     fontSize: 20,
                     marginLeft: 28,
                     marginRight: 28,
-                    margin: -10,
+                    margin: -16,
                     alignSelf:
                       i18n.locale === "en-US" ? "flex-start" : "flex-end",
                   }}
@@ -545,8 +545,8 @@ function ProfileSpotDetails({ route }) {
                 </Text>
                 <TextInput
                   textInputStyle={{
-                    height: 100,
-                    width: 350,
+                    height: 90,
+                    width: "86%",
                     margin: 20,
                     paddingTop: 15,
                   }}
@@ -562,11 +562,11 @@ function ProfileSpotDetails({ route }) {
                 />
                 <TouchableOpacity
                   style={{
-                    borderRadius: 8,
+                    borderRadius: 15,
                     elevation: 3,
                     backgroundColor: "#9279f7",
-                    width: 125,
-                    height: 40,
+                    width: "86%",
+                    height: 50,
                     alignSelf:
                       i18n.locale === "en-US" ? "flex-end" : "flex-start",
                     marginRight: 25,

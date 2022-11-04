@@ -7,23 +7,24 @@ import React from "react";
 function ReviewItem({ review }) {
   let date = moment(review?.date).format("LL");
   const colorScheme = useColorScheme();
+  const reviewImage = review?.user?.image;
   return (
     <View>
       <View
         style={{
-          borderWidth: 1,
-          borderColor: colorScheme === "light" ? "#1b1b1b" : "#9279f7",
-          borderRadius: 20,
-          backgroundColor: colorScheme === "light" ? "#1b1b1b" : "#333333",
-          width: "96%",
+          width: "95%",
           paddingTop: 5,
-          alignSelf: "center"
+          alignSelf: "center",
         }}
       >
         <View style={styles.card}>
           <Image
             style={styles.reviewImage}
-            source={{ uri: `${baseURL}${review?.user?.image}` }}
+            source={
+              reviewImage !== ""
+                ? { uri: baseURL + reviewImage }
+                : require("../../assets/PP.jpeg")
+            }
           />
           <View
             style={{
@@ -38,18 +39,18 @@ function ReviewItem({ review }) {
               style={{
                 fontSize: 16,
                 margin: 0,
-                marginBottom: 4,
-                color: colorScheme === "light" ? "#1b1b1b" : "white",
+                //marginBottom: 4,
+                color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
               }}
             >
               {review?.user?.username}
             </Text>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 14,
                 margin: 0,
                 marginBottom: 4,
-                color: colorScheme === "light" ? "#1b1b1b" : "white",
+                color: "grey",
               }}
             >
               {date}
@@ -61,17 +62,16 @@ function ReviewItem({ review }) {
           <Text
             style={{
               fontSize: 20,
-              color: "black",
               alignSelf: "flex-start",
               margin: 10,
-              color: colorScheme === "light" ? "#1b1b1b" : "white",
+              color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
             }}
           >
             {review?.description}
           </Text>
         </View>
       </View>
-      <View style={{marginBottom: 20}}></View>
+      <View style={{ marginBottom: 20 }}></View>
     </View>
   );
 }
@@ -99,10 +99,11 @@ const styles = StyleSheet.create({
   },
   card: {
     display: "flex",
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "flex-start",
     flexDirection: "row",
     textAlign: "center",
+    alignContent: "center",
   },
   description: {
     fontSize: 20,
