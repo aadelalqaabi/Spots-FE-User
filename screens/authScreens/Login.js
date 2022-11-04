@@ -104,14 +104,29 @@ export default function Login() {
             alignSelf: "center",
             width: "103%",
             marginBottom: 20,
+            padding: 25,
+            fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+            textAlign: i18n.locale === "en-US" ? "left" : "right",
+            backgroundColor: "white",
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 1,
+            },
+            shadowOpacity: 0.1,
+            shadowRadius: 1.41,
+            elevation: 2,
           }}
-          mainColor={"blue"}
-          label="Password"
+          label="Username"
           // secureTextEntry={secure}
           onChangeText={(text) => {
             handleChange("username", text);
           }}
-          placeholder="username or email"
+          placeholder={
+            i18n.locale === "en-US"
+              ? "Username or Email"
+              : "اسم المستخدم او الايميل"
+          }
           placeholderTextColor={"grey"}
           keyboardType="web-search"
         />
@@ -119,9 +134,10 @@ export default function Login() {
           textInputStyle={{
             alignSelf: "center",
             width: "103%",
-            marginBottom: 20,
-            padding: 14,
+            marginBottom: 30,
+            padding: 25,
             fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+            textAlign: i18n.locale === "en-US" ? "left" : "right",
             backgroundColor: "white",
             shadowColor: "#000",
             shadowOffset: {
@@ -137,30 +153,59 @@ export default function Login() {
           onChangeText={(text) => {
             handleChange("password", text);
           }}
-          placeholder="password"
+          placeholder={i18n.locale === "en-US" ? "Password" : "كلمة السر"}
           placeholderTextColor={"grey"}
           keyboardType="web-search"
         />
-         <TouchableOpacity onPress={() => {navigation.navigate("UsernameCheck");}}>
-           <Text style={{color: "#9279f7", marginTop: -16, marginLeft: 10 }}>Forget password?</Text>
-          </TouchableOpacity>
-        <Ionicons
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("UsernameCheck");
+          }}
+        >
+          <Text
+            style={{
+              color: "#9279f7",
+              marginTop: -16,
+              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+            }}
+          >
+            {i18n.locale === "en-US" ? " Forget password?" : "نسيت كلمة السر؟"}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
           style={{
             zIndex: 99,
             position: "absolute",
-            margin: 82,
-            fontSize: 25,
-            alignSelf: "flex-end",
+            margin: 85,
+            marginLeft: i18n.locale === "en-US" ? 82 : 20,
+
+            alignSelf: i18n.locale === "en-US" ? "flex-end" : "flex-start",
           }}
-          name={secure === true ? "eye" : "eye-off"}
-          size={30}
-          color="#9279f7"
           onPress={() => setSecure(!secure)}
-        />
-        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+        >
+          <Ionicons
+            style={{
+              fontSize: 25,
+            }}
+            name={secure === true ? "eye" : "eye-off"}
+            size={30}
+            color="#9279f7"
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            paddingVertical: 8,
+            borderRadius: 10,
+            elevation: 3,
+            backgroundColor: "#9279f7",
+            marginTop: 20,
+            width: "103%",
+          }}
+          onPress={handleSubmit}
+        >
           <Text
             style={{
-              paddingVertical: i18n.locale === "en-US" ? 10 : 4,
+              paddingVertical: i18n.locale === "en-US" ? 10 : 5,
               borderRadius: 15,
               elevation: 3,
               color: "#f1f1f1",

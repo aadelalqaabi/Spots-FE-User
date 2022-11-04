@@ -1,7 +1,6 @@
 import {
   TouchableOpacity,
   View,
-  Image,
   Text,
   KeyboardAvoidingView,
   StyleSheet,
@@ -66,17 +65,7 @@ export default function AuthButtons({ navigation }) {
             }}
           >
             <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
-            <Image
-              style={{
-                width: 55,
-                height: 75,
-                alignSelf: "center",
-                resizeMode: "contain",
-                marginTop: -150,
-                marginBottom: 50,
-              }}
-              source={require("../../assets/iconSign.png")}
-            />
+
             <Text
               style={{
                 fontSize: i18n.locale === "en-US" ? 45 : 38,

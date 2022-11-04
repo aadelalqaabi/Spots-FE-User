@@ -4,6 +4,8 @@ import { BarCodeScanner } from "expo-barcode-scanner";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import pointStore from "../stores/pointStore";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
 
 export default function Scanner({ route }) {
   const spot = route.params.spot;
@@ -11,6 +13,17 @@ export default function Scanner({ route }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const navigation = useNavigation();
+  const translations = {
+    en: {
+      explore: "Explore",
+    },
+    ar: {
+      explore: "اكتشف",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -40,8 +53,20 @@ export default function Scanner({ route }) {
         onPress={() => {
           navigation.goBack();
         }}
-        style={styles.back}
-        name="chevron-back-outline"
+        style={{
+          color: "white",
+          zIndex: 99,
+          marginTop: 70,
+          marginLeft: 25,
+          marginRight: 25,
+          fontSize: 35,
+          alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+        }}
+        name={
+          i18n.locale === "en-US"
+            ? "chevron-back-outline"
+            : "chevron-forward-outline"
+        }
       ></Ionicons>
 
       <BarCodeScanner

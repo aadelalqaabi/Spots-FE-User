@@ -5,6 +5,7 @@ import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
+import { useNavigation } from "@react-navigation/native";
 
 function FinishedSpot({ spot }) {
   let [fontsLoaded] = useFonts({
@@ -25,6 +26,7 @@ function FinishedSpot({ spot }) {
       suggested: "وجهة مقترحة",
     },
   };
+  const navigation = useNavigation();
   const i18n = new I18n(translations);
   i18n.locale = Localization.locale;
   i18n.enableFallback = true;
@@ -34,10 +36,11 @@ function FinishedSpot({ spot }) {
         backgroundColor: "transparent",
       }}
     >
-      <View
+      <TouchableOpacity
         style={styles.card}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
+        onPress={() => navigation.navigate("EndedSpot", { spot: spot })}
       >
         <Image
           style={styles.thumb}
@@ -63,7 +66,7 @@ function FinishedSpot({ spot }) {
             {i18n.locale === "en-US" ? spot.name : spot.nameAr}
           </Text>
         </View>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }

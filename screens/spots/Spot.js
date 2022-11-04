@@ -38,13 +38,22 @@ function Spot({ spot, navigation }) {
     return <AppLoading />;
   }
   const organizer = organizerStore.getOrganizerById(spot.organizer);
-  let monthEn = moment(spot.startDate).locale("en").format("MMM");
-  let dayEn = moment(spot.startDate).locale("en").format("DD");
-  let monthAr = moment(spot.startDate).locale("ar").format("MMM");
-  let dayAr = moment(spot.startDate).locale("ar").format("DD");
+  let monthEn = moment(spot?.startDate).locale("en").format("MMM");
+  let dayEn = moment(spot?.startDate).locale("en").format("DD");
+  let monthAr = moment(spot?.startDate).locale("ar").format("MMM");
+  let dayAr = moment(spot?.startDate).locale("ar").format("DD");
   return (
     <TouchableOpacity
-      style={styles.card}
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        alignSelf: "center",
+        marginBottom: "7%",
+        height: "94%",
+        width: "100%",
+        borderRadius: 20,
+        zIndex: -1,
+      }}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
       activeOpacity={0.95}
@@ -54,12 +63,39 @@ function Spot({ spot, navigation }) {
     >
       <>
         <Image
-          style={styles.thumb}
+          style={{
+            alignSelf: "center",
+            width: "100%",
+            height: "100%",
+            borderRadius: 20,
+            zIndex: -1,
+          }}
           source={{ uri: `${baseURL}${spot?.image}` }}
         />
-        <View style={styles.ownerview}>
+        <View
+          style={{
+            display: "flex",
+            position: "absolute",
+            alignSelf: "flex-start",
+            flexDirection: "row",
+            alignContent: "center",
+            flexWrap: "wrap",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+            marginTop: "10%",
+          }}
+        >
           <TouchableOpacity
-            style={styles.ownerContainer}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "nowrap",
+              textAlign: "center",
+              width: 220,
+              alignContent: "center",
+              alignSelf: "center",
+            }}
             onPress={() => {
               navigation.navigate("Organizer", {
                 organizer: organizer,
@@ -178,7 +214,7 @@ function Spot({ spot, navigation }) {
               fontWeight: "bold",
               color: "white",
               fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-              marginBottom: i18n.locale === "en-US" ? 0 : -20,
+              marginBottom: i18n.locale === "en-US" ? 0 : -15,
               paddingBottom: 10,
               alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
               shadowOpacity: 0.5,
@@ -309,7 +345,7 @@ const styles = StyleSheet.create({
   infoContainer: {
     display: "flex",
     position: "absolute",
-    width: 374,
+    width: "100%",
     flexDirection: "column",
     flexWrap: "nowrap",
     borderBottomRightRadius: 30,

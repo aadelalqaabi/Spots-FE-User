@@ -24,7 +24,7 @@ export default function SpotttedDetails({ navigation, route }) {
   const colorScheme = useColorScheme();
   const translations = {
     en: {
-      details: "Spot Details",
+      details: "Booking Details",
       date: "Date",
       time: "Time",
       entry: "Entry",
@@ -32,7 +32,7 @@ export default function SpotttedDetails({ navigation, route }) {
       scan: "Scan QR",
     },
     ar: {
-      details: "تفاصيل النقطة",
+      details: "تفاصيل الحجز",
       date: "التاريخ",
       time: "الوقت",
       entry: "الدخول",
@@ -56,15 +56,14 @@ export default function SpotttedDetails({ navigation, route }) {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
-  let dateEn = moment(spot.startDate).locale("en").format("DD MMM");
-  let dateAr = moment(spot.startDate).locale("ar").format("MMM DD");
+  let dateEn = moment(spot?.startDate).locale("en").format("DD MMM");
+  let dateAr = moment(spot?.startDate).locale("ar").format("MMM DD");
   return (
     <View
       style={{
         width: "100%",
         height: "100%",
         backgroundColor: "#9279f7",
-
         flex: 1,
       }}
     >
@@ -82,13 +81,13 @@ export default function SpotttedDetails({ navigation, route }) {
         style={{
           fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
           alignSelf: "center",
-          letterSpacing: 2,
-          fontSize: 32,
+          letterSpacing: 1,
+          fontSize: 30,
           zIndex: 99,
           color: "#f1f1f1",
           alignSelf: "center",
-          marginBottom: i18n.locale === "en-US" ? 20 : 5,
-          marginTop: i18n.locale === "en-US" ? 5 : -15,
+          marginBottom: i18n.locale === "en-US" ? 15 : 0,
+          marginTop: i18n.locale === "en-US" ? -5 : -10,
         }}
       >
         {i18n.t("details")}
@@ -103,7 +102,7 @@ export default function SpotttedDetails({ navigation, route }) {
           shadowOpacity: 0.23,
           shadowRadius: 2.62,
           elevation: 4,
-          backgroundColor: "#f1f1f1",
+          backgroundColor: colorScheme === "light" ? "#f1f1f1" : "#1b1b1b",
           borderRadius: "50%",
           margin: 15,
           marginTop: 0,
@@ -136,7 +135,7 @@ export default function SpotttedDetails({ navigation, route }) {
           <Image
             style={{
               width: "100%",
-              height: "50%",
+              height: "56%",
               borderTopRightRadius: "50%",
               borderTopLeftRadius: "50%",
               alignItems: "center",
@@ -163,13 +162,21 @@ export default function SpotttedDetails({ navigation, route }) {
             style={{
               color: "white",
               position: "absolute",
-              fontSize: 33,
+              fontSize: 28,
               marginLeft: 30,
               paddingRight: 30,
               textAlign: i18n.locale === "en-US" ? "left" : "right",
               fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
               alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
-              marginTop: i18n.locale === "en-US" ? 300 : 290,
+              marginTop: i18n.locale === "en-US" ? "89%" : "86%",
+              shadowColor: "#1b1b1b",
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 1,
+              shadowRadius: 2.62,
+              elevation: 4,
             }}
           >
             {i18n.locale === "en-US" ? spot.name : spot.nameAr}
@@ -179,52 +186,23 @@ export default function SpotttedDetails({ navigation, route }) {
           style={{
             display: "flex",
             flexDirection: "column",
-            alignContent: "flex-end",
-            justifyContent: "flex-end",
-            height: "95%",
-            margin: 20,
-            marginTop: 10,
-            marginBottom: 0,
+            alignContent: "center",
+            justifyContent: "center",
+            alignSelf: "center",
+            position: "absolute",
+            // backgroundColor: "red",
+            margin: "7%",
+            marginTop: "113%",
           }}
         >
-          <View
-            style={{
-              display: "flex",
-              flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
-              flexWrap: "wrap",
-              alignItems: "center",
-            }}
-          >
-            <Image
-              style={{
-                width: 60,
-                height: 60,
-                borderRadius: "50%",
-                zIndex: -1,
-                marginRight: 10,
-                marginLeft: 10,
-                resizeMode: "contain",
-              }}
-              source={{ uri: `${baseURL}${organizer.image}` }}
-            />
-            <Text
-              style={{
-                color: "#423a38",
-                fontSize: 22,
-                fontFamily: "UbuntuBold",
-                textTransform: "capitalize",
-              }}
-            >
-              {organizer.username}
-            </Text>
-          </View>
           <View
             style={{
               display: "flex",
               flexDirection: "row",
               alignContent: "center",
               alignSelf: "center",
-              marginTop: 10,
+              alignItems: "center",
+              marginBottom: 10,
             }}
           >
             <View
@@ -232,7 +210,9 @@ export default function SpotttedDetails({ navigation, route }) {
                 display: "flex",
                 flexDirection: "column",
                 alignContent: "center",
+                alignSelf: "center",
                 margin: 10,
+                marginTop: 0,
                 borderRightWidth: 1.5,
                 borderColor: "#e0e3e7",
                 paddingRight: 20,
@@ -244,10 +224,11 @@ export default function SpotttedDetails({ navigation, route }) {
                   marginTop: i18n.locale === "en-US" ? 10 : -5,
                   marginBottom: i18n.locale === "en-US" ? 10 : -5,
                   fontSize: 20,
-                  color: "#b1b1b1",
+                  color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
                   marginLeft: 0,
                   marginRight: 0,
                   alignSelf: "center",
+                  opacity: 0.5,
                 }}
               >
                 {i18n.t("date")}
@@ -258,8 +239,8 @@ export default function SpotttedDetails({ navigation, route }) {
                     i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
                   marginTop: i18n.locale === "en-US" ? 0 : -10,
                   marginBottom: i18n.locale === "en-US" ? 0 : -10,
-                  fontSize: 25,
-                  color: "#423a38",
+                  fontSize: 22,
+                  color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
                   alignSelf: "center",
                 }}
               >
@@ -272,9 +253,11 @@ export default function SpotttedDetails({ navigation, route }) {
                 flexDirection: "column",
                 alignContent: "center",
                 margin: 10,
+                marginTop: 0,
                 paddingRight: 20,
                 borderRightWidth: 1.5,
                 borderColor: "#e0e3e7",
+                alignSelf: "center",
               }}
             >
               <Text
@@ -283,10 +266,11 @@ export default function SpotttedDetails({ navigation, route }) {
                   marginTop: i18n.locale === "en-US" ? 10 : -5,
                   marginBottom: i18n.locale === "en-US" ? 10 : -5,
                   fontSize: 20,
-                  color: "#b1b1b1",
+                  color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
                   marginLeft: 0,
                   marginRight: 0,
                   alignSelf: "center",
+                  opacity: 0.5,
                 }}
               >
                 {i18n.t("time")}
@@ -299,8 +283,8 @@ export default function SpotttedDetails({ navigation, route }) {
                     i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
                   marginTop: i18n.locale === "en-US" ? 0 : -10,
                   marginBottom: i18n.locale === "en-US" ? 0 : -10,
-                  fontSize: 25,
-                  color: "#423a38",
+                  fontSize: 22,
+                  color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
                 }}
               >
                 {spot.startTime}
@@ -312,6 +296,8 @@ export default function SpotttedDetails({ navigation, route }) {
                 flexDirection: "column",
                 alignContent: "center",
                 margin: 10,
+                marginTop: 0,
+                alignSelf: "center",
               }}
             >
               <Text
@@ -323,8 +309,9 @@ export default function SpotttedDetails({ navigation, route }) {
                   margin: 10,
                   marginLeft: 0,
                   marginRight: 0,
-                  color: "#b1b1b1",
+                  color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
                   alignSelf: "center",
+                  opacity: 0.5,
                 }}
               >
                 {i18n.t("entry")}
@@ -337,8 +324,8 @@ export default function SpotttedDetails({ navigation, route }) {
                     i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
                   marginTop: i18n.locale === "en-US" ? 0 : -10,
                   marginBottom: i18n.locale === "en-US" ? 0 : -10,
-                  fontSize: 25,
-                  color: "#423a38",
+                  fontSize: 22,
+                  color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
                 }}
               >
                 {ticket.isFree === false ? (
@@ -349,8 +336,8 @@ export default function SpotttedDetails({ navigation, route }) {
                           i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
                         marginTop: i18n.locale === "en-US" ? 0 : -10,
                         marginBottom: i18n.locale === "en-US" ? 0 : -10,
-                        fontSize: 25,
-                        color: "#423a38",
+                        fontSize: 22,
+                        color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
                         alignSelf:
                           i18n.locale === "en-US" ? "flex-start" : "flex-end",
                       }}
@@ -368,8 +355,8 @@ export default function SpotttedDetails({ navigation, route }) {
                           i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
                         marginTop: i18n.locale === "en-US" ? 0 : -10,
                         marginBottom: i18n.locale === "en-US" ? 0 : -10,
-                        fontSize: 25,
-                        color: "#423a38",
+                        fontSize: 22,
+                        color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
                         alignSelf:
                           i18n.locale === "en-US" ? "flex-start" : "flex-end",
                       }}
@@ -381,98 +368,107 @@ export default function SpotttedDetails({ navigation, route }) {
               </Text>
             </View>
           </View>
-          <TouchableOpacity
+          <View
             style={{
-              backgroundColor: "white",
-              width: 180,
-              height: 55,
-              margin: 50,
-              marginBottom: 0,
-              marginTop: 15,
-              borderRadius: "50%",
-              alignSelf: "center",
-              display: "flex",
-              alignContent: "center",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowOpacity: 0.23,
-              shadowRadius: 2.62,
-              elevation: 4,
+              alignSelf: "flex-end",
+              width: "100%",
             }}
-            onPress={() => Linking.openURL(spot.location)}
           >
-            <Ionicons
+            <TouchableOpacity
               style={{
-                fontSize: 28,
-                zIndex: 99,
-                color: "#9279f7",
+                backgroundColor: "white",
+                width: "70%",
+                height: 55,
+                margin: 50,
+                marginBottom: 0,
+                marginTop: 15,
+                borderRadius: "50%",
+                alignSelf: "center",
+                display: "flex",
+                alignContent: "center",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.23,
+                shadowRadius: 2.62,
+                elevation: 4,
               }}
-              name="location-outline"
-            ></Ionicons>
-            <Text
-              style={{
-                color: "#9279f7",
-                fontSize: 18,
-                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-                marginLeft: 10,
-                marginRight: 10,
-              }}
+              onPress={() => Linking.openURL(spot.location)}
             >
-              {i18n.t("location")}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              width: "102%",
-              height: 70,
-              borderRadius: "50%",
-              backgroundColor: "#9279f7",
-              margin: 50,
-              marginBottom: -10,
-              marginTop: 20,
-              alignSelf: "center",
-              display: "flex",
-              alignContent: "center",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowOpacity: 0.23,
-              shadowRadius: 2.62,
-              elevation: 4,
-            }}
-            onPress={() =>
-              navigation.navigate("SpottedScanner", { spot: spot })
-            }
-          >
-            <Ionicons
+              <Ionicons
+                style={{
+                  fontSize: 28,
+                  zIndex: 99,
+                  color: "#9279f7",
+                }}
+                name="location-outline"
+              ></Ionicons>
+              <Text
+                style={{
+                  color: "#9279f7",
+                  fontSize: 18,
+                  fontFamily:
+                    i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                  marginLeft: 10,
+                  marginRight: 10,
+                }}
+              >
+                {i18n.t("location")}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
               style={{
-                fontSize: 30,
-                zIndex: 99,
-                color: "#f1f1f1",
+                width: "102%",
+                height: 80,
+                borderRadius: "50%",
+                backgroundColor: "#9279f7",
+                margin: 50,
+                marginBottom: -30,
+                marginTop: "5%",
+                alignSelf: "center",
+                display: "flex",
+                alignContent: "center",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 0.23,
+                shadowRadius: 2.62,
+                elevation: 4,
               }}
-              name="scan"
-            ></Ionicons>
-            <Text
-              style={{
-                color: "#f1f1f1",
-                fontSize: 22,
-                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-                marginLeft: 10,
-                marginRight: 10,
-              }}
+              onPress={() =>
+                navigation.navigate("SpottedScanner", { spot: spot })
+              }
             >
-              {i18n.t("scan")}
-            </Text>
-          </TouchableOpacity>
+              <Ionicons
+                style={{
+                  fontSize: 30,
+                  zIndex: 99,
+                  color: "#f1f1f1",
+                }}
+                name="scan"
+              ></Ionicons>
+              <Text
+                style={{
+                  color: "#f1f1f1",
+                  fontSize: 22,
+                  fontFamily:
+                    i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                  marginLeft: 10,
+                  marginRight: 10,
+                }}
+              >
+                {i18n.t("scan")}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </View>

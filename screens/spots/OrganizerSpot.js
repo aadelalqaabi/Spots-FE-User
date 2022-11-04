@@ -1,10 +1,11 @@
 import { observer } from "mobx-react";
-import { Text, Image, View, StyleSheet } from "react-native";
+import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
 import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
+import { useNavigation } from "@react-navigation/native";
 
 function OrganizerSpot({ spot }) {
   let [fontsLoaded] = useFonts({
@@ -16,6 +17,8 @@ function OrganizerSpot({ spot }) {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
+  const navigation = useNavigation();
+
   const translations = {
     en: {
       suggested: "Suggested Spot",
@@ -30,20 +33,47 @@ function OrganizerSpot({ spot }) {
   i18n.enableFallback = true;
   return (
     <View style={{ backgroundColor: "transparent" }}>
-      <View
-        style={styles.card}
+      <TouchableOpacity
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignContent: "center",
+          alignSelf: "center",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: 16,
+          shadowColor: "#161616",
+          shadowOffset: {
+            width: 0,
+            height: 3,
+          },
+          shadowOpacity: 0.2,
+          shadowRadius: 5,
+          margin: 1.5,
+          marginLeft: 0,
+          marginRight: 0,
+        }}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
+        onPress={() => navigation.navigate("EndedSpot", { spot: spot })}
       >
         <Image
-          style={styles.thumb}
+          style={{
+            alignSelf: "center",
+            width: "90%",
+            height: 200,
+            borderRadius: 20,
+            margin: 10,
+            zIndex: -1,
+            opacity: 0.9,
+          }}
           source={{ uri: `${baseURL}${spot.image}` }}
         />
         <View style={styles.overlay}></View>
         <View style={styles.infoContainer}>
           <Text
             style={{
-              fontSize: 35,
+              fontSize: 30,
               color: "#fffffc",
               shadowOpacity: 1,
               shadowRadius: 4,
@@ -52,14 +82,14 @@ function OrganizerSpot({ spot }) {
                 height: 1,
                 width: 1,
               },
-              fontFamily: i18n === "en-US" ? "UbuntuBold" : "NotoBold",
+              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
               textAlign: "center",
             }}
           >
             {i18n.locale === "en-US" ? spot.name : spot.nameAr}
           </Text>
         </View>
-      </View>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -94,8 +124,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     alignItems: "center",
-    width: 384,
-    height: 300,
+    width: "90%",
+    height: 200,
     backgroundColor: "rgba(0, 0, 0, 0.3)",
     borderRadius: 20,
   },

@@ -155,7 +155,7 @@ export default function Password({ navigation, route }) {
           <View
             style={{
               justifyContent: "center",
-              marginTop: 130,
+              marginTop: 80,
               width: "70%",
               alignSelf: "center",
               alignItems: "center",
@@ -164,7 +164,7 @@ export default function Password({ navigation, route }) {
             <Text
               style={{
                 fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-                fontSize: 30,
+                fontSize: 27,
                 margin: 20,
                 marginTop: 0,
                 marginBottom: i18n.locale === "en-US" ? 20 : 10,
@@ -208,7 +208,7 @@ export default function Password({ navigation, route }) {
                   textInputStyle={{
                     alignSelf: "center",
                     width: "103%",
-                    marginBottom: 20,
+                    marginBottom: 10,
                     padding: 14,
                     fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
                     backgroundColor: "white",
@@ -232,11 +232,13 @@ export default function Password({ navigation, route }) {
                   onSubmitEditing={() => {
                     checkValidation === false
                       ? navigation.navigate("MyImage", { itemId: user })
-                      : i18n.locale === "en-US" ? (
-                          Alert.alert("Invalid Password", "", [{ text: "Try Again" },])
-                        ) : (
-                          Alert.alert("كلمة سر غير صالحة", "", [{ text: "حاول مرة اخرى" },])
-                        )
+                      : i18n.locale === "en-US"
+                      ? Alert.alert("Invalid Password", "", [
+                          { text: "Try Again" },
+                        ])
+                      : Alert.alert("كلمة سر غير صالحة", "", [
+                          { text: "حاول مرة اخرى" },
+                        ]);
                   }}
                 />
                 <Ionicons
@@ -257,7 +259,7 @@ export default function Password({ navigation, route }) {
                     style={{
                       flexDirection:
                         i18n.locale === "en-US" ? "row" : "row-reverse",
-                      paddingBottom: 15,
+                      paddingBottom: 5,
                     }}
                   >
                     <Ionicons name="close-circle" size={22} color="#ea3e29" />
@@ -280,7 +282,7 @@ export default function Password({ navigation, route }) {
                     style={{
                       flexDirection:
                         i18n.locale === "en-US" ? "row" : "row-reverse",
-                      paddingBottom: 15,
+                      paddingBottom: 5,
                     }}
                   >
                     <Ionicons
@@ -309,7 +311,7 @@ export default function Password({ navigation, route }) {
                     style={{
                       flexDirection:
                         i18n.locale === "en-US" ? "row" : "row-reverse",
-                      paddingBottom: 15,
+                      paddingBottom: 5,
                     }}
                   >
                     <Ionicons name="close-circle" size={22} color="#ea3e29" />
@@ -332,7 +334,7 @@ export default function Password({ navigation, route }) {
                     style={{
                       flexDirection:
                         i18n.locale === "en-US" ? "row" : "row-reverse",
-                      paddingBottom: 15,
+                      paddingBottom: 5,
                     }}
                   >
                     <Ionicons
@@ -361,7 +363,7 @@ export default function Password({ navigation, route }) {
                     style={{
                       flexDirection:
                         i18n.locale === "en-US" ? "row" : "row-reverse",
-                      paddingBottom: 15,
+                      paddingBottom: 5,
                     }}
                   >
                     <Ionicons name="close-circle" size={22} color="#ea3e29" />
@@ -384,7 +386,7 @@ export default function Password({ navigation, route }) {
                     style={{
                       flexDirection:
                         i18n.locale === "en-US" ? "row" : "row-reverse",
-                      paddingBottom: 15,
+                      paddingBottom: 5,
                     }}
                   >
                     <Ionicons
@@ -413,7 +415,7 @@ export default function Password({ navigation, route }) {
                     style={{
                       flexDirection:
                         i18n.locale === "en-US" ? "row" : "row-reverse",
-                      paddingBottom: 15,
+                      paddingBottom: 5,
                     }}
                   >
                     <Ionicons name="close-circle" size={22} color="#ea3e29" />
@@ -436,7 +438,7 @@ export default function Password({ navigation, route }) {
                     style={{
                       flexDirection:
                         i18n.locale === "en-US" ? "row" : "row-reverse",
-                      paddingBottom: 15,
+                      paddingBottom: 5,
                     }}
                   >
                     <Ionicons
@@ -465,7 +467,7 @@ export default function Password({ navigation, route }) {
                     style={{
                       flexDirection:
                         i18n.locale === "en-US" ? "row" : "row-reverse",
-                      paddingBottom: 15,
+                      paddingBottom: 5,
                     }}
                   >
                     <Ionicons name="close-circle" size={22} color="#ea3e29" />
@@ -488,7 +490,7 @@ export default function Password({ navigation, route }) {
                     style={{
                       flexDirection:
                         i18n.locale === "en-US" ? "row" : "row-reverse",
-                      paddingBottom: 15,
+                      paddingBottom: 5,
                     }}
                   >
                     <Ionicons
@@ -513,7 +515,13 @@ export default function Password({ navigation, route }) {
                   </View>
                 )}
               </View>
-              <View style={{ flex: 1, justifyContent: "flex-end" }}>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "flex-end",
+                  marginBottom: 35,
+                }}
+              >
                 {checkValidation === true ? (
                   <View style={styles.buttonx}>
                     <Button

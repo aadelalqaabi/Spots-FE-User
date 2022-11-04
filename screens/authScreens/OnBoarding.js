@@ -11,6 +11,8 @@ export default function OnBoarding() {
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
+    Noto: require("../../assets/fonts/Noto.ttf"),
+    NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -24,9 +26,9 @@ export default function OnBoarding() {
     },
     ar: {
       start: "ابدأ",
-      out: "الذهاب للخارج لم يكن بهذه المتعة",
+      out: "الطلعة احلى من قبل",
       or: "او",
-      login: "تسجيل التدخول",
+      login: "تسجيل الدخول",
     },
   };
   const i18n = new I18n(translations);
@@ -37,8 +39,8 @@ export default function OnBoarding() {
     <View style={styles.container}>
       <Text
         style={{
-          fontSize: 48,
-          fontFamily: "UbuntuBold",
+          fontSize: 54,
+          fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
           width: "75%",
           marginTop: 200,
           textAlign: i18n.locale === "en-US" ? "left" : "right",
@@ -56,13 +58,38 @@ export default function OnBoarding() {
         }}
       >
         <TouchableOpacity
-          style={styles.button}
+          style={{
+            display: "flex",
+            alignSelf: "center",
+            borderRadius: 12,
+            height: 70,
+            width: "75%",
+            backgroundColor: "#9279f7",
+            justifyContent: "space-between",
+            flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+            padding: 10,
+          }}
           onPress={() => navigation.navigate("MainPageRegister")}
         >
-          <Text style={styles.text}>{i18n.t("start")}</Text>
+          <Text
+            style={{
+              color: "white",
+              fontSize: 25,
+              alignSelf: "center",
+              marginLeft: 10,
+              marginRight: 10,
+              fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+            }}
+          >
+            {i18n.t("start")}
+          </Text>
           <Ionicons
             style={styles.icon}
-            name="chevron-forward-outline"
+            name={
+              i18n.locale === "en-US"
+                ? "chevron-forward-outline"
+                : "chevron-back-outline"
+            }
           ></Ionicons>
         </TouchableOpacity>
         <View
@@ -70,13 +97,17 @@ export default function OnBoarding() {
             display: "flex",
             alignItems: "center",
             alignContent: "center",
-            flexDirection: "row",
+            flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
             marginTop: 5,
           }}
         >
-          <Text style={styles.logintext}>{i18n.t("or")}</Text>
           <Text
-            style={styles.loginbutton}
+            style={{
+              fontSize: 22,
+              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+              marginTop: 10,
+              color: "#9279f7",
+            }}
             onPress={() => navigation.navigate("Set Up Account")}
           >
             {i18n.t("login")}

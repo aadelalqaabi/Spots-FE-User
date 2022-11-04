@@ -25,13 +25,13 @@ export default function MainPageRegister() {
   const colorScheme = useColorScheme();
   const translations = {
     en: {
-      name: "Enter Your Name",
+      name: "Enter Your Username",
       description:
         "Choose a name for your account\n (Must be at least 2 characters)",
       next: "Next",
     },
     ar: {
-      name: "ادخل اسمك",
+      name: "ادخل اسم المستخدم",
       description: "اختر اسم ليظهر في حسابك \n(يجب ان يكون حرفين على الاقل)",
       next: "التالي",
     },
@@ -54,9 +54,11 @@ export default function MainPageRegister() {
   const [uniqueUsername, setUniqueUsername] = useState(true);
 
   const handleChange = (name, value) => {
-    const foundUsername = authStore.useUsernames.filter((current) => current.username.toLowerCase() === value.toLowerCase());
-    if(foundUsername.length !== 0){
-      setUniqueUsername(false)
+    const foundUsername = authStore.useUsernames.filter(
+      (current) => current.username.toLowerCase() === value.toLowerCase()
+    );
+    if (foundUsername.length !== 0) {
+      setUniqueUsername(false);
       setCheckValidation(true);
       setCheckValidationColor("#ea3e29");
       setBegining(false);
@@ -68,13 +70,13 @@ export default function MainPageRegister() {
         setCheckValidation(false);
         setCheckValidationColor("#9279f7");
         setShowError(false);
-        setUniqueUsername(true)
+        setUniqueUsername(true);
       } else {
         setCheckValidation(true);
         setCheckValidationColor("#ea3e29");
         setBegining(false);
         setShowError(true);
-        setUniqueUsername(true)
+        setUniqueUsername(true);
       }
     }
   };
@@ -132,7 +134,7 @@ export default function MainPageRegister() {
             <Text
               style={{
                 fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-                fontSize: i18n.locale === "en-US" ? 30 : 35,
+                fontSize: 29,
                 margin: 20,
                 marginTop: 0,
                 marginBottom: i18n.locale === "en-US" ? 20 : 10,
@@ -204,15 +206,19 @@ export default function MainPageRegister() {
                   onSubmitEditing={() => {
                     checkValidation === false
                       ? navigation.navigate("Email", { itemId: user })
-                      : i18n.locale === "en-US" ? (
-                          Alert.alert("Invalid Username", "", ["Try Again" ])
-                      ) : (
-                        Alert.alert("اسم المستخدم غير صالح", "", [{ text: "حاول مرة اخرى" },])
-                      )
+                      : i18n.locale === "en-US"
+                      ? Alert.alert("Invalid Username", "", ["Try Again"])
+                      : Alert.alert("اسم المستخدم غير صالح", "", [
+                          { text: "حاول مرة اخرى" },
+                        ]);
                   }}
                 />
                 {uniqueUsername === false ? (
-                  <Text style={{color: "#ea3e29", marginTop: -8, marginLeft: 10 }}>Username is already taken</Text>
+                  <Text
+                    style={{ color: "#ea3e29", marginTop: -8, marginLeft: 10 }}
+                  >
+                    Username is already taken
+                  </Text>
                 ) : (
                   <></>
                 )}
@@ -264,9 +270,23 @@ export default function MainPageRegister() {
                   </>
                 )}
               </View>
-              <View style={{ flex: 1, justifyContent: "flex-end" }}>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "flex-end",
+                  marginBottom: 40,
+                }}
+              >
                 {checkValidation === true ? (
-                  <View style={styles.buttonx}>
+                  <View
+                    style={{
+                      paddingVertical: 8,
+                      paddingHorizontal: 32,
+                      borderRadius: 10,
+                      elevation: 3,
+                      backgroundColor: "#a08cf3",
+                    }}
+                  >
                     <Button
                       title={i18n.t("next")}
                       color="white"
@@ -277,7 +297,15 @@ export default function MainPageRegister() {
                     />
                   </View>
                 ) : (
-                  <View style={styles.button}>
+                  <View
+                    style={{
+                      paddingVertical: 8,
+                      paddingHorizontal: 32,
+                      borderRadius: 10,
+                      elevation: 3,
+                      backgroundColor: "#9279f7",
+                    }}
+                  >
                     <Button
                       title={i18n.t("next")}
                       color="white"

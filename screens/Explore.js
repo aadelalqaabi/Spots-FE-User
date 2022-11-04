@@ -63,7 +63,7 @@ function Explore() {
   const today = new Date();
   today.setHours(3, 0, 0, 0);
   const spotsByDate = spotStore.spots.filter(
-    (spot) => new Date(spot.startDate) >= today
+    (spot) => new Date(spot?.startDate) >= today
   );
   const sortedSpots = spotsByDate.sort(
     (objA, objB) => new Date(objA.startDate) - new Date(objB.startDate)
@@ -85,169 +85,134 @@ function Explore() {
       style={{
         width: "100%",
         height: "100%",
+        zIndex: -1,
         backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
       }}
     >
-      <StatusBar
-        barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
-      />
-      <SafeAreaView>
-        {loading ? (
-          <ContentLoader
-            speed={2}
-            viewBox="0 0 255 450"
-            backgroundColor={"#f3f3f3"}
-            foregroundColor={"#ecebeb"}
-          >
-            <Rect x="80" y="57" rx="5" ry="5" width="60" height="8" />
-            <Rect x="15" y="51" rx="10" ry="10" width="55" height="20" />
-            <Rect x="15" y="82" rx="15" ry="15" width="223" height="366" />
-            <Rect x="150" y="57" rx="5" ry="5" width="60" height="8" />
-            <Rect x="220" y="57" rx="5" ry="5" width="60" height="8" />
-            <Rect x="243" y="101" rx="10" ry="10" width="201" height="329" />
-            <Rect x="15" y="7" rx="10" ry="10" width="97" height="31" />
-            <Circle cx="223" cy="26" r="13" />
-          </ContentLoader>
-        ) : (
-          <>
-            <View
-              style={{
-                margin: 30,
-                marginTop: 10,
-                marginBottom: i18n.locale === "en-US" ? 45 : 15,
-                display: "flex",
-                flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
-                alignItems: "center",
-                flexWrap: "wrap",
-                justifyContent: "space-between",
-              }}
+      <View
+        style={{
+          width: "100%",
+          height: "90%",
+          zIndex: 99,
+          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+        }}
+      >
+        <StatusBar
+          barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
+        />
+        <SafeAreaView>
+          {loading ? (
+            <ContentLoader
+              speed={2}
+              viewBox="0 0 255 450"
+              backgroundColor={"#f3f3f3"}
+              foregroundColor={"#ecebeb"}
             >
-              <Text
+              <Rect x="80" y="57" rx="5" ry="5" width="60" height="8" />
+              <Rect x="15" y="51" rx="10" ry="10" width="55" height="20" />
+              <Rect x="15" y="82" rx="15" ry="15" width="223" height="366" />
+              <Rect x="150" y="57" rx="5" ry="5" width="60" height="8" />
+              <Rect x="220" y="57" rx="5" ry="5" width="60" height="8" />
+              <Rect x="243" y="101" rx="10" ry="10" width="201" height="329" />
+              <Rect x="15" y="7" rx="10" ry="10" width="97" height="31" />
+              <Circle cx="223" cy="26" r="13" />
+            </ContentLoader>
+          ) : (
+            <>
+              <View
                 style={{
-                  fontSize: 30,
-                  fontFamily:
-                    i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-                  fontSize: 35,
-                  marginBottom: 10,
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                }}
-              >
-                {i18n.t("explore")}
-              </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("Search", { spots: sortedSpots });
-                }}
-              >
-                <Ionicons
-                  style={{
-                    fontSize: 30,
-                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                    margin: 5,
-                  }}
-                  name="search-outline"
-                ></Ionicons>
-              </TouchableOpacity>
-            </View>
-
-            <ScrollView
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}
-              horizontal={true}
-              style={{
-                display: "flex",
-                borderRadius: "10%",
-                margin: 28,
-                marginTop: -25,
-                marginBottom: 0,
-                height: 45,
-              }}
-              contentContainerStyle={{
-                display: "flex",
-                flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
-              }}
-              ref={scrollViewRef}
-              onContentSizeChange={() =>
-                i18n.locale === "en-US"
-                  ? scrollViewRef.current.scrollTo({
-                      x: 0,
-                      y: 0,
-                      animated: true,
-                    })
-                  : scrollViewRef.current.scrollToEnd({ animated: true })
-              }
-            >
-              <TouchableOpacity
-                style={
-                  selectedCategory === -1
-                    ? styles.overleyactive
-                    : styles.overley
-                }
-                onPress={() => {
-                  setCategory();
-                  handleCategory(-1);
+                  margin: 30,
+                  marginTop: 0,
+                  marginBottom: i18n.locale === "en-US" ? 45 : 15,
+                  display: "flex",
+                  flexDirection:
+                    i18n.locale === "en-US" ? "row" : "row-reverse",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  justifyContent: "space-between",
                 }}
               >
                 <Text
+                  style={{
+                    fontFamily:
+                      i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                    fontSize: 35,
+                    marginBottom: 10,
+                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  }}
+                >
+                  {i18n.t("explore")}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("Search", { spots: sortedSpots });
+                  }}
+                >
+                  <Ionicons
+                    style={{
+                      fontSize: 30,
+                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                      margin: 5,
+                    }}
+                    name="search-outline"
+                  ></Ionicons>
+                </TouchableOpacity>
+              </View>
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+                horizontal={true}
+                style={{
+                  display: "flex",
+                  borderRadius: "10%",
+                  marginTop: "-6%",
+                  height: "6%",
+                }}
+                contentContainerStyle={{
+                  display: "flex",
+                  flexDirection:
+                    i18n.locale === "en-US" ? "row" : "row-reverse",
+                }}
+                ref={scrollViewRef}
+                onContentSizeChange={() =>
+                  i18n.locale === "en-US"
+                    ? scrollViewRef.current.scrollTo({
+                        x: 0,
+                        y: 0,
+                        animated: true,
+                      })
+                    : scrollViewRef.current.scrollToEnd({ animated: true })
+                }
+              >
+                <TouchableOpacity
                   style={
                     selectedCategory === -1
                       ? {
-                          flexWrap: "wrap",
-                          borderRadius: "10%",
-                          fontSize: 20,
-                          alignSelf: "center",
-                          marginTop: i18n.locale === "en-US" ? 11 : 0,
-                          fontFamily:
-                            i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                          width: 80,
+                          height: 100,
+                          borderRadius: 50,
+                          zIndex: -1,
                           color: "#9279f7",
                         }
                       : {
-                          color:
-                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                          flexWrap: "wrap",
-                          borderRadius: "10%",
-                          fontSize: 20,
-                          alignSelf: "center",
-                          marginTop: i18n.locale === "en-US" ? 11 : 0,
-                          fontFamily:
-                            i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                          width: 80,
+                          height: 100,
+                          zIndex: -1,
                         }
                   }
-                >
-                  {i18n.locale === "en-US" ? "All" : "الكل"}
-                </Text>
-                <Text
-                  style={
-                    selectedCategory === -1 ? styles.catdot : styles.overley
-                  }
-                >
-                  .
-                </Text>
-              </TouchableOpacity>
-              {categories.map((category) => (
-                <TouchableOpacity
-                  key={categories.indexOf(category)}
-                  style={
-                    selectedCategory === categories.indexOf(category)
-                      ? styles.overleyactive
-                      : styles.overley
-                  }
                   onPress={() => {
-                    setCategory(category);
-                    handleCategory(categories.indexOf(category));
+                    setCategory();
+                    handleCategory(-1);
                   }}
                 >
                   <Text
                     style={
-                      selectedCategory === categories.indexOf(category)
+                      selectedCategory === -1
                         ? {
-                            color:
-                              colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                             flexWrap: "wrap",
                             borderRadius: "10%",
                             fontSize: 20,
                             alignSelf: "center",
-                            marginTop: i18n.locale === "en-US" ? 11 : 0,
                             fontFamily:
                               i18n.locale === "en-US" ? "Ubuntu" : "Noto",
                             color: "#9279f7",
@@ -259,61 +224,111 @@ function Explore() {
                             borderRadius: "10%",
                             fontSize: 20,
                             alignSelf: "center",
-                            marginTop: i18n.locale === "en-US" ? 11 : 0,
                             fontFamily:
                               i18n.locale === "en-US" ? "Ubuntu" : "Noto",
                           }
                     }
                   >
-                    {i18n.locale === "ar-US" && category?.name === "Food"
-                      ? "طعام"
-                      : i18n.locale === "ar-US" && category?.name === "Music"
-                      ? "موسيقى"
-                      : i18n.locale === "ar-US" && category?.name === "Sports"
-                      ? "رياضة"
-                      : i18n.locale === "ar-US" && category?.name === "Health"
-                      ? "صحة"
-                      : i18n.locale === "ar-US" &&
-                        category?.name === "Education"
-                      ? "تعليم"
-                      : i18n.locale === "ar-US" && category?.name === "Fashion"
-                      ? "موضة"
-                      : i18n.locale === "ar-US" && category?.name === "Carnival"
-                      ? "كرنفال"
-                      : i18n.locale === "ar-US" && category?.name === "Other"
-                      ? "اخرى"
-                      : category?.name}
-                  </Text>
-                  <Text
-                    style={
-                      selectedCategory === categories.indexOf(category)
-                        ? styles.catdot
-                        : styles.overley
-                    }
-                  >
-                    .
+                    {i18n.locale === "en-US" ? "All" : "الكل"}
                   </Text>
                 </TouchableOpacity>
-              ))}
-            </ScrollView>
-
-            <Carousel
-              style={styles.spotsList}
-              contentContainerStyle={styles.spotsListContainer}
-              data={spots}
-              renderItem={renderSpot}
-              windowSize={1}
-              sliderWidth={450}
-              itemWidth={360}
-              layout={"default"}
-              containerCustomStyle={{
-                alignSelf: "center",
-              }}
-              useScrollView={true}
-            />
-          </>
-        )}
-      </SafeAreaView>
+                {categories.map((category) => (
+                  <TouchableOpacity
+                    key={categories.indexOf(category)}
+                    style={
+                      selectedCategory === categories.indexOf(category)
+                        ? {
+                            width: 100,
+                            height: 100,
+                            borderRadius: 50,
+                            zIndex: 99,
+                            color: "#9279f7",
+                          }
+                        : {
+                            width: 100,
+                            height: 100,
+                            zIndex: 99,
+                            display: "flex",
+                          }
+                    }
+                    onPress={() => {
+                      setCategory(category);
+                      handleCategory(categories.indexOf(category));
+                    }}
+                  >
+                    <Text
+                      style={
+                        selectedCategory === categories.indexOf(category)
+                          ? {
+                              color:
+                                colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                              flexWrap: "wrap",
+                              borderRadius: "10%",
+                              fontSize: 20,
+                              alignSelf: "center",
+                              fontFamily:
+                                i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                              color: "#9279f7",
+                              zIndex: 99,
+                            }
+                          : {
+                              color:
+                                colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                              flexWrap: "wrap",
+                              borderRadius: "10%",
+                              fontSize: 20,
+                              alignSelf: "center",
+                              fontFamily:
+                                i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                              zIndex: 99,
+                            }
+                      }
+                    >
+                      {i18n.locale === "ar-US" && category?.name === "Food"
+                        ? "طعام"
+                        : i18n.locale === "ar-US" && category?.name === "Music"
+                        ? "موسيقى"
+                        : i18n.locale === "ar-US" && category?.name === "Sports"
+                        ? "رياضة"
+                        : i18n.locale === "ar-US" && category?.name === "Health"
+                        ? "صحة"
+                        : i18n.locale === "ar-US" &&
+                          category?.name === "Education"
+                        ? "تعليم"
+                        : i18n.locale === "ar-US" &&
+                          category?.name === "Fashion"
+                        ? "موضة"
+                        : i18n.locale === "ar-US" &&
+                          category?.name === "Carnival"
+                        ? "كرنفال"
+                        : i18n.locale === "ar-US" && category?.name === "Other"
+                        ? "اخرى"
+                        : category?.name}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+              <Carousel
+                contentContainerStyle={{
+                  backgroundColor: "transparent",
+                }}
+                data={spots}
+                renderItem={renderSpot}
+                windowSize={1}
+                sliderWidth={450}
+                itemWidth={360}
+                layout={"default"}
+                containerCustomStyle={{
+                  alignSelf: "center",
+                  marginTop: "5%",
+                  backgroundColor: "transparent",
+                }}
+                useScrollView={true}
+              />
+            </>
+          )}
+        </SafeAreaView>
+      </View>
     </View>
   );
 }
@@ -322,12 +337,12 @@ export default observer(Explore);
 
 const styles = StyleSheet.create({
   spotsList: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "transparent",
     display: "flex",
     flexDirection: "row-reverse",
   },
   spotsListContainer: {
-    backgroundColor: "#ffffff",
+    backgroundColor: "transparent",
   },
   container: {
     width: "90%",
@@ -382,14 +397,14 @@ const styles = StyleSheet.create({
     color: "#9279f7",
   },
   overley: {
-    width: 100,
+    width: 80,
     height: 50,
     zIndex: -1,
     display: "flex",
   },
   overleyactive: {
-    width: 100,
-    height: 40,
+    width: 80,
+    height: 100,
     borderRadius: 50,
     zIndex: -1,
     color: "#9279f7",

@@ -44,10 +44,10 @@ function Spotted({ ticket, navigation }) {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
-  let monthEn = moment(spot.startDate).locale("en").format("MMM");
-  let dayEn = moment(spot.startDate).locale("en").format("DD");
-  let monthAr = moment(spot.startDate).locale("ar").format("MMM");
-  let dayAr = moment(spot.startDate).locale("ar").format("DD");
+  let monthEn = moment(spot?.startDate).locale("en").format("MMM");
+  let dayEn = moment(spot?.startDate).locale("en").format("DD");
+  let monthAr = moment(spot?.startDate).locale("ar").format("MMM");
+  let dayAr = moment(spot?.startDate).locale("ar").format("DD");
   const swipeoutBtns = [
     {
       component: (
@@ -129,7 +129,6 @@ function Spotted({ ticket, navigation }) {
                 alignContent: "center",
                 justifyContent: "center",
                 alignItems: "center",
-
                 borderRadius: 15,
                 shadowColor: "#161616",
                 shadowOffset: {
@@ -175,7 +174,6 @@ function Spotted({ ticket, navigation }) {
                 justifyContent: "center",
                 borderRadius: 16,
                 shadowColor: "#161616",
-
                 shadowOffset: {
                   width: 0,
                   height: 3,
@@ -198,7 +196,12 @@ function Spotted({ ticket, navigation }) {
               }}
             >
               <Image
-                style={styles.thumb}
+                style={{
+                  width: "85%",
+                  height: "90%",
+                  borderRadius: 20,
+                  zIndex: -1,
+                }}
                 source={{ uri: `${baseURL}${spot?.image}` }}
               />
               <View style={styles.overlay}></View>
@@ -217,6 +220,7 @@ function Spotted({ ticket, navigation }) {
                     fontFamily:
                       i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
                     textAlign: "center",
+                    width: "80%",
                   }}
                 >
                   {i18n.locale === "en-US" ? spot.name : spot.nameAr}
@@ -295,7 +299,6 @@ function Spotted({ ticket, navigation }) {
                 justifyContent: "center",
                 borderRadius: 16,
                 shadowColor: "#161616",
-
                 shadowOffset: {
                   width: 0,
                   height: 3,
@@ -318,7 +321,13 @@ function Spotted({ ticket, navigation }) {
               }}
             >
               <Image
-                style={styles.thumb}
+                style={{
+                  width: "85%",
+                  height: "90%",
+                  borderRadius: 20,
+                  //margin: 10,
+                  zIndex: -1,
+                }}
                 source={{ uri: `${baseURL}${spot?.image}` }}
               />
               <View style={styles.overlay}></View>
@@ -391,8 +400,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     alignItems: "center",
-    width: 320,
-    height: 280,
+    width: "85%",
+    height: "90%",
     borderRadius: 20,
     backgroundColor: "rgba(0, 0, 0, 0.3)",
     margin: 10,

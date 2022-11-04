@@ -12,8 +12,8 @@ function Stars({ stars }) {
           justifyContent: "flex-start",
           alignContent: "center",
           flexDirection: "row",
-          marginLeft: 6,
-          marginTop: -8,
+          margin: 5,
+          marginLeft: 0,
         }}
       >
         <Image style={styles.star} source={require("../../assets/star.png")} />
@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
     borderRadius: "50%",
     objectFit: "cover",
     margin: 8,
+    marginLeft: 4,
     marginBottom: 0,
     marginRight: 0,
   },

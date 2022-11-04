@@ -10,6 +10,7 @@ import {
   Alert,
   LogBox,
   Share,
+  useColorScheme,
 } from "react-native";
 import React, { useState } from "react";
 import spotStore from "../../stores/spotStore";
@@ -59,6 +60,7 @@ export function SpotDetails({ route }) {
   const userTickets = ticketStore.tickets.filter(
     (ticket) => ticket.user === authStore.user._id
   );
+  const colorScheme = useColorScheme();
   let [fontsLoaded] = useFonts({
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
@@ -133,12 +135,12 @@ export function SpotDetails({ route }) {
     });
   };
 
-  let dateEn = moment(spot.startDate).locale("en").format("LL");
-  let dateAr = moment(spot.startDate).locale("ar").format("LL");
-  let monthEn = moment(spot.startDate).locale("en").format("MMMM");
-  let monthAr = moment(spot.startDate).locale("ar").format("MMMM");
-  let yearEn = moment(spot.startDate).locale("en").format("YYYY");
-  let yearAr = moment(spot.startDate).locale("ar").format("YYYY");
+  let dateEn = moment(spot?.startDate).locale("en").format("LL");
+  let dateAr = moment(spot?.startDate).locale("ar").format("LL");
+  let monthEn = moment(spot?.startDate).locale("en").format("MMMM");
+  let monthAr = moment(spot?.startDate).locale("ar").format("MMMM");
+  let yearEn = moment(spot?.startDate).locale("en").format("YYYY");
+  let yearAr = moment(spot?.startDate).locale("ar").format("YYYY");
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -222,19 +224,39 @@ export function SpotDetails({ route }) {
               flexWrap: "wrap",
             }}
           >
-            <View style={{ zIndex: 99 }}>
+            <View
+              style={{
+                zIndex: 99,
+                marginTop: "193%",
+                position: "absolute",
+                width: "100%",
+              }}
+            >
               <Ionicons
-                style={styles.down}
+                style={{
+                  zIndex: 100,
+                  color: "#f1f1f1",
+                  opacity: 0.8,
+                  fontSize: 30,
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 8,
+                  },
+                  shadowOpacity: 0.46,
+                  shadowRadius: 11.14,
+                  elevation: 17,
+                  alignSelf: "center",
+                }}
                 name="chevron-up-outline"
               ></Ionicons>
               <Text
                 style={{
                   position: "absolute",
                   zIndex: 100,
-                  color: "white",
-                  opacity: 0.7,
-                  alignSelf: "center",
-                  marginTop: 870,
+                  color: "#f1f1f1",
+                  opacity: 0.8,
+                  marginTop: 20,
 
                   fontSize: i18n.locale === "en-US" ? 20 : 16,
                   paddingTop: 5,
@@ -248,6 +270,7 @@ export function SpotDetails({ route }) {
                   elevation: 17,
                   fontFamily:
                     i18n.locale === "en-US" ? "CabinMedium" : "NotoBold",
+                  alignSelf: "center",
                 }}
               >
                 {i18n.t("more")}
@@ -255,19 +278,14 @@ export function SpotDetails({ route }) {
             </View>
             <View
               style={{
-                margin: 20,
-                marginLeft: 30,
-                marginTop: -10,
-                marginBottom: 10,
+                margin: "3%",
+                alignSelf: "center",
+                marginTop: "128%",
               }}
             >
               <Text
                 style={{
                   fontSize: 40,
-                  margin: 10,
-                  marginLeft: 0,
-                  marginTop: i18n.locale === "en-US" ? 600 : 560,
-                  marginRight: 0,
                   fontWeight: "700",
                   fontFamily:
                     i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
@@ -289,7 +307,6 @@ export function SpotDetails({ route }) {
               <View
                 style={{
                   marginBottom: i18n.locale === "en-US" ? 10 : 20,
-                  marginTop: i18n.locale === "en-US" ? 0 : -20,
                   display: "flex",
                   flexDirection:
                     i18n.locale === "en-US" ? "row" : "row-reverse",
@@ -304,7 +321,8 @@ export function SpotDetails({ route }) {
                     height: 50,
                     borderRadius: "50%",
                     zIndex: -1,
-                    marginRight: 10,
+                    marginRight: i18n.locale === "en-US" ? 10 : 0,
+                    marginLeft: i18n.locale === "en-US" ? 0 : 10,
                     borderWidth: 1.5,
                     borderColor: "white",
                     backgroundColor: "white",
@@ -362,7 +380,7 @@ export function SpotDetails({ route }) {
         <TriggeringView
           style={{
             borderRadius: "40%",
-            backgroundColor: "white",
+            backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
             shadowColor: "#161616",
             shadowOffset: {
               width: 0,
@@ -382,6 +400,7 @@ export function SpotDetails({ route }) {
                 alignSelf: "center",
                 margin: 20,
                 letterSpacing: 3,
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
             >
               {i18n.locale === "en-US"
@@ -414,12 +433,19 @@ export function SpotDetails({ route }) {
                     fontFamily:
                       i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
                     fontSize: 20,
+                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                   }}
                 >
                   {i18n.locale === "en-US" ? dateEn : dateAr}
                 </Text>
               ) : (
-                <Text style={{ fontFamily: "UbuntuBold", fontSize: 20 }}>
+                <Text
+                  style={{
+                    fontFamily: "UbuntuBold",
+                    fontSize: 20,
+                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  }}
+                >
                   {i18n.locale === "en-US" ? monthEn : monthAr},{" "}
                   {i18n.locale === "en-US" ? yearEn : yearAr}
                 </Text>
@@ -450,6 +476,7 @@ export function SpotDetails({ route }) {
                   fontFamily:
                     i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
                   fontSize: 20,
+                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 }}
               >
                 {spot.startTime}
@@ -489,6 +516,7 @@ export function SpotDetails({ route }) {
                       i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
                     fontSize: 20,
                     marginBottom: i18n.locale === "en-US" ? 0 : -5,
+                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                   }}
                 >
                   {organizer.phone}
@@ -527,6 +555,7 @@ export function SpotDetails({ route }) {
                       i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
                     fontSize: 20,
                     marginBottom: i18n.locale === "en-US" ? 0 : -5,
+                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                   }}
                   onPress={() => Linking.openURL(spot.location)}
                 >
@@ -542,6 +571,7 @@ export function SpotDetails({ route }) {
                 margin: 30,
                 marginTop: 10,
                 marginBottom: 0,
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
             >
               {i18n.locale === "en-US" ? "Details" : "تفاصيل"}
@@ -549,7 +579,7 @@ export function SpotDetails({ route }) {
             <Text
               style={{
                 fontSize: 18,
-                color: "black",
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
                 paddingTop: 3,
                 margin: 30,
@@ -593,6 +623,7 @@ export function SpotDetails({ route }) {
                   fontFamily:
                     i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
                   fontSize: 20,
+                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 }}
               >
                 {i18n.locale === "en-US" ? "Reviews" : "المراجعات"}
@@ -607,6 +638,7 @@ export function SpotDetails({ route }) {
                   marginRight: 15,
                   alignSelf: "center",
                   borderRadius: "150%",
+                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 }}
               >
                 {i18n.locale === "en-US"
@@ -618,7 +650,8 @@ export function SpotDetails({ route }) {
               <Ionicons
                 style={{
                   marginRight: 5,
-                  color: "black",
+                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+
                   fontSize: 30,
                   opacity: 1,
                 }}
@@ -629,7 +662,8 @@ export function SpotDetails({ route }) {
               <Ionicons
                 style={{
                   marginRight: 5,
-                  color: "black",
+                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+
                   fontSize: 30,
                   opacity: 1,
                 }}
@@ -653,6 +687,7 @@ export function SpotDetails({ route }) {
                     marginTop: 0,
                     margin: 20,
                     alignSelf: "center",
+                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                   }}
                   key="2"
                 >
@@ -670,7 +705,7 @@ export function SpotDetails({ route }) {
                 alignSelf: "center",
                 borderRadius: 25,
                 height: 60,
-                width: 380,
+                width: "90%",
                 backgroundColor: "#9279f7",
                 shadowColor: "#000",
                 shadowOffset: {
@@ -745,7 +780,13 @@ export function SpotDetails({ route }) {
                     name="add-outline"
                     onPress={handleInc}
                   ></Ionicons>
-                  <Text style={{ fontSize: 28, fontFamily: "Ubuntu" }}>
+                  <Text
+                    style={{
+                      fontSize: 28,
+                      fontFamily: "Ubuntu",
+                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                    }}
+                  >
                     {quantity}
                   </Text>
                   <Ionicons
