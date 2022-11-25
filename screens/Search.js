@@ -17,6 +17,7 @@ import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
+import spotStore from "../stores/spotStore";
 
 export default function Search({ route, navigation }) {
   const colorScheme = useColorScheme();
@@ -33,9 +34,13 @@ export default function Search({ route, navigation }) {
   const i18n = new I18n(translations);
   i18n.locale = Localization.locale;
   i18n.enableFallback = true;
+  const today = new Date();
+  today.setHours(3, 0, 0, 0);
   const [query, setQuery] = useState("");
   const [toggle, setToggle] = useState(true);
-  const spots = route.params.spots;
+  const spots = spotStore.spots.filter(
+    (spot) => spot.isAd === true && new Date(spot.startDate) >= today
+  );
   let suggested = [];
   const randomIndex = Math.floor(Math.random() * spots.length);
   const item = spots[randomIndex];
@@ -152,8 +157,8 @@ export default function Search({ route, navigation }) {
               fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
               fontSize: 20,
               margin: 32,
-              marginBottom: 0,
-              marginTop: 15,
+              marginBottom: 10,
+              marginTop: 10,
               alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}

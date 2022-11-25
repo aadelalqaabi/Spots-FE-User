@@ -16,7 +16,7 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Localization from "expo-localization";
 import { I18n } from "i18n-js";
 
-export default function MyImage({ navigation, route }) {
+export default function GoogleImage({ navigation, route }) {
   const colorScheme = useColorScheme();
   const translations = {
     en: {
@@ -43,7 +43,7 @@ export default function MyImage({ navigation, route }) {
   const [toggle, setToggle] = useState(false);
   const { itemId } = route.params;
   const [user, setUser] = useState(itemId);
-  console.log("user", user);
+  console.log("user final", user);
 
   useEffect(() => {
     (async () => {

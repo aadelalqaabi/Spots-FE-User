@@ -48,6 +48,8 @@ import CheckOTP from "./screens/changePass/CheckOTP";
 import ChangePassword from "./screens/changePass/ChangePassword";
 import EndedSpot from "./screens/spots/EndedSpot";
 import Advertisments from "./Advertisments";
+import GoogleUsername from "./screens/authScreens/GoogleUsername";
+import GoogleImage from "./screens/authScreens/GoogleImage";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -55,11 +57,10 @@ const prefix = Linking.createURL("/");
 
 function App() {
   const checkUser = authStore.user;
-  const config = {
-    screens: {
-      Profile: "Profile/:spotId",
-    },
+  const linking = {
+    prefixes: [prefix],
   };
+
   const [isFirstLaunch, setIsFirstLaunch] = React.useState(null);
   React.useEffect(() => {
     AsyncStorage.getItem("alreadyLaunched").then((value) => {
@@ -86,13 +87,15 @@ function App() {
           }}
         >
           <Stack.Screen name="OnBoarding" component={OnBoarding} />
-          <Stack.Screen name="Set Up Account" component={AuthButtons} />
+          <Stack.Screen name="SetUpAccount" component={AuthButtons} />
           <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="GoogleUsername" component={GoogleUsername} />
           <Stack.Screen name="PhoneNo" component={PhoneNo} />
           <Stack.Screen name="MainPageRegister" component={MainPageRegister} />
           <Stack.Screen name="Email" component={Email} />
           <Stack.Screen name="Password" component={Password} />
           <Stack.Screen name="MyImage" component={MyImage} />
+          <Stack.Screen name="GoogleImage" component={GoogleImage} />
           <Stack.Screen name="UsernameCheck" component={UsernameCheck} />
           <Stack.Screen name="CheckOTP" component={CheckOTP} />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
@@ -103,7 +106,7 @@ function App() {
     return (
       <NativeBaseProvider>
         <NavigationContainer
-          linking={{ prefixes: [prefix], config }}
+          linking={linking}
           fallback={<Text>Loading...</Text>}
         >
           <MenuProvider>
@@ -118,14 +121,18 @@ function App() {
                 }}
               >
                 <Stack.Screen
-                  name="Set Up Account"
+                  name="SetUpAccount"
                   component={AuthButtons}
                   options={{
                     gestureEnabled: true,
                   }}
                 />
                 <Stack.Screen name="Login" component={Login} />
-
+                <Stack.Screen name="GoogleImage" component={GoogleImage} />
+                <Stack.Screen
+                  name="GoogleUsername"
+                  component={GoogleUsername}
+                />
                 <Stack.Screen
                   name="MainPageRegister"
                   component={MainPageRegister}
