@@ -7,6 +7,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   useColorScheme,
+  Linking,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
@@ -15,13 +16,17 @@ import { useFonts } from "expo-font";
 import Login from "./Login";
 import * as Localization from "expo-localization";
 import { I18n } from "i18n-js";
+import authStore from "../../stores/authStore";
+import { baseURL } from "../../stores/instance";
+import { openURL } from "expo-linking";
+import GoogleLogin from "./GoogleLogin";
 
 export default function AuthButtons({ navigation }) {
   const colorScheme = useColorScheme();
   const translations = {
     en: {
       title: "Go Where You Want To",
-      new: "New to GOTO?",
+      new: "New here?",
       register: "Register Now",
     },
     ar: {
@@ -119,6 +124,60 @@ export default function AuthButtons({ navigation }) {
                   {i18n.t("register")}
                 </Text>
               </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                marginTop: 20,
+                marginBottom: 10,
+                width: "100%",
+                alignSelf: "center",
+                alignContent: "center",
+                justifyContent: "center",
+                flexDirection: "row",
+              }}
+            >
+              <View
+                style={{
+                  backgroundColor: "black",
+                  height: 1,
+                  flex: 1,
+                  opacity: 0.2,
+                  alignSelf: "center",
+                }}
+              ></View>
+              <Text
+                style={{
+                  fontFamily: "Ubuntu",
+                  fontSize: 17,
+                  opacity: 0.4,
+                  textAlign: "center",
+                  alignSelf: "center",
+                  paddingHorizontal: 10,
+                }}
+              >
+                Or
+              </Text>
+              <View
+                style={{
+                  backgroundColor: "black",
+                  height: 1,
+                  flex: 1,
+                  opacity: 0.2,
+                  alignSelf: "center",
+                  borderRadius: "100%",
+                }}
+              ></View>
+            </View>
+            <View
+              style={{
+                display: "flex",
+                alignContent: "center",
+                justifyContent: "center",
+                width: "105%",
+                alignSelf: "center",
+              }}
+            >
+              <GoogleLogin />
             </View>
           </View>
         </View>

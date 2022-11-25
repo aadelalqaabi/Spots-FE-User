@@ -104,7 +104,7 @@ export default function Login() {
             alignSelf: "center",
             width: "103%",
             marginBottom: 20,
-            padding: 25,
+            padding: 10,
             fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
             textAlign: i18n.locale === "en-US" ? "left" : "right",
             backgroundColor: "white",
@@ -135,7 +135,7 @@ export default function Login() {
             alignSelf: "center",
             width: "103%",
             marginBottom: 30,
-            padding: 25,
+            padding: 10,
             fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
             textAlign: i18n.locale === "en-US" ? "left" : "right",
             backgroundColor: "white",
@@ -169,16 +169,15 @@ export default function Login() {
               alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
             }}
           >
-            {i18n.locale === "en-US" ? " Forget password?" : "نسيت كلمة السر؟"}
+            {i18n.locale === "en-US" ? " Forgot password?" : "نسيت كلمة السر؟"}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{
             zIndex: 99,
             position: "absolute",
-            margin: 85,
+            margin: 82,
             marginLeft: i18n.locale === "en-US" ? 82 : 20,
-
             alignSelf: i18n.locale === "en-US" ? "flex-end" : "flex-start",
           }}
           onPress={() => setSecure(!secure)}

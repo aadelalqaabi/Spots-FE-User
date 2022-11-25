@@ -3,7 +3,6 @@ import { Alert } from "react-native";
 import { instance } from "./instance";
 import decode from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import spotStore from "./spotStore";
 import moment from "moment";
 import emailjs from "emailjs-com";
 import { I18n } from "i18n-js";
@@ -32,7 +31,8 @@ class AuthStore {
   }
   user = null;
   OTP = 1;
-  useUsernames = "";
+  useUsernames = null;
+  userEmails = null;
   isChanged = "";
 
   setUser = async (token) => {
@@ -58,10 +58,11 @@ class AuthStore {
 
   register = async (newUser) => {
     newUser.username = newUser.username.toLowerCase();
+    const formData = new FormData();
     try {
-      const formData = new FormData();
       for (const key in newUser) formData.append(key, newUser[key]);
       const response = await instance.post("/user/register", formData);
+      console.log("response", response);
       this.setUser(response.data.token);
     } catch (error) {
       console.log(error);
@@ -70,7 +71,7 @@ class AuthStore {
 
   login = async (userData) => {
     // userData.username = userData.username.toLowerCase();
-    console.log('userData', userData)
+    console.log("userData", userData);
     try {
       const response = await instance.post("/user/login", userData);
       this.setUser(response.data.token);
@@ -105,22 +106,22 @@ class AuthStore {
 
   changeUser = async (userChange) => {
     try {
-      await instance.put(`/user/change`, userChange).then(response => {
-        if(response?.data?.isChanged === true){
+      await instance.put(`/user/change`, userChange).then((response) => {
+        if (response?.data?.isChanged === true) {
           Toast.show({
             type: "success",
             text1: "Password Changed 👍",
             text2: "try to sign back in 🤷‍♂️",
           });
           // this.logout()
-        }else {
-          i18n.locale === "en-US" ? (
-            Alert.alert("Passwords Don't Match", "", [{ text: "Try Again" }])
-          ) : (
-            Alert.alert("كلمات السر غير متطابقة", "", [{ text: "حاول مرة اخرى" }])
-          )
+        } else {
+          i18n.locale === "en-US"
+            ? Alert.alert("Passwords Don't Match", "", [{ text: "Try Again" }])
+            : Alert.alert("كلمات السر غير متطابقة", "", [
+                { text: "حاول مرة اخرى" },
+              ]);
         }
-      }); 
+      });
     } catch (error) {
       console.log("change", error);
     }
@@ -129,7 +130,7 @@ class AuthStore {
   forgotUser = async (userForgot) => {
     userForgot.username = userForgot.username.toLowerCase();
     try {
-      console.log("userForgot", userForgot)
+      console.log("userForgot", userForgot);
       await instance.put(`/user/forgot`, userForgot);
     } catch (error) {
       console.log("forgot", error);
@@ -168,7 +169,7 @@ class AuthStore {
 
   getOTP = async () => {
     try {
-      const res = await instance.get(`/user/OTP`);
+      const res = await instance.post(`/user/OTP`);
       this.OTP = res.data;
     } catch (error) {
       console.log("OTP", error);
@@ -177,11 +178,20 @@ class AuthStore {
 
   getUsernames = async () => {
     try {
-      const res =  await instance.get(`/user/usernames`);
+      const res = await instance.get(`/user/usernames`);
       // console.log('useUsernames', res.data)
       this.useUsernames = res.data;
     } catch (error) {
       console.log("OTP", error);
+    }
+  };
+
+  getEmails = async () => {
+    try {
+      const res = await instance.get(`/user/emails`);
+      this.userEmails = res.data;
+    } catch (error) {
+      console.log("emails error", error);
     }
   };
 
@@ -195,7 +205,6 @@ class AuthStore {
     };
     emailjs.init("0CGPMjHzm16JAhRPl");
     // emailjs.accessToken("nHQDJbHUos1qKT50oPIoG")
-
     emailjs.send("AB-Serv-12", "template_uma67do", emailContent);
   };
 }
