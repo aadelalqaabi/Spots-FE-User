@@ -46,9 +46,14 @@ function Explore() {
   const [category, setCategory] = useState();
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(-1);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(() => setLoading(false), 2000);
+  const [loading, setLoading] = useState(false);
+  useEffect( async () => {
+    try {
+      setLoading(true);
+      await spotStore.fetchSpots();
+    } finally {
+      setLoading(false);
+    }
   }, []);
   const categories = categoryStore.getCategories();
   let [fontsLoaded] = useFonts({
@@ -105,8 +110,8 @@ function Explore() {
             <ContentLoader
               speed={2}
               viewBox="0 0 255 450"
-              backgroundColor={"#f3f3f3"}
-              foregroundColor={"#ecebeb"}
+              backgroundColor={colorScheme === "dark" ? "#f3f3f3" : "#bdbdbd"}
+              foregroundColor={colorScheme === "dark" ? "#ecebeb" : "#d8d8d8"}
             >
               <Rect x="80" y="57" rx="5" ry="5" width="60" height="8" />
               <Rect x="15" y="51" rx="10" ry="10" width="55" height="20" />

@@ -35,15 +35,18 @@ function MySpots() {
   const i18n = new I18n(translations);
   i18n.locale = Localization.locale;
   i18n.enableFallback = true;
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = React.useState(false);
   const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
   };
-  useEffect(() => {
-    setTimeout(() => {
+  useEffect( async () => {
+    try {
+      setLoading(true);
+      await ticketStore.fetchTickets();
+    } finally {
       setLoading(false);
-    }, 2000);
+    }
   }, []);
 
   const onRefresh = React.useCallback(() => {
@@ -109,8 +112,8 @@ function MySpots() {
           viewBox="0 0 400 675"
           height={850}
           width={490}
-          backgroundColor={"#f3f3f3"}
-          foregroundColor={"#ecebeb"}
+          backgroundColor={colorScheme === "dark" ? "#bdbdbd" : "#bdbdbd"}
+          foregroundColor={colorScheme === "dark" ? "#d8d8d8" : "#d8d8d8"}
         >
           <Rect x="80" y="25" rx="15" ry="15" width="248" height="159" />
           <Rect x="15" y="75" rx="15" ry="15" width="48" height="59" />
@@ -138,6 +141,7 @@ function MySpots() {
             showsHorizontalScrollIndicator={false}
           />
         </ScrollView>
+       
       ) : (
         <View
           style={{
