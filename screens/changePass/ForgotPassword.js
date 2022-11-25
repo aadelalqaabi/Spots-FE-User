@@ -1,58 +1,58 @@
-  import { useNavigation } from "@react-navigation/native";
-  import React, { useState, useEffect } from "react";
-  import authStore from "../../stores/authStore";
-  import { observer } from "mobx-react";
-  import Toast from "react-native-toast-message";
-  import { StatusBar } from "expo-status-bar";
-  import {
-    View,
-    Button,
-    SafeAreaView,
-    Text,
-    StyleSheet,
-    KeyboardAvoidingView,
-    TouchableWithoutFeedback,
-    Keyboard,
-    useColorScheme,
-    Platform,
-  } from "react-native";
-  import { Alert } from "react-native";
-  import TextInput from "react-native-text-input-interactive";
-  import { Ionicons } from "@expo/vector-icons";
-  import { useFonts } from "expo-font";
-  import AppLoading from "expo-app-loading";
-  import { I18n } from "i18n-js";
-  import * as Localization from "expo-localization";
-  
-  export default function ForgotPassword({route}) {
-    const colorScheme = useColorScheme();
-    const { itemId } = route.params;
-    const [user, setUser] = useState(itemId);
-  
-    const navigation = useNavigation();
-    const [checkValidation, setCheckValidation] = useState(true);
-    const [confirmed, setConfirmed] = useState(false);
-    const [checkValidationColor, setCheckValidationColor] = useState("#9279f7");
-    const [showError, setShowError] = useState(true);
-    const [lowerCase, setLowerCase] = useState(true);
-    const [upperCase, setUpperCase] = useState(true);
-    const [securePass, setSecurePass] = useState(true);
-    const [secureConfirm, setSecureConfirm] = useState(true);
-    const [number, setNumber] = useState(true);
-    const [specialCharacter, setSpecialCharacter] = useState(true);
-    const [characterLength, setCharacterLength] = useState(true); 
-    const [begining, setBegining] = useState(true);
+import { useNavigation } from "@react-navigation/native";
+import React, { useState, useEffect } from "react";
+import authStore from "../../stores/authStore";
+import { observer } from "mobx-react";
+import Toast from "react-native-toast-message";
+import { StatusBar } from "expo-status-bar";
+import {
+  View,
+  Button,
+  SafeAreaView,
+  Text,
+  StyleSheet,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  useColorScheme,
+  Platform,
+} from "react-native";
+import { Alert } from "react-native";
+import TextInput from "react-native-text-input-interactive";
+import { Ionicons } from "@expo/vector-icons";
+import { useFonts } from "expo-font";
+import AppLoading from "expo-app-loading";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
 
-    const handleSubmit = async () => {
-      Toast.show({
-        type: "success",
-        text1: "Password Changed 👍",
-        text2: "try to sign back in 🤷‍♂️",
-      });
-      navigation.navigate("Set Up Account");
-      await authStore.forgotUser(user);
-    };
-  
+export default function ForgotPassword({ route }) {
+  const colorScheme = useColorScheme();
+  const { itemId } = route.params;
+  const [user, setUser] = useState(itemId);
+
+  const navigation = useNavigation();
+  const [checkValidation, setCheckValidation] = useState(true);
+  const [confirmed, setConfirmed] = useState(false);
+  const [checkValidationColor, setCheckValidationColor] = useState("#9279f7");
+  const [showError, setShowError] = useState(true);
+  const [lowerCase, setLowerCase] = useState(true);
+  const [upperCase, setUpperCase] = useState(true);
+  const [securePass, setSecurePass] = useState(true);
+  const [secureConfirm, setSecureConfirm] = useState(true);
+  const [number, setNumber] = useState(true);
+  const [specialCharacter, setSpecialCharacter] = useState(true);
+  const [characterLength, setCharacterLength] = useState(true);
+  const [begining, setBegining] = useState(true);
+
+  const handleSubmit = async () => {
+    Toast.show({
+      type: "success",
+      text1: "Password Changed 👍",
+      text2: "try to sign back in 🤷‍♂️",
+    });
+    navigation.navigate("SetUpAccount");
+    await authStore.forgotUser(user);
+  };
+
   const translations = {
     en: {
       name: "Enter New Password",
@@ -97,7 +97,7 @@
 
   const handleConfirm = (pass) => {
     setBegining(false);
-    if (user.newPassword === pass ) {
+    if (user.newPassword === pass) {
       setConfirmed(true);
     } else {
       setConfirmed(false);
@@ -155,11 +155,11 @@
   // if (!fontsLoaded) {
   //   return <AppLoading />;
   // }
-  
-    return (
-      <KeyboardAvoidingView
+
+  return (
+    <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
+    >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View
           style={{
@@ -260,12 +260,11 @@
                   onChangeText={(text) => {
                     handleChange("newPassword", text);
                   }}
-                  
                   placeholder="New Password"
                   placeholderTextColor={"grey"}
                   keyboardType="web-search"
                   onSubmitEditing={() => {
-                    handleSubmit
+                    handleSubmit;
                   }}
                 />
                 {/* && checkValidation === true */}
@@ -310,15 +309,17 @@
                   keyboardType="web-search"
                   onSubmitEditing={() => {
                     checkValidation === false
-                      ? navigation.navigate("Set Up Account", { itemId: user })
-                      : i18n.locale === "en-US" ? (
-                          Alert.alert("Invalid Password", "", [{ text: "Try Again" },])
-                        ) : (
-                          Alert.alert("كلمة سر غير صالحة", "", [{ text: "حاول مرة اخرى" },])
-                        )
+                      ? navigation.navigate("SetUpAccount", { itemId: user })
+                      : i18n.locale === "en-US"
+                      ? Alert.alert("Invalid Password", "", [
+                          { text: "Try Again" },
+                        ])
+                      : Alert.alert("كلمة سر غير صالحة", "", [
+                          { text: "حاول مرة اخرى" },
+                        ]);
                   }}
                 />
-                  <Ionicons
+                <Ionicons
                   style={{
                     zIndex: 99,
                     position: "absolute",
@@ -336,13 +337,35 @@
                 ) : (
                   <>
                     {confirmed === false ? (
-                      <Text style={{color: 'red', fontSize: 10, marginLeft: 10, marginTop: -18, marginBottom: 15}}> Passwords Don't Match</Text>
+                      <Text
+                        style={{
+                          color: "red",
+                          fontSize: 10,
+                          marginLeft: 10,
+                          marginTop: -18,
+                          marginBottom: 15,
+                        }}
+                      >
+                        {" "}
+                        Passwords Don't Match
+                      </Text>
                     ) : (
-                      <Text style={{color: 'green', fontSize: 10, marginLeft: 10, marginTop: -18, marginBottom: 15}}> Passwords Match</Text>
+                      <Text
+                        style={{
+                          color: "green",
+                          fontSize: 10,
+                          marginLeft: 10,
+                          marginTop: -18,
+                          marginBottom: 15,
+                        }}
+                      >
+                        {" "}
+                        Passwords Match
+                      </Text>
                     )}
                   </>
                 )}
-              
+
                 {lowerCase === true ? (
                   <View
                     style={{
@@ -605,22 +628,22 @@
                 )}
               </View>
               <View style={{ flex: 1, justifyContent: "flex-end" }}>
-                  <View style={styles.buttonx}>
-                    <Button
-                      title={"Set Password"}
-                      color="white"
-                      disabled={!confirmed}
-                      onPress={handleSubmit}
-                    />
-                  </View>
+                <View style={styles.buttonx}>
+                  <Button
+                    title={"Set Password"}
+                    color="white"
+                    disabled={!confirmed}
+                    onPress={handleSubmit}
+                  />
+                </View>
               </View>
             </View>
           </View>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
-    );
-  }
+  );
+}
 
 const styles = StyleSheet.create({
   title: {

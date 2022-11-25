@@ -1,6 +1,6 @@
 {
   "expo": {
-    "scheme": "spots",
+    "scheme": "exp://127.0.0.1:19000/--/path/into/",
     "name": "Spots",
     "slug": "Spots-FE-User",
     "version": "1.0.0",
@@ -20,7 +20,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.semicolon.spots"
+      "bundleIdentifier": "com.semicolon.dest"
     },
     "android": {
       "adaptiveIcon": {

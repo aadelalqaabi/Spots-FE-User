@@ -21,6 +21,7 @@ function Spot({ spot, navigation }) {
       suggested: "وجهة مقترحة",
     },
   };
+  console.log("spot", spot);
   const i18n = new I18n(translations);
   i18n.locale = Localization.locale;
   i18n.enableFallback = true;
@@ -348,8 +349,8 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "column",
     flexWrap: "nowrap",
-    borderBottomRightRadius: 30,
-    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 20,
+    borderBottomLeftRadius: 20,
     padding: 35,
     alignSelf: "flex-end",
   },

@@ -108,7 +108,7 @@ export default function OnBoarding() {
               marginTop: 10,
               color: "#9279f7",
             }}
-            onPress={() => navigation.navigate("Set Up Account")}
+            onPress={() => navigation.navigate("SetUpAccount")}
           >
             {i18n.t("login")}
           </Text>
