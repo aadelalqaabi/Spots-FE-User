@@ -14,11 +14,12 @@ import React from "react";
 import TextInput from "react-native-text-input-interactive";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+
 import { Ionicons } from "@expo/vector-icons";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import authStore from "../../stores/authStore";
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 export default function MainPageRegister() {
   authStore.getUsernames();
@@ -91,7 +92,7 @@ export default function MainPageRegister() {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   return (
     <KeyboardAvoidingView

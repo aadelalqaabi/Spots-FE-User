@@ -8,7 +8,7 @@ import {
 import { useState } from "react";
 import authStore from "../../stores/authStore";
 import React from "react";
-import AppLoading from "expo-app-loading";
+
 import { useFonts } from "expo-font";
 import PhoneInput from "react-native-phone-number-input";
 import { I18n } from "i18n-js";
@@ -16,6 +16,7 @@ import * as Localization from "expo-localization";
 import TextInput from "react-native-text-input-interactive";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 export default function Login() {
   const navigation = useNavigation();
@@ -54,7 +55,7 @@ export default function Login() {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   return (
     <View

@@ -20,7 +20,7 @@ import { Alert } from "react-native";
 import TextInput from "react-native-text-input-interactive";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 

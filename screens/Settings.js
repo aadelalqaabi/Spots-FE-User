@@ -4,10 +4,11 @@ import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+
 import { useNavigation } from "@react-navigation/native";
 import authStore from "../stores/authStore";
 import { Alert } from "react-native";
+import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
 
 export default function Settings() {
   const colorScheme = useColorScheme();
@@ -38,7 +39,7 @@ export default function Settings() {
     NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
 
   return (

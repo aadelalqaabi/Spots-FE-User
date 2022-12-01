@@ -13,9 +13,10 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 import PhoneInput from "react-native-phone-number-input";
-import AppLoading from "expo-app-loading";
+
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 export default function PhoneNo({ navigation, route }) {
   const colorScheme = useColorScheme();
@@ -74,7 +75,7 @@ export default function PhoneNo({ navigation, route }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   return (
     <KeyboardAvoidingView

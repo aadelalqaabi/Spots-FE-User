@@ -12,18 +12,18 @@ import {
   Share,
   useColorScheme,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import spotStore from "../../stores/spotStore";
 import { baseURL } from "../../stores/instance";
 import { Ionicons } from "@expo/vector-icons";
 import authStore from "../../stores/authStore";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
 import moment from "moment";
 import { useNavigation } from "@react-navigation/native";
 import ReviewList from "../reviews/ReviewList";
 import organizerStore from "../../stores/organizerStore";
 import ticketStore from "../../stores/ticketStore";
+import { Popup, Root } from "popup-ui";
 import {
   ImageHeaderScrollView,
   TriggeringView,
@@ -31,6 +31,8 @@ import {
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import "moment/locale/ar";
+import { FancyAlert } from "react-native-expo-fancy-alerts";
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 LogBox.ignoreAllLogs();
 
 export function SpotDetails({ route }) {
@@ -51,6 +53,10 @@ export function SpotDetails({ route }) {
     image: "",
     isFree: true,
   });
+  const [visible, setVisible] = useState(false);
+  const toggleAlert = useCallback(() => {
+    setVisible(!visible);
+  }, [visible]);
   const organizer = organizerStore.getOrganizerById(spot.organizer);
   const reviewCount = spot.reviews.length;
   const navigation = useNavigation();
@@ -58,7 +64,7 @@ export function SpotDetails({ route }) {
   const [checkSeats, setCheckSeats] = useState(quantity);
   const [toggle, setToggle] = useState(false);
   const userTickets = ticketStore.tickets.filter(
-    (ticket) => ticket.user === authStore.user._id
+    (ticket) => ticket.user === authStore.user.id
   );
   const colorScheme = useColorScheme();
   let [fontsLoaded] = useFonts({
@@ -71,7 +77,7 @@ export function SpotDetails({ route }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   const handleInc = () => {
     setCheckSeats(checkSeats + 1);
@@ -116,12 +122,8 @@ export function SpotDetails({ route }) {
     const found = userTickets.some((ticket) => ticket.spot._id === spot._id);
     if (!found) {
       await ticketStore.createTicket(newTicket, spot._id);
-      console.log("im here");
-      Alert.alert(
-        i18n.locale === "en-US" ? "Added to your spots" : "تم الاضافة لنقاطك"
-      );
-      navigation.navigate("Explore");
       await ticketStore.fetchTickets();
+      toggleAlert();
     } else {
       Alert.alert(
         i18n.locale === "en-US" ? "Already in your spots" : "موجودة في نقاطك"
@@ -720,9 +722,7 @@ export function SpotDetails({ route }) {
                 zIndex: 99,
                 flexDirection: i18n.locale === "en-US" ? "row-reverse" : "row",
               }}
-              onPress={() => {
-                handleSpots(spot);
-              }}
+              onPress={() => handleSpots(spot)}
             >
               <Text
                 style={{
@@ -861,6 +861,86 @@ export function SpotDetails({ route }) {
               </TouchableOpacity>
             </>
           )}
+          <FancyAlert
+            visible={visible}
+            icon={
+              <View
+                style={{
+                  flex: 1,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "#9279f7",
+                  borderRadius: 50,
+                  width: "100%",
+                }}
+              >
+                <Ionicons
+                  style={{
+                    color: "white",
+                    fontSize: 40,
+                    fontWeight: "bold",
+                  }}
+                  name="happy"
+                ></Ionicons>
+              </View>
+            }
+            style={{ backgroundColor: "white" }}
+          >
+            <Text
+              style={{
+                marginTop: -16,
+                marginBottom: 32,
+                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                width: "90%",
+                textAlign: "center",
+                fontSize: 24,
+              }}
+            >
+              {i18n.locale === "en-US"
+                ? "You're going there!"
+                : "انت ذاهب هناك!"}
+            </Text>
+            <Text
+              style={{
+                marginTop: i18n.locale === "en-US" ? -16 : -20,
+                marginBottom: 32,
+                width: "70%",
+                textAlign: "center",
+                fontSize: 17,
+                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                lineHeight: 30,
+              }}
+            >
+              {i18n.locale === "en-US"
+                ? "To view the spot details go to your spots page"
+                : "لعرض تفاصيل الوجهة اذهب لصفحة وجهاتك"}
+            </Text>
+            <TouchableOpacity
+              style={{
+                marginTop: -16,
+                marginBottom: 32,
+                width: "50%",
+                backgroundColor: "#9279f7",
+                borderRadius: "50%",
+                height: 40,
+                justifyContent: "center",
+              }}
+              onPress={() => navigation.navigate("Explore")}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  color: "#f1f1f1",
+                  fontFamily:
+                    i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                  fontSize: 15,
+                }}
+              >
+                {i18n.locale === "en-US" ? "Close" : "اغلاق"}
+              </Text>
+            </TouchableOpacity>
+          </FancyAlert>
         </TriggeringView>
       </ImageHeaderScrollView>
     </View>

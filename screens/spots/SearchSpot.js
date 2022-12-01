@@ -4,7 +4,6 @@ import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
-import AppLoading from "expo-app-loading";
 
 function SearchSpot({ spot, navigation }) {
   let [fontsLoaded] = useFonts({
@@ -13,7 +12,7 @@ function SearchSpot({ spot, navigation }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   const translations = {
     en: {

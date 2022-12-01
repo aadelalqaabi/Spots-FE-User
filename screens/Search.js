@@ -16,8 +16,9 @@ import SearchSpot from "./spots/SearchSpot";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+
 import spotStore from "../stores/spotStore";
+import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
 
 export default function Search({ route, navigation }) {
   const colorScheme = useColorScheme();
@@ -57,7 +58,7 @@ export default function Search({ route, navigation }) {
     NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   function renderSpot({ item: spot }) {
     return <Spot spot={spot} navigation={navigation} />;

@@ -16,11 +16,12 @@ import { useNavigation } from "@react-navigation/native";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+
 import spotStore from "./stores/spotStore";
 import { baseURL } from "./stores/instance";
 import organizerStore from "./stores/organizerStore";
 import { observer } from "mobx-react";
+import MyAwesomeSplashScreen from "./MyAwesomeSplashScreen";
 const { width, height } = Dimensions.get("window");
 
 function Advertisments() {
@@ -74,7 +75,7 @@ function Advertisments() {
     NotoBold: require("./assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   const translations = {
     en: {

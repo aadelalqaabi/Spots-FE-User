@@ -10,11 +10,12 @@ import { useState, useEffect } from "react";
 import authStore from "../../stores/authStore";
 import React from "react";
 import * as ImagePicker from "expo-image-picker";
-import AppLoading from "expo-app-loading";
+
 import { useFonts } from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import * as Localization from "expo-localization";
 import { I18n } from "i18n-js";
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 export default function MyImage({ navigation, route }) {
   const colorScheme = useColorScheme();
@@ -64,7 +65,7 @@ export default function MyImage({ navigation, route }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({

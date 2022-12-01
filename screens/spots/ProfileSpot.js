@@ -5,7 +5,8 @@ import { baseURL } from "../../stores/instance";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 function ProfileSpot({ spot }) {
   const navigation = useNavigation();
@@ -29,7 +30,7 @@ function ProfileSpot({ spot }) {
   });
 
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   return (
     <View

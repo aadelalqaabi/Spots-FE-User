@@ -5,7 +5,8 @@ import reviewStore from "../../stores/reviewStore";
 import ReviewItem from "./ReviewItem";
 import React from "react";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 function ReviewList({ reviews, spotId }) {
   const reviewList = reviewStore.reviews.filter(
@@ -19,7 +20,7 @@ function ReviewList({ reviews, spotId }) {
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   return (
     <View>

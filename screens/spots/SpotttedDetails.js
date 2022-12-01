@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import moment from "moment";
 import { Ionicons } from "@expo/vector-icons";
-import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 import { baseURL } from "../../stores/instance";
 import spotStore from "../../stores/spotStore";
@@ -19,6 +18,7 @@ import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import "moment/locale/ar";
 import { LinearGradient } from "expo-linear-gradient";
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 export default function SpotttedDetails({ navigation, route }) {
   const colorScheme = useColorScheme();
@@ -54,7 +54,7 @@ export default function SpotttedDetails({ navigation, route }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   let dateEn = moment(spot?.startDate).locale("en").format("DD MMM");
   let dateAr = moment(spot?.startDate).locale("ar").format("MMM DD");
@@ -71,8 +71,9 @@ export default function SpotttedDetails({ navigation, route }) {
         style={{
           backgroundColor: "#e0e3e7",
           height: 6,
-          width: 150,
+          width: 40,
           margin: 20,
+          opacity: 0.8,
           alignSelf: "center",
           borderRadius: "100%",
         }}
@@ -86,8 +87,8 @@ export default function SpotttedDetails({ navigation, route }) {
           zIndex: 99,
           color: "#f1f1f1",
           alignSelf: "center",
-          marginBottom: i18n.locale === "en-US" ? 15 : 0,
-          marginTop: i18n.locale === "en-US" ? -5 : -10,
+          marginBottom: i18n.locale === "en-US" ? 25 : 10,
+          marginTop: i18n.locale === "en-US" ? -10 : -15,
         }}
       >
         {i18n.t("details")}
@@ -152,7 +153,7 @@ export default function SpotttedDetails({ navigation, route }) {
               position: "absolute",
               alignSelf: "center",
               backgroundColor: "black",
-              height: "50%",
+              height: "56%",
               opacity: 0.3,
               borderTopRightRadius: "50%",
               borderTopLeftRadius: "50%",

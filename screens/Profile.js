@@ -17,18 +17,19 @@ import authStore from "../stores/authStore";
 import { observer } from "mobx-react";
 import { baseURL } from "../stores/instance";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+
 import React, { useEffect, useState } from "react";
 import pointStore from "../stores/pointStore";
 import ScrollTabs from "../ScrollTabs";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import { Ionicons } from "@expo/vector-icons";
+import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
 LogBox.ignoreAllLogs();
 
 function Profile() {
   const [loading, setLoading] = useState(false);
-  useEffect( async () => {
+  useEffect(async () => {
     try {
       setLoading(true);
       await authStore.checkForToken();
@@ -75,7 +76,7 @@ function Profile() {
     NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   return (
     <View
@@ -97,142 +98,149 @@ function Profile() {
         <StatusBar
           barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
         />
-    <SafeAreaView>
-       {/* style={{
+        <SafeAreaView>
+          {/* style={{
          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
          height: "100%",
        }} */}
-      {loading ? (
-        <ContentLoader
-          speed={2}
-          viewBox="0 0 255 450"
-          backgroundColor={colorScheme === "dark" ? "#f3f3f3" : "#bdbdbd"}
-          foregroundColor={colorScheme === "dark" ? "#ecebeb" : "#d8d8d8"}
-        >
-          <Rect x="102" y="8" rx="10" ry="10" width="55" height="20" />
-          <Circle cx="236" cy="18" r="13" />
-          <Circle cx="58" cy="86" r="48" />
-          <Rect x="180" y="67" rx="5" ry="5" width="20" height="20" />
-          <Rect x="166" y="94" rx="5" ry="5" width="48" height="14" />
-          <Rect x="28" y="160" rx="5" ry="5" width="60" height="25" />
-          <Rect x="161" y="160" rx="5" ry="5" width="60" height="20" />
-          <Rect x="15" y="222" rx="15" ry="15" width="223" height="228" />
-          {/* 
+          {loading ? (
+            <ContentLoader
+              speed={3}
+              style={{
+                height: "110%",
+                marginTop: -45,
+              }}
+              viewBox="0 0 255 420"
+              backgroundColor={colorScheme === "dark" ? "#313131" : "#d8d8d8"}
+              foregroundColor={colorScheme === "dark" ? "#5a5a5a" : "#c2c2c2"}
+            >
+              <Rect x="102" y="8" rx="10" ry="10" width="55" height="20" />
+              <Circle cx="236" cy="18" r="13" />
+              <Circle cx="58" cy="86" r="48" />
+              <Rect x="180" y="67" rx="5" ry="5" width="20" height="20" />
+              <Rect x="166" y="94" rx="5" ry="5" width="48" height="14" />
+              <Rect x="28" y="170" rx="5" ry="5" width="60" height="20" />
+              <Rect x="166" y="170" rx="5" ry="5" width="60" height="20" />
+              <Rect x="12" y="222" rx="15" ry="15" width="233" height="228" />
+              {/* 
           <Rect x="243" y="101" rx="10" ry="10" width="201" height="329" /> */}
-        </ContentLoader>
-      ) : (
-    // >
-    <>
-      <View
-        style={{
-          display: "flex",
-          width: "100%",
-          justifyContent: "center",
-          alignContent: "center",
-          marginTop: "2%",
-        }}
-      >
-        <TouchableOpacity
-          style={{
-            alignSelf: i18n.locale === "en-US" ? "flex-end" : "flex-start",
-            position: "absolute",
-            marginLeft: 20,
-            paddingRight: 20,
-          }}
-          onPress={() => navigation.navigate("Settings")}
-        >
-          <Ionicons
-            style={{
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              fontSize: 30,
-            }}
-            name="settings-outline"
-          ></Ionicons>
-        </TouchableOpacity>
-        <Text
-          style={{
-            fontSize: 30,
-            fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-            alignSelf: "center",
-          }}
-        >
-          {authStore.user.username}
-        </Text>
+            </ContentLoader>
+          ) : (
+            // >
+            <>
+              <View
+                style={{
+                  display: "flex",
+                  width: "100%",
+                  justifyContent: "center",
+                  alignContent: "center",
+                  marginTop: "2%",
+                }}
+              >
+                <TouchableOpacity
+                  style={{
+                    alignSelf:
+                      i18n.locale === "en-US" ? "flex-end" : "flex-start",
+                    position: "absolute",
+                    marginLeft: 20,
+                    paddingRight: 20,
+                  }}
+                  onPress={() => navigation.navigate("Settings")}
+                >
+                  <Ionicons
+                    style={{
+                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                      fontSize: 30,
+                    }}
+                    name="settings-outline"
+                  ></Ionicons>
+                </TouchableOpacity>
+                <Text
+                  style={{
+                    fontSize: 30,
+                    fontFamily:
+                      i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                    alignSelf: "center",
+                  }}
+                >
+                  {authStore.user.username}
+                </Text>
+              </View>
+              <View
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignContent: "center",
+                  alignItems: "center",
+                  flexDirection:
+                    i18n.locale === "en-US" ? "row" : "row-reverse",
+                  marginBottom: 10,
+                  marginRight: 80,
+                  marginLeft: 40,
+                  borderRadius: 20,
+                  height: 180,
+                }}
+              >
+                {authStore.user.image === "" ? (
+                  <Image
+                    style={{
+                      width: 150,
+                      height: 150,
+                      borderRadius: 150,
+                      alignItems: "center",
+                      alignSelf: "center",
+                    }}
+                    source={require("../assets/PP.jpeg")}
+                  />
+                ) : (
+                  <Image
+                    style={{
+                      width: 150,
+                      height: 150,
+                      borderRadius: 150,
+                      alignItems: "center",
+                      alignSelf: "center",
+                    }}
+                    source={{
+                      uri: baseURL + authStore.user.image,
+                    }}
+                  />
+                )}
+                <View
+                  style={{
+                    alignItems: "center",
+                    alignSelf: "center",
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 30,
+                      fontWeight: "bold",
+                      fontFamily: "Ubuntu",
+                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                    }}
+                  >
+                    {userSpots?.length}
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 25,
+                      fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                    }}
+                  >
+                    {i18n.t("spots")}
+                  </Text>
+                </View>
+              </View>
+              <View style={{ height: "100%" }}>
+                <ScrollTabs userSpots={userSpots} />
+              </View>
+            </>
+          )}
+        </SafeAreaView>
       </View>
-      <View
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignContent: "center",
-          alignItems: "center",
-          flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
-          marginBottom: 10,
-          marginRight: 80,
-          marginLeft: 40,
-          borderRadius: 20,
-          height: 180,
-        }}
-      >
-        {authStore.user.image === "" ? (
-          <Image
-            style={{
-              width: 150,
-              height: 150,
-              borderRadius: 150,
-              alignItems: "center",
-              alignSelf: "center",
-            }}
-            source={require("../assets/PP.jpeg")}
-          />
-        ) : (
-          <Image
-            style={{
-              width: 150,
-              height: 150,
-              borderRadius: 150,
-              alignItems: "center",
-              alignSelf: "center",
-            }}
-            source={{
-              uri: baseURL + authStore.user.image,
-            }}
-          />
-        )}
-        <View
-          style={{
-            alignItems: "center",
-            alignSelf: "center",
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 30,
-              fontWeight: "bold",
-              fontFamily: "Ubuntu",
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-            }}
-          >
-            {/* {userSpots?.length} */}
-            {authStore.user.email}
-          </Text>
-          <Text
-            style={{
-              fontSize: 25,
-              fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-            }}
-          >
-            {i18n.t("spots")}
-          </Text>
-        </View>
-      </View>
-      <View style={{ height: "100%" }}>
-        <ScrollTabs userSpots={userSpots} />
-      </View>
-      </>)}
-    </SafeAreaView>
-    </View>
     </View>
   );
 }

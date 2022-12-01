@@ -1,11 +1,12 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 export default function OnBoarding() {
   let [fontsLoaded] = useFonts({
@@ -15,7 +16,7 @@ export default function OnBoarding() {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   const translations = {
     en: {

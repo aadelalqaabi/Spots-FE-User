@@ -11,7 +11,7 @@ import {
 import React from "react";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
-import AppLoading from "expo-app-loading";
+
 import { useFonts } from "expo-font";
 import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import authStore from "../../stores/authStore";
@@ -20,6 +20,7 @@ import { StatusBar } from "expo-status-bar";
 import rewardStore from "../../stores/rewardStore";
 import RewardItem from "../rewards/RewardItem";
 import organizerStore from "../../stores/organizerStore";
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 export default function Info({ route }) {
   const spot = route.params.spot;
@@ -55,7 +56,7 @@ export default function Info({ route }) {
     Cabin: require("../../assets/fonts/Cabin.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   return (
     <SafeAreaView>

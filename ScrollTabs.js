@@ -14,9 +14,10 @@ import authStore from "./stores/authStore";
 import spotStore from "./stores/spotStore";
 import FinishedSpot from "./screens/spots/FinishedSpot";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
+import MyAwesomeSplashScreen from "./MyAwesomeSplashScreen";
 
 export default function ScrollTabs({ userSpots }) {
   const colorScheme = useColorScheme();
@@ -175,7 +176,7 @@ export default function ScrollTabs({ userSpots }) {
     NotoBold: require("./assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   return (
     <TabView

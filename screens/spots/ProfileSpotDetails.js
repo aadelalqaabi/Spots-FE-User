@@ -15,7 +15,7 @@ import React, { useEffect, useState } from "react";
 import spotStore from "../../stores/spotStore";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+
 import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import { Rating } from "react-native-ratings";
 import Toast from "react-native-toast-message";
@@ -33,6 +33,7 @@ import Modal from "react-native-modal";
 import { observer } from "mobx-react";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 LogBox.ignoreAllLogs();
 
 function ProfileSpotDetails({ route }) {
@@ -120,7 +121,7 @@ function ProfileSpotDetails({ route }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
 
   return (
