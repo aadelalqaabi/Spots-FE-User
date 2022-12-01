@@ -5,11 +5,11 @@ import { useMediaQuery } from "native-base";
 import moment from "moment";
 import { useFonts } from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
-import AppLoading from "expo-app-loading";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import organizerStore from "../../stores/organizerStore";
 import "moment/locale/ar";
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 function Spot({ spot, navigation }) {
   const translations = {
@@ -36,7 +36,7 @@ function Spot({ spot, navigation }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   const organizer = organizerStore.getOrganizerById(spot.organizer);
   let monthEn = moment(spot?.startDate).locale("en").format("MMM");

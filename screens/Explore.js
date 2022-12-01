@@ -19,10 +19,11 @@ import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useScrollToTop } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+
 import ContentLoader, { Circle, Rect } from "react-content-loader/native";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
+import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
 
 LogBox.ignoreAllLogs(true);
 
@@ -47,7 +48,7 @@ function Explore() {
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(-1);
   const [loading, setLoading] = useState(false);
-  useEffect( async () => {
+  useEffect(async () => {
     try {
       setLoading(true);
       await spotStore.fetchSpots();
@@ -63,7 +64,7 @@ function Explore() {
     NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   const today = new Date();
   today.setHours(3, 0, 0, 0);
@@ -108,27 +109,31 @@ function Explore() {
         <SafeAreaView>
           {loading ? (
             <ContentLoader
-              speed={2}
-              viewBox="0 0 255 450"
-              backgroundColor={colorScheme === "dark" ? "#f3f3f3" : "#bdbdbd"}
-              foregroundColor={colorScheme === "dark" ? "#ecebeb" : "#d8d8d8"}
+              speed={3}
+              style={{
+                height: "110%",
+                marginTop: -35,
+              }}
+              viewBox="0 0 255 420"
+              backgroundColor={colorScheme === "dark" ? "#313131" : "#d8d8d8"}
+              foregroundColor={colorScheme === "dark" ? "#5a5a5a" : "#c2c2c2"}
             >
               <Rect x="80" y="57" rx="5" ry="5" width="60" height="8" />
-              <Rect x="15" y="51" rx="10" ry="10" width="55" height="20" />
-              <Rect x="15" y="82" rx="15" ry="15" width="223" height="366" />
+              <Rect x="12" y="57" rx="5" ry="5" width="60" height="8" />
+              <Rect x="22" y="92" rx="15" ry="15" width="213" height="355" />
               <Rect x="150" y="57" rx="5" ry="5" width="60" height="8" />
               <Rect x="220" y="57" rx="5" ry="5" width="60" height="8" />
-              <Rect x="243" y="101" rx="10" ry="10" width="201" height="329" />
-              <Rect x="15" y="7" rx="10" ry="10" width="97" height="31" />
-              <Circle cx="223" cy="26" r="13" />
+              <Rect x="243" y="101" rx="10" ry="10" width="213" height="350" />
+              <Rect x="15" y="0" rx="10" ry="10" width="97" height="31" />
+              <Circle cx="223" cy="15" r="13" />
             </ContentLoader>
           ) : (
             <>
               <View
                 style={{
                   margin: 30,
-                  marginTop: 0,
-                  marginBottom: i18n.locale === "en-US" ? 45 : 15,
+                  marginTop: 5,
+                  marginBottom: i18n.locale === "en-US" ? 40 : 15,
                   display: "flex",
                   flexDirection:
                     i18n.locale === "en-US" ? "row" : "row-reverse",

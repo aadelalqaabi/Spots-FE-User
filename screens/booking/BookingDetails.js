@@ -9,12 +9,13 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import AppLoading from "expo-app-loading";
+
 import { useFonts } from "expo-font";
 import moment from "moment";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import "moment/locale/ar";
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 export default function BookingDetails({ navigation, route }) {
   const spot = route.params.itemId;
@@ -42,7 +43,7 @@ export default function BookingDetails({ navigation, route }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   let date = moment(spot.startDate).locale("en").format("LL");
   let dateAr = moment(spot.startDate).locale("ar").format("LL");

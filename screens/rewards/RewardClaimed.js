@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import Modal from "react-native-modal";
@@ -14,6 +14,7 @@ import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import { useNavigation } from "@react-navigation/native";
 import spotStore from "../../stores/spotStore";
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 function RewardClaimed({ reward, onRefresh }) {
   const colorScheme = useColorScheme();
@@ -60,7 +61,7 @@ function RewardClaimed({ reward, onRefresh }) {
     setModalVisible(!isModalVisible);
   };
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
 
   const handleClaim = async () => {

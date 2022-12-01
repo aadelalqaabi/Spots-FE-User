@@ -10,12 +10,13 @@ import {
 import React from "react";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
-import AppLoading from "expo-app-loading";
+
 import { useFonts } from "expo-font";
 import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import ReviewList from "../reviews/ReviewList";
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 export default function EndedSpot({ route }) {
   const spot = route.params.spot;
@@ -42,7 +43,7 @@ export default function EndedSpot({ route }) {
     Cabin: require("../../assets/fonts/Cabin.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   return (
     <SafeAreaView>

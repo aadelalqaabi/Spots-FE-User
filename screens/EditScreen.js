@@ -90,9 +90,10 @@ function EditScreen() {
     Toast.show({
       type: "success",
       // text1: "Profile Updated 👍",
-       text1: i18n.locale === "en-US"
-              ? "Profile Updated 👍"
-              : "👍 تم تحديث الملف الشخصي",
+      text1:
+        i18n.locale === "en-US"
+          ? "Profile Updated 👍"
+          : "👍 تم تحديث الملف الشخصي",
     });
     navigation.goBack();
     await authStore.updateUser(user);
@@ -106,23 +107,13 @@ function EditScreen() {
       }}
     >
       <StatusBar backgroundColor="black" />
-      {/* <View style={styles.cancel}>
-        
-      </View> */}
-      <View
-          style={{
-            borderColor: "#9279f7",
-            borderWidth: 0.5,
-            marginLeft: "6%",
-            marginTop: 20,
-            justifyContent: "flex-start",
-            width: 100,
-            borderRadius: "50%",
-            backgroundColor: "white",
-          }}
-        >
-          <Button onPress={cancelButton} title="Cancel" color="red" />
-        </View>
+      <View style={styles.cancel}>
+        <Button
+          onPress={() => cancelButton}
+          title="Cancel"
+          color={colorScheme === "light" ? "#1b1b1b" : "#f1f1f1"}
+        />
+      </View>
       <View style={styles.main}>
         <View style={{ paddingBottom: 30 }}>
           {image === null ? (
@@ -160,39 +151,34 @@ function EditScreen() {
               <Button title="Choose another image " onPress={pickImage} />
             </View>
           )}
-
         </View>
 
-          <TextInput
-            textInputStyle={{
-              alignSelf: "center",
-              width: "90%",
-              marginBottom: 20,
-              padding: 25,
-              fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-              textAlign: i18n.locale === "en-US" ? "left" : "right",
-              backgroundColor: "white",
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 1,
-              },
-              shadowOpacity: 0.1,
-              shadowRadius: 1.41,
-              elevation: 2,
-            }}
-            label="Email"
-            onChangeText={(text) => {
-              handleChange("email", text);
-            }}
-            placeholder={
-              i18n.locale === "en-US"
-                ? "Email"
-                : "الايميل"
-            }
-            placeholderTextColor={"grey"}
-            keyboardType="web-search"
-          />
+        <TextInput
+          textInputStyle={{
+            alignSelf: "center",
+            width: "90%",
+            marginBottom: 20,
+            padding: 25,
+            fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+            textAlign: i18n.locale === "en-US" ? "left" : "right",
+            backgroundColor: "white",
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 1,
+            },
+            shadowOpacity: 0.1,
+            shadowRadius: 1.41,
+            elevation: 2,
+          }}
+          label="Email"
+          onChangeText={(text) => {
+            handleChange("email", text);
+          }}
+          placeholder={i18n.locale === "en-US" ? "Email" : "الايميل"}
+          placeholderTextColor={"grey"}
+          keyboardType="web-search"
+        />
         <View
           style={{
             borderColor: "#9279f7",

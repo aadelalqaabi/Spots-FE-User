@@ -2,10 +2,11 @@ import { observer } from "mobx-react";
 import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
 import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import { useNavigation } from "@react-navigation/native";
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 function FinishedSpot({ spot }) {
   let [fontsLoaded] = useFonts({
@@ -15,7 +16,7 @@ function FinishedSpot({ spot }) {
   });
 
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   const translations = {
     en: {

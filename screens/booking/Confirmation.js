@@ -1,12 +1,13 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import moment from "moment";
 import { Ionicons } from "@expo/vector-icons";
-import AppLoading from "expo-app-loading";
+
 import { useFonts } from "expo-font";
 import authStore from "../../stores/authStore";
 import spotStore from "../../stores/spotStore";
 import React, { useState } from "react";
 import ticketStore from "../../stores/ticketStore";
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 export default function Confirmation({ navigation, route }) {
   const spot = route.params.itemId;
@@ -22,7 +23,7 @@ export default function Confirmation({ navigation, route }) {
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   let date = moment(spot.startDate).format("LL");
 

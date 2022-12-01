@@ -15,9 +15,10 @@ import { useNavigation } from "@react-navigation/native";
 import { Fontisto, Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
+import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
 
 function OrganizerProfile({ route }) {
   const colorScheme = useColorScheme();
@@ -48,7 +49,7 @@ function OrganizerProfile({ route }) {
     NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
 
   return (

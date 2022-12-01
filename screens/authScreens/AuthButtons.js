@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import AppLoading from "expo-app-loading";
+
 import { useFonts } from "expo-font";
 import Login from "./Login";
 import * as Localization from "expo-localization";
@@ -20,6 +20,7 @@ import authStore from "../../stores/authStore";
 import { baseURL } from "../../stores/instance";
 import { openURL } from "expo-linking";
 import GoogleLogin from "./GoogleLogin";
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 export default function AuthButtons({ navigation }) {
   const colorScheme = useColorScheme();
@@ -45,7 +46,7 @@ export default function AuthButtons({ navigation }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   return (
     <KeyboardAvoidingView

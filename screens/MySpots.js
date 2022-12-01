@@ -13,19 +13,20 @@ import { useNavigation } from "@react-navigation/native";
 import { FlatList, ScrollView } from "native-base";
 import { useFonts } from "expo-font";
 import Spotted from "./spots/Spotted";
-import AppLoading from "expo-app-loading";
+
 import ticketStore from "../stores/ticketStore";
 import ContentLoader, { Facebook, Rect } from "react-content-loader/native";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import { StatusBar } from "react-native";
+import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
 
 function MySpots() {
   const colorScheme = useColorScheme();
   const translations = {
     en: {
       myspots: "My Spots",
-      empty: "You don't have any spots",
+      empty: "You don't have any spots yet",
     },
     ar: {
       myspots: "النقاط الخاصة بي",
@@ -40,7 +41,7 @@ function MySpots() {
   const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
   };
-  useEffect( async () => {
+  useEffect(async () => {
     try {
       setLoading(true);
       await ticketStore.fetchTickets();
@@ -62,7 +63,7 @@ function MySpots() {
     NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
 
   const today = new Date();
@@ -112,8 +113,8 @@ function MySpots() {
           viewBox="0 0 400 675"
           height={850}
           width={490}
-          backgroundColor={colorScheme === "dark" ? "#bdbdbd" : "#bdbdbd"}
-          foregroundColor={colorScheme === "dark" ? "#d8d8d8" : "#d8d8d8"}
+          backgroundColor={colorScheme === "dark" ? "#313131" : "#d8d8d8"}
+          foregroundColor={colorScheme === "dark" ? "#5a5a5a" : "#c2c2c2"}
         >
           <Rect x="80" y="25" rx="15" ry="15" width="248" height="159" />
           <Rect x="15" y="75" rx="15" ry="15" width="48" height="59" />
@@ -141,7 +142,6 @@ function MySpots() {
             showsHorizontalScrollIndicator={false}
           />
         </ScrollView>
-       
       ) : (
         <View
           style={{

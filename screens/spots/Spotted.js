@@ -13,12 +13,12 @@ import { useFonts } from "expo-font";
 import moment from "moment";
 import Swipeout from "react-native-swipeout";
 import { Ionicons } from "@expo/vector-icons";
-import AppLoading from "expo-app-loading";
 import spotStore from "../../stores/spotStore";
 import ticketStore from "../../stores/ticketStore";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import "moment/locale/ar";
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 function Spotted({ ticket, navigation }) {
   const spot = spotStore.getSpotsById(ticket.spot._id);
@@ -42,7 +42,7 @@ function Spotted({ ticket, navigation }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   let monthEn = moment(spot?.startDate).locale("en").format("MMM");
   let dayEn = moment(spot?.startDate).locale("en").format("DD");

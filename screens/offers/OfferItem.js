@@ -3,9 +3,10 @@ import React from "react";
 import { observer } from "mobx-react";
 import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 function OfferItem({ offer }) {
   const colorScheme = useColorScheme();
@@ -30,7 +31,7 @@ function OfferItem({ offer }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <AppLoading />;
+    return <MyAwesomeSplashScreen />;
   }
   return (
     <View style={{ margin: 20, marginRight: -5 }}>

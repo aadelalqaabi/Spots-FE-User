@@ -19,7 +19,7 @@ import { Alert } from "react-native";
 import TextInput from "react-native-text-input-interactive";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
+
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 
@@ -28,7 +28,7 @@ export default function ChangePassword() {
   const [user, setUser] = useState({
     username: `${authStore.user.username}`,
     newPassword: "",
-    currentPassword: ""
+    currentPassword: "",
   });
 
   const navigation = useNavigation();
@@ -43,619 +43,641 @@ export default function ChangePassword() {
   const [secureConfirm, setSecureConfirm] = useState(true);
   const [number, setNumber] = useState(true);
   const [specialCharacter, setSpecialCharacter] = useState(true);
-  const [characterLength, setCharacterLength] = useState(true); 
+  const [characterLength, setCharacterLength] = useState(true);
   const [begining, setBegining] = useState(true);
   const [isCurrent, setIsCurrent] = useState(false);
 
   const handleSubmit = async () => {
-    await authStore.changeUser(user);    
+    await authStore.changeUser(user);
   };
 
-const translations = {
-  en: {
-    name: "Enter New Password",
-    description:
-      "Choose a new password for your account\n (Must pass the tests below)",
-    next: "Next",
-    lower: "At least 1 lowercase character",
-    upper: "At least 1 uppercase character",
-    number: "At least 1 number",
-    special: "At least 1 special character",
-    eight: "At least 8 characters",
-  },
-  ar: {
-    name: "ادخل رقمك السري",
-    description:
-      "اختر رقم سري لحسابك \n(يجب ان ينجح في الاختبارات في الاسفل)",
-    next: "التالي",
-    lower: "١ حرف صغير على الاقل",
-    upper: "١ حرف كبير على الاقل",
-    number: "١ رقم على الاقل",
-    special: "١ رمز على الاقل",
-    eight: "٨ احرف على الاقل",
-  },
-};
-const i18n = new I18n(translations);
-i18n.locale = Localization.locale;
-i18n.enableFallback = true;
+  const translations = {
+    en: {
+      name: "Enter New Password",
+      description:
+        "Choose a new password for your account\n (Must pass the tests below)",
+      next: "Next",
+      lower: "At least 1 lowercase character",
+      upper: "At least 1 uppercase character",
+      number: "At least 1 number",
+      special: "At least 1 special character",
+      eight: "At least 8 characters",
+    },
+    ar: {
+      name: "ادخل رقمك السري",
+      description:
+        "اختر رقم سري لحسابك \n(يجب ان ينجح في الاختبارات في الاسفل)",
+      next: "التالي",
+      lower: "١ حرف صغير على الاقل",
+      upper: "١ حرف كبير على الاقل",
+      number: "١ رقم على الاقل",
+      special: "١ رمز على الاقل",
+      eight: "٨ احرف على الاقل",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
 
-const handleChange = (name, value) => {
-  const check = checkEntry(value);
-  if (check === true) {
-    setUser({ ...user, [name]: value });
-    setCheckValidation(false);
-    setCheckValidationColor("#9279f7");
-    setShowError(false);
-  } else {
-    setCheckValidation(true);
-    setCheckValidationColor("#ea3e29");
-    setShowError(true);
-  }
-};
+  const handleChange = (name, value) => {
+    const check = checkEntry(value);
+    if (check === true) {
+      setUser({ ...user, [name]: value });
+      setCheckValidation(false);
+      setCheckValidationColor("#9279f7");
+      setShowError(false);
+    } else {
+      setCheckValidation(true);
+      setCheckValidationColor("#ea3e29");
+      setShowError(true);
+    }
+  };
 
-const handleCurrent = (name, value) => {
-  if (name !== '') {
-    setUser({ ...user, [name]: value });
-    setIsCurrent(true)
-  } else {
-    setIsCurrent(false)
-  }
-};
+  const handleCurrent = (name, value) => {
+    if (name !== "") {
+      setUser({ ...user, [name]: value });
+      setIsCurrent(true);
+    } else {
+      setIsCurrent(false);
+    }
+  };
 
-const handleConfirm = (pass) => {
-  setBegining(false);
-  if (user.newPassword === pass ) {
-    setConfirmed(true);
-  } else {
-    setConfirmed(false);
-  }
-};
+  const handleConfirm = (pass) => {
+    setBegining(false);
+    if (user.newPassword === pass) {
+      setConfirmed(true);
+    } else {
+      setConfirmed(false);
+    }
+  };
 
-const checkEntry = (password) => {
-  const re = new RegExp(
-    "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
-  );
-  const lowerCase = new RegExp("^(?=.*[a-z])");
-  const upperCase = new RegExp("^(?=.*[A-Z])");
-  const number = new RegExp("^(?=.*[0-9])");
-  const specialCharacter = new RegExp("^(?=.*[!@#$%^&*])");
-  const characterLength = new RegExp("^(?=.{8,})");
+  const checkEntry = (password) => {
+    const re = new RegExp(
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+    );
+    const lowerCase = new RegExp("^(?=.*[a-z])");
+    const upperCase = new RegExp("^(?=.*[A-Z])");
+    const number = new RegExp("^(?=.*[0-9])");
+    const specialCharacter = new RegExp("^(?=.*[!@#$%^&*])");
+    const characterLength = new RegExp("^(?=.{8,})");
 
-  if (lowerCase.test(password) === true) {
-    setLowerCase(false);
-  } else {
-    setLowerCase(true);
-  }
+    if (lowerCase.test(password) === true) {
+      setLowerCase(false);
+    } else {
+      setLowerCase(true);
+    }
 
-  if (upperCase.test(password) === true) {
-    setUpperCase(false);
-  } else {
-    setUpperCase(true);
-  }
+    if (upperCase.test(password) === true) {
+      setUpperCase(false);
+    } else {
+      setUpperCase(true);
+    }
 
-  if (number.test(password) === true) {
-    setNumber(false);
-  } else {
-    setNumber(true);
-  }
+    if (number.test(password) === true) {
+      setNumber(false);
+    } else {
+      setNumber(true);
+    }
 
-  if (specialCharacter.test(password) === true) {
-    setSpecialCharacter(false);
-  } else {
-    setSpecialCharacter(true);
-  }
+    if (specialCharacter.test(password) === true) {
+      setSpecialCharacter(false);
+    } else {
+      setSpecialCharacter(true);
+    }
 
-  if (characterLength.test(password) === true) {
-    setCharacterLength(false);
-  } else {
-    setCharacterLength(true);
-  }
+    if (characterLength.test(password) === true) {
+      setCharacterLength(false);
+    } else {
+      setCharacterLength(true);
+    }
 
-  return re.test(password);
-};
-// let [fontsLoaded] = useFonts({
-//   UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
-//   Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
-//   Noto: require("../../assets/fonts/Noto.ttf"),
-//   NotoBold: require("../../assets/fonts/NotoBold.ttf"),
-// });
-// if (!fontsLoaded) {
-//   return <AppLoading />;
-// }
+    return re.test(password);
+  };
+  // let [fontsLoaded] = useFonts({
+  //   UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
+  //   Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
+  //   Noto: require("../../assets/fonts/Noto.ttf"),
+  //   NotoBold: require("../../assets/fonts/NotoBold.ttf"),
+  // });
+  // if (!fontsLoaded) {
+  //   return <AppLoading />;
+  // }
 
   return (
     <KeyboardAvoidingView
-    behavior={Platform.OS === "ios" ? "padding" : "height"}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View
-        style={{
-          width: "100%",
-          height: "100%",
-          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-        }}
-      >
-        <Ionicons
-          style={{
-            position: "absolute",
-            fontSize: 35,
-            marginTop: 80,
-            marginLeft: 20,
-            paddingRight: 20,
-            alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-          }}
-          name={
-            i18n.locale === "en-US"
-              ? "chevron-back-outline"
-              : "chevron-forward-outline"
-          }
-          onPress={() => navigation.goBack()}
-        ></Ionicons>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View
           style={{
-            justifyContent: "center",
-            marginTop: 130,
-            width: "70%",
-            alignSelf: "center",
-            alignItems: "center",
+            width: "100%",
+            height: "100%",
+            backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
-          <Text
+          <Ionicons
             style={{
-              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-              fontSize: 30,
-              margin: 20,
-              marginTop: 0,
-              marginBottom: i18n.locale === "en-US" ? 20 : 10,
-              width: "100%",
-              textAlign: "center",
+              position: "absolute",
+              fontSize: 35,
+              marginTop: 80,
+              marginLeft: 20,
+              paddingRight: 20,
+              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
-          >
-            {i18n.t("name")}
-          </Text>
-          <Text
-            style={{
-              fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-              fontSize: i18n.locale === "en-US" ? 16 : 18,
-              margin: 20,
-              marginTop: 0,
-              marginBottom: i18n.locale === "en-US" ? 20 : 10,
-              width: "100%",
-              textAlign: "center",
-              lineHeight: 23,
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              opacity: 0.8,
-              paddingTop: 3,
-            }}
-          >
-            {i18n.t("description")}
-          </Text>
-
+            name={
+              i18n.locale === "en-US"
+                ? "chevron-back-outline"
+                : "chevron-forward-outline"
+            }
+            onPress={() => navigation.goBack()}
+          ></Ionicons>
           <View
             style={{
-              width: "110%",
+              justifyContent: "center",
+              marginTop: 130,
+              width: "70%",
               alignSelf: "center",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
-              height: "73%",
+              alignItems: "center",
             }}
           >
-            <View style={styles.container}>
-            <TextInput
-                textInputStyle={{
-                  alignSelf: "center",
-                  width: "103%",
-                  marginBottom: 20,
-                  padding: 14,
-                  fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                  backgroundColor: "white",
-                  shadowColor: "#000",
-                  shadowOffset: {
-                    width: 0,
-                    height: 1,
-                  },
-                  shadowOpacity: 0.1,
-                  shadowRadius: 1.41,
-                  elevation: 2,
-                }}
-                mainColor={"blue"}
-                label="Password"
-                secureTextEntry={secureCur}
-                onChangeText={(text) => {
-                  handleCurrent("currentPassword", text);
-                }}
-                
-                placeholder="Current Password"
-                placeholderTextColor={"grey"}
-                keyboardType="web-search"
-                onSubmitEditing={() => {
-                  console.log('first')
-                }}
-              />
-              <Ionicons
-                style={{
-                  zIndex: 99,
-                  position: "absolute",
-                  margin: 12,
-                  fontSize: 25,
-                  alignSelf: "flex-end",
-                }}
-                name={secureCur === true ? "eye" : "eye-off"}
-                size={30}
-                color="#9279f7"
-                onPress={() => setSecureCur(!secureCur)}
-              />
-              <TextInput
-                textInputStyle={{
-                  alignSelf: "center",
-                  width: "103%",
-                  marginBottom: 20,
-                  padding: 14,
-                  fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                  backgroundColor: "white",
-                  shadowColor: "#000",
-                  shadowOffset: {
-                    width: 0,
-                    height: 1,
-                  },
-                  shadowOpacity: 0.1,
-                  shadowRadius: 1.41,
-                  elevation: 2,
-                }}
-                editable={isCurrent}
-                mainColor={checkValidationColor}
-                label="Password"
-                secureTextEntry={securePass}
-                onChangeText={(text) => {
-                  handleChange("newPassword", text);
-                }}
-                
-                placeholder="New Password"
-                placeholderTextColor={"grey"}
-                keyboardType="web-search"
-                onSubmitEditing={() => {
-                  handleSubmit
-                }}
-              />
-              <Ionicons
-                style={{
-                  zIndex: 99,
-                  position: "absolute",
-                  margin: 82,
-                  fontSize: 25,
-                  alignSelf: "flex-end",
-                }}
-                name={securePass === true ? "eye" : "eye-off"}
-                size={30}
-                color="#9279f7"
-                onPress={() => setSecurePass(!securePass)}
-              />
-              <TextInput
-                textInputStyle={{
-                  alignSelf: "center",
-                  width: "103%",
-                  marginBottom: 20,
-                  padding: 14,
-                  fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                  backgroundColor: "white",
-                  shadowColor: "#000",
-                  shadowOffset: {
-                    width: 0,
-                    height: 1,
-                  },
-                  shadowOpacity: 0.1,
-                  shadowRadius: 1.41,
-                  elevation: 2,
-                }}
-                mainColor={checkValidationColor}
-                label="Password"
-                editable={isCurrent}
-                secureTextEntry={secureConfirm}
-                onChangeText={(text) => {
-                  handleConfirm(text);
-                }}
-                placeholder="Confirm Password"
-                placeholderTextColor={"grey"}
-                keyboardType="web-search"
-                onSubmitEditing={() => {
-                  checkValidation === false
-                    ? authStore.logout()
-                    : i18n.locale === "en-US" ? (
-                        Alert.alert("Invalid Password", "", [{ text: "Try Again" },])
-                      ) : (
-                        Alert.alert("كلمة سر غير صالحة", "", [{ text: "حاول مرة اخرى" },])
-                      )
-                }}
-              />
-              <Ionicons
-                style={{
-                  zIndex: 99,
-                  position: "absolute",
-                  marginTop: 152,
-                  fontSize: 25,
-                  alignSelf: "flex-end",
-                }}
-                name={secureConfirm === true ? "eye" : "eye-off"}
-                size={30}
-                color="#9279f7"
-                onPress={() => setSecureConfirm(!secureConfirm)}
-              />
-              {begining === true ? (
-                <></>
-              ) : (
-                <>
-                  {confirmed === false ? (
-                    <Text style={{color: 'red', fontSize: 10, marginLeft: 10, marginTop: -18, marginBottom: 15}}> Passwords Don't Match</Text>
-                  ) : (
-                    <Text style={{color: 'green', fontSize: 10, marginLeft: 10, marginTop: -18, marginBottom: 15}}> Passwords Match</Text>
-                  )}
-                </>
-              )}
-              {lowerCase === true ? (
-                <View
-                  style={{
-                    flexDirection:
-                      i18n.locale === "en-US" ? "row" : "row-reverse",
-                    paddingBottom: 15,
+            <Text
+              style={{
+                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                fontSize: 30,
+                margin: 20,
+                marginTop: 0,
+                marginBottom: i18n.locale === "en-US" ? 20 : 10,
+                width: "100%",
+                textAlign: "center",
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              }}
+            >
+              {i18n.t("name")}
+            </Text>
+            <Text
+              style={{
+                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                fontSize: i18n.locale === "en-US" ? 16 : 18,
+                margin: 20,
+                marginTop: 0,
+                marginBottom: i18n.locale === "en-US" ? 20 : 10,
+                width: "100%",
+                textAlign: "center",
+                lineHeight: 23,
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                opacity: 0.8,
+                paddingTop: 3,
+              }}
+            >
+              {i18n.t("description")}
+            </Text>
+
+            <View
+              style={{
+                width: "110%",
+                alignSelf: "center",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                height: "73%",
+              }}
+            >
+              <View style={styles.container}>
+                <TextInput
+                  textInputStyle={{
+                    alignSelf: "center",
+                    width: "103%",
+                    marginBottom: 20,
+                    padding: 14,
+                    fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                    backgroundColor: "white",
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 1,
+                    },
+                    shadowOpacity: 0.1,
+                    shadowRadius: 1.41,
+                    elevation: 2,
                   }}
-                >
-                  <Ionicons name="close-circle" size={22} color="#ea3e29" />
-                  <Text
+                  mainColor={"blue"}
+                  label="Password"
+                  secureTextEntry={secureCur}
+                  onChangeText={(text) => {
+                    handleCurrent("currentPassword", text);
+                  }}
+                  placeholder="Current Password"
+                  placeholderTextColor={"grey"}
+                  keyboardType="web-search"
+                  onSubmitEditing={() => {
+                    console.log("first");
+                  }}
+                />
+                <Ionicons
+                  style={{
+                    zIndex: 99,
+                    position: "absolute",
+                    margin: 12,
+                    fontSize: 25,
+                    alignSelf: "flex-end",
+                  }}
+                  name={secureCur === true ? "eye" : "eye-off"}
+                  size={30}
+                  color="#9279f7"
+                  onPress={() => setSecureCur(!secureCur)}
+                />
+                <TextInput
+                  textInputStyle={{
+                    alignSelf: "center",
+                    width: "103%",
+                    marginBottom: 20,
+                    padding: 14,
+                    fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                    backgroundColor: "white",
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 1,
+                    },
+                    shadowOpacity: 0.1,
+                    shadowRadius: 1.41,
+                    elevation: 2,
+                  }}
+                  editable={isCurrent}
+                  mainColor={checkValidationColor}
+                  label="Password"
+                  secureTextEntry={securePass}
+                  onChangeText={(text) => {
+                    handleChange("newPassword", text);
+                  }}
+                  placeholder="New Password"
+                  placeholderTextColor={"grey"}
+                  keyboardType="web-search"
+                  onSubmitEditing={() => {
+                    handleSubmit;
+                  }}
+                />
+                <Ionicons
+                  style={{
+                    zIndex: 99,
+                    position: "absolute",
+                    margin: 82,
+                    fontSize: 25,
+                    alignSelf: "flex-end",
+                  }}
+                  name={securePass === true ? "eye" : "eye-off"}
+                  size={30}
+                  color="#9279f7"
+                  onPress={() => setSecurePass(!securePass)}
+                />
+                <TextInput
+                  textInputStyle={{
+                    alignSelf: "center",
+                    width: "103%",
+                    marginBottom: 20,
+                    padding: 14,
+                    fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                    backgroundColor: "white",
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 1,
+                    },
+                    shadowOpacity: 0.1,
+                    shadowRadius: 1.41,
+                    elevation: 2,
+                  }}
+                  mainColor={checkValidationColor}
+                  label="Password"
+                  editable={isCurrent}
+                  secureTextEntry={secureConfirm}
+                  onChangeText={(text) => {
+                    handleConfirm(text);
+                  }}
+                  placeholder="Confirm Password"
+                  placeholderTextColor={"grey"}
+                  keyboardType="web-search"
+                  onSubmitEditing={() => {
+                    checkValidation === false
+                      ? authStore.logout()
+                      : i18n.locale === "en-US"
+                      ? Alert.alert("Invalid Password", "", [
+                          { text: "Try Again" },
+                        ])
+                      : Alert.alert("كلمة سر غير صالحة", "", [
+                          { text: "حاول مرة اخرى" },
+                        ]);
+                  }}
+                />
+                <Ionicons
+                  style={{
+                    zIndex: 99,
+                    position: "absolute",
+                    marginTop: 152,
+                    fontSize: 25,
+                    alignSelf: "flex-end",
+                  }}
+                  name={secureConfirm === true ? "eye" : "eye-off"}
+                  size={30}
+                  color="#9279f7"
+                  onPress={() => setSecureConfirm(!secureConfirm)}
+                />
+                {begining === true ? (
+                  <></>
+                ) : (
+                  <>
+                    {confirmed === false ? (
+                      <Text
+                        style={{
+                          color: "red",
+                          fontSize: 10,
+                          marginLeft: 10,
+                          marginTop: -18,
+                          marginBottom: 15,
+                        }}
+                      >
+                        {" "}
+                        Passwords Don't Match
+                      </Text>
+                    ) : (
+                      <Text
+                        style={{
+                          color: "green",
+                          fontSize: 10,
+                          marginLeft: 10,
+                          marginTop: -18,
+                          marginBottom: 15,
+                        }}
+                      >
+                        {" "}
+                        Passwords Match
+                      </Text>
+                    )}
+                  </>
+                )}
+                {lowerCase === true ? (
+                  <View
                     style={{
-                      marginTop: i18n.locale === "en-US" ? 3 : -3,
-                      fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                      marginLeft: 10,
-                      marginRight: 10,
-                      fontSize: 15,
-                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                      opacity: 0.8,
+                      flexDirection:
+                        i18n.locale === "en-US" ? "row" : "row-reverse",
+                      paddingBottom: 15,
                     }}
                   >
-                    {i18n.t("lower")}
-                  </Text>
-                </View>
-              ) : (
-                <View
-                  style={{
-                    flexDirection:
-                      i18n.locale === "en-US" ? "row" : "row-reverse",
-                    paddingBottom: 15,
-                  }}
-                >
-                  <Ionicons
-                    name="checkmark-circle"
-                    size={22}
-                    color="#5fcf40"
-                  />
-                  <Text
+                    <Ionicons name="close-circle" size={22} color="#ea3e29" />
+                    <Text
+                      style={{
+                        marginTop: i18n.locale === "en-US" ? 3 : -3,
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginLeft: 10,
+                        marginRight: 10,
+                        fontSize: 15,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        opacity: 0.8,
+                      }}
+                    >
+                      {i18n.t("lower")}
+                    </Text>
+                  </View>
+                ) : (
+                  <View
                     style={{
-                      marginTop: i18n.locale === "en-US" ? 3 : -3,
-                      fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                      marginLeft: 10,
-                      marginRight: 10,
-                      color: "#525252",
-                      fontSize: 15,
-                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                      opacity: 0.8,
+                      flexDirection:
+                        i18n.locale === "en-US" ? "row" : "row-reverse",
+                      paddingBottom: 15,
                     }}
                   >
-                    {i18n.t("lower")}
-                  </Text>
-                </View>
-              )}
-              {upperCase === true ? (
-                <View
-                  style={{
-                    flexDirection:
-                      i18n.locale === "en-US" ? "row" : "row-reverse",
-                    paddingBottom: 15,
-                  }}
-                >
-                  <Ionicons name="close-circle" size={22} color="#ea3e29" />
-                  <Text
+                    <Ionicons
+                      name="checkmark-circle"
+                      size={22}
+                      color="#5fcf40"
+                    />
+                    <Text
+                      style={{
+                        marginTop: i18n.locale === "en-US" ? 3 : -3,
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginLeft: 10,
+                        marginRight: 10,
+                        color: "#525252",
+                        fontSize: 15,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        opacity: 0.8,
+                      }}
+                    >
+                      {i18n.t("lower")}
+                    </Text>
+                  </View>
+                )}
+                {upperCase === true ? (
+                  <View
                     style={{
-                      marginTop: i18n.locale === "en-US" ? 3 : -3,
-                      fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                      marginLeft: 10,
-                      marginRight: 10,
-                      fontSize: 15,
-                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                      opacity: 0.8,
+                      flexDirection:
+                        i18n.locale === "en-US" ? "row" : "row-reverse",
+                      paddingBottom: 15,
                     }}
                   >
-                    {i18n.t("upper")}
-                  </Text>
-                </View>
-              ) : (
-                <View
-                  style={{
-                    flexDirection:
-                      i18n.locale === "en-US" ? "row" : "row-reverse",
-                    paddingBottom: 15,
-                  }}
-                >
-                  <Ionicons
-                    name="checkmark-circle"
-                    size={22}
-                    color="#5fcf40"
-                  />
-                  <Text
+                    <Ionicons name="close-circle" size={22} color="#ea3e29" />
+                    <Text
+                      style={{
+                        marginTop: i18n.locale === "en-US" ? 3 : -3,
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginLeft: 10,
+                        marginRight: 10,
+                        fontSize: 15,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        opacity: 0.8,
+                      }}
+                    >
+                      {i18n.t("upper")}
+                    </Text>
+                  </View>
+                ) : (
+                  <View
                     style={{
-                      marginTop: i18n.locale === "en-US" ? 3 : -3,
-                      fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                      marginLeft: 10,
-                      marginRight: 10,
-                      color: "#525252",
-                      fontSize: 15,
-                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                      opacity: 0.8,
+                      flexDirection:
+                        i18n.locale === "en-US" ? "row" : "row-reverse",
+                      paddingBottom: 15,
                     }}
                   >
-                    {i18n.t("upper")}
-                  </Text>
-                </View>
-              )}
-              {number === true ? (
-                <View
-                  style={{
-                    flexDirection:
-                      i18n.locale === "en-US" ? "row" : "row-reverse",
-                    paddingBottom: 15,
-                  }}
-                >
-                  <Ionicons name="close-circle" size={22} color="#ea3e29" />
-                  <Text
+                    <Ionicons
+                      name="checkmark-circle"
+                      size={22}
+                      color="#5fcf40"
+                    />
+                    <Text
+                      style={{
+                        marginTop: i18n.locale === "en-US" ? 3 : -3,
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginLeft: 10,
+                        marginRight: 10,
+                        color: "#525252",
+                        fontSize: 15,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        opacity: 0.8,
+                      }}
+                    >
+                      {i18n.t("upper")}
+                    </Text>
+                  </View>
+                )}
+                {number === true ? (
+                  <View
                     style={{
-                      marginTop: i18n.locale === "en-US" ? 3 : -3,
-                      fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                      marginLeft: 10,
-                      marginRight: 10,
-                      fontSize: 15,
-                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                      opacity: 0.8,
+                      flexDirection:
+                        i18n.locale === "en-US" ? "row" : "row-reverse",
+                      paddingBottom: 15,
                     }}
                   >
-                    {i18n.t("number")}
-                  </Text>
-                </View>
-              ) : (
-                <View
-                  style={{
-                    flexDirection:
-                      i18n.locale === "en-US" ? "row" : "row-reverse",
-                    paddingBottom: 15,
-                  }}
-                >
-                  <Ionicons
-                    name="checkmark-circle"
-                    size={22}
-                    color="#5fcf40"
-                  />
-                  <Text
+                    <Ionicons name="close-circle" size={22} color="#ea3e29" />
+                    <Text
+                      style={{
+                        marginTop: i18n.locale === "en-US" ? 3 : -3,
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginLeft: 10,
+                        marginRight: 10,
+                        fontSize: 15,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        opacity: 0.8,
+                      }}
+                    >
+                      {i18n.t("number")}
+                    </Text>
+                  </View>
+                ) : (
+                  <View
                     style={{
-                      marginTop: i18n.locale === "en-US" ? 3 : -3,
-                      fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                      marginLeft: 10,
-                      marginRight: 10,
-                      color: "#525252",
-                      fontSize: 15,
-                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                      opacity: 0.8,
+                      flexDirection:
+                        i18n.locale === "en-US" ? "row" : "row-reverse",
+                      paddingBottom: 15,
                     }}
                   >
-                    {i18n.t("number")}
-                  </Text>
-                </View>
-              )}
-              {specialCharacter === true ? (
-                <View
-                  style={{
-                    flexDirection:
-                      i18n.locale === "en-US" ? "row" : "row-reverse",
-                    paddingBottom: 15,
-                  }}
-                >
-                  <Ionicons name="close-circle" size={22} color="#ea3e29" />
-                  <Text
+                    <Ionicons
+                      name="checkmark-circle"
+                      size={22}
+                      color="#5fcf40"
+                    />
+                    <Text
+                      style={{
+                        marginTop: i18n.locale === "en-US" ? 3 : -3,
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginLeft: 10,
+                        marginRight: 10,
+                        color: "#525252",
+                        fontSize: 15,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        opacity: 0.8,
+                      }}
+                    >
+                      {i18n.t("number")}
+                    </Text>
+                  </View>
+                )}
+                {specialCharacter === true ? (
+                  <View
                     style={{
-                      marginTop: i18n.locale === "en-US" ? 3 : -3,
-                      fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                      marginLeft: 10,
-                      marginRight: 10,
-                      fontSize: 15,
-                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                      opacity: 0.8,
+                      flexDirection:
+                        i18n.locale === "en-US" ? "row" : "row-reverse",
+                      paddingBottom: 15,
                     }}
                   >
-                    {i18n.t("special")}
-                  </Text>
-                </View>
-              ) : (
-                <View
-                  style={{
-                    flexDirection:
-                      i18n.locale === "en-US" ? "row" : "row-reverse",
-                    paddingBottom: 15,
-                  }}
-                >
-                  <Ionicons
-                    name="checkmark-circle"
-                    size={22}
-                    color="#5fcf40"
-                  />
-                  <Text
+                    <Ionicons name="close-circle" size={22} color="#ea3e29" />
+                    <Text
+                      style={{
+                        marginTop: i18n.locale === "en-US" ? 3 : -3,
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginLeft: 10,
+                        marginRight: 10,
+                        fontSize: 15,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        opacity: 0.8,
+                      }}
+                    >
+                      {i18n.t("special")}
+                    </Text>
+                  </View>
+                ) : (
+                  <View
                     style={{
-                      marginTop: i18n.locale === "en-US" ? 3 : -3,
-                      fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                      marginLeft: 10,
-                      marginRight: 10,
-                      color: "#525252",
-                      fontSize: 15,
-                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                      opacity: 0.8,
+                      flexDirection:
+                        i18n.locale === "en-US" ? "row" : "row-reverse",
+                      paddingBottom: 15,
                     }}
                   >
-                    {i18n.t("special")}
-                  </Text>
-                </View>
-              )}
-              {characterLength === true ? (
-                <View
-                  style={{
-                    flexDirection:
-                      i18n.locale === "en-US" ? "row" : "row-reverse",
-                    paddingBottom: 15,
-                  }}
-                >
-                  <Ionicons name="close-circle" size={22} color="#ea3e29" />
-                  <Text
+                    <Ionicons
+                      name="checkmark-circle"
+                      size={22}
+                      color="#5fcf40"
+                    />
+                    <Text
+                      style={{
+                        marginTop: i18n.locale === "en-US" ? 3 : -3,
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginLeft: 10,
+                        marginRight: 10,
+                        color: "#525252",
+                        fontSize: 15,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        opacity: 0.8,
+                      }}
+                    >
+                      {i18n.t("special")}
+                    </Text>
+                  </View>
+                )}
+                {characterLength === true ? (
+                  <View
                     style={{
-                      marginTop: i18n.locale === "en-US" ? 3 : -3,
-                      fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                      marginLeft: 10,
-                      marginRight: 10,
-                      fontSize: 15,
-                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                      opacity: 0.8,
+                      flexDirection:
+                        i18n.locale === "en-US" ? "row" : "row-reverse",
+                      paddingBottom: 15,
                     }}
                   >
-                    {i18n.t("eight")}
-                  </Text>
-                </View>
-              ) : (
-                <View
-                  style={{
-                    flexDirection:
-                      i18n.locale === "en-US" ? "row" : "row-reverse",
-                    paddingBottom: 15,
-                  }}
-                >
-                  <Ionicons
-                    name="checkmark-circle"
-                    size={22}
-                    color="#5fcf40"
-                  />
-                  <Text
+                    <Ionicons name="close-circle" size={22} color="#ea3e29" />
+                    <Text
+                      style={{
+                        marginTop: i18n.locale === "en-US" ? 3 : -3,
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginLeft: 10,
+                        marginRight: 10,
+                        fontSize: 15,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        opacity: 0.8,
+                      }}
+                    >
+                      {i18n.t("eight")}
+                    </Text>
+                  </View>
+                ) : (
+                  <View
                     style={{
-                      marginTop: i18n.locale === "en-US" ? 3 : -3,
-                      fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                      marginLeft: 10,
-                      marginRight: 10,
-                      color: "#525252",
-                      fontSize: 15,
-                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                      opacity: 0.8,
+                      flexDirection:
+                        i18n.locale === "en-US" ? "row" : "row-reverse",
+                      paddingBottom: 15,
                     }}
                   >
-                    {i18n.t("eight")}
-                  </Text>
-                </View>
-              )}
-            </View>
-            <View style={{ flex: 1, justifyContent: "flex-end" }}>
+                    <Ionicons
+                      name="checkmark-circle"
+                      size={22}
+                      color="#5fcf40"
+                    />
+                    <Text
+                      style={{
+                        marginTop: i18n.locale === "en-US" ? 3 : -3,
+                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginLeft: 10,
+                        marginRight: 10,
+                        color: "#525252",
+                        fontSize: 15,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        opacity: 0.8,
+                      }}
+                    >
+                      {i18n.t("eight")}
+                    </Text>
+                  </View>
+                )}
+              </View>
+              <View style={{ flex: 1, justifyContent: "flex-end" }}>
                 <View style={styles.buttonx}>
                   <Button
                     title={"Set Password"}
@@ -664,58 +686,58 @@ const checkEntry = (password) => {
                     onPress={handleSubmit}
                   />
                 </View>
+              </View>
             </View>
           </View>
         </View>
-      </View>
-    </TouchableWithoutFeedback>
-  </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-title: {
-  textAlign: "center",
-  marginVertical: 8,
-  fontSize: 40,
-  marginBottom: 20,
-},
-input: {
-  height: 40,
-  margin: 12,
-  borderWidth: 1,
-  padding: 10,
-  borderColor: "green",
-  borderWidth: 1,
-  borderRadius: 10,
-},
-button: {
-  paddingVertical: 8,
-  paddingHorizontal: 32,
-  borderRadius: 10,
-  elevation: 3,
-  backgroundColor: "#9279f7",
-},
-buttonx: {
-  paddingVertical: 8,
-  paddingHorizontal: 32,
-  borderRadius: 10,
-  elevation: 3,
-  backgroundColor: "#a08cf3",
-},
-container: {
-  alignSelf: "center",
-  shadowColor: "#000",
-  shadowOffset: {
-    width: 0,
-    height: 1,
+  title: {
+    textAlign: "center",
+    marginVertical: 8,
+    fontSize: 40,
+    marginBottom: 20,
   },
-  shadowOpacity: 0.1,
-  shadowRadius: 1.41,
-  elevation: 2,
-  marginTop: 5,
-  marginRight: 15,
-  marginLeft: 5,
-  flex: 1,
-},
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    borderColor: "green",
+    borderWidth: 1,
+    borderRadius: 10,
+  },
+  button: {
+    paddingVertical: 8,
+    paddingHorizontal: 32,
+    borderRadius: 10,
+    elevation: 3,
+    backgroundColor: "#9279f7",
+  },
+  buttonx: {
+    paddingVertical: 8,
+    paddingHorizontal: 32,
+    borderRadius: 10,
+    elevation: 3,
+    backgroundColor: "#a08cf3",
+  },
+  container: {
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 1.41,
+    elevation: 2,
+    marginTop: 5,
+    marginRight: 15,
+    marginLeft: 5,
+    flex: 1,
+  },
 });
