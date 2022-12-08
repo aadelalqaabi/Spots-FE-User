@@ -36,6 +36,7 @@ function ProfileSpot({ spot }) {
     <View
       style={{
         backgroundColor: "transparent",
+        marginBottom: "-10%",
       }}
     >
       <TouchableOpacity
@@ -99,11 +100,12 @@ function ProfileSpot({ spot }) {
               shadowOpacity: 1,
               shadowRadius: 2.62,
               elevation: 4,
-              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+              fontFamily:
+                i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
               textAlign: "center",
             }}
           >
-            {i18n.locale === "en-US" ? spot.name : spot.nameAr}
+            {i18n.locale === ("en-US" || "en") ? spot.name : spot.nameAr}
           </Text>
         </View>
       </TouchableOpacity>

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "scheme": "exp://127.0.0.1:19000/--/path/into/",
+    "scheme": "dest",
     "name": "Dest",
     "slug": "Spots-FE-User",
     "version": "1.0.0",

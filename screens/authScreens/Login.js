@@ -85,10 +85,10 @@ export default function Login() {
             backgroundColor: "white",
           }}
           textInputStyle={{
-            fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-            textAlign: i18n.locale === "en-US" ? "left" : "right",
-            marginTop: i18n.locale === "en-US" ? 0 : -4,
-            marginBottom: i18n.locale === "en-US" ? 0 : -4,
+            fontFamily: i18n.locale === ("en-US" || "en")  ? "Ubuntu" : "Noto",
+            textAlign: i18n.locale === ("en-US" || "en")  ? "left" : "right",
+            marginTop: i18n.locale === ("en-US" || "en")  ? 0 : -4,
+            marginBottom: i18n.locale === ("en-US" || "en")  ? 0 : -4,
           }}
           defaultValue={user.phone}
           defaultCode="KW"
@@ -106,8 +106,8 @@ export default function Login() {
             width: "103%",
             marginBottom: 20,
             padding: 10,
-            fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-            textAlign: i18n.locale === "en-US" ? "left" : "right",
+            fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+            textAlign: i18n.locale === ("en-US" || "en") ? "left" : "right",
             backgroundColor: "white",
             shadowColor: "#000",
             shadowOffset: {
@@ -124,7 +124,7 @@ export default function Login() {
             handleChange("username", text);
           }}
           placeholder={
-            i18n.locale === "en-US"
+            i18n.locale === ("en-US" || "en")
               ? "Username or Email"
               : "اسم المستخدم او الايميل"
           }
@@ -137,8 +137,8 @@ export default function Login() {
             width: "103%",
             marginBottom: 30,
             padding: 10,
-            fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-            textAlign: i18n.locale === "en-US" ? "left" : "right",
+            fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+            textAlign: i18n.locale === ("en-US" || "en") ? "left" : "right",
             backgroundColor: "white",
             shadowColor: "#000",
             shadowOffset: {
@@ -154,7 +154,9 @@ export default function Login() {
           onChangeText={(text) => {
             handleChange("password", text);
           }}
-          placeholder={i18n.locale === "en-US" ? "Password" : "كلمة السر"}
+          placeholder={
+            i18n.locale === ("en-US" || "en") ? "Password" : "كلمة السر"
+          }
           placeholderTextColor={"grey"}
           keyboardType="web-search"
         />
@@ -167,10 +169,13 @@ export default function Login() {
             style={{
               color: "#9279f7",
               marginTop: -16,
-              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+              alignSelf:
+                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
             }}
           >
-            {i18n.locale === "en-US" ? " Forgot password?" : "نسيت كلمة السر؟"}
+            {i18n.locale === ("en-US" || "en")
+              ? " Forgot password?"
+              : "نسيت كلمة السر؟"}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -178,8 +183,9 @@ export default function Login() {
             zIndex: 99,
             position: "absolute",
             margin: 82,
-            marginLeft: i18n.locale === "en-US" ? 82 : 20,
-            alignSelf: i18n.locale === "en-US" ? "flex-end" : "flex-start",
+            marginLeft: i18n.locale === ("en-US" || "en") ? 82 : 20,
+            alignSelf:
+              i18n.locale === ("en-US" || "en") ? "flex-end" : "flex-start",
           }}
           onPress={() => setSecure(!secure)}
         >
@@ -205,14 +211,15 @@ export default function Login() {
         >
           <Text
             style={{
-              paddingVertical: i18n.locale === "en-US" ? 10 : 5,
+              paddingVertical: i18n.locale === ("en-US" || "en") ? 10 : 5,
               borderRadius: 15,
               elevation: 3,
               color: "#f1f1f1",
               fontSize: 18,
               fontWeight: "800",
               alignSelf: "center",
-              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+              fontFamily:
+                i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
             }}
           >
             {i18n.t("login")}

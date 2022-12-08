@@ -49,11 +49,13 @@ function OfferItem({ offer }) {
             marginRight: -20,
             fontSize: 22,
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-            fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-            alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+            fontFamily:
+              i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+            alignSelf:
+              i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
           }}
         >
-          {i18n.locale === "en-US" ? offer?.title : offer.titleAr}
+          {i18n.locale === ("en-US" || "en") ? offer?.title : offer.titleAr}
         </Text>
       </View>
       <View style={styles.descriptionContainer}>
@@ -63,14 +65,17 @@ function OfferItem({ offer }) {
             marginRight: -20,
             fontSize: 18,
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-            fontFamily: i18n.locale === "en-US" ? "Cabin" : "Noto",
-            alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+            fontFamily: i18n.locale === ("en-US" || "en") ? "Cabin" : "Noto",
+            alignSelf:
+              i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
             width: 300,
             lineHeight: 25,
-            textAlign: i18n.locale === "en-US" ? "left" : "right",
+            textAlign: i18n.locale === ("en-US" || "en") ? "left" : "right",
           }}
         >
-          {i18n.locale === "en-US" ? offer?.description : offer?.descriptionAr}
+          {i18n.locale === ("en-US" || "en")
+            ? offer?.description
+            : offer?.descriptionAr}
         </Text>
       </View>
     </View>

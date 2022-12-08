@@ -7,6 +7,7 @@ import {
   Image,
   useColorScheme,
   Platform,
+  TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
@@ -19,6 +20,7 @@ import { StatusBar } from "expo-status-bar";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import TextInput from "react-native-text-input-interactive";
+import { Ionicons } from "@expo/vector-icons";
 
 function EditScreen() {
   const colorScheme = useColorScheme();
@@ -91,9 +93,10 @@ function EditScreen() {
       type: "success",
       // text1: "Profile Updated 👍",
       text1:
-        i18n.locale === "en-US"
+        i18n.locale === ("en-US" || "en")
           ? "Profile Updated 👍"
           : "👍 تم تحديث الملف الشخصي",
+      position: "bottom",
     });
     navigation.goBack();
     await authStore.updateUser(user);
@@ -107,12 +110,27 @@ function EditScreen() {
       }}
     >
       <StatusBar backgroundColor="black" />
-      <View style={styles.cancel}>
-        <Button
-          onPress={() => cancelButton}
-          title="Cancel"
-          color={colorScheme === "light" ? "#1b1b1b" : "#f1f1f1"}
-        />
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+        }}
+      >
+        <View style={styles.cancel}>
+          <Button
+            onPress={() => cancelButton()}
+            title={i18n.locale === ("en-US" || "en") ? "Cancel" : "الغاء"}
+            color={colorScheme === "light" ? "#1b1b1b" : "#f1f1f1"}
+          />
+        </View>
+        <View style={styles.done}>
+          <Button
+            onPress={handleSubmit}
+            title={i18n.locale === ("en-US" || "en") ? "Done" : "تم"}
+            color={"#9279f7"}
+          />
+        </View>
       </View>
       <View style={styles.main}>
         <View style={{ paddingBottom: 30 }}>
@@ -124,43 +142,91 @@ function EditScreen() {
 
           {image && (
             <View>
-              <Image
-                source={
-                  image !== baseURL
-                    ? {
-                        uri: image,
-                      }
-                    : require("../assets/PP.jpeg")
-                }
+              <TouchableOpacity
+                onPress={pickImage}
                 style={{
-                  alignSelf: "center",
-                  width: 200,
-                  height: 200,
-                  borderRadius: 100,
-                  margin: 10,
-                  shadowOpacity: 0.8,
-                  shadowRadius: 4,
-                  shadowColor: "black",
-                  shadowOffset: {
-                    height: 0,
-                    width: 0,
-                  },
-                  elevation: 1,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignContent: "center",
+                  alignItems: "center",
                 }}
-              />
-              <Button title="Choose another image " onPress={pickImage} />
+              >
+                <Image
+                  source={
+                    image !== baseURL
+                      ? {
+                          uri: image,
+                        }
+                      : require("../assets/PP.jpeg")
+                  }
+                  style={{
+                    alignSelf: "center",
+                    width: 200,
+                    height: 200,
+                    borderRadius: 100,
+                    margin: 10,
+                    shadowOpacity: 0.8,
+                    shadowRadius: 4,
+                    shadowColor: "black",
+                    shadowOffset: {
+                      height: 0,
+                      width: 0,
+                    },
+                    elevation: 1,
+                    zIndex: -1,
+                  }}
+                />
+                <View
+                  style={{
+                    position: "absolute",
+                    backgroundColor: "black",
+                    width: 200,
+                    height: 200,
+                    borderRadius: 100,
+                    opacity: 0.2,
+                  }}
+                ></View>
+                <Ionicons
+                  style={{
+                    position: "absolute",
+                    zIndex: 99,
+                    color: "#f1f1f1",
+                    fontSize: 75,
+                    shadowOpacity: 0.8,
+                    shadowRadius: 4,
+                    shadowColor: "black",
+                    shadowOffset: {
+                      height: 0,
+                      width: 0,
+                    },
+                    elevation: 1,
+                  }}
+                  name="attach"
+                ></Ionicons>
+              </TouchableOpacity>
             </View>
           )}
         </View>
-
+        <Text
+          style={{
+            textAlign: i18n.locale === ("en-US" || "en") ? "left" : "right",
+            width: "80%",
+            padding: 10,
+            fontFamily:
+              i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            fontSize: 18,
+          }}
+        >
+          {i18n.locale === ("en-US" || "en") ? "Email" : "البريد الالكتروني"}
+        </Text>
         <TextInput
           textInputStyle={{
             alignSelf: "center",
-            width: "90%",
+            width: "80%",
             marginBottom: 20,
-            padding: 25,
-            fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-            textAlign: i18n.locale === "en-US" ? "left" : "right",
+            padding: 10,
+            fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
             backgroundColor: "white",
             shadowColor: "#000",
             shadowOffset: {
@@ -175,24 +241,10 @@ function EditScreen() {
           onChangeText={(text) => {
             handleChange("email", text);
           }}
-          placeholder={i18n.locale === "en-US" ? "Email" : "الايميل"}
+          value={authStore.user.email}
           placeholderTextColor={"grey"}
           keyboardType="web-search"
         />
-        <View
-          style={{
-            borderColor: "#9279f7",
-            borderWidth: 0.5,
-            width: 150,
-            alignSelf: "center",
-            borderRadius: "50%",
-            backgroundColor: "white",
-          }}
-        >
-          {/* <View style={styles.button}> */}
-          <Button color={"#9279f7"} title="Update" onPress={handleSubmit} />
-          {/* </View> */}
-        </View>
       </View>
     </SafeAreaView>
   );
@@ -211,11 +263,19 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     paddingLeft: 25,
   },
+  done: {
+    marginLeft: 20,
+    marginTop: 20,
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    paddingRight: 25,
+  },
   main: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    marginTop: 20,
     alignItems: "center",
-    marginBottom: 60,
+    marginBottom: 20,
   },
   addImage: {
     backgroundColor: "pink",

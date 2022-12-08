@@ -63,7 +63,8 @@ function OrganizerProfile({ route }) {
       <View
         style={{
           display: "flex",
-          flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+          flexDirection:
+            i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
           alignItems: "center",
           justifyContent: "center",
           marginTop: 50,
@@ -86,10 +87,11 @@ function OrganizerProfile({ route }) {
               zIndex: 99,
               fontSize: 35,
               margin: 20,
-              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+              alignSelf:
+                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
             }}
             name={
-              i18n.locale === "en-US"
+              i18n.locale === ("en-US" || "en")
                 ? "chevron-back-outline"
                 : "chevron-forward-outline"
             }
@@ -146,11 +148,12 @@ function OrganizerProfile({ route }) {
             <Text
               style={{
                 fontSize: 25,
-                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                fontFamily:
+                  i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
             >
-              {i18n.locale === "en-US" ? "Spots" : "نقاط"}
+              {i18n.locale === ("en-US" || "en") ? "Spots" : "نقاط"}
             </Text>
           </View>
         </View>

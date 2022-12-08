@@ -133,10 +133,10 @@ function Explore() {
                 style={{
                   margin: 30,
                   marginTop: 5,
-                  marginBottom: i18n.locale === "en-US" ? 40 : 15,
+                  marginBottom: i18n.locale === ("en-US" || "en") ? 40 : 15,
                   display: "flex",
                   flexDirection:
-                    i18n.locale === "en-US" ? "row" : "row-reverse",
+                    i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
                   alignItems: "center",
                   flexWrap: "wrap",
                   justifyContent: "space-between",
@@ -145,7 +145,9 @@ function Explore() {
                 <Text
                   style={{
                     fontFamily:
-                      i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                      i18n.locale === ("en-US" || "en")
+                        ? "UbuntuBold"
+                        : "NotoBold",
                     fontSize: 35,
                     marginBottom: 10,
                     color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
@@ -177,15 +179,16 @@ function Explore() {
                   borderRadius: "10%",
                   marginTop: "-6%",
                   height: "6%",
+                  paddingBottom: "10%",
                 }}
                 contentContainerStyle={{
                   display: "flex",
                   flexDirection:
-                    i18n.locale === "en-US" ? "row" : "row-reverse",
+                    i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
                 }}
                 ref={scrollViewRef}
                 onContentSizeChange={() =>
-                  i18n.locale === "en-US"
+                  i18n.locale === ("en-US" || "en")
                     ? scrollViewRef.current.scrollTo({
                         x: 0,
                         y: 0,
@@ -224,7 +227,9 @@ function Explore() {
                             fontSize: 20,
                             alignSelf: "center",
                             fontFamily:
-                              i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                              i18n.locale === ("en-US" || "en")
+                                ? "Ubuntu"
+                                : "Noto",
                             color: "#9279f7",
                           }
                         : {
@@ -235,11 +240,13 @@ function Explore() {
                             fontSize: 20,
                             alignSelf: "center",
                             fontFamily:
-                              i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                              i18n.locale === ("en-US" || "en")
+                                ? "Ubuntu"
+                                : "Noto",
                           }
                     }
                   >
-                    {i18n.locale === "en-US" ? "All" : "الكل"}
+                    {i18n.locale === ("en-US" || "en") ? "All" : "الكل"}
                   </Text>
                 </TouchableOpacity>
                 {categories.map((category) => (
@@ -277,7 +284,9 @@ function Explore() {
                               fontSize: 20,
                               alignSelf: "center",
                               fontFamily:
-                                i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                                i18n.locale === ("en-US" || "en")
+                                  ? "Ubuntu"
+                                  : "Noto",
                               color: "#9279f7",
                               zIndex: 99,
                             }
@@ -289,7 +298,9 @@ function Explore() {
                               fontSize: 20,
                               alignSelf: "center",
                               fontFamily:
-                                i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                                i18n.locale === ("en-US" || "en")
+                                  ? "Ubuntu"
+                                  : "Noto",
                               zIndex: 99,
                             }
                       }
@@ -318,23 +329,56 @@ function Explore() {
                   </TouchableOpacity>
                 ))}
               </ScrollView>
-              <Carousel
-                contentContainerStyle={{
-                  backgroundColor: "transparent",
-                }}
-                data={spots}
-                renderItem={renderSpot}
-                windowSize={1}
-                sliderWidth={450}
-                itemWidth={360}
-                layout={"default"}
-                containerCustomStyle={{
-                  alignSelf: "center",
-                  marginTop: "5%",
-                  backgroundColor: "transparent",
-                }}
-                useScrollView={true}
-              />
+              {spots.length === 0 ? (
+                <View
+                  style={{
+                    display: "flex",
+                    alignSelf: "center",
+                    height: "90%",
+                    alignItems: "center",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    width: "91%",
+                  }}
+                >
+                  <Text
+                    style={{
+                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                      fontSize: i18n.locale === ("en-US" || "en") ? 45 : 35,
+                      fontFamily:
+                        i18n.locale === ("en-US" || "en")
+                          ? "UbuntuBold"
+                          : "NotoBold",
+                      alignSelf: "center",
+                      textAlign:
+                        i18n.locale === ("en-US" || "en") ? "left" : "right",
+                      lineHeight: 70,
+                    }}
+                  >
+                    {i18n.locale === ("en-US" || "en")
+                      ? "No Destinations in here yet!"
+                      : "لا وجهات هنا حتى الآن!"}
+                  </Text>
+                </View>
+              ) : (
+                <Carousel
+                  contentContainerStyle={{
+                    backgroundColor: "transparent",
+                  }}
+                  data={spots}
+                  renderItem={renderSpot}
+                  windowSize={1}
+                  sliderWidth={450}
+                  itemWidth={360}
+                  layout={"default"}
+                  containerCustomStyle={{
+                    alignSelf: "center",
+                    marginTop: "5%",
+                    backgroundColor: "transparent",
+                  }}
+                  useScrollView={true}
+                />
+              )}
             </>
           )}
         </SafeAreaView>

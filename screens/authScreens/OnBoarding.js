@@ -41,10 +41,11 @@ export default function OnBoarding() {
       <Text
         style={{
           fontSize: 54,
-          fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+          fontFamily:
+            i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
           width: "75%",
           marginTop: 200,
-          textAlign: i18n.locale === "en-US" ? "left" : "right",
+          textAlign: i18n.locale === ("en-US" || "en") ? "left" : "right",
         }}
       >
         {i18n.t("out")}
@@ -67,10 +68,11 @@ export default function OnBoarding() {
             width: "75%",
             backgroundColor: "#9279f7",
             justifyContent: "space-between",
-            flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+            flexDirection:
+              i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
             padding: 10,
           }}
-          onPress={() => navigation.navigate("MainPageRegister")}
+          onPress={() => navigation.navigate("SetUpAccount")}
         >
           <Text
             style={{
@@ -79,7 +81,7 @@ export default function OnBoarding() {
               alignSelf: "center",
               marginLeft: 10,
               marginRight: 10,
-              fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+              fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
             }}
           >
             {i18n.t("start")}
@@ -87,33 +89,12 @@ export default function OnBoarding() {
           <Ionicons
             style={styles.icon}
             name={
-              i18n.locale === "en-US"
+              i18n.locale === ("en-US" || "en")
                 ? "chevron-forward-outline"
                 : "chevron-back-outline"
             }
           ></Ionicons>
         </TouchableOpacity>
-        <View
-          style={{
-            display: "flex",
-            alignItems: "center",
-            alignContent: "center",
-            flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
-            marginTop: 5,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 22,
-              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-              marginTop: 10,
-              color: "#9279f7",
-            }}
-            onPress={() => navigation.navigate("SetUpAccount")}
-          >
-            {i18n.t("login")}
-          </Text>
-        </View>
       </View>
     </View>
   );

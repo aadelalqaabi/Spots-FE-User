@@ -143,11 +143,12 @@ export default function Password({ navigation, route }) {
               marginTop: 80,
               marginLeft: 20,
               paddingRight: 20,
-              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+              alignSelf:
+                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
             name={
-              i18n.locale === "en-US"
+              i18n.locale === ("en-US" || "en")
                 ? "chevron-back-outline"
                 : "chevron-forward-outline"
             }
@@ -164,11 +165,12 @@ export default function Password({ navigation, route }) {
           >
             <Text
               style={{
-                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                fontFamily:
+                  i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
                 fontSize: 27,
                 margin: 20,
                 marginTop: 0,
-                marginBottom: i18n.locale === "en-US" ? 20 : 10,
+                marginBottom: i18n.locale === ("en-US" || "en") ? 20 : 10,
                 width: "100%",
                 textAlign: "center",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
@@ -178,11 +180,12 @@ export default function Password({ navigation, route }) {
             </Text>
             <Text
               style={{
-                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                fontSize: i18n.locale === "en-US" ? 16 : 18,
+                fontFamily:
+                  i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                fontSize: i18n.locale === ("en-US" || "en") ? 16 : 18,
                 margin: 20,
                 marginTop: 0,
-                marginBottom: i18n.locale === "en-US" ? 20 : 10,
+                marginBottom: i18n.locale === ("en-US" || "en") ? 20 : 10,
                 width: "100%",
                 textAlign: "center",
                 lineHeight: 23,
@@ -211,7 +214,8 @@ export default function Password({ navigation, route }) {
                     width: "103%",
                     marginBottom: 10,
                     padding: 14,
-                    fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                    fontFamily:
+                      i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
                     backgroundColor: "white",
                     shadowColor: "#000",
                     shadowOffset: {
@@ -233,7 +237,7 @@ export default function Password({ navigation, route }) {
                   onSubmitEditing={() => {
                     checkValidation === false
                       ? navigation.navigate("MyImage", { itemId: user })
-                      : i18n.locale === "en-US"
+                      : i18n.locale === ("en-US" || "en")
                       ? Alert.alert("Invalid Password", "", [
                           { text: "Try Again" },
                         ])
@@ -259,15 +263,18 @@ export default function Password({ navigation, route }) {
                   <View
                     style={{
                       flexDirection:
-                        i18n.locale === "en-US" ? "row" : "row-reverse",
+                        i18n.locale === ("en-US" || "en")
+                          ? "row"
+                          : "row-reverse",
                       paddingBottom: 5,
                     }}
                   >
                     <Ionicons name="close-circle" size={22} color="#ea3e29" />
                     <Text
                       style={{
-                        marginTop: i18n.locale === "en-US" ? 3 : -3,
-                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginTop: i18n.locale === ("en-US" || "en") ? 3 : -3,
+                        fontFamily:
+                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
                         marginLeft: 10,
                         marginRight: 10,
                         fontSize: 15,
@@ -282,7 +289,9 @@ export default function Password({ navigation, route }) {
                   <View
                     style={{
                       flexDirection:
-                        i18n.locale === "en-US" ? "row" : "row-reverse",
+                        i18n.locale === ("en-US" || "en")
+                          ? "row"
+                          : "row-reverse",
                       paddingBottom: 5,
                     }}
                   >
@@ -293,8 +302,9 @@ export default function Password({ navigation, route }) {
                     />
                     <Text
                       style={{
-                        marginTop: i18n.locale === "en-US" ? 3 : -3,
-                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginTop: i18n.locale === ("en-US" || "en") ? 3 : -3,
+                        fontFamily:
+                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
                         marginLeft: 10,
                         marginRight: 10,
                         color: "#525252",
@@ -311,15 +321,18 @@ export default function Password({ navigation, route }) {
                   <View
                     style={{
                       flexDirection:
-                        i18n.locale === "en-US" ? "row" : "row-reverse",
+                        i18n.locale === ("en-US" || "en")
+                          ? "row"
+                          : "row-reverse",
                       paddingBottom: 5,
                     }}
                   >
                     <Ionicons name="close-circle" size={22} color="#ea3e29" />
                     <Text
                       style={{
-                        marginTop: i18n.locale === "en-US" ? 3 : -3,
-                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginTop: i18n.locale === ("en-US" || "en") ? 3 : -3,
+                        fontFamily:
+                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
                         marginLeft: 10,
                         marginRight: 10,
                         fontSize: 15,
@@ -334,7 +347,9 @@ export default function Password({ navigation, route }) {
                   <View
                     style={{
                       flexDirection:
-                        i18n.locale === "en-US" ? "row" : "row-reverse",
+                        i18n.locale === ("en-US" || "en")
+                          ? "row"
+                          : "row-reverse",
                       paddingBottom: 5,
                     }}
                   >
@@ -345,8 +360,9 @@ export default function Password({ navigation, route }) {
                     />
                     <Text
                       style={{
-                        marginTop: i18n.locale === "en-US" ? 3 : -3,
-                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginTop: i18n.locale === ("en-US" || "en") ? 3 : -3,
+                        fontFamily:
+                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
                         marginLeft: 10,
                         marginRight: 10,
                         color: "#525252",
@@ -363,15 +379,18 @@ export default function Password({ navigation, route }) {
                   <View
                     style={{
                       flexDirection:
-                        i18n.locale === "en-US" ? "row" : "row-reverse",
+                        i18n.locale === ("en-US" || "en")
+                          ? "row"
+                          : "row-reverse",
                       paddingBottom: 5,
                     }}
                   >
                     <Ionicons name="close-circle" size={22} color="#ea3e29" />
                     <Text
                       style={{
-                        marginTop: i18n.locale === "en-US" ? 3 : -3,
-                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginTop: i18n.locale === ("en-US" || "en") ? 3 : -3,
+                        fontFamily:
+                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
                         marginLeft: 10,
                         marginRight: 10,
                         fontSize: 15,
@@ -386,7 +405,9 @@ export default function Password({ navigation, route }) {
                   <View
                     style={{
                       flexDirection:
-                        i18n.locale === "en-US" ? "row" : "row-reverse",
+                        i18n.locale === ("en-US" || "en")
+                          ? "row"
+                          : "row-reverse",
                       paddingBottom: 5,
                     }}
                   >
@@ -397,8 +418,9 @@ export default function Password({ navigation, route }) {
                     />
                     <Text
                       style={{
-                        marginTop: i18n.locale === "en-US" ? 3 : -3,
-                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginTop: i18n.locale === ("en-US" || "en") ? 3 : -3,
+                        fontFamily:
+                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
                         marginLeft: 10,
                         marginRight: 10,
                         color: "#525252",
@@ -415,15 +437,18 @@ export default function Password({ navigation, route }) {
                   <View
                     style={{
                       flexDirection:
-                        i18n.locale === "en-US" ? "row" : "row-reverse",
+                        i18n.locale === ("en-US" || "en")
+                          ? "row"
+                          : "row-reverse",
                       paddingBottom: 5,
                     }}
                   >
                     <Ionicons name="close-circle" size={22} color="#ea3e29" />
                     <Text
                       style={{
-                        marginTop: i18n.locale === "en-US" ? 3 : -3,
-                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginTop: i18n.locale === ("en-US" || "en") ? 3 : -3,
+                        fontFamily:
+                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
                         marginLeft: 10,
                         marginRight: 10,
                         fontSize: 15,
@@ -438,7 +463,9 @@ export default function Password({ navigation, route }) {
                   <View
                     style={{
                       flexDirection:
-                        i18n.locale === "en-US" ? "row" : "row-reverse",
+                        i18n.locale === ("en-US" || "en")
+                          ? "row"
+                          : "row-reverse",
                       paddingBottom: 5,
                     }}
                   >
@@ -449,8 +476,9 @@ export default function Password({ navigation, route }) {
                     />
                     <Text
                       style={{
-                        marginTop: i18n.locale === "en-US" ? 3 : -3,
-                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginTop: i18n.locale === ("en-US" || "en") ? 3 : -3,
+                        fontFamily:
+                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
                         marginLeft: 10,
                         marginRight: 10,
                         color: "#525252",
@@ -467,15 +495,18 @@ export default function Password({ navigation, route }) {
                   <View
                     style={{
                       flexDirection:
-                        i18n.locale === "en-US" ? "row" : "row-reverse",
+                        i18n.locale === ("en-US" || "en")
+                          ? "row"
+                          : "row-reverse",
                       paddingBottom: 5,
                     }}
                   >
                     <Ionicons name="close-circle" size={22} color="#ea3e29" />
                     <Text
                       style={{
-                        marginTop: i18n.locale === "en-US" ? 3 : -3,
-                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginTop: i18n.locale === ("en-US" || "en") ? 3 : -3,
+                        fontFamily:
+                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
                         marginLeft: 10,
                         marginRight: 10,
                         fontSize: 15,
@@ -490,7 +521,9 @@ export default function Password({ navigation, route }) {
                   <View
                     style={{
                       flexDirection:
-                        i18n.locale === "en-US" ? "row" : "row-reverse",
+                        i18n.locale === ("en-US" || "en")
+                          ? "row"
+                          : "row-reverse",
                       paddingBottom: 5,
                     }}
                   >
@@ -501,8 +534,9 @@ export default function Password({ navigation, route }) {
                     />
                     <Text
                       style={{
-                        marginTop: i18n.locale === "en-US" ? 3 : -3,
-                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        marginTop: i18n.locale === ("en-US" || "en") ? 3 : -3,
+                        fontFamily:
+                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
                         marginLeft: 10,
                         marginRight: 10,
                         color: "#525252",

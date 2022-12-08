@@ -77,7 +77,7 @@ class AuthStore {
       this.setUser(response.data.token);
     } catch (error) {
       console.log(error);
-      i18n.locale === "en-US"
+      i18n.locale === ("en-US" || "en")
         ? Alert.alert("Wrong username or password", "", [{ text: "Try Again" }])
         : Alert.alert("مستخدم او كلمه سر خاطئه", "", [
             { text: "حاول مرة اخرى" },
@@ -115,7 +115,7 @@ class AuthStore {
           });
           // this.logout()
         } else {
-          i18n.locale === "en-US"
+          i18n.locale === ("en-US" || "en")
             ? Alert.alert("Passwords Don't Match", "", [{ text: "Try Again" }])
             : Alert.alert("كلمات السر غير متطابقة", "", [
                 { text: "حاول مرة اخرى" },

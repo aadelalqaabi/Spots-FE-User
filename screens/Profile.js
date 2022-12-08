@@ -108,9 +108,9 @@ function Profile() {
               speed={3}
               style={{
                 height: "110%",
-                marginTop: -45,
+                marginTop: -15,
               }}
-              viewBox="0 0 255 420"
+              viewBox="2 20 255 420"
               backgroundColor={colorScheme === "dark" ? "#313131" : "#d8d8d8"}
               foregroundColor={colorScheme === "dark" ? "#5a5a5a" : "#c2c2c2"}
             >
@@ -140,7 +140,9 @@ function Profile() {
                 <TouchableOpacity
                   style={{
                     alignSelf:
-                      i18n.locale === "en-US" ? "flex-end" : "flex-start",
+                      i18n.locale === ("en-US" || "en")
+                        ? "flex-end"
+                        : "flex-start",
                     position: "absolute",
                     marginLeft: 20,
                     paddingRight: 20,
@@ -159,7 +161,9 @@ function Profile() {
                   style={{
                     fontSize: 30,
                     fontFamily:
-                      i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                      i18n.locale === ("en-US" || "en")
+                        ? "UbuntuBold"
+                        : "NotoBold",
                     color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                     alignSelf: "center",
                   }}
@@ -174,7 +178,7 @@ function Profile() {
                   alignContent: "center",
                   alignItems: "center",
                   flexDirection:
-                    i18n.locale === "en-US" ? "row" : "row-reverse",
+                    i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
                   marginBottom: 10,
                   marginRight: 80,
                   marginLeft: 40,
@@ -226,7 +230,8 @@ function Profile() {
                   <Text
                     style={{
                       fontSize: 25,
-                      fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                      fontFamily:
+                        i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
                       color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                     }}
                   >

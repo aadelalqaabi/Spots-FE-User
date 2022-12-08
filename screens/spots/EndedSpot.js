@@ -54,7 +54,8 @@ export default function EndedSpot({ route }) {
         <View
           style={{
             display: "flex",
-            flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+            flexDirection:
+              i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
             alignContent: "center",
             alignItems: "center",
             justifyContent: "cnter",
@@ -76,7 +77,7 @@ export default function EndedSpot({ route }) {
                 width: "100%",
               }}
               name={
-                i18n.locale === "en-US"
+                i18n.locale === ("en-US" || "en")
                   ? "chevron-back-outline"
                   : "chevron-forward-outline"
               }
@@ -87,12 +88,12 @@ export default function EndedSpot({ route }) {
               fontSize: 26,
               alignSelf: "center",
               textAlign: "center",
-              fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+              fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
               width: "70%",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
           >
-            {i18n.locale === "en-US" ? spot.name : spot.nameAr}
+            {i18n.locale === ("en-US" || "en") ? spot.name : spot.nameAr}
           </Text>
         </View>
         <View
@@ -108,7 +109,8 @@ export default function EndedSpot({ route }) {
           <Text
             style={{
               fontSize: 50,
-              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+              fontFamily:
+                i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
           >
@@ -117,13 +119,13 @@ export default function EndedSpot({ route }) {
           <Text
             style={{
               fontSize: 18,
-              fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+              fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               position: "absolute",
               paddingTop: 130,
             }}
           >
-            {i18n.locale === "en-US"
+            {i18n.locale === ("en-US" || "en")
               ? "Users Spotted Here"
               : "مستخدمين اتوا هنا"}
           </Text>
@@ -131,15 +133,17 @@ export default function EndedSpot({ route }) {
         <Text
           style={{
             fontSize: 20,
-            alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+            alignSelf:
+              i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
             textAlign: "center",
-            fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+            fontFamily:
+              i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
             margin: 20,
             marginBottom: 10,
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
-          {i18n.locale === "en-US" ? "Reviews" : "مراجعات"}
+          {i18n.locale === ("en-US" || "en") ? "Reviews" : "مراجعات"}
         </Text>
         <View style={{ marginTop: 20 }}>
           <ReviewList key="2" reviews={spot?.reviews} spotId={spot?._id} />

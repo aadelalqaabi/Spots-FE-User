@@ -113,11 +113,12 @@ export default function MainPageRegister() {
               marginTop: 80,
               marginLeft: 20,
               paddingRight: 20,
-              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+              alignSelf:
+                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
             name={
-              i18n.locale === "en-US"
+              i18n.locale === ("en-US" || "en")
                 ? "chevron-back-outline"
                 : "chevron-forward-outline"
             }
@@ -134,11 +135,12 @@ export default function MainPageRegister() {
           >
             <Text
               style={{
-                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                fontFamily:
+                  i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
                 fontSize: 29,
                 margin: 20,
                 marginTop: 0,
-                marginBottom: i18n.locale === "en-US" ? 20 : 10,
+                marginBottom: i18n.locale === ("en-US" || "en") ? 20 : 10,
                 width: "100%",
                 textAlign: "center",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
@@ -148,11 +150,12 @@ export default function MainPageRegister() {
             </Text>
             <Text
               style={{
-                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                fontSize: i18n.locale === "en-US" ? 16 : 18,
+                fontFamily:
+                  i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                fontSize: i18n.locale === ("en-US" || "en") ? 16 : 18,
                 margin: 20,
                 marginTop: 0,
-                marginBottom: i18n.locale === "en-US" ? 20 : 10,
+                marginBottom: i18n.locale === ("en-US" || "en") ? 20 : 10,
                 width: "100%",
                 textAlign: "center",
                 color: "#64666b",
@@ -184,8 +187,10 @@ export default function MainPageRegister() {
                     padding: 14,
                     paddingLeft: 50,
                     paddingRight: 50,
-                    fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                    textAlign: i18n.locale === "en-US" ? "left" : "right",
+                    fontFamily:
+                      i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                    textAlign:
+                      i18n.locale === ("en-US" || "en") ? "left" : "right",
                     backgroundColor: "white",
                     shadowColor: "#000",
                     shadowOffset: {
@@ -207,7 +212,7 @@ export default function MainPageRegister() {
                   onSubmitEditing={() => {
                     checkValidation === false
                       ? navigation.navigate("Email", { itemId: user })
-                      : i18n.locale === "en-US"
+                      : i18n.locale === ("en-US" || "en")
                       ? Alert.alert("Invalid Username", "", ["Try Again"])
                       : Alert.alert("اسم المستخدم غير صالح", "", [
                           { text: "حاول مرة اخرى" },
@@ -231,7 +236,9 @@ export default function MainPageRegister() {
                       margin: 12,
                       fontSize: 25,
                       alignSelf:
-                        i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                        i18n.locale === ("en-US" || "en")
+                          ? "flex-start"
+                          : "flex-end",
                     }}
                     name="person-circle"
                     size={30}
@@ -247,7 +254,9 @@ export default function MainPageRegister() {
                           margin: 12,
                           fontSize: 25,
                           alignSelf:
-                            i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                            i18n.locale === ("en-US" || "en")
+                              ? "flex-start"
+                              : "flex-end",
                         }}
                         name="close-outline"
                         size={18}
@@ -261,7 +270,9 @@ export default function MainPageRegister() {
                           margin: 12,
                           fontSize: 25,
                           alignSelf:
-                            i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                            i18n.locale === ("en-US" || "en")
+                              ? "flex-start"
+                              : "flex-end",
                         }}
                         name="checkmark"
                         size={16}

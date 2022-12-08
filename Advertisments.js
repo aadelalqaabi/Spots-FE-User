@@ -249,10 +249,11 @@ function Advertisments() {
                 fontWeight: "bold",
                 color: "white",
                 paddingLeft: 10,
-                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                fontFamily:
+                  i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
               }}
             >
-              {i18n.locale === "en-US"
+              {i18n.locale === ("en-US" || "en")
                 ? organizer?.displayNameEn
                 : organizer?.displayNameAr}
             </Text>
@@ -292,10 +293,12 @@ function Advertisments() {
         style={{
           fontSize: 32,
           fontWeight: "700",
-          fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+          fontFamily:
+            i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
           color: "white",
           shadowColor: "#000",
-          alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+          alignSelf:
+            i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
           shadowOffset: {
             width: 0,
             height: 3,
@@ -307,7 +310,7 @@ function Advertisments() {
           marginBottom: 0,
         }}
       >
-        {i18n.locale === "en-US"
+        {i18n.locale === ("en-US" || "en")
           ? adSpots[current]?.name
           : adSpots[current]?.nameAr}
       </Text>
@@ -315,7 +318,7 @@ function Advertisments() {
         style={{
           fontSize: 20,
           color: "white",
-          fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+          fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
           shadowColor: "#000",
           shadowOffset: {
             width: 0,
@@ -325,11 +328,11 @@ function Advertisments() {
           shadowRadius: 4.65,
           elevation: 7,
           lineHeight: 28,
-          textAlign: i18n.locale === "en-US" ? "left" : "right",
+          textAlign: i18n.locale === ("en-US" || "en") ? "left" : "right",
           margin: 30,
         }}
       >
-        {i18n.locale === "en-US"
+        {i18n.locale === ("en-US" || "en")
           ? adSpots[current]?.description
           : adSpots[current]?.descriptionAr}
       </Text>
@@ -367,7 +370,7 @@ function Advertisments() {
             fontFamily: "Ubuntu",
           }}
         >
-          {i18n.locale === "en-US" ? "More Details" : "تفاصيل اكثر"}
+          {i18n.locale === ("en-US" || "en") ? "More Details" : "تفاصيل اكثر"}
         </Text>
       </TouchableOpacity>
     </View>

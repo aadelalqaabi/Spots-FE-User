@@ -88,7 +88,8 @@ function RewardItem({ reward, onRefresh }) {
               paddingLeft: 10,
               paddingRight: 10,
               borderRadius: "40%",
-              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+              alignSelf:
+                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
             }}
           >
             <Text style={styles.pointsAmount}>{reward?.points}</Text>
@@ -102,11 +103,13 @@ function RewardItem({ reward, onRefresh }) {
               marginRight: -20,
               fontSize: 22,
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+              fontFamily:
+                i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+              alignSelf:
+                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
             }}
           >
-            {i18n.locale === "en-US" ? reward?.title : reward.titleAr}
+            {i18n.locale === ("en-US" || "en") ? reward?.title : reward.titleAr}
           </Text>
         </View>
         <View style={styles.descriptionContainer}>
@@ -116,14 +119,15 @@ function RewardItem({ reward, onRefresh }) {
               marginRight: -20,
               fontSize: 18,
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              fontFamily: i18n.locale === "en-US" ? "Cabin" : "Noto",
-              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+              fontFamily: i18n.locale === ("en-US" || "en") ? "Cabin" : "Noto",
+              alignSelf:
+                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
               width: 300,
               lineHeight: 25,
-              textAlign: i18n.locale === "en-US" ? "left" : "right",
+              textAlign: i18n.locale === ("en-US" || "en") ? "left" : "right",
             }}
           >
-            {i18n.locale === "en-US"
+            {i18n.locale === ("en-US" || "en")
               ? reward?.description
               : reward?.descriptionAr}
           </Text>
@@ -176,20 +180,23 @@ function RewardItem({ reward, onRefresh }) {
 
                 <Text
                   style={{
-                    fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                    fontFamily:
+                      i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
                     fontSize: 30,
                     alignSelf: "center",
-                    // margin: i18n.locale === "en-US" ? 35 : 10,
-                    // marginTop: i18n.locale === "en-US" ? 10 : 35,
+                    // margin: i18n.locale === ("en-US" || "en")  ? 35 : 10,
+                    // marginTop: i18n.locale === ("en-US" || "en")  ? 10 : 35,
                   }}
                 >
-                  {i18n.locale === "en-US" ? reward.title : reward.titleAr}
+                  {i18n.locale === ("en-US" || "en")
+                    ? reward.title
+                    : reward.titleAr}
                 </Text>
                 <View
                   style={{
                     display: "flex",
                     flexDirection:
-                      i18n.locale === "en-US" ? "row" : "row-reverse",
+                      i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
                     alignSelf: "center",
                     marginTop: -10,
                   }}
@@ -200,7 +207,9 @@ function RewardItem({ reward, onRefresh }) {
                         fontFamily: "UbuntuBold",
                         fontSize: 25,
                         alignSelf:
-                          i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                          i18n.locale === ("en-US" || "en")
+                            ? "flex-start"
+                            : "flex-end",
                         margin: 35,
                         // marginTop: 2,
                         marginBottom: 0,
@@ -210,16 +219,17 @@ function RewardItem({ reward, onRefresh }) {
                     </Text>
                     <Text
                       style={{
-                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        fontFamily:
+                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
                         fontSize: 18,
                         alignSelf: "flex-start",
                         margin: 35,
-                        marginTop: i18n.locale === "en-US" ? 2 : -2,
+                        marginTop: i18n.locale === ("en-US" || "en") ? 2 : -2,
                         marginBottom: 0,
                         color: "#7a797a",
                       }}
                     >
-                      {i18n.locale === "en-US"
+                      {i18n.locale === ("en-US" || "en")
                         ? "Reward Points"
                         : "نقاط المكافأة"}
                     </Text>
@@ -230,7 +240,9 @@ function RewardItem({ reward, onRefresh }) {
                         fontFamily: "UbuntuBold",
                         fontSize: 25,
                         alignSelf:
-                          i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                          i18n.locale === ("en-US" || "en")
+                            ? "flex-start"
+                            : "flex-end",
                         margin: 35,
                         //marginTop: 2,
                         marginBottom: 0,
@@ -240,24 +252,29 @@ function RewardItem({ reward, onRefresh }) {
                     </Text>
                     <Text
                       style={{
-                        fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                        fontFamily:
+                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
                         fontSize: 18,
                         alignSelf: "flex-start",
                         margin: 35,
-                        marginTop: i18n.locale === "en-US" ? 2 : -2,
+                        marginTop: i18n.locale === ("en-US" || "en") ? 2 : -2,
                         marginBottom: 0,
                         color: "#7a797a",
                       }}
                     >
-                      {i18n.locale === "en-US" ? "Your Points" : "نقاطك حاليا"}
+                      {i18n.locale === ("en-US" || "en")
+                        ? "Your Points"
+                        : "نقاطك حاليا"}
                     </Text>
                   </View>
                 </View>
                 {myPoints?.amount < reward.points ? (
                   <Text
                     style={{
-                      fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                      textAlign: i18n.locale === "en-US" ? "left" : "right",
+                      fontFamily:
+                        i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                      textAlign:
+                        i18n.locale === ("en-US" || "en") ? "left" : "right",
                       fontSize: 20,
                       alignSelf: "center",
                       margin: 35,
@@ -268,19 +285,19 @@ function RewardItem({ reward, onRefresh }) {
                       lineHeight: 30,
                     }}
                   >
-                    {i18n.locale === "en-US" ? "You Need" : "تحتاج"}{" "}
+                    {i18n.locale === ("en-US" || "en") ? "You Need" : "تحتاج"}{" "}
                     {
                       <Text style={styles.pointsNotEnoughNum}>
                         {reward.points - myPoints?.amount}
                       </Text>
                     }{" "}
-                    {i18n.locale === "en-US"
+                    {i18n.locale === ("en-US" || "en")
                       ? "more points to claim this reward"
                       : "نقطة اكثر للحصول على هذه المكافأة"}
                   </Text>
                 ) : (
                   <Text style={styles.claimNow}>
-                    {i18n.locale === "en-US"
+                    {i18n.locale === ("en-US" || "en")
                       ? "You can claim this reward now!"
                       : "تستطيع الحصول على هذه الجائزة!"}
                   </Text>
@@ -294,7 +311,9 @@ function RewardItem({ reward, onRefresh }) {
                         fontFamily: "Ubuntu",
                       }}
                     >
-                      {i18n.locale === "en-US" ? "Claim" : "الحصول الآن"}
+                      {i18n.locale === ("en-US" || "en")
+                        ? "Claim"
+                        : "الحصول الآن"}
                     </Text>
                   </TouchableOpacity>
                 ) : (
@@ -306,7 +325,9 @@ function RewardItem({ reward, onRefresh }) {
                         fontFamily: "Ubuntu",
                       }}
                     >
-                      {i18n.locale === "en-US" ? "Claim" : "الحصول الآن"}
+                      {i18n.locale === ("en-US" || "en")
+                        ? "Claim"
+                        : "الحصول الآن"}
                     </Text>
                   </View>
                 )}
@@ -348,28 +369,33 @@ function RewardItem({ reward, onRefresh }) {
 
                 <Text
                   style={{
-                    fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                    fontFamily:
+                      i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
                     fontSize: 30,
                     alignSelf: "center",
-                    margin: i18n.locale === "en-US" ? 35 : 10,
-                    marginTop: i18n.locale === "en-US" ? 45 : 35,
+                    margin: i18n.locale === ("en-US" || "en") ? 35 : 10,
+                    marginTop: i18n.locale === ("en-US" || "en") ? 45 : 35,
                   }}
                 >
-                  {i18n.locale === "en-US" ? reward.title : reward.titleAr}
+                  {i18n.locale === ("en-US" || "en")
+                    ? reward.title
+                    : reward.titleAr}
                 </Text>
                 <Text
                   style={{
-                    fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                    fontFamily:
+                      i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
                     fontSize: 28,
                     alignSelf: "center",
-                    margin: i18n.locale === "en-US" ? 35 : 10,
-                    marginTop: i18n.locale === "en-US" ? 35 : 25,
-                    textAlign: i18n.locale === "en-US" ? "left" : "right",
+                    margin: i18n.locale === ("en-US" || "en") ? 35 : 10,
+                    marginTop: i18n.locale === ("en-US" || "en") ? 35 : 25,
+                    textAlign:
+                      i18n.locale === ("en-US" || "en") ? "left" : "right",
                     width: "80%",
-                    lineHeight: i18n.locale === "en-US" ? 40 : 50,
+                    lineHeight: i18n.locale === ("en-US" || "en") ? 40 : 50,
                   }}
                 >
-                  {i18n.locale === "en-US"
+                  {i18n.locale === ("en-US" || "en")
                     ? "You already claimed this reward, it cannot be claimed multiple times."
                     : "لقد حصلت على هذه الجائزة من قبل، لا يمكنك الحصول عليها اكثر من مرة."}
                 </Text>
