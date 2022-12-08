@@ -109,21 +109,22 @@ export default function GoogleLogin() {
               style={{
                 height: 25,
                 width: 25,
-                marginLeft: i18n.locale === "en-US" ? 0 : 15,
-                marginRight: i18n.locale === "en-US" ? 15 : 0,
+                marginLeft: i18n.locale === ("en-US" || "en") ? 0 : 15,
+                marginRight: i18n.locale === ("en-US" || "en") ? 15 : 0,
               }}
               source={require("../../assets/GoogleLogo.png")}
             ></Image>
             <Text
               style={{
-                paddingVertical: i18n.locale === "en-US" ? 10 : 5,
+                paddingVertical: i18n.locale === ("en-US" || "en") ? 10 : 5,
                 borderRadius: 15,
                 elevation: 3,
                 color: "#1b1b1b",
                 fontSize: 18,
                 fontWeight: "800",
                 alignSelf: "center",
-                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                fontFamily:
+                  i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
               }}
             >
               {i18n.t("google")}

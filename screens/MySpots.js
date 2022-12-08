@@ -100,71 +100,100 @@ function MySpots() {
           margin: 30,
           marginBottom: 10,
           marginTop: 15,
-          fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-          alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+          fontFamily:
+            i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+          alignSelf:
+            i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
           color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}
       >
         {i18n.t("myspots")}
       </Text>
-      {loading ? (
-        <ContentLoader
-          speed={2}
-          viewBox="0 0 400 675"
-          height={850}
-          width={490}
-          backgroundColor={colorScheme === "dark" ? "#313131" : "#d8d8d8"}
-          foregroundColor={colorScheme === "dark" ? "#5a5a5a" : "#c2c2c2"}
-        >
-          <Rect x="80" y="25" rx="15" ry="15" width="248" height="159" />
-          <Rect x="15" y="75" rx="15" ry="15" width="48" height="59" />
-          <Rect x="80" y="205" rx="15" ry="15" width="248" height="159" />
-          <Rect x="15" y="255" rx="15" ry="15" width="48" height="59" />
-          <Rect x="80" y="385" rx="15" ry="15" width="248" height="159" />
-          <Rect x="15" y="435" rx="15" ry="15" width="48" height="59" />
-        </ContentLoader>
-      ) : tickets.length !== 0 ? (
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
-          nestedScrollEnabled={true}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-        >
-          <FlatList
-            nestedScrollEnabled={true}
-            style={styles.spotsList}
-            contentContainerStyle={styles.spotsListContainer}
-            data={tickets}
-            renderItem={renderTicket}
+      <View style={{ width: "100%", height: "90%", zIndex: 99 }}>
+        {loading ? (
+          <>
+            {i18n.locale === ("en-US" || "en") ? (
+              <ContentLoader
+                speed={3}
+                viewBox="5 0 330 600"
+                style={{
+                  height: "110%",
+                  marginTop: -18,
+                }}
+                backgroundColor={colorScheme === "dark" ? "#313131" : "#d8d8d8"}
+                foregroundColor={colorScheme === "dark" ? "#5a5a5a" : "#c2c2c2"}
+              >
+                <Rect x="80" y="25" rx="15" ry="15" width="248" height="159" />
+                <Rect x="15" y="75" rx="15" ry="15" width="48" height="59" />
+                <Rect x="80" y="205" rx="15" ry="15" width="248" height="159" />
+                <Rect x="15" y="255" rx="15" ry="15" width="48" height="59" />
+                <Rect x="80" y="385" rx="15" ry="15" width="248" height="159" />
+                <Rect x="15" y="435" rx="15" ry="15" width="48" height="59" />
+              </ContentLoader>
+            ) : (
+              <ContentLoader
+                speed={3}
+                viewBox="5 0 330 600"
+                style={{
+                  height: "110%",
+                  marginTop: -18,
+                }}
+                backgroundColor={colorScheme === "dark" ? "#313131" : "#d8d8d8"}
+                foregroundColor={colorScheme === "dark" ? "#5a5a5a" : "#c2c2c2"}
+              >
+                <Rect x="18" y="25" rx="15" ry="15" width="248" height="159" />
+                <Rect x="278" y="75" rx="15" ry="15" width="48" height="59" />
+                <Rect x="18" y="205" rx="15" ry="15" width="248" height="159" />
+                <Rect x="278" y="255" rx="15" ry="15" width="48" height="59" />
+                <Rect x="18" y="385" rx="15" ry="15" width="248" height="159" />
+                <Rect x="278" y="435" rx="15" ry="15" width="48" height="59" />
+              </ContentLoader>
+            )}
+          </>
+        ) : tickets.length !== 0 ? (
+          <ScrollView
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
-          />
-        </ScrollView>
-      ) : (
-        <View
-          style={{
-            display: "flex",
-            alignSelf: "center",
-            height: "90%",
-            alignItems: "center",
-            flexDirection: "column",
-            justifyContent: "center",
-          }}
-        >
-          <Text
+            nestedScrollEnabled={true}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          >
+            <FlatList
+              nestedScrollEnabled={true}
+              style={styles.spotsList}
+              contentContainerStyle={styles.spotsListContainer}
+              data={tickets}
+              renderItem={renderTicket}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+            />
+          </ScrollView>
+        ) : (
+          <View
             style={{
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              fontSize: i18n.locale === "en-US" ? 50 : 40,
-              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+              display: "flex",
               alignSelf: "center",
+              height: "90%",
+              alignItems: "center",
+              flexDirection: "column",
+              justifyContent: "center",
             }}
           >
-            {i18n.t("empty")}
-          </Text>
-        </View>
-      )}
+            <Text
+              style={{
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                fontSize: i18n.locale === ("en-US" || "en") ? 50 : 40,
+                fontFamily:
+                  i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+                alignSelf: "center",
+              }}
+            >
+              {i18n.t("empty")}
+            </Text>
+          </View>
+        )}
+      </View>
     </SafeAreaView>
   );
 }

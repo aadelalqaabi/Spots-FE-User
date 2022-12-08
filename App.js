@@ -176,7 +176,7 @@ function RootNavigator() {
   const i18n = new I18n(translations);
   i18n.locale = Localization.locale;
   i18n.enableFallback = true;
-  return i18n.locale === "en-US" ? (
+  return i18n.locale === ("en-US" || "en") ? (
     <>
       <Navigator
         screenOptions={{
@@ -240,11 +240,7 @@ function RootNavigator() {
         <Screen name="Info" component={Info} />
         <Screen name="Payment" component={Payment} />
         <Screen name="Confirmation" component={Confirmation} />
-        <Screen
-          options={{ headerShown: false }}
-          name="Profile"
-          component={Profile}
-        />
+
         <Screen name="ProfileSpotDetails" component={ProfileSpotDetails} />
         <Group
           screenOptions={{
@@ -389,11 +385,7 @@ function RootNavigator() {
             cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
           }}
         />
-        <Screen
-          options={{ headerShown: false }}
-          name="Profile"
-          component={Profile}
-        />
+
         <Screen
           name="ProfileSpotDetails"
           component={ProfileSpotDetails}

@@ -60,11 +60,12 @@ function FinishedSpot({ spot }) {
                 height: 1,
                 width: 1,
               },
-              fontFamily: i18n === "en-US" ? "UbuntuBold" : "NotoBold",
+              fontFamily:
+                i18n === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
               textAlign: "center",
             }}
           >
-            {i18n.locale === "en-US" ? spot.name : spot.nameAr}
+            {i18n.locale === ("en-US" || "en") ? spot.name : spot.nameAr}
           </Text>
         </View>
       </TouchableOpacity>

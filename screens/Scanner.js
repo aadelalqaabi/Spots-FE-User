@@ -60,10 +60,11 @@ export default function Scanner({ route }) {
           marginLeft: 25,
           marginRight: 25,
           fontSize: 35,
-          alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+          alignSelf:
+            i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
         }}
         name={
-          i18n.locale === "en-US"
+          i18n.locale === ("en-US" || "en")
             ? "chevron-back-outline"
             : "chevron-forward-outline"
         }

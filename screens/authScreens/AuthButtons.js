@@ -26,12 +26,12 @@ export default function AuthButtons({ navigation }) {
   const colorScheme = useColorScheme();
   const translations = {
     en: {
-      title: "Go Where You Want To",
+      title: "Your Destination Awaits",
       new: "New here?",
       register: "Register Now",
     },
     ar: {
-      title: "اذهب الى اين ما شئت",
+      title: "وجهتك تنتظرك",
       new: "جديد على غوتو؟",
       register: "سجل الآن ",
     },
@@ -74,12 +74,13 @@ export default function AuthButtons({ navigation }) {
 
             <Text
               style={{
-                fontSize: i18n.locale === "en-US" ? 45 : 38,
-                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                fontSize: i18n.locale === ("en-US" || "en") ? 45 : 38,
+                fontFamily:
+                  i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
                 width: "100%",
                 marginTop: 50,
                 marginBottom: 60,
-                textAlign: i18n.locale === "en-US" ? "left" : "right",
+                textAlign: i18n.locale === ("en-US" || "en") ? "left" : "right",
                 color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
               }}
             >
@@ -92,14 +93,16 @@ export default function AuthButtons({ navigation }) {
                 justifyContent: "center",
                 alignContent: "center",
                 alignItems: "center",
-                flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+                flexDirection:
+                  i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
                 marginTop: 20,
               }}
             >
               <Text
                 style={{
                   color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
-                  fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                  fontFamily:
+                    i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
                   fontSize: 18,
                   paddingRight: 8,
                   paddingLeft: 8,
@@ -118,7 +121,9 @@ export default function AuthButtons({ navigation }) {
                   style={{
                     color: "#9279f7",
                     fontFamily:
-                      i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                      i18n.locale === ("en-US" || "en")
+                        ? "UbuntuBold"
+                        : "NotoBold",
                     fontSize: 20,
                   }}
                 >

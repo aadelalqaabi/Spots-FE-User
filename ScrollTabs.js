@@ -81,9 +81,10 @@ export default function ScrollTabs({ userSpots }) {
           <Text
             style={{
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              fontSize: i18n.locale === "en-US" ? 35 : 30,
+              fontSize: i18n.locale === ("en-US" || "en") ? 35 : 30,
               padding: 35,
-              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+              fontFamily:
+                i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
               textAlign: "center",
             }}
           >
@@ -95,7 +96,7 @@ export default function ScrollTabs({ userSpots }) {
           style={{
             flex: 1,
             zIndex: 99,
-            marginBottom: 240,
+            marginBottom: 390,
             backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
@@ -128,9 +129,10 @@ export default function ScrollTabs({ userSpots }) {
           <Text
             style={{
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              fontSize: i18n.locale === "en-US" ? 35 : 30,
+              fontSize: i18n.locale === ("en-US" || "en") ? 35 : 30,
               padding: 35,
-              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+              fontFamily:
+                i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
               textAlign: "center",
             }}
           >
@@ -142,7 +144,7 @@ export default function ScrollTabs({ userSpots }) {
           style={{
             flex: 1,
             zIndex: 99,
-            marginBottom: 250,
+            marginBottom: "50%",
             backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
@@ -191,7 +193,7 @@ export default function ScrollTabs({ userSpots }) {
             return (
               <Text
                 style={{
-                  fontFamily: i18n === "en-US" ? "Ubuntu" : "Noto",
+                  fontFamily: i18n === ("en-US" || "en") ? "Ubuntu" : "Noto",
                   fontSize: 22,
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                   margin: -10,

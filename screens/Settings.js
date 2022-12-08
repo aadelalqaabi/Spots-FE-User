@@ -62,9 +62,9 @@ export default function Settings() {
       <Text
         style={{
           alignSelf: "center",
-          margin: i18n.locale === "en-US" ? 30 : 20,
+          margin: i18n.locale === ("en-US" || "en") ? 30 : 20,
           fontSize: 28,
-          fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+          fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
           color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}
       >
@@ -72,11 +72,12 @@ export default function Settings() {
       </Text>
       <Text
         style={{
-          alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
-          margin: i18n.locale === "en-US" ? 30 : 20,
-          marginBottom: i18n.locale === "en-US" ? 20 : 10,
+          alignSelf:
+            i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+          margin: i18n.locale === ("en-US" || "en") ? 30 : 20,
+          marginBottom: i18n.locale === ("en-US" || "en") ? 20 : 10,
           fontSize: 25,
-          fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+          fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
           color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}
       >
@@ -90,7 +91,8 @@ export default function Settings() {
           alignSelf: "center",
           borderRadius: 10,
           display: "flex",
-          flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+          flexDirection:
+            i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
           alignContent: "center",
           alignItems: "center",
           justifyContent: "space-between",
@@ -101,7 +103,7 @@ export default function Settings() {
           style={{
             color: "#1b1b1b",
             fontSize: 18,
-            fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+            fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
             margin: 10,
             marginRight: 15,
             marginLeft: 15,
@@ -114,12 +116,12 @@ export default function Settings() {
           style={{
             color: "#1b1b1b",
             fontSize: 18,
-            fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+            fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
             margin: 22,
             opacity: 0.8,
           }}
           name={
-            i18n.locale === "en-US"
+            i18n.locale === ("en-US" || "en")
               ? "chevron-forward-outline"
               : "chevron-back-outline"
           }
@@ -133,72 +135,12 @@ export default function Settings() {
           alignSelf: "center",
           borderRadius: 10,
           display: "flex",
-          flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+          flexDirection:
+            i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
           alignContent: "center",
           alignItems: "center",
           marginTop: 20,
-          marginBottom: 20,
-          justifyContent: "space-between",
-        }}
-        onPress={() =>
-          Alert.alert(
-            i18n.locale === "en-US"
-              ? "Do You Want to Logout?"
-              : "هل ترغب بالخروج؟",
-            "",
-            [
-              {
-                text: i18n.locale === "en-US" ? "Cancel" : "الغاء",
-                onPress: () => console.log("Cancel Pressed"),
-                style: "cancel",
-              },
-              {
-                text: i18n.locale === "en-US" ? "OK" : "تسجيل الخروج",
-                onPress: () => authStore.logout(),
-              },
-            ]
-          )
-        }
-      >
-        <Text
-          style={{
-            color: "#1b1b1b",
-            fontSize: 18,
-            fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-            margin: 10,
-            marginRight: 15,
-            marginLeft: 15,
-            opacity: 0.8,
-          }}
-        >
-          {i18n.t("log")}
-        </Text>
-        <Ionicons
-          style={{
-            color: "#1b1b1b",
-            fontSize: 18,
-            fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-            margin: 22,
-            opacity: 0.8,
-          }}
-          name={
-            i18n.locale === "en-US"
-              ? "chevron-forward-outline"
-              : "chevron-back-outline"
-          }
-        ></Ionicons>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={{
-          backgroundColor: "#e8e8e8",
-          height: 60,
-          width: "90%",
-          alignSelf: "center",
-          borderRadius: 10,
-          display: "flex",
-          flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
-          alignContent: "center",
-          alignItems: "center",
+
           justifyContent: "space-between",
         }}
         onPress={() => navigation.navigate("ChangePassword")}
@@ -207,7 +149,7 @@ export default function Settings() {
           style={{
             color: "#1b1b1b",
             fontSize: 18,
-            fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+            fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
             margin: 10,
             marginRight: 15,
             marginLeft: 15,
@@ -220,12 +162,76 @@ export default function Settings() {
           style={{
             color: "#1b1b1b",
             fontSize: 18,
-            fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+            fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
             margin: 22,
             opacity: 0.8,
           }}
           name={
-            i18n.locale === "en-US"
+            i18n.locale === ("en-US" || "en")
+              ? "chevron-forward-outline"
+              : "chevron-back-outline"
+          }
+        ></Ionicons>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{
+          backgroundColor: "#e8e8e8",
+          height: 60,
+          width: "90%",
+          alignSelf: "center",
+          borderRadius: 10,
+          display: "flex",
+          flexDirection:
+            i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+          alignContent: "center",
+          alignItems: "center",
+          marginTop: 20,
+          marginBottom: 20,
+          justifyContent: "space-between",
+        }}
+        onPress={() =>
+          Alert.alert(
+            i18n.locale === ("en-US" || "en")
+              ? "Do You Want to Logout?"
+              : "هل ترغب بالخروج؟",
+            "",
+            [
+              {
+                text: i18n.locale === ("en-US" || "en") ? "Cancel" : "الغاء",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel",
+              },
+              {
+                text: i18n.locale === ("en-US" || "en") ? "OK" : "تسجيل الخروج",
+                onPress: () => authStore.logout(),
+              },
+            ]
+          )
+        }
+      >
+        <Text
+          style={{
+            color: "#1b1b1b",
+            fontSize: 18,
+            fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+            margin: 10,
+            marginRight: 15,
+            marginLeft: 15,
+            opacity: 0.8,
+          }}
+        >
+          {i18n.t("log")}
+        </Text>
+        <Ionicons
+          style={{
+            color: "#1b1b1b",
+            fontSize: 18,
+            fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+            margin: 22,
+            opacity: 0.8,
+          }}
+          name={
+            i18n.locale === ("en-US" || "en")
               ? "chevron-forward-outline"
               : "chevron-back-outline"
           }

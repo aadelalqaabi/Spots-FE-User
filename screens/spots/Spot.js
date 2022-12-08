@@ -38,7 +38,7 @@ function Spot({ spot, navigation }) {
   if (!fontsLoaded) {
     return <MyAwesomeSplashScreen />;
   }
-  const organizer = organizerStore.getOrganizerById(spot.organizer);
+  const organizer = organizerStore.getOrganizerById(spot?.organizer);
   let monthEn = moment(spot?.startDate).locale("en").format("MMM");
   let dayEn = moment(spot?.startDate).locale("en").format("DD");
   let monthAr = moment(spot?.startDate).locale("ar").format("MMM");
@@ -182,24 +182,26 @@ function Spot({ spot, navigation }) {
           >
             <Text
               style={{
-                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+                fontFamily:
+                  i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
                 fontSize: 23,
                 color: "#0a0a0b",
-                marginTop: i18n.locale === "en-US" ? 0 : -5,
+                marginTop: i18n.locale === ("en-US" || "en") ? 0 : -5,
               }}
             >
-              {i18n.locale === "en-US" ? dayEn : dayAr}
+              {i18n.locale === ("en-US" || "en") ? dayEn : dayAr}
             </Text>
 
             <Text
               style={{
-                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                fontFamily:
+                  i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
                 fontSize: 17,
                 color: "grey",
-                marginTop: i18n.locale === "en-US" ? 0 : -20,
+                marginTop: i18n.locale === ("en-US" || "en") ? 0 : -20,
               }}
             >
-              {i18n.locale === "en-US" ? monthEn : monthAr}
+              {i18n.locale === ("en-US" || "en") ? monthEn : monthAr}
             </Text>
           </View>
         </View>
@@ -214,10 +216,12 @@ function Spot({ spot, navigation }) {
               fontSize: 30,
               fontWeight: "bold",
               color: "white",
-              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-              marginBottom: i18n.locale === "en-US" ? 0 : -15,
+              fontFamily:
+                i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+              marginBottom: i18n.locale === ("en-US" || "en") ? 0 : -15,
               paddingBottom: 10,
-              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+              alignSelf:
+                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
               shadowOpacity: 0.5,
               shadowRadius: 10,
               shadowColor: "#004365",
@@ -227,15 +231,17 @@ function Spot({ spot, navigation }) {
               },
             }}
           >
-            {i18n.locale === "en-US" ? spot.name : spot.nameAr}
+            {i18n.locale === ("en-US" || "en") ? spot.name : spot.nameAr}
           </Text>
           {spot.isFree === true ? (
             <Text
               style={{
                 fontSize: 16,
                 color: "white",
-                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                fontFamily:
+                  i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                alignSelf:
+                  i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
                 shadowOpacity: 0.1,
                 shadowOpacity: 0.5,
                 shadowRadius: 10,
@@ -246,17 +252,19 @@ function Spot({ spot, navigation }) {
                 },
               }}
             >
-              {i18n.locale === "en-US" ? "Free" : "مجاني"}
+              {i18n.locale === ("en-US" || "en") ? "Free" : "مجاني"}
             </Text>
           ) : (
             <Text
               style={{
                 fontSize: 16,
                 color: "white",
-                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+                fontFamily:
+                  i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
 
                 //paddingBottom: 10,
-                alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                alignSelf:
+                  i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
                 shadowOpacity: 0.1,
                 shadowOpacity: 0.5,
                 shadowRadius: 10,
@@ -267,7 +275,7 @@ function Spot({ spot, navigation }) {
                 },
               }}
             >
-              {i18n.locale === "en-US"
+              {i18n.locale === ("en-US" || "en")
                 ? spot.price + " KD per person"
                 : spot.price + " دك للتذكرة "}
             </Text>

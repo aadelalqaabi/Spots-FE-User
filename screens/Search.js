@@ -82,7 +82,8 @@ export default function Search({ route, navigation }) {
           marginBottom: 15,
           display: "flex",
           alignSelf: "center",
-          flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+          flexDirection:
+            i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
           alignItems: "center",
           alignContent: "center",
           justifyContent: "space-between",
@@ -102,7 +103,7 @@ export default function Search({ route, navigation }) {
               alignSelf: "center",
             }}
             name={
-              i18n.locale === "en-US"
+              i18n.locale === ("en-US" || "en")
                 ? "chevron-back-outline"
                 : "chevron-forward-outline"
             }
@@ -112,7 +113,8 @@ export default function Search({ route, navigation }) {
           style={{
             width: "90%",
             alignSelf: "center",
-            flexDirection: i18n.locale === "en-US" ? "row" : "row-reverse",
+            flexDirection:
+              i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
             shadowColor: "#000",
             shadowOffset: {
               width: 0,
@@ -133,10 +135,10 @@ export default function Search({ route, navigation }) {
               paddingRight: 50,
               borderRadius: 13,
               fontSize: 18,
-              fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
+              fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
 
               width: "100%",
-              textAlign: i18n.locale === "en-US" ? "left" : "right",
+              textAlign: i18n.locale === ("en-US" || "en") ? "left" : "right",
             }}
             placeholder={i18n.t("search")}
             placeholderTextColor={"grey"}
@@ -155,12 +157,14 @@ export default function Search({ route, navigation }) {
         <>
           <Text
             style={{
-              fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
+              fontFamily:
+                i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
               fontSize: 20,
               margin: 32,
               marginBottom: 10,
               marginTop: 10,
-              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+              alignSelf:
+                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
           >

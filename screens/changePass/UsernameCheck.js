@@ -49,7 +49,7 @@ export default function UsernameCheck() {
     setUser({ ...user, [name]: value });
   };
   const handleSubmit = () => {
-    if (i18n.locale === "en-US") {
+    if (i18n.locale === ("en-US" || "en")) {
       Alert.alert(
         "An OTP has been sent to the phone number associated with this username",
         "",
@@ -91,11 +91,12 @@ export default function UsernameCheck() {
               marginTop: 80,
               marginLeft: 20,
               paddingRight: 20,
-              alignSelf: i18n.locale === "en-US" ? "flex-start" : "flex-end",
+              alignSelf:
+                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
             name={
-              i18n.locale === "en-US"
+              i18n.locale === ("en-US" || "en")
                 ? "chevron-back-outline"
                 : "chevron-forward-outline"
             }
@@ -112,11 +113,12 @@ export default function UsernameCheck() {
           >
             <Text
               style={{
-                fontFamily: i18n.locale === "en-US" ? "UbuntuBold" : "NotoBold",
-                fontSize: i18n.locale === "en-US" ? 30 : 35,
+                fontFamily:
+                  i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+                fontSize: i18n.locale === ("en-US" || "en") ? 30 : 35,
                 margin: 20,
                 marginTop: 0,
-                marginBottom: i18n.locale === "en-US" ? 20 : 10,
+                marginBottom: i18n.locale === ("en-US" || "en") ? 20 : 10,
                 width: "100%",
                 textAlign: "center",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
@@ -126,11 +128,12 @@ export default function UsernameCheck() {
             </Text>
             <Text
               style={{
-                fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                fontSize: i18n.locale === "en-US" ? 16 : 18,
+                fontFamily:
+                  i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                fontSize: i18n.locale === ("en-US" || "en") ? 16 : 18,
                 margin: 20,
                 marginTop: 0,
-                marginBottom: i18n.locale === "en-US" ? 20 : 10,
+                marginBottom: i18n.locale === ("en-US" || "en") ? 20 : 10,
                 width: "100%",
                 textAlign: "center",
                 color: "#64666b",
@@ -162,8 +165,10 @@ export default function UsernameCheck() {
                     padding: 14,
                     paddingLeft: 50,
                     paddingRight: 50,
-                    fontFamily: i18n.locale === "en-US" ? "Ubuntu" : "Noto",
-                    textAlign: i18n.locale === "en-US" ? "left" : "right",
+                    fontFamily:
+                      i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                    textAlign:
+                      i18n.locale === ("en-US" || "en") ? "left" : "right",
                     backgroundColor: "white",
                     shadowColor: "#000",
                     shadowOffset: {
@@ -191,7 +196,9 @@ export default function UsernameCheck() {
                     margin: 12,
                     fontSize: 25,
                     alignSelf:
-                      i18n.locale === "en-US" ? "flex-start" : "flex-end",
+                      i18n.locale === ("en-US" || "en")
+                        ? "flex-start"
+                        : "flex-end",
                   }}
                   name="person-circle"
                   size={30}
