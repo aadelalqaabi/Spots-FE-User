@@ -13,9 +13,8 @@ import { useNavigation } from "@react-navigation/native";
 import { FlatList, ScrollView } from "native-base";
 import { useFonts } from "expo-font";
 import Spotted from "./spots/Spotted";
-
 import ticketStore from "../stores/ticketStore";
-import ContentLoader, { Facebook, Rect } from "react-content-loader/native";
+import ContentLoader, { Rect } from "react-content-loader/native";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import { StatusBar } from "react-native";
@@ -25,12 +24,12 @@ function MySpots() {
   const colorScheme = useColorScheme();
   const translations = {
     en: {
-      myspots: "My Spots",
-      empty: "You don't have any spots yet",
+      myspots: "Tickets",
+      empty: "You don't have any tickets yet",
     },
     ar: {
-      myspots: "النقاط الخاصة بي",
-      empty: "ليس لديك اي نقاط",
+      myspots: "تذاكر",
+      empty: "ليس لديك اي تذاكر",
     },
   };
   const i18n = new I18n(translations);
@@ -101,9 +100,13 @@ function MySpots() {
           marginBottom: 10,
           marginTop: 15,
           fontFamily:
-            i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "UbuntuBold"
+              : "NotoBold",
           alignSelf:
-            i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "flex-start"
+              : "flex-end",
           color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}
       >
@@ -112,7 +115,7 @@ function MySpots() {
       <View style={{ width: "100%", height: "90%", zIndex: 99 }}>
         {loading ? (
           <>
-            {i18n.locale === ("en-US" || "en") ? (
+            {i18n.locale === "en-US" || i18n.locale === "en" ? (
               <ContentLoader
                 speed={3}
                 viewBox="5 0 330 600"
@@ -183,10 +186,14 @@ function MySpots() {
             <Text
               style={{
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                fontSize: i18n.locale === ("en-US" || "en") ? 50 : 40,
+                fontSize: 40,
                 fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
                 alignSelf: "center",
+                textAlign: "center",
+                width: 350,
               }}
             >
               {i18n.t("empty")}

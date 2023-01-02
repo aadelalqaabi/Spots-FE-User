@@ -93,7 +93,7 @@ function EditScreen() {
       type: "success",
       // text1: "Profile Updated 👍",
       text1:
-        i18n.locale === ("en-US" || "en")
+        i18n.locale === "en-US" || i18n.locale === "en"
           ? "Profile Updated 👍"
           : "👍 تم تحديث الملف الشخصي",
       position: "bottom",
@@ -120,15 +120,21 @@ function EditScreen() {
         <View style={styles.cancel}>
           <Button
             onPress={() => cancelButton()}
-            title={i18n.locale === ("en-US" || "en") ? "Cancel" : "الغاء"}
+            title={
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Cancel"
+                : "الغاء"
+            }
             color={colorScheme === "light" ? "#1b1b1b" : "#f1f1f1"}
           />
         </View>
         <View style={styles.done}>
           <Button
             onPress={handleSubmit}
-            title={i18n.locale === ("en-US" || "en") ? "Done" : "تم"}
-            color={"#9279f7"}
+            title={
+              i18n.locale === "en-US" || i18n.locale === "en" ? "Done" : "تم"
+            }
+            color={"#e52b51"}
           />
         </View>
       </View>
@@ -209,16 +215,23 @@ function EditScreen() {
         </View>
         <Text
           style={{
-            textAlign: i18n.locale === ("en-US" || "en") ? "left" : "right",
+            textAlign:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "left"
+                : "right",
             width: "80%",
             padding: 10,
             fontFamily:
-              i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "UbuntuBold"
+                : "NotoBold",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             fontSize: 18,
           }}
         >
-          {i18n.locale === ("en-US" || "en") ? "Email" : "البريد الالكتروني"}
+          {i18n.locale === "en-US" || i18n.locale === "en"
+            ? "Email"
+            : "البريد الالكتروني"}
         </Text>
         <TextInput
           textInputStyle={{
@@ -226,7 +239,10 @@ function EditScreen() {
             width: "80%",
             marginBottom: 20,
             padding: 10,
-            fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Ubuntu"
+                : "Noto",
             backgroundColor: "white",
             shadowColor: "#000",
             shadowOffset: {
@@ -296,7 +312,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 15,
     elevation: 3,
-    backgroundColor: "#9279f7",
+    backgroundColor: "#e52b51",
   },
   profileImage: {
     width: 180,

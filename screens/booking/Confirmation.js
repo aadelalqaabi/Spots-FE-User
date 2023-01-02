@@ -28,14 +28,7 @@ export default function Confirmation({ navigation, route }) {
   let date = moment(spot.startDate).format("LL");
 
   const handleBooking = async () => {
-    spot.seats = spot.seats - tickets;
-    spot.spotRevenue = tickets * spot.price;
-    newTicket.amount = tickets;
     try {
-      await spotStore.updateSpot(spot, spot._id);
-      //  await authStore.spotAdd(spot._id);
-      await ticketStore.createTicket(newTicket, spot._id);
-      authStore.sendBookingEmail(tickets, spot);
       navigation.navigate("Explore");
     } catch (e) {
       alert(e.message);
@@ -132,7 +125,7 @@ const styles = StyleSheet.create({
     top: 186,
     // width: 380,
     // height: 500,
-    backgroundColor: "#9279f7",
+    backgroundColor: "#e52b51",
     // backgroundColor: "#B4E155",
     // backgroundColor: "#C9fb5f",
     // boxShadow: 0 4 11 rgba(0, 0, 0, 0.25),
@@ -260,7 +253,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     height: 60,
     width: 380,
-    backgroundColor: "#9279f7",
+    backgroundColor: "#e52b51",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

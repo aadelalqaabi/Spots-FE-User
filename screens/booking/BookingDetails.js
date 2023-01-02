@@ -50,11 +50,11 @@ export default function BookingDetails({ navigation, route }) {
 
   const handleInc = () => {
     setCheckSeats(checkSeats + 1);
-    if (spot.seats >= checkSeats + 1) {
+    if (spot.seatsRemaining >= checkSeats + 1) {
       setQuantity(quantity + 1);
       setCheckSeats(quantity + 1);
     } else {
-      i18n.locale === ("en-US" || "en")
+      i18n.locale === "en-US" || i18n.locale === "en"
         ? Alert.alert("You exceeded the available amount of seats", "", ["ok"])
         : Alert.alert("لقد تجاوزت عدد المقاعد المتوفرة", "", [
             { text: "حَسَنًا" },
@@ -101,22 +101,27 @@ export default function BookingDetails({ navigation, route }) {
             padding: 40,
             justifyContent: "center",
             borderWidth: 1,
-            borderColor: "#9279f7",
+            borderColor: "#e52b51",
           }}
         >
           <Text
             style={{
               fontFamily:
-                i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "UbuntuBold"
+                  : "NotoBold",
               alignSelf: "center",
               fontSize: 30,
               textAlign: "center",
               marginTop: 10,
-              marginBottom: i18n.locale === ("en-US" || "en") ? 20 : 10,
+              marginBottom:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
           >
-            {i18n.locale === ("en-US" || "en") ? spot.name : spot.nameAr}
+            {i18n.locale === "en-US" || i18n.locale === "en"
+              ? spot.name
+              : spot.nameAr}
           </Text>
           <View
             style={{
@@ -126,14 +131,18 @@ export default function BookingDetails({ navigation, route }) {
               alignItems: "center",
               justifyContent: "space-evenly",
               alignSelf:
-                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "flex-start"
+                  : "flex-end",
             }}
           >
             <View
               style={{
                 display: "flex",
                 flexDirection:
-                  i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "row"
+                    : "row-reverse",
                 alignContent: "center",
                 alignItems: "center",
                 alignSelf: "flex-start",
@@ -144,7 +153,7 @@ export default function BookingDetails({ navigation, route }) {
                 style={{
                   marginRight: 5,
                   marginLeft: 5,
-                  color: "#9279f7",
+                  color: "#e52b51",
                   fontSize: 30,
                 }}
                 name="calendar-outline"
@@ -157,18 +166,24 @@ export default function BookingDetails({ navigation, route }) {
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 }}
               >
-                {i18n.locale === ("en-US" || "en") ? date : dateAr}
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? date
+                  : dateAr}
               </Text>
             </View>
             <View
               style={{
                 display: "flex",
                 flexDirection:
-                  i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "row"
+                    : "row-reverse",
                 alignContent: "center",
                 alignItems: "center",
                 alignSelf:
-                  i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "flex-start"
+                    : "flex-end",
                 marginBottom: 10,
               }}
             >
@@ -176,7 +191,7 @@ export default function BookingDetails({ navigation, route }) {
                 style={{
                   marginRight: 5,
                   marginLeft: 5,
-                  color: "#9279f7",
+                  color: "#e52b51",
                   fontSize: 30,
                 }}
                 name="time-outline"
@@ -196,19 +211,24 @@ export default function BookingDetails({ navigation, route }) {
             style={{
               display: "flex",
               flexDirection:
-                i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "row"
+                  : "row-reverse",
               alignContent: "center",
               alignItems: "center",
               alignSelf:
-                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
-              marginBottom: i18n.locale === ("en-US" || "en") ? 10 : 0,
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "flex-start"
+                  : "flex-end",
+              marginBottom:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
             }}
           >
             <Ionicons
               style={{
                 marginRight: 5,
                 marginLeft: 5,
-                color: "#9279f7",
+                color: "#e52b51",
                 fontSize: 30,
               }}
               name="pricetag-outline"
@@ -220,7 +240,7 @@ export default function BookingDetails({ navigation, route }) {
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
             >
-              {i18n.locale === ("en-US" || "en")
+              {i18n.locale === "en-US" || i18n.locale === "en"
                 ? spot.price * quantity + " KD"
                 : spot.price * quantity + " دك"}
             </Text>
@@ -237,7 +257,7 @@ export default function BookingDetails({ navigation, route }) {
               alignContent: "center",
               alignItems: "center",
               padding: 10,
-              borderColor: "#9279f7",
+              borderColor: "#e52b51",
               width: "80%",
               alignSelf: "center",
               height: 60,
@@ -246,7 +266,7 @@ export default function BookingDetails({ navigation, route }) {
           >
             <Ionicons
               style={{
-                color: "#9279f7",
+                color: "#e52b51",
                 fontFamily: "Ubuntu",
                 fontSize: 35,
                 marginLeft: 40,
@@ -265,7 +285,7 @@ export default function BookingDetails({ navigation, route }) {
             </Text>
             <Ionicons
               style={{
-                color: "#9279f7",
+                color: "#e52b51",
                 fontFamily: "Ubuntu",
                 fontSize: 35,
                 marginRight: 40,
@@ -280,12 +300,17 @@ export default function BookingDetails({ navigation, route }) {
             fontSize: 25,
             margin: 30,
             marginTop: 25,
-            marginBottom: i18n.locale === ("en-US" || "en") ? 10 : 0,
+            marginBottom:
+              i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
             fontFamily:
-              i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "UbuntuBold"
+                : "NotoBold",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             alignSelf:
-              i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "flex-start"
+                : "flex-end",
           }}
         >
           {i18n.t("detail")}
@@ -296,13 +321,21 @@ export default function BookingDetails({ navigation, route }) {
             margin: 30,
             marginTop: 5,
             marginBottom: 10,
-            fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Ubuntu"
+                : "Noto",
             lineHeight: 25,
-            textAlign: i18n.locale === ("en-US" || "en") ? "left" : "right",
+            textAlign:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "left"
+                : "right",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
-          {i18n.locale === ("en-US" || "en") ? spot.details : spot.detailsAr}
+          {i18n.locale === "en-US" || i18n.locale === "en"
+            ? spot.details
+            : spot.detailsAr}
         </Text>
       </ScrollView>
       <TouchableOpacity
@@ -312,7 +345,7 @@ export default function BookingDetails({ navigation, route }) {
           borderRadius: 25,
           height: 60,
           width: "90%",
-          backgroundColor: "#9279f7",
+          backgroundColor: "#e52b51",
           shadowColor: "#000",
           shadowOffset: {
             width: 0,
@@ -342,7 +375,9 @@ export default function BookingDetails({ navigation, route }) {
             alignSelf: "center",
             marginLeft: 10,
             fontFamily:
-              i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "UbuntuBold"
+                : "NotoBold",
           }}
         >
           {i18n.t("payment")}
@@ -372,7 +407,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     height: 60,
     width: 380,
-    backgroundColor: "#9279f7",
+    backgroundColor: "#e52b51",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

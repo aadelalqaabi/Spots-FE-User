@@ -65,7 +65,9 @@ function FinishedSpot({ spot }) {
               textAlign: "center",
             }}
           >
-            {i18n.locale === ("en-US" || "en") ? spot.name : spot.nameAr}
+            {i18n.locale === "en-US" || i18n.locale === "en"
+              ? spot.name
+              : spot.nameAr}
           </Text>
         </View>
       </TouchableOpacity>

@@ -11,7 +11,7 @@ import organizerStore from "../../stores/organizerStore";
 import "moment/locale/ar";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
-function Spot({ spot, navigation }) {
+function Spot({ spot, navigation, day }) {
   const translations = {
     en: {
       suggested: "Suggested Spot",
@@ -21,7 +21,6 @@ function Spot({ spot, navigation }) {
       suggested: "وجهة مقترحة",
     },
   };
-  console.log("spot", spot);
   const i18n = new I18n(translations);
   i18n.locale = Localization.locale;
   i18n.enableFallback = true;
@@ -73,6 +72,15 @@ function Spot({ spot, navigation }) {
           }}
           source={{ uri: `${baseURL}${spot?.image}` }}
         />
+        <View
+          style={{
+            position: "absolute",
+            backgroundColor: "rgba(0,0,0,0.3)",
+            height: "100%",
+            width: "100%",
+            borderRadius: 20,
+          }}
+        ></View>
         <View
           style={{
             display: "flex",
@@ -160,53 +168,96 @@ function Spot({ spot, navigation }) {
               {organizer?.username}
             </Text>
           </TouchableOpacity>
-          <View
-            style={{
-              margin: 10,
-              width: 60,
-              height: 70,
-              backgroundColor: "white",
-              borderRadius: 15,
-              alignContent: "center",
-              justifyContent: "center",
-              alignItems: "center",
-              shadowOpacity: 0.1,
-              shadowRadius: 10,
-              shadowColor: "#004365",
-              shadowOffset: {
-                height: 10,
-                width: 0,
-              },
-              marginLeft: 12,
-            }}
-          >
-            <Text
-              style={{
-                fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
-                fontSize: 23,
-                color: "#0a0a0b",
-                marginTop: i18n.locale === ("en-US" || "en") ? 0 : -5,
-              }}
-            >
-              {i18n.locale === ("en-US" || "en") ? dayEn : dayAr}
-            </Text>
 
-            <Text
+          {day === null ? (
+            <View
               style={{
-                fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
-                fontSize: 17,
-                color: "grey",
-                marginTop: i18n.locale === ("en-US" || "en") ? 0 : -20,
+                margin: 10,
+                width: 60,
+                height: 70,
+                backgroundColor: "white",
+                borderRadius: 15,
+                alignContent: "center",
+                justifyContent: "center",
+                alignItems: "center",
+                shadowOpacity: 0.1,
+                shadowRadius: 10,
+                shadowColor: "#004365",
+                shadowOffset: {
+                  height: 10,
+                  width: 0,
+                },
+                marginLeft: 12,
               }}
             >
-              {i18n.locale === ("en-US" || "en") ? monthEn : monthAr}
-            </Text>
-          </View>
+              <Text
+                style={{
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "UbuntuBold"
+                      : "NotoBold",
+                  fontSize: 23,
+                  color: "#0a0a0b",
+                  marginTop:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -5,
+                }}
+              >
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? dayEn
+                  : dayAr}
+              </Text>
+              <Text
+                style={{
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Ubuntu"
+                      : "Noto",
+                  fontSize: 17,
+                  color: "grey",
+                  marginTop:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -20,
+                }}
+              >
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? monthEn
+                  : monthAr}
+              </Text>
+            </View>
+          ) : (
+            <View
+              style={{
+                backgroundColor: "white",
+                borderRadius: 10,
+                alignContent: "center",
+                justifyContent: "center",
+                alignItems: "center",
+                shadowOpacity: 0.1,
+                shadowRadius: 10,
+                shadowColor: "#004365",
+                shadowOffset: {
+                  height: 10,
+                  width: 0,
+                },
+                marginTop: "14%",
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: "UbuntuBold",
+                  fontSize: 23,
+                  color: "#0a0a0b",
+                  alignSelf: "center",
+                  padding: 10,
+                }}
+              >
+                {spot.startTime}
+              </Text>
+            </View>
+          )}
         </View>
+
         <LinearGradient
-          colors={["rgba(0,0,0,0.5)", "transparent"]}
+          colors={["rgba(0,0,0,0)", "transparent"]}
           start={{ x: 0, y: 0.7 }}
           end={{ x: 0, y: 0 }}
           style={styles.infoContainer}
@@ -217,11 +268,16 @@ function Spot({ spot, navigation }) {
               fontWeight: "bold",
               color: "white",
               fontFamily:
-                i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
-              marginBottom: i18n.locale === ("en-US" || "en") ? 0 : -15,
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "UbuntuBold"
+                  : "NotoBold",
+              marginBottom:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -15,
               paddingBottom: 10,
               alignSelf:
-                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "flex-start"
+                  : "flex-end",
               shadowOpacity: 0.5,
               shadowRadius: 10,
               shadowColor: "#004365",
@@ -231,7 +287,9 @@ function Spot({ spot, navigation }) {
               },
             }}
           >
-            {i18n.locale === ("en-US" || "en") ? spot.name : spot.nameAr}
+            {i18n.locale === "en-US" || i18n.locale === "en"
+              ? spot.name
+              : spot.nameAr}
           </Text>
           {spot.isFree === true ? (
             <Text
@@ -239,9 +297,13 @@ function Spot({ spot, navigation }) {
                 fontSize: 16,
                 color: "white",
                 fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
                 alignSelf:
-                  i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "flex-start"
+                    : "flex-end",
                 shadowOpacity: 0.1,
                 shadowOpacity: 0.5,
                 shadowRadius: 10,
@@ -252,7 +314,9 @@ function Spot({ spot, navigation }) {
                 },
               }}
             >
-              {i18n.locale === ("en-US" || "en") ? "Free" : "مجاني"}
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Free"
+                : "مجاني"}
             </Text>
           ) : (
             <Text
@@ -260,11 +324,15 @@ function Spot({ spot, navigation }) {
                 fontSize: 16,
                 color: "white",
                 fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
 
                 //paddingBottom: 10,
                 alignSelf:
-                  i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "flex-start"
+                    : "flex-end",
                 shadowOpacity: 0.1,
                 shadowOpacity: 0.5,
                 shadowRadius: 10,
@@ -275,7 +343,7 @@ function Spot({ spot, navigation }) {
                 },
               }}
             >
-              {i18n.locale === ("en-US" || "en")
+              {i18n.locale === "en-US" || i18n.locale === "en"
                 ? spot.price + " KD per person"
                 : spot.price + " دك للتذكرة "}
             </Text>

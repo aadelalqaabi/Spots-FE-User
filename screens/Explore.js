@@ -10,6 +10,7 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
+  Modal,
 } from "react-native";
 import spotStore from "../stores/spotStore";
 import categoryStore from "../stores/categoryStore";
@@ -19,11 +20,11 @@ import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useScrollToTop } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-
 import ContentLoader, { Circle, Rect } from "react-content-loader/native";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
+import Calnder from "./Calnder";
 
 LogBox.ignoreAllLogs(true);
 
@@ -48,6 +49,8 @@ function Explore() {
   const [query, setQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(-1);
   const [loading, setLoading] = useState(false);
+  const [calendar, setCalendar] = useState(false);
+  const [day, setDay] = useState(null);
   useEffect(async () => {
     try {
       setLoading(true);
@@ -74,18 +77,23 @@ function Explore() {
   const sortedSpots = spotsByDate.sort(
     (objA, objB) => new Date(objA.startDate) - new Date(objB.startDate)
   );
+  console.log("Dday", day);
   const spots = sortedSpots
+    .filter((spot) =>
+      day !== null
+        ? new Date(spot.startDate).getDate() === new Date(day).getDate()
+        : spot
+    )
     .filter((spot) => (!category ? spot : spot.category === category?._id))
     .filter((category) =>
       category?.name?.toLowerCase().includes(query.toLowerCase())
     );
   function renderSpot({ item: spot }) {
-    return <Spot spot={spot} navigation={navigation} />;
+    return <Spot spot={spot} navigation={navigation} day={day} />;
   }
   const handleCategory = (index) => {
     setSelectedCategory(index);
   };
-
   return (
     <View
       style={{
@@ -129,14 +137,23 @@ function Explore() {
             </ContentLoader>
           ) : (
             <>
+              <Calnder
+                setCalendar={setCalendar}
+                calendar={calendar}
+                day={day}
+                setDay={setDay}
+              />
               <View
                 style={{
                   margin: 30,
                   marginTop: 5,
-                  marginBottom: i18n.locale === ("en-US" || "en") ? 40 : 15,
+                  marginBottom:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 40 : 15,
                   display: "flex",
                   flexDirection:
-                    i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "row"
+                      : "row-reverse",
                   alignItems: "center",
                   flexWrap: "wrap",
                   justifyContent: "space-between",
@@ -145,7 +162,7 @@ function Explore() {
                 <Text
                   style={{
                     fontFamily:
-                      i18n.locale === ("en-US" || "en")
+                      i18n.locale === "en-US" || i18n.locale === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 35,
@@ -155,21 +172,47 @@ function Explore() {
                 >
                   {i18n.t("explore")}
                 </Text>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate("Search", { spots: sortedSpots });
-                  }}
-                >
-                  <Ionicons
-                    style={{
-                      fontSize: 30,
-                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                      margin: 5,
+                <View style={{ display: "flex", flexDirection: "row" }}>
+                  <TouchableOpacity
+                    style={{ marginLeft: 5, marginRight: 5 }}
+                    onPress={() => {
+                      navigation.navigate("Search", { spots: sortedSpots });
                     }}
-                    name="search-outline"
-                  ></Ionicons>
-                </TouchableOpacity>
+                  >
+                    <Ionicons
+                      style={{
+                        fontSize: 30,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                      }}
+                      name="search-outline"
+                    ></Ionicons>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setCalendar(true);
+                    }}
+                    style={{
+                      marginLeft:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? 20
+                          : 10,
+                      marginRight:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? 10
+                          : 20,
+                    }}
+                  >
+                    <Ionicons
+                      style={{
+                        fontSize: 30,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                      }}
+                      name="md-calendar-outline"
+                    ></Ionicons>
+                  </TouchableOpacity>
+                </View>
               </View>
+
               <ScrollView
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
@@ -184,11 +227,13 @@ function Explore() {
                 contentContainerStyle={{
                   display: "flex",
                   flexDirection:
-                    i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "row"
+                      : "row-reverse",
                 }}
                 ref={scrollViewRef}
                 onContentSizeChange={() =>
-                  i18n.locale === ("en-US" || "en")
+                  i18n.locale === "en-US" || i18n.locale === "en"
                     ? scrollViewRef.current.scrollTo({
                         x: 0,
                         y: 0,
@@ -205,7 +250,7 @@ function Explore() {
                           height: 100,
                           borderRadius: 50,
                           zIndex: -1,
-                          color: "#9279f7",
+                          color: "#e52b51",
                         }
                       : {
                           width: 80,
@@ -227,10 +272,10 @@ function Explore() {
                             fontSize: 20,
                             alignSelf: "center",
                             fontFamily:
-                              i18n.locale === ("en-US" || "en")
+                              i18n.locale === "en-US" || i18n.locale === "en"
                                 ? "Ubuntu"
                                 : "Noto",
-                            color: "#9279f7",
+                            color: "#e52b51",
                           }
                         : {
                             color:
@@ -240,13 +285,15 @@ function Explore() {
                             fontSize: 20,
                             alignSelf: "center",
                             fontFamily:
-                              i18n.locale === ("en-US" || "en")
+                              i18n.locale === "en-US" || i18n.locale === "en"
                                 ? "Ubuntu"
                                 : "Noto",
                           }
                     }
                   >
-                    {i18n.locale === ("en-US" || "en") ? "All" : "الكل"}
+                    {i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "All"
+                      : "الكل"}
                   </Text>
                 </TouchableOpacity>
                 {categories.map((category) => (
@@ -259,7 +306,7 @@ function Explore() {
                             height: 100,
                             borderRadius: 50,
                             zIndex: 99,
-                            color: "#9279f7",
+                            color: "#e52b51",
                           }
                         : {
                             width: 100,
@@ -284,10 +331,10 @@ function Explore() {
                               fontSize: 20,
                               alignSelf: "center",
                               fontFamily:
-                                i18n.locale === ("en-US" || "en")
+                                i18n.locale === "en-US" || i18n.locale === "en"
                                   ? "Ubuntu"
                                   : "Noto",
-                              color: "#9279f7",
+                              color: "#e52b51",
                               zIndex: 99,
                             }
                           : {
@@ -298,7 +345,7 @@ function Explore() {
                               fontSize: 20,
                               alignSelf: "center",
                               fontFamily:
-                                i18n.locale === ("en-US" || "en")
+                                i18n.locale === "en-US" || i18n.locale === "en"
                                   ? "Ubuntu"
                                   : "Noto",
                               zIndex: 99,
@@ -344,19 +391,24 @@ function Explore() {
                   <Text
                     style={{
                       color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                      fontSize: i18n.locale === ("en-US" || "en") ? 45 : 35,
+                      fontSize:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? 40
+                          : 35,
                       fontFamily:
-                        i18n.locale === ("en-US" || "en")
+                        i18n.locale === "en-US" || i18n.locale === "en"
                           ? "UbuntuBold"
                           : "NotoBold",
                       alignSelf: "center",
                       textAlign:
-                        i18n.locale === ("en-US" || "en") ? "left" : "right",
-                      lineHeight: 70,
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "left"
+                          : "right",
+                      lineHeight: 60,
                     }}
                   >
-                    {i18n.locale === ("en-US" || "en")
-                      ? "No Destinations in here yet!"
+                    {i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "No Destinations here yet!"
                       : "لا وجهات هنا حتى الآن!"}
                   </Text>
                 </View>
@@ -432,7 +484,7 @@ const styles = StyleSheet.create({
     fontFamily: "Ubuntu",
   },
   catdot: {
-    color: "#9279f7",
+    color: "#e52b51",
     fontSize: 45,
     fontFamily: "Ubuntu",
     position: "absolute",
@@ -448,7 +500,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 11,
     fontFamily: "Ubuntu",
-    color: "#9279f7",
+    color: "#e52b51",
   },
   overley: {
     width: 80,
@@ -461,7 +513,7 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     zIndex: -1,
-    color: "#9279f7",
+    color: "#e52b51",
   },
   icon: {
     zIndex: 99,

@@ -37,6 +37,13 @@ LogBox.ignoreAllLogs();
 
 export function SpotDetails({ route }) {
   const spot = spotStore.getSpotsById(route.params.id);
+  let dateEn = moment(spot?.startDate).locale("en").format("LL");
+  let dateAr = moment(spot?.startDate).locale("ar").format("LL");
+  let monthEn = moment(spot?.startDate).locale("en").format("MMMM");
+  let monthAr = moment(spot?.startDate).locale("ar").format("MMMM");
+  let yearEn = moment(spot?.startDate).locale("en").format("YYYY");
+  let yearAr = moment(spot?.startDate).locale("ar").format("YYYY");
+
   const translations = {
     en: {
       more: "More Info",
@@ -52,6 +59,9 @@ export function SpotDetails({ route }) {
     amount: 0,
     image: "",
     isFree: true,
+    locale: i18n.locale,
+    startDateAr: dateAr,
+    startDateEn: dateEn,
   });
   const [visible, setVisible] = useState(false);
   const toggleAlert = useCallback(() => {
@@ -63,9 +73,6 @@ export function SpotDetails({ route }) {
   const [quantity, setQuantity] = useState(0);
   const [checkSeats, setCheckSeats] = useState(quantity);
   const [toggle, setToggle] = useState(false);
-  const userTickets = ticketStore.tickets.filter(
-    (ticket) => ticket.user === authStore.user.id
-  );
   const colorScheme = useColorScheme();
   let [fontsLoaded] = useFonts({
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
@@ -81,11 +88,11 @@ export function SpotDetails({ route }) {
   }
   const handleInc = () => {
     setCheckSeats(checkSeats + 1);
-    if (spot.seats >= checkSeats + 1) {
+    if (spot.seatsRemaining >= checkSeats + 1) {
       setQuantity(quantity + 1);
       setCheckSeats(quantity + 1);
     } else {
-      i18n.locale === ("en-US" || "en")
+      i18n.locale === "en-US" || i18n.locale === "en"
         ? Alert.alert("You exceeded the available amount of seats", "", ["ok"])
         : Alert.alert("لقد تجاوزت عدد المقاعد المتوفرة", "", [
             { text: "حَسَنًا" },
@@ -103,7 +110,8 @@ export function SpotDetails({ route }) {
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: `${authStore.user.username} wants you to check this spot out!!!`,
+        message: `${authStore.user.username} wants you to check this destination!`,
+        url: `exp://127.0.0.1:19000/--/SpotDetails/${spot._id}`,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -118,15 +126,18 @@ export function SpotDetails({ route }) {
       alert(error.message);
     }
   };
-  const handleSpots = async (spot) => {
-    const found = userTickets.some((ticket) => ticket.spot._id === spot._id);
+  const handleSpots = async (newSpot) => {
+    const found = ticketStore.tickets.some(
+      (ticket) =>
+        ticket.spot?._id === newSpot._id && ticket.user === authStore.user.id
+    );
     if (!found) {
-      await ticketStore.createTicket(newTicket, spot._id);
+      await ticketStore.createTicket(newTicket, newSpot._id);
       await ticketStore.fetchTickets();
       toggleAlert();
     } else {
       Alert.alert(
-        i18n.locale === ("en-US" || "en")
+        i18n.locale === "en-US" || i18n.locale === "en"
           ? "Already in your spots"
           : "موجودة في نقاطك"
       );
@@ -138,13 +149,6 @@ export function SpotDetails({ route }) {
       quantity: quantity,
     });
   };
-
-  let dateEn = moment(spot?.startDate).locale("en").format("LL");
-  let dateAr = moment(spot?.startDate).locale("ar").format("LL");
-  let monthEn = moment(spot?.startDate).locale("en").format("MMMM");
-  let monthAr = moment(spot?.startDate).locale("ar").format("MMMM");
-  let yearEn = moment(spot?.startDate).locale("en").format("YYYY");
-  let yearAr = moment(spot?.startDate).locale("ar").format("YYYY");
 
   return (
     <View style={{ flex: 1, backgroundColor: "white" }}>
@@ -158,7 +162,9 @@ export function SpotDetails({ route }) {
           style={{
             position: "absolute",
             alignSelf:
-              i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "flex-start"
+                : "flex-end",
             zIndex: 100,
             color: "white",
             marginTop: 70,
@@ -176,7 +182,7 @@ export function SpotDetails({ route }) {
             elevation: 17,
           }}
           name={
-            i18n.locale === ("en-US" || "en")
+            i18n.locale === "en-US" || i18n.locale === "en"
               ? "chevron-back-outline"
               : "chevron-forward-outline"
           }
@@ -192,7 +198,9 @@ export function SpotDetails({ route }) {
           style={{
             position: "absolute",
             alignSelf:
-              i18n.locale === ("en-US" || "en") ? "flex-end" : "flex-start",
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "flex-end"
+                : "flex-start",
             zIndex: 100,
             color: "white",
             marginTop: 70,
@@ -264,7 +272,8 @@ export function SpotDetails({ route }) {
                   opacity: 0.8,
                   marginTop: 20,
 
-                  fontSize: i18n.locale === ("en-US" || "en") ? 20 : 16,
+                  fontSize:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 16,
                   paddingTop: 5,
                   shadowColor: "#000",
                   shadowOffset: {
@@ -275,7 +284,7 @@ export function SpotDetails({ route }) {
                   shadowRadius: 11.14,
                   elevation: 17,
                   fontFamily:
-                    i18n.locale === ("en-US" || "en")
+                    i18n.locale === "en-US" || i18n.locale === "en"
                       ? "CabinMedium"
                       : "NotoBold",
                   alignSelf: "center",
@@ -296,13 +305,13 @@ export function SpotDetails({ route }) {
                   fontSize: 40,
                   fontWeight: "700",
                   fontFamily:
-                    i18n.locale === ("en-US" || "en")
+                    i18n.locale === "en-US" || i18n.locale === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   color: "white",
                   shadowColor: "#000",
                   alignSelf:
-                    i18n.locale === ("en-US" || "en")
+                    i18n.locale === "en-US" || i18n.locale === "en"
                       ? "flex-start"
                       : "flex-end",
                   shadowOffset: {
@@ -314,19 +323,25 @@ export function SpotDetails({ route }) {
                   elevation: 7,
                   margin: 20,
                   marginTop: 10,
-                  marginBottom: i18n.locale === ("en-US" || "en") ? 10 : 20,
+                  marginBottom:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 20,
                 }}
               >
-                {i18n.locale === ("en-US" || "en") ? spot.name : spot.nameAr}
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? spot.name
+                  : spot.nameAr}
               </Text>
               <View
                 style={{
                   margin: 20,
                   marginTop: 0,
-                  marginBottom: i18n.locale === ("en-US" || "en") ? 10 : 20,
+                  marginBottom:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 20,
                   display: "flex",
                   flexDirection:
-                    i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "row"
+                      : "row-reverse",
                   flexWrap: "wrap",
                   alignItems: "center",
                 }}
@@ -338,8 +353,10 @@ export function SpotDetails({ route }) {
                     height: 50,
                     borderRadius: "50%",
                     zIndex: -1,
-                    marginRight: i18n.locale === ("en-US" || "en") ? 10 : 0,
-                    marginLeft: i18n.locale === ("en-US" || "en") ? 0 : 10,
+                    marginRight:
+                      i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
+                    marginLeft:
+                      i18n.locale === "en-US" || i18n.locale === "en" ? 0 : 10,
                     borderWidth: 1.5,
                     borderColor: "white",
                     backgroundColor: "white",
@@ -360,7 +377,7 @@ export function SpotDetails({ route }) {
                     shadowRadius: 11.14,
                     elevation: 17,
                     fontFamily:
-                      i18n.locale === ("en-US" || "en")
+                      i18n.locale === "en-US" || i18n.locale === "en"
                         ? "CabinMedium"
                         : "NotoBold",
                     textTransform: "capitalize",
@@ -374,7 +391,7 @@ export function SpotDetails({ route }) {
                   fontSize: 18,
                   color: "white",
                   fontFamily:
-                    i18n.locale === ("en-US" || "en")
+                    i18n.locale === "en-US" || i18n.locale === "en"
                       ? "CabinMedium"
                       : "NotoBold",
                   shadowColor: "#000",
@@ -387,12 +404,14 @@ export function SpotDetails({ route }) {
                   elevation: 7,
                   lineHeight: 28,
                   textAlign:
-                    i18n.locale === ("en-US" || "en") ? "left" : "right",
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "left"
+                      : "right",
                   margin: 20,
                   marginTop: 0,
                 }}
               >
-                {i18n.locale === ("en-US" || "en")
+                {i18n.locale === "en-US" || i18n.locale === "en"
                   ? spot.description
                   : spot.descriptionAr}
               </Text>
@@ -420,7 +439,9 @@ export function SpotDetails({ route }) {
             <Text
               style={{
                 fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
                 fontSize: 25,
                 alignSelf: "center",
                 margin: 20,
@@ -428,7 +449,7 @@ export function SpotDetails({ route }) {
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
             >
-              {i18n.locale === ("en-US" || "en")
+              {i18n.locale === "en-US" || i18n.locale === "en"
                 ? "More Informations"
                 : "المزيد من المعلومات"}
             </Text>
@@ -436,7 +457,9 @@ export function SpotDetails({ route }) {
               style={{
                 display: "flex",
                 flexDirection:
-                  i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "row"
+                    : "row-reverse",
                 alignContent: "center",
                 alignItems: "center",
                 margin: 30,
@@ -448,7 +471,7 @@ export function SpotDetails({ route }) {
                 style={{
                   marginRight: 5,
                   marginLeft: 5,
-                  color: "#9279f7",
+                  color: "#e52b51",
                   fontSize: 30,
                 }}
                 name="calendar-outline"
@@ -457,14 +480,16 @@ export function SpotDetails({ route }) {
                 <Text
                   style={{
                     fontFamily:
-                      i18n.locale === ("en-US" || "en")
+                      i18n.locale === "en-US" || i18n.locale === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 20,
                     color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                   }}
                 >
-                  {i18n.locale === ("en-US" || "en") ? dateEn : dateAr}
+                  {i18n.locale === "en-US" || i18n.locale === "en"
+                    ? dateEn
+                    : dateAr}
                 </Text>
               ) : (
                 <Text
@@ -474,8 +499,13 @@ export function SpotDetails({ route }) {
                     color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                   }}
                 >
-                  {i18n.locale === ("en-US" || "en") ? monthEn : monthAr},{" "}
-                  {i18n.locale === ("en-US" || "en") ? yearEn : yearAr}
+                  {i18n.locale === "en-US" || i18n.locale === "en"
+                    ? monthEn
+                    : monthAr}
+                  ,{" "}
+                  {i18n.locale === "en-US" || i18n.locale === "en"
+                    ? yearEn
+                    : yearAr}
                 </Text>
               )}
             </View>
@@ -483,7 +513,9 @@ export function SpotDetails({ route }) {
               style={{
                 display: "flex",
                 flexDirection:
-                  i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "row"
+                    : "row-reverse",
                 alignContent: "center",
                 alignItems: "center",
                 margin: 30,
@@ -495,7 +527,7 @@ export function SpotDetails({ route }) {
                 style={{
                   marginRight: 5,
                   marginLeft: 5,
-                  color: "#9279f7",
+                  color: "#e52b51",
                   fontSize: 32,
                 }}
                 name="time-outline"
@@ -503,7 +535,7 @@ export function SpotDetails({ route }) {
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === ("en-US" || "en")
+                    i18n.locale === "en-US" || i18n.locale === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 20,
@@ -517,7 +549,9 @@ export function SpotDetails({ route }) {
               style={{
                 display: "flex",
                 flexDirection:
-                  i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "row"
+                    : "row-reverse",
                 alignContent: "center",
                 alignItems: "center",
                 margin: 30,
@@ -529,10 +563,15 @@ export function SpotDetails({ route }) {
                 style={{
                   marginRight: 5,
                   marginLeft: 5,
-                  color: "#9279f7",
+                  color: "#e52b51",
                   fontSize: 32,
                   transform: [
-                    { scaleX: i18n.locale === ("en-US" || "en") ? 1 : -1 },
+                    {
+                      scaleX:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? 1
+                          : -1,
+                    },
                   ],
                 }}
                 name="ios-call-outline"
@@ -540,18 +579,19 @@ export function SpotDetails({ route }) {
               <View
                 style={{
                   borderBottomWidth: 2,
-                  borderColor: "#9279f7",
+                  borderColor: "#e52b51",
                 }}
               >
                 <Text
                   onPress={() => Linking.openURL(`tel:${organizer.phone}`)}
                   style={{
                     fontFamily:
-                      i18n.locale === ("en-US" || "en")
+                      i18n.locale === "en-US" || i18n.locale === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 20,
-                    marginBottom: i18n.locale === ("en-US" || "en") ? 0 : -5,
+                    marginBottom:
+                      i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -5,
                     color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                   }}
                 >
@@ -563,7 +603,9 @@ export function SpotDetails({ route }) {
               style={{
                 display: "flex",
                 flexDirection:
-                  i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "row"
+                    : "row-reverse",
                 alignContent: "center",
                 alignItems: "center",
                 margin: 30,
@@ -575,7 +617,7 @@ export function SpotDetails({ route }) {
                 style={{
                   marginRight: 5,
                   marginLeft: 5,
-                  color: "#9279f7",
+                  color: "#e52b51",
                   fontSize: 32,
                 }}
                 name="navigate-circle-outline"
@@ -583,22 +625,23 @@ export function SpotDetails({ route }) {
               <View
                 style={{
                   borderBottomWidth: 2,
-                  borderColor: "#9279f7",
+                  borderColor: "#e52b51",
                 }}
               >
                 <Text
                   style={{
                     fontFamily:
-                      i18n.locale === ("en-US" || "en")
+                      i18n.locale === "en-US" || i18n.locale === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 20,
-                    marginBottom: i18n.locale === ("en-US" || "en") ? 0 : -5,
+                    marginBottom:
+                      i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -5,
                     color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                   }}
                   onPress={() => Linking.openURL(spot.location)}
                 >
-                  {i18n.locale === ("en-US" || "en")
+                  {i18n.locale === "en-US" || i18n.locale === "en"
                     ? "View Location"
                     : "عرض الموقع"}
                 </Text>
@@ -607,33 +650,44 @@ export function SpotDetails({ route }) {
             <Text
               style={{
                 fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
                 fontSize: 20,
                 alignSelf:
-                  i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "flex-start"
+                    : "flex-end",
                 margin: 30,
                 marginTop: 10,
                 marginBottom: 0,
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
             >
-              {i18n.locale === ("en-US" || "en") ? "Details" : "تفاصيل"}
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Details"
+                : "تفاصيل"}
             </Text>
             <Text
               style={{
                 fontSize: 18,
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
                 paddingTop: 3,
                 margin: 30,
                 marginBottom: 0,
                 marginTop: 10,
                 lineHeight: 25,
-                textAlign: i18n.locale === ("en-US" || "en") ? "left" : "right",
+                textAlign:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "left"
+                    : "right",
               }}
             >
-              {i18n.locale === ("en-US" || "en")
+              {i18n.locale === "en-US" || i18n.locale === "en"
                 ? spot.details
                 : spot.detailsAr}
             </Text>
@@ -647,7 +701,9 @@ export function SpotDetails({ route }) {
               padding: 20,
               display: "flex",
               flexDirection:
-                i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "row"
+                  : "row-reverse",
               alignContent: "center",
               alignItems: "center",
               justifyContent: "space-between",
@@ -660,7 +716,9 @@ export function SpotDetails({ route }) {
               style={{
                 display: "flex",
                 flexDirection:
-                  i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "row"
+                    : "row-reverse",
                 alignContent: "center",
                 alignItems: "center",
                 justifyContent: "center",
@@ -669,22 +727,25 @@ export function SpotDetails({ route }) {
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === ("en-US" || "en")
+                    i18n.locale === "en-US" || i18n.locale === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 20,
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 }}
               >
-                {i18n.locale === ("en-US" || "en") ? "Reviews" : "المراجعات"}
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Reviews"
+                  : "المراجعات"}
               </Text>
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === ("en-US" || "en")
+                    i18n.locale === "en-US" || i18n.locale === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
-                  marginBottom: i18n.locale === ("en-US" || "en") ? 0 : -6,
+                  marginBottom:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -6,
                   fontSize: 20,
                   marginLeft: 15,
                   marginRight: 15,
@@ -693,7 +754,7 @@ export function SpotDetails({ route }) {
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 }}
               >
-                {i18n.locale === ("en-US" || "en")
+                {i18n.locale === "en-US" || i18n.locale === "en"
                   ? reviewCount + "+"
                   : "+" + reviewCount}
               </Text>
@@ -735,7 +796,9 @@ export function SpotDetails({ route }) {
                 <Text
                   style={{
                     fontFamily:
-                      i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Ubuntu"
+                        : "Noto",
                     fontSize: 20,
                     marginTop: 0,
                     margin: 20,
@@ -744,7 +807,7 @@ export function SpotDetails({ route }) {
                   }}
                   key="2"
                 >
-                  {i18n.locale === ("en-US" || "en")
+                  {i18n.locale === "en-US" || i18n.locale === "en"
                     ? "No Reviews Yet"
                     : "لا يوجد مراجعات حاليا"}
                 </Text>
@@ -759,7 +822,7 @@ export function SpotDetails({ route }) {
                 borderRadius: 25,
                 height: 60,
                 width: "90%",
-                backgroundColor: "#9279f7",
+                backgroundColor: "#e52b51",
                 shadowColor: "#000",
                 shadowOffset: {
                   width: 0,
@@ -772,7 +835,9 @@ export function SpotDetails({ route }) {
                 justifyContent: "center",
                 zIndex: 99,
                 flexDirection:
-                  i18n.locale === ("en-US" || "en") ? "row-reverse" : "row",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "row-reverse"
+                    : "row",
               }}
               onPress={() => handleSpots(spot)}
             >
@@ -786,7 +851,9 @@ export function SpotDetails({ route }) {
                   fontFamily: "Ubuntu",
                 }}
               >
-                {i18n.locale === ("en-US" || "en") ? "Go here" : "اذهب هنا"}
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Go here"
+                  : "اذهب هنا"}
               </Text>
               <Ionicons style={styles.spoticon} name="location"></Ionicons>
             </TouchableOpacity>
@@ -796,7 +863,9 @@ export function SpotDetails({ route }) {
                 style={{
                   display: "flex",
                   flexDirection:
-                    i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "row"
+                      : "row-reverse",
                   alignItems: "center",
                   justifyContent: "center",
                   alignContent: "center",
@@ -816,7 +885,7 @@ export function SpotDetails({ route }) {
                     alignItems: "center",
                     padding: 10,
                     marginBottom: 16,
-                    borderColor: "#9279f7",
+                    borderColor: "#e52b51",
                     width: "30%",
                     alignSelf: "center",
                     height: 60,
@@ -824,7 +893,7 @@ export function SpotDetails({ route }) {
                 >
                   <Ionicons
                     style={{
-                      color: "#9279f7",
+                      color: "#e52b51",
                       fontFamily: "Ubuntu",
                       fontSize: 28,
                       marginLeft: 10,
@@ -843,9 +912,11 @@ export function SpotDetails({ route }) {
                   </Text>
                   <Ionicons
                     style={{
-                      color: "#9279f7",
+                      color: "#e52b51",
                       fontFamily:
-                        i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "Ubuntu"
+                          : "Noto",
                       fontSize: 28,
                       marginRight: 10,
                     }}
@@ -860,7 +931,7 @@ export function SpotDetails({ route }) {
                     borderRadius: 20,
                     height: 60,
                     width: "60%",
-                    backgroundColor: "#9279f7",
+                    backgroundColor: "#e52b51",
                     shadowColor: "#000",
                     shadowOffset: {
                       width: 0,
@@ -874,7 +945,9 @@ export function SpotDetails({ route }) {
                     justifyContent: "center",
                     zIndex: 99,
                     flexDirection:
-                      i18n.locale === ("en-US" || "en") ? "row-reverse" : "row",
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "row-reverse"
+                        : "row",
                   }}
                   onPress={() => {
                     handleBook(spot);
@@ -888,10 +961,14 @@ export function SpotDetails({ route }) {
                       marginLeft: 10,
                       marginRight: 10,
                       fontFamily:
-                        i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "Ubuntu"
+                          : "Noto",
                     }}
                   >
-                    {i18n.locale === ("en-US" || "en") ? "Book" : "احجز"}
+                    {i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Book"
+                      : "احجز"}
                   </Text>
                   <Ionicons style={styles.spoticon} name="location"></Ionicons>
                 </TouchableOpacity>
@@ -908,10 +985,12 @@ export function SpotDetails({ route }) {
                     marginLeft: 10,
                     marginRight: 10,
                     fontFamily:
-                      i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Ubuntu"
+                        : "Noto",
                   }}
                 >
-                  {i18n.locale === ("en-US" || "en")
+                  {i18n.locale === "en-US" || i18n.locale === "en"
                     ? "Sold Out"
                     : "نفذت الكمية"}
                 </Text>
@@ -927,7 +1006,7 @@ export function SpotDetails({ route }) {
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
-                  backgroundColor: "#9279f7",
+                  backgroundColor: "#e52b51",
                   borderRadius: 50,
                   width: "100%",
                 }}
@@ -949,29 +1028,34 @@ export function SpotDetails({ route }) {
                 marginTop: -16,
                 marginBottom: 32,
                 fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
                 width: "90%",
                 textAlign: "center",
                 fontSize: 24,
               }}
             >
-              {i18n.locale === ("en-US" || "en")
+              {i18n.locale === "en-US" || i18n.locale === "en"
                 ? "You're going there!"
                 : "انت ذاهب هناك!"}
             </Text>
             <Text
               style={{
-                marginTop: i18n.locale === ("en-US" || "en") ? -16 : -20,
+                marginTop:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? -16 : -20,
                 marginBottom: 32,
                 width: "70%",
                 textAlign: "center",
                 fontSize: 17,
                 fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
                 lineHeight: 30,
               }}
             >
-              {i18n.locale === ("en-US" || "en")
+              {i18n.locale === "en-US" || i18n.locale === "en"
                 ? "To view the spot details go to your spots page"
                 : "لعرض تفاصيل الوجهة اذهب لصفحة وجهاتك"}
             </Text>
@@ -980,7 +1064,7 @@ export function SpotDetails({ route }) {
                 marginTop: -16,
                 marginBottom: 32,
                 width: "50%",
-                backgroundColor: "#9279f7",
+                backgroundColor: "#e52b51",
                 borderRadius: "50%",
                 height: 40,
                 justifyContent: "center",
@@ -992,13 +1076,15 @@ export function SpotDetails({ route }) {
                   textAlign: "center",
                   color: "#f1f1f1",
                   fontFamily:
-                    i18n.locale === ("en-US" || "en")
+                    i18n.locale === "en-US" || i18n.locale === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 15,
                 }}
               >
-                {i18n.locale === ("en-US" || "en") ? "Close" : "اغلاق"}
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Close"
+                  : "اغلاق"}
               </Text>
             </TouchableOpacity>
           </FancyAlert>
@@ -1113,7 +1199,7 @@ const styles = StyleSheet.create({
   icon: {
     fontSize: 40,
     fontWeight: "700",
-    color: "#9279f7",
+    color: "#e52b51",
     alignSelf: "center",
     paddingTop: 4,
   },
@@ -1199,7 +1285,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 8,
     elevation: 3,
-    backgroundColor: "#9279f7",
+    backgroundColor: "#e52b51",
     width: 125,
     height: 40,
     marginLeft: 290,

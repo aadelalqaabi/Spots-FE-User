@@ -34,7 +34,7 @@ export default function ChangePassword() {
   const navigation = useNavigation();
   const [checkValidation, setCheckValidation] = useState(true);
   const [confirmed, setConfirmed] = useState(false);
-  const [checkValidationColor, setCheckValidationColor] = useState("#9279f7");
+  const [checkValidationColor, setCheckValidationColor] = useState("#e52b51");
   const [showError, setShowError] = useState(true);
   const [lowerCase, setLowerCase] = useState(true);
   const [upperCase, setUpperCase] = useState(true);
@@ -84,7 +84,7 @@ export default function ChangePassword() {
     if (check === true) {
       setUser({ ...user, [name]: value });
       setCheckValidation(false);
-      setCheckValidationColor("#9279f7");
+      setCheckValidationColor("#e52b51");
       setShowError(false);
     } else {
       setCheckValidation(true);
@@ -183,11 +183,13 @@ export default function ChangePassword() {
               marginLeft: 20,
               paddingRight: 20,
               alignSelf:
-                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "flex-start"
+                  : "flex-end",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
             name={
-              i18n.locale === ("en-US" || "en")
+              i18n.locale === "en-US" || i18n.locale === "en"
                 ? "chevron-back-outline"
                 : "chevron-forward-outline"
             }
@@ -205,11 +207,14 @@ export default function ChangePassword() {
             <Text
               style={{
                 fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
                 fontSize: 30,
                 margin: 20,
                 marginTop: 0,
-                marginBottom: i18n.locale === ("en-US" || "en") ? 20 : 10,
+                marginBottom:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
                 width: "100%",
                 textAlign: "center",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
@@ -220,11 +225,15 @@ export default function ChangePassword() {
             <Text
               style={{
                 fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
-                fontSize: i18n.locale === ("en-US" || "en") ? 16 : 18,
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                fontSize:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 18,
                 margin: 20,
                 marginTop: 0,
-                marginBottom: i18n.locale === ("en-US" || "en") ? 20 : 10,
+                marginBottom:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
                 width: "100%",
                 textAlign: "center",
                 lineHeight: 23,
@@ -254,7 +263,9 @@ export default function ChangePassword() {
                     marginBottom: 20,
                     padding: 14,
                     fontFamily:
-                      i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Ubuntu"
+                        : "Noto",
                     backgroundColor: "white",
                     shadowColor: "#000",
                     shadowOffset: {
@@ -288,7 +299,7 @@ export default function ChangePassword() {
                   }}
                   name={secureCur === true ? "eye" : "eye-off"}
                   size={30}
-                  color="#9279f7"
+                  color="#e52b51"
                   onPress={() => setSecureCur(!secureCur)}
                 />
                 <TextInput
@@ -298,7 +309,9 @@ export default function ChangePassword() {
                     marginBottom: 20,
                     padding: 14,
                     fontFamily:
-                      i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Ubuntu"
+                        : "Noto",
                     backgroundColor: "white",
                     shadowColor: "#000",
                     shadowOffset: {
@@ -333,7 +346,7 @@ export default function ChangePassword() {
                   }}
                   name={securePass === true ? "eye" : "eye-off"}
                   size={30}
-                  color="#9279f7"
+                  color="#e52b51"
                   onPress={() => setSecurePass(!securePass)}
                 />
                 <TextInput
@@ -343,7 +356,9 @@ export default function ChangePassword() {
                     marginBottom: 20,
                     padding: 14,
                     fontFamily:
-                      i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Ubuntu"
+                        : "Noto",
                     backgroundColor: "white",
                     shadowColor: "#000",
                     shadowOffset: {
@@ -367,7 +382,7 @@ export default function ChangePassword() {
                   onSubmitEditing={() => {
                     checkValidation === false
                       ? authStore.logout()
-                      : i18n.locale === ("en-US" || "en")
+                      : i18n.locale === "en-US" || i18n.locale === "en"
                       ? Alert.alert("Invalid Password", "", [
                           { text: "Try Again" },
                         ])
@@ -386,7 +401,7 @@ export default function ChangePassword() {
                   }}
                   name={secureConfirm === true ? "eye" : "eye-off"}
                   size={30}
-                  color="#9279f7"
+                  color="#e52b51"
                   onPress={() => setSecureConfirm(!secureConfirm)}
                 />
                 {begining === true ? (
@@ -426,7 +441,7 @@ export default function ChangePassword() {
                   <View
                     style={{
                       flexDirection:
-                        i18n.locale === ("en-US" || "en")
+                        i18n.locale === "en-US" || i18n.locale === "en"
                           ? "row"
                           : "row-reverse",
                       paddingBottom: 15,
@@ -435,9 +450,14 @@ export default function ChangePassword() {
                     <Ionicons name="close-circle" size={22} color="#ea3e29" />
                     <Text
                       style={{
-                        marginTop: i18n.locale === ("en-US" || "en") ? 3 : -3,
+                        marginTop:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 3
+                            : -3,
                         fontFamily:
-                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "Ubuntu"
+                            : "Noto",
                         marginLeft: 10,
                         marginRight: 10,
                         fontSize: 15,
@@ -452,7 +472,7 @@ export default function ChangePassword() {
                   <View
                     style={{
                       flexDirection:
-                        i18n.locale === ("en-US" || "en")
+                        i18n.locale === "en-US" || i18n.locale === "en"
                           ? "row"
                           : "row-reverse",
                       paddingBottom: 15,
@@ -465,9 +485,14 @@ export default function ChangePassword() {
                     />
                     <Text
                       style={{
-                        marginTop: i18n.locale === ("en-US" || "en") ? 3 : -3,
+                        marginTop:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 3
+                            : -3,
                         fontFamily:
-                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "Ubuntu"
+                            : "Noto",
                         marginLeft: 10,
                         marginRight: 10,
                         color: "#525252",
@@ -484,7 +509,7 @@ export default function ChangePassword() {
                   <View
                     style={{
                       flexDirection:
-                        i18n.locale === ("en-US" || "en")
+                        i18n.locale === "en-US" || i18n.locale === "en"
                           ? "row"
                           : "row-reverse",
                       paddingBottom: 15,
@@ -493,9 +518,14 @@ export default function ChangePassword() {
                     <Ionicons name="close-circle" size={22} color="#ea3e29" />
                     <Text
                       style={{
-                        marginTop: i18n.locale === ("en-US" || "en") ? 3 : -3,
+                        marginTop:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 3
+                            : -3,
                         fontFamily:
-                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "Ubuntu"
+                            : "Noto",
                         marginLeft: 10,
                         marginRight: 10,
                         fontSize: 15,
@@ -510,7 +540,7 @@ export default function ChangePassword() {
                   <View
                     style={{
                       flexDirection:
-                        i18n.locale === ("en-US" || "en")
+                        i18n.locale === "en-US" || i18n.locale === "en"
                           ? "row"
                           : "row-reverse",
                       paddingBottom: 15,
@@ -523,9 +553,14 @@ export default function ChangePassword() {
                     />
                     <Text
                       style={{
-                        marginTop: i18n.locale === ("en-US" || "en") ? 3 : -3,
+                        marginTop:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 3
+                            : -3,
                         fontFamily:
-                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "Ubuntu"
+                            : "Noto",
                         marginLeft: 10,
                         marginRight: 10,
                         color: "#525252",
@@ -542,7 +577,7 @@ export default function ChangePassword() {
                   <View
                     style={{
                       flexDirection:
-                        i18n.locale === ("en-US" || "en")
+                        i18n.locale === "en-US" || i18n.locale === "en"
                           ? "row"
                           : "row-reverse",
                       paddingBottom: 15,
@@ -551,9 +586,14 @@ export default function ChangePassword() {
                     <Ionicons name="close-circle" size={22} color="#ea3e29" />
                     <Text
                       style={{
-                        marginTop: i18n.locale === ("en-US" || "en") ? 3 : -3,
+                        marginTop:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 3
+                            : -3,
                         fontFamily:
-                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "Ubuntu"
+                            : "Noto",
                         marginLeft: 10,
                         marginRight: 10,
                         fontSize: 15,
@@ -568,7 +608,7 @@ export default function ChangePassword() {
                   <View
                     style={{
                       flexDirection:
-                        i18n.locale === ("en-US" || "en")
+                        i18n.locale === "en-US" || i18n.locale === "en"
                           ? "row"
                           : "row-reverse",
                       paddingBottom: 15,
@@ -581,9 +621,14 @@ export default function ChangePassword() {
                     />
                     <Text
                       style={{
-                        marginTop: i18n.locale === ("en-US" || "en") ? 3 : -3,
+                        marginTop:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 3
+                            : -3,
                         fontFamily:
-                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "Ubuntu"
+                            : "Noto",
                         marginLeft: 10,
                         marginRight: 10,
                         color: "#525252",
@@ -600,7 +645,7 @@ export default function ChangePassword() {
                   <View
                     style={{
                       flexDirection:
-                        i18n.locale === ("en-US" || "en")
+                        i18n.locale === "en-US" || i18n.locale === "en"
                           ? "row"
                           : "row-reverse",
                       paddingBottom: 15,
@@ -609,9 +654,14 @@ export default function ChangePassword() {
                     <Ionicons name="close-circle" size={22} color="#ea3e29" />
                     <Text
                       style={{
-                        marginTop: i18n.locale === ("en-US" || "en") ? 3 : -3,
+                        marginTop:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 3
+                            : -3,
                         fontFamily:
-                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "Ubuntu"
+                            : "Noto",
                         marginLeft: 10,
                         marginRight: 10,
                         fontSize: 15,
@@ -626,7 +676,7 @@ export default function ChangePassword() {
                   <View
                     style={{
                       flexDirection:
-                        i18n.locale === ("en-US" || "en")
+                        i18n.locale === "en-US" || i18n.locale === "en"
                           ? "row"
                           : "row-reverse",
                       paddingBottom: 15,
@@ -639,9 +689,14 @@ export default function ChangePassword() {
                     />
                     <Text
                       style={{
-                        marginTop: i18n.locale === ("en-US" || "en") ? 3 : -3,
+                        marginTop:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 3
+                            : -3,
                         fontFamily:
-                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "Ubuntu"
+                            : "Noto",
                         marginLeft: 10,
                         marginRight: 10,
                         color: "#525252",
@@ -658,7 +713,7 @@ export default function ChangePassword() {
                   <View
                     style={{
                       flexDirection:
-                        i18n.locale === ("en-US" || "en")
+                        i18n.locale === "en-US" || i18n.locale === "en"
                           ? "row"
                           : "row-reverse",
                       paddingBottom: 15,
@@ -667,9 +722,14 @@ export default function ChangePassword() {
                     <Ionicons name="close-circle" size={22} color="#ea3e29" />
                     <Text
                       style={{
-                        marginTop: i18n.locale === ("en-US" || "en") ? 3 : -3,
+                        marginTop:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 3
+                            : -3,
                         fontFamily:
-                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "Ubuntu"
+                            : "Noto",
                         marginLeft: 10,
                         marginRight: 10,
                         fontSize: 15,
@@ -684,7 +744,7 @@ export default function ChangePassword() {
                   <View
                     style={{
                       flexDirection:
-                        i18n.locale === ("en-US" || "en")
+                        i18n.locale === "en-US" || i18n.locale === "en"
                           ? "row"
                           : "row-reverse",
                       paddingBottom: 15,
@@ -697,9 +757,14 @@ export default function ChangePassword() {
                     />
                     <Text
                       style={{
-                        marginTop: i18n.locale === ("en-US" || "en") ? 3 : -3,
+                        marginTop:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 3
+                            : -3,
                         fontFamily:
-                          i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "Ubuntu"
+                            : "Noto",
                         marginLeft: 10,
                         marginRight: 10,
                         color: "#525252",
@@ -752,14 +817,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 10,
     elevation: 3,
-    backgroundColor: "#9279f7",
+    backgroundColor: "#e52b51",
   },
   buttonx: {
     paddingVertical: 8,
     paddingHorizontal: 32,
     borderRadius: 10,
     elevation: 3,
-    backgroundColor: "#a08cf3",
+    backgroundColor: "#ef7f96",
   },
   container: {
     alignSelf: "center",

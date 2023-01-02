@@ -57,8 +57,14 @@ const prefix = Linking.createURL("/");
 
 function App() {
   const checkUser = authStore.user;
+  const config = {
+    screens: {
+      SpotDetails: "SpotDetails/:id",
+    },
+  };
   const linking = {
     prefixes: [prefix],
+    config,
   };
 
   const [isFirstLaunch, setIsFirstLaunch] = React.useState(null);
@@ -176,7 +182,7 @@ function RootNavigator() {
   const i18n = new I18n(translations);
   i18n.locale = Localization.locale;
   i18n.enableFallback = true;
-  return i18n.locale === ("en-US" || "en") ? (
+  return i18n.locale === "en-US" || i18n.locale === "en" ? (
     <>
       <Navigator
         screenOptions={{
@@ -464,7 +470,7 @@ function TabBar() {
             ></Ionicons>
           ),
 
-          tabBarActiveTintColor: "#9279f7",
+          tabBarActiveTintColor: "#e52b51",
           tabBarInactiveTintColor:
             colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}
@@ -485,7 +491,7 @@ function TabBar() {
               }}
             />
           ),
-          tabBarActiveTintColor: "#9279f7",
+          tabBarActiveTintColor: "#e52b51",
           tabBarInactiveTintColor:
             colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}
@@ -504,7 +510,7 @@ function TabBar() {
               style={{ position: "absolute", paddingTop: "13%" }}
             />
           ),
-          tabBarActiveTintColor: "#9279f7",
+          tabBarActiveTintColor: "#e52b51",
           tabBarInactiveTintColor:
             colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}

@@ -57,7 +57,7 @@ export default function Notification({ spot }) {
       </View> */}
       <View
         style={{
-          borderColor: "#9279f7",
+          borderColor: "#e52b51",
           borderWidth: 0.5,
           width: 150,
           alignSelf: "center",
@@ -67,7 +67,7 @@ export default function Notification({ spot }) {
       >
         <Button
           title="Schedule a Notification"
-          color={"#9279f7"}
+          color={"#e52b51"}
           onPress={async () => {
             await schedulePushNotification(spot);
           }}

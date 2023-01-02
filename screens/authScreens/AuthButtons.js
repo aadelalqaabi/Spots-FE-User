@@ -21,6 +21,7 @@ import { baseURL } from "../../stores/instance";
 import { openURL } from "expo-linking";
 import GoogleLogin from "./GoogleLogin";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
+import AppleLogin from "./AppleLogin";
 
 export default function AuthButtons({ navigation }) {
   const colorScheme = useColorScheme();
@@ -74,13 +75,19 @@ export default function AuthButtons({ navigation }) {
 
             <Text
               style={{
-                fontSize: i18n.locale === ("en-US" || "en") ? 45 : 38,
+                fontSize:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 45 : 38,
                 fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
                 width: "100%",
                 marginTop: 50,
                 marginBottom: 60,
-                textAlign: i18n.locale === ("en-US" || "en") ? "left" : "right",
+                textAlign:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "left"
+                    : "right",
                 color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
               }}
             >
@@ -94,7 +101,9 @@ export default function AuthButtons({ navigation }) {
                 alignContent: "center",
                 alignItems: "center",
                 flexDirection:
-                  i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "row"
+                    : "row-reverse",
                 marginTop: 20,
               }}
             >
@@ -102,7 +111,9 @@ export default function AuthButtons({ navigation }) {
                 style={{
                   color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
                   fontFamily:
-                    i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Ubuntu"
+                      : "Noto",
                   fontSize: 18,
                   paddingRight: 8,
                   paddingLeft: 8,
@@ -119,9 +130,9 @@ export default function AuthButtons({ navigation }) {
               >
                 <Text
                   style={{
-                    color: "#9279f7",
+                    color: "#e52b51",
                     fontFamily:
-                      i18n.locale === ("en-US" || "en")
+                      i18n.locale === "en-US" || i18n.locale === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 20,
@@ -184,6 +195,7 @@ export default function AuthButtons({ navigation }) {
               }}
             >
               <GoogleLogin />
+              <AppleLogin />
             </View>
           </View>
         </View>
@@ -197,7 +209,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   signUpTextar: {
-    color: "#9279f7",
+    color: "#e52b51",
     fontFamily: "UbuntuBold",
     fontSize: 20,
   },

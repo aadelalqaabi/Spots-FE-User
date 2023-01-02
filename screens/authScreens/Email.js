@@ -24,7 +24,7 @@ export default function Email({ navigation, route }) {
   const { itemId } = route.params;
   const [user, setUser] = useState(itemId);
   const [checkValidation, setCheckValidation] = useState(true);
-  const [checkValidationColor, setCheckValidationColor] = useState("#9279f7");
+  const [checkValidationColor, setCheckValidationColor] = useState("#e52b51");
   const [begining, setBegining] = useState(true);
   const [showError, setShowError] = useState(true);
   const translations = {
@@ -51,7 +51,7 @@ export default function Email({ navigation, route }) {
     if (check === true) {
       setUser({ ...user, [name]: value });
       setCheckValidation(false);
-      setCheckValidationColor("#9279f7");
+      setCheckValidationColor("#e52b51");
       setShowError(false);
     } else {
       setCheckValidation(true);
@@ -94,11 +94,13 @@ export default function Email({ navigation, route }) {
               marginLeft: 20,
               paddingRight: 20,
               alignSelf:
-                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "flex-start"
+                  : "flex-end",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
             name={
-              i18n.locale === ("en-US" || "en")
+              i18n.locale === "en-US" || i18n.locale === "en"
                 ? "chevron-back-outline"
                 : "chevron-forward-outline"
             }
@@ -116,11 +118,14 @@ export default function Email({ navigation, route }) {
             <Text
               style={{
                 fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
                 fontSize: 27,
                 margin: 20,
                 marginTop: 0,
-                marginBottom: i18n.locale === ("en-US" || "en") ? 20 : 10,
+                marginBottom:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
                 width: "100%",
                 textAlign: "center",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
@@ -131,11 +136,15 @@ export default function Email({ navigation, route }) {
             <Text
               style={{
                 fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
-                fontSize: i18n.locale === ("en-US" || "en") ? 16 : 18,
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                fontSize:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 18,
                 margin: 20,
                 marginTop: 0,
-                marginBottom: i18n.locale === ("en-US" || "en") ? 20 : 10,
+                marginBottom:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
                 paddingTop: 3,
                 width: "100%",
                 textAlign: "center",
@@ -167,9 +176,13 @@ export default function Email({ navigation, route }) {
                     paddingLeft: 50,
                     paddingRight: 50,
                     fontFamily:
-                      i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Ubuntu"
+                        : "Noto",
                     textAlign:
-                      i18n.locale === ("en-US" || "en") ? "left" : "right",
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "left"
+                        : "right",
                     backgroundColor: "white",
                     shadowColor: "#000",
                     shadowOffset: {
@@ -190,7 +203,7 @@ export default function Email({ navigation, route }) {
                   onSubmitEditing={() => {
                     checkValidation === false
                       ? navigation.navigate("Password", { itemId: user })
-                      : i18n.locale === ("en-US" || "en")
+                      : i18n.locale === "en-US" || i18n.locale === "en"
                       ? Alert.alert("Invalid Email Adress", "", [
                           { text: "Try Again" },
                         ])
@@ -207,13 +220,13 @@ export default function Email({ navigation, route }) {
                       margin: 12,
                       fontSize: 25,
                       alignSelf:
-                        i18n.locale === ("en-US" || "en")
+                        i18n.locale === "en-US" || i18n.locale === "en"
                           ? "flex-start"
                           : "flex-end",
                     }}
                     name="mail"
                     size={18}
-                    color="#9279f7"
+                    color="#e52b51"
                   />
                 ) : (
                   <>
@@ -225,7 +238,7 @@ export default function Email({ navigation, route }) {
                           margin: 12,
                           fontSize: 25,
                           alignSelf:
-                            i18n.locale === ("en-US" || "en")
+                            i18n.locale === "en-US" || i18n.locale === "en"
                               ? "flex-start"
                               : "flex-end",
                         }}
@@ -241,7 +254,7 @@ export default function Email({ navigation, route }) {
                           margin: 12,
                           fontSize: 25,
                           alignSelf:
-                            i18n.locale === ("en-US" || "en")
+                            i18n.locale === "en-US" || i18n.locale === "en"
                               ? "flex-start"
                               : "flex-end",
                         }}
@@ -313,14 +326,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 10,
     elevation: 3,
-    backgroundColor: "#9279f7",
+    backgroundColor: "#e52b51",
   },
   buttonx: {
     paddingVertical: 8,
     paddingHorizontal: 32,
     borderRadius: 10,
     elevation: 3,
-    backgroundColor: "#a08cf3",
+    backgroundColor: "#ef7f96",
   },
   errorContainer: {
     // borderWidth: 2,
