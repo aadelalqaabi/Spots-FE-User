@@ -120,11 +120,13 @@ export default function MyImage({ navigation, route }) {
           marginLeft: 20,
           paddingRight: 20,
           alignSelf:
-            i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "flex-start"
+              : "flex-end",
           color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}
         name={
-          i18n.locale === ("en-US" || "en")
+          i18n.locale === "en-US" || i18n.locale === "en"
             ? "chevron-back-outline"
             : "chevron-forward-outline"
         }
@@ -142,9 +144,12 @@ export default function MyImage({ navigation, route }) {
         <Text
           style={{
             fontFamily:
-              i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
-            fontSize: i18n.locale === ("en-US" || "en") ? 28 : 30,
-            marginBottom: i18n.locale === ("en-US" || "en") ? 20 : 10,
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "UbuntuBold"
+                : "NotoBold",
+            fontSize: i18n.locale === "en-US" || i18n.locale === "en" ? 28 : 30,
+            marginBottom:
+              i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
             margin: 20,
             marginTop: 0,
             width: "100%",
@@ -156,12 +161,16 @@ export default function MyImage({ navigation, route }) {
         </Text>
         <Text
           style={{
-            fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
-            fontSize: i18n.locale === ("en-US" || "en") ? 16 : 18,
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Ubuntu"
+                : "Noto",
+            fontSize: i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 18,
             paddingTop: 3,
             margin: 20,
             marginTop: 0,
-            marginBottom: i18n.locale === ("en-US" || "en") ? 20 : 10,
+            marginBottom:
+              i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
             width: "100%",
             textAlign: "center",
             color: "#64666b",
@@ -226,7 +235,7 @@ export default function MyImage({ navigation, route }) {
                 }}
               >
                 <Button
-                  color="#9279f7"
+                  color="#e52b51"
                   title={i18n.t("choose")}
                   onPress={pickImage}
                 />
@@ -254,7 +263,7 @@ export default function MyImage({ navigation, route }) {
                 paddingHorizontal: 32,
                 borderRadius: 15,
                 elevation: 3,
-                backgroundColor: "#9279f7",
+                backgroundColor: "#e52b51",
                 alignSelf: "center",
                 width: "100%",
                 marginBottom: 45,
@@ -271,7 +280,7 @@ export default function MyImage({ navigation, route }) {
             <View>
               <Button
                 title={i18n.t("skip")}
-                color="#9279f7"
+                color="#e52b51"
                 onPress={handleSubmit}
               />
             </View>
@@ -303,7 +312,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 15,
     elevation: 3,
-    backgroundColor: "#9279f7",
+    backgroundColor: "#e52b51",
     alignSelf: "center",
     width: "100%",
     marginBottom: 15,

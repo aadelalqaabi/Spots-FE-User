@@ -68,7 +68,9 @@ export default function Info({ route }) {
           style={{
             display: "flex",
             flexDirection:
-              i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "row"
+                : "row-reverse",
             alignContent: "center",
             alignItems: "center",
             justifyContent: "cnter",
@@ -90,7 +92,7 @@ export default function Info({ route }) {
                 width: "100%",
               }}
               name={
-                i18n.locale === ("en-US" || "en")
+                i18n.locale === "en-US" || i18n.locale === "en"
                   ? "chevron-back-outline"
                   : "chevron-forward-outline"
               }
@@ -101,12 +103,17 @@ export default function Info({ route }) {
               fontSize: 26,
               alignSelf: "center",
               textAlign: "center",
-              fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
               width: "70%",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
           >
-            {i18n.locale === ("en-US" || "en") ? "Information" : "معلومات"}
+            {i18n.locale === "en-US" || i18n.locale === "en"
+              ? "Information"
+              : "معلومات"}
           </Text>
         </View>
         <View
@@ -123,7 +130,9 @@ export default function Info({ route }) {
             style={{
               fontSize: 50,
               fontFamily:
-                i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "UbuntuBold"
+                  : "NotoBold",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
           >
@@ -132,13 +141,16 @@ export default function Info({ route }) {
           <Text
             style={{
               fontSize: 18,
-              fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               position: "absolute",
               paddingTop: 130,
             }}
           >
-            {i18n.locale === ("en-US" || "en")
+            {i18n.locale === "en-US" || i18n.locale === "en"
               ? "Users Spotted Here"
               : "مستخدمين اتوا هنا"}
           </Text>
@@ -148,17 +160,22 @@ export default function Info({ route }) {
             style={{
               fontSize: 20,
               alignSelf:
-                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "flex-start"
+                  : "flex-end",
               textAlign: "center",
               fontFamily:
-                i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "UbuntuBold"
+                  : "NotoBold",
               margin: 20,
               marginBottom: -5,
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              marginTop: i18n.locale === ("en-US" || "en") ? 10 : 0,
+              marginTop:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
             }}
           >
-            {i18n.locale === ("en-US" || "en")
+            {i18n.locale === "en-US" || i18n.locale === "en"
               ? "Rewards claimed"
               : "مكافآت تم الحصول عليها"}
           </Text>
@@ -171,14 +188,17 @@ export default function Info({ route }) {
             contentContainerStyle={{
               backgroundColor: "transparent",
               paddingRight: 30,
-              paddingLeft: i18n.locale === ("en-US" || "en") ? 10 : 30,
+              paddingLeft:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 30,
               display: "flex",
               flexDirection:
-                i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "row"
+                  : "row-reverse",
             }}
             ref={scrollViewRef}
             onContentSizeChange={() =>
-              i18n.locale === ("en-US" || "en")
+              i18n.locale === "en-US" || i18n.locale === "en"
                 ? scrollViewRef.current.scrollTo({
                     x: 0,
                     y: 0,
@@ -199,16 +219,21 @@ export default function Info({ route }) {
             style={{
               fontSize: 20,
               alignSelf:
-                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "flex-start"
+                  : "flex-end",
               textAlign: "center",
               fontFamily:
-                i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "UbuntuBold"
+                  : "NotoBold",
               margin: 20,
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              marginTop: i18n.locale === ("en-US" || "en") ? 10 : 0,
+              marginTop:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
             }}
           >
-            {i18n.locale === ("en-US" || "en")
+            {i18n.locale === "en-US" || i18n.locale === "en"
               ? "Spot Details"
               : "تفاصيل النقطة"}
           </Text>
@@ -216,16 +241,27 @@ export default function Info({ route }) {
             style={{
               fontSize: 20,
               alignSelf:
-                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
-              textAlign: i18n.locale === ("en-US" || "en") ? "left" : "right",
-              fontFamily: i18n.locale === ("en-US" || "en") ? "Cabin" : "Noto",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "flex-start"
+                  : "flex-end",
+              textAlign:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "left"
+                  : "right",
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Cabin"
+                  : "Noto",
               margin: 20,
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              marginTop: i18n.locale === ("en-US" || "en") ? -10 : -20,
+              marginTop:
+                i18n.locale === "en-US" || i18n.locale === "en" ? -10 : -20,
               lineHeight: 40,
             }}
           >
-            {i18n.locale === ("en-US" || "en") ? spot.details : spot.detailsAr}
+            {i18n.locale === "en-US" || i18n.locale === "en"
+              ? spot.details
+              : spot.detailsAr}
           </Text>
         </View>
         <View style={{ marginTop: 0 }}>
@@ -233,16 +269,21 @@ export default function Info({ route }) {
             style={{
               fontSize: 20,
               alignSelf:
-                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "flex-start"
+                  : "flex-end",
               textAlign: "center",
               fontFamily:
-                i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "UbuntuBold"
+                  : "NotoBold",
               margin: 20,
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              marginTop: i18n.locale === ("en-US" || "en") ? 10 : 0,
+              marginTop:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
             }}
           >
-            {i18n.locale === ("en-US" || "en")
+            {i18n.locale === "en-US" || i18n.locale === "en"
               ? "Contact Info"
               : "ملعومات الاتصال"}
           </Text>
@@ -250,7 +291,9 @@ export default function Info({ route }) {
             style={{
               display: "flex",
               flexDirection:
-                i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "row"
+                  : "row-reverse",
               alignContent: "center",
               alignItems: "center",
               margin: 15,
@@ -262,10 +305,13 @@ export default function Info({ route }) {
               style={{
                 marginRight: 5,
                 marginLeft: 5,
-                color: "#9279f7",
+                color: "#e52b51",
                 fontSize: 32,
                 transform: [
-                  { scaleX: i18n.locale === ("en-US" || "en") ? 1 : -1 },
+                  {
+                    scaleX:
+                      i18n.locale === "en-US" || i18n.locale === "en" ? 1 : -1,
+                  },
                 ],
               }}
               name="ios-call-outline"
@@ -273,17 +319,20 @@ export default function Info({ route }) {
             <View
               style={{
                 borderBottomWidth: 2,
-                borderColor: "#9279f7",
+                borderColor: "#e52b51",
               }}
             >
               <Text
                 onPress={() => Linking.openURL(`tel:${organizer.phone}`)}
                 style={{
                   fontFamily:
-                    i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Ubuntu"
+                      : "Noto",
                   fontSize: 20,
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                  marginBottom: i18n.locale === ("en-US" || "en") ? 5 : -5,
+                  marginBottom:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 5 : -5,
                 }}
               >
                 {organizer.phone}
@@ -294,7 +343,9 @@ export default function Info({ route }) {
             style={{
               display: "flex",
               flexDirection:
-                i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "row"
+                  : "row-reverse",
               alignContent: "center",
               alignItems: "center",
               margin: 15,
@@ -306,10 +357,13 @@ export default function Info({ route }) {
               style={{
                 marginRight: 5,
                 marginLeft: 5,
-                color: "#9279f7",
+                color: "#e52b51",
                 fontSize: 32,
                 transform: [
-                  { scaleX: i18n.locale === ("en-US" || "en") ? 1 : -1 },
+                  {
+                    scaleX:
+                      i18n.locale === "en-US" || i18n.locale === "en" ? 1 : -1,
+                  },
                 ],
               }}
               name="mail-outline"
@@ -317,17 +371,20 @@ export default function Info({ route }) {
             <View
               style={{
                 borderBottomWidth: 2,
-                borderColor: "#9279f7",
+                borderColor: "#e52b51",
               }}
             >
               <Text
                 onPress={() => Linking.openURL(`mailto:${organizer.email}`)}
                 style={{
                   fontFamily:
-                    i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Ubuntu"
+                      : "Noto",
                   fontSize: 20,
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                  marginBottom: i18n.locale === ("en-US" || "en") ? 5 : -5,
+                  marginBottom:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 5 : -5,
                 }}
               >
                 {organizer.email}

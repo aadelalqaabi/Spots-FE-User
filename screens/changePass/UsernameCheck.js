@@ -49,7 +49,7 @@ export default function UsernameCheck() {
     setUser({ ...user, [name]: value });
   };
   const handleSubmit = () => {
-    if (i18n.locale === ("en-US" || "en")) {
+    if (i18n.locale === "en-US" || i18n.locale === "en") {
       Alert.alert(
         "An OTP has been sent to the phone number associated with this username",
         "",
@@ -92,11 +92,13 @@ export default function UsernameCheck() {
               marginLeft: 20,
               paddingRight: 20,
               alignSelf:
-                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "flex-start"
+                  : "flex-end",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
             name={
-              i18n.locale === ("en-US" || "en")
+              i18n.locale === "en-US" || i18n.locale === "en"
                 ? "chevron-back-outline"
                 : "chevron-forward-outline"
             }
@@ -114,11 +116,15 @@ export default function UsernameCheck() {
             <Text
               style={{
                 fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
-                fontSize: i18n.locale === ("en-US" || "en") ? 30 : 35,
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
+                fontSize:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 35,
                 margin: 20,
                 marginTop: 0,
-                marginBottom: i18n.locale === ("en-US" || "en") ? 20 : 10,
+                marginBottom:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
                 width: "100%",
                 textAlign: "center",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
@@ -129,11 +135,15 @@ export default function UsernameCheck() {
             <Text
               style={{
                 fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
-                fontSize: i18n.locale === ("en-US" || "en") ? 16 : 18,
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                fontSize:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 18,
                 margin: 20,
                 marginTop: 0,
-                marginBottom: i18n.locale === ("en-US" || "en") ? 20 : 10,
+                marginBottom:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
                 width: "100%",
                 textAlign: "center",
                 color: "#64666b",
@@ -166,9 +176,13 @@ export default function UsernameCheck() {
                     paddingLeft: 50,
                     paddingRight: 50,
                     fontFamily:
-                      i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Ubuntu"
+                        : "Noto",
                     textAlign:
-                      i18n.locale === ("en-US" || "en") ? "left" : "right",
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "left"
+                        : "right",
                     backgroundColor: "white",
                     shadowColor: "#000",
                     shadowOffset: {
@@ -179,7 +193,7 @@ export default function UsernameCheck() {
                     shadowRadius: 1.41,
                     elevation: 2,
                   }}
-                  mainColor={"#9279f7"}
+                  mainColor={"#e52b51"}
                   label="Username"
                   onChangeText={(text) => {
                     handleChange("username", text);
@@ -196,13 +210,13 @@ export default function UsernameCheck() {
                     margin: 12,
                     fontSize: 25,
                     alignSelf:
-                      i18n.locale === ("en-US" || "en")
+                      i18n.locale === "en-US" || i18n.locale === "en"
                         ? "flex-start"
                         : "flex-end",
                   }}
                   name="person-circle"
                   size={30}
-                  color="#9279f7"
+                  color="#e52b51"
                 />
               </View>
               <View
@@ -218,7 +232,7 @@ export default function UsernameCheck() {
                     paddingHorizontal: 32,
                     borderRadius: 10,
                     elevation: 3,
-                    backgroundColor: "#9279f7",
+                    backgroundColor: "#e52b51",
                   }}
                 >
                   <Button
@@ -257,14 +271,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 10,
     elevation: 3,
-    backgroundColor: "#9279f7",
+    backgroundColor: "#e52b51",
   },
   buttonx: {
     paddingVertical: 8,
     paddingHorizontal: 32,
     borderRadius: 10,
     elevation: 3,
-    backgroundColor: "#a08cf3",
+    backgroundColor: "#ef7f96",
   },
   passwordContainer: {
     flexDirection: "row",

@@ -3,8 +3,9 @@ import React, { useState } from "react";
 import spotStore from "../../stores/spotStore";
 import ticketStore from "../../stores/ticketStore";
 import authStore from "../../stores/authStore";
+import { observer } from "mobx-react";
 
-export default function Payment({ navigation, route }) {
+function Payment({ navigation, route }) {
   const spot = route.params.itemId;
   const tickets = route.params.quantity;
   const [newTicket, setNewTicket] = useState({
@@ -13,8 +14,9 @@ export default function Payment({ navigation, route }) {
     isFree: false,
   });
   const handleBooking = async () => {
-    spot.seats = spot.seats - tickets;
-    spot.spotRevenue = tickets * spot.price;
+    spot.seatsRemaining = spot.seatsRemaining - tickets;
+    spot.spotRevenue = spot.spotRevenue + tickets * spot.price;
+    console.log("spot", spot);
     newTicket.amount = tickets;
     try {
       await spotStore.updateSpot(spot, spot._id);
@@ -49,12 +51,12 @@ export default function Payment({ navigation, route }) {
     </View>
   );
 }
-
+export default observer(Payment);
 const styles = StyleSheet.create({
   button: {
     borderRadius: 8,
     elevation: 3,
-    backgroundColor: "#9279f7",
+    backgroundColor: "#e52b51",
     width: 125,
     height: 40,
     alignSelf: "center",

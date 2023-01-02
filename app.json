@@ -2,7 +2,7 @@
   "expo": {
     "scheme": "dest",
     "name": "Dest",
-    "slug": "Spots-FE-User",
+    "slug": "Dest",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#9279f7"
+      "backgroundColor": "#e52b51"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -20,7 +20,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.semicolon.dest"
+      "bundleIdentifier": "com.dest.kuwait"
     },
     "android": {
       "adaptiveIcon": {
@@ -42,6 +42,11 @@
           ]
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "a4b4c105-4742-46f9-9d80-0ecfd286c07f"
+      }
+    }
   }
 }

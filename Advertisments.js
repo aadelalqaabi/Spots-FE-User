@@ -250,10 +250,12 @@ function Advertisments() {
                 color: "white",
                 paddingLeft: 10,
                 fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
               }}
             >
-              {i18n.locale === ("en-US" || "en")
+              {i18n.locale === "en-US" || i18n.locale === "en"
                 ? organizer?.displayNameEn
                 : organizer?.displayNameAr}
             </Text>
@@ -294,11 +296,15 @@ function Advertisments() {
           fontSize: 32,
           fontWeight: "700",
           fontFamily:
-            i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "UbuntuBold"
+              : "NotoBold",
           color: "white",
           shadowColor: "#000",
           alignSelf:
-            i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "flex-start"
+              : "flex-end",
           shadowOffset: {
             width: 0,
             height: 3,
@@ -310,7 +316,7 @@ function Advertisments() {
           marginBottom: 0,
         }}
       >
-        {i18n.locale === ("en-US" || "en")
+        {i18n.locale === "en-US" || i18n.locale === "en"
           ? adSpots[current]?.name
           : adSpots[current]?.nameAr}
       </Text>
@@ -318,7 +324,8 @@ function Advertisments() {
         style={{
           fontSize: 20,
           color: "white",
-          fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+          fontFamily:
+            i18n.locale === "en-US" || i18n.locale === "en" ? "Ubuntu" : "Noto",
           shadowColor: "#000",
           shadowOffset: {
             width: 0,
@@ -328,11 +335,12 @@ function Advertisments() {
           shadowRadius: 4.65,
           elevation: 7,
           lineHeight: 28,
-          textAlign: i18n.locale === ("en-US" || "en") ? "left" : "right",
+          textAlign:
+            i18n.locale === "en-US" || i18n.locale === "en" ? "left" : "right",
           margin: 30,
         }}
       >
-        {i18n.locale === ("en-US" || "en")
+        {i18n.locale === "en-US" || i18n.locale === "en"
           ? adSpots[current]?.description
           : adSpots[current]?.descriptionAr}
       </Text>
@@ -343,7 +351,7 @@ function Advertisments() {
           borderRadius: 25,
           height: 65,
           width: "90%",
-          backgroundColor: "#9279f7",
+          backgroundColor: "#e52b51",
           shadowColor: "#000",
           shadowOffset: {
             width: 0,
@@ -370,7 +378,9 @@ function Advertisments() {
             fontFamily: "Ubuntu",
           }}
         >
-          {i18n.locale === ("en-US" || "en") ? "More Details" : "تفاصيل اكثر"}
+          {i18n.locale === "en-US" || i18n.locale === "en"
+            ? "More Details"
+            : "تفاصيل اكثر"}
         </Text>
       </TouchableOpacity>
     </View>

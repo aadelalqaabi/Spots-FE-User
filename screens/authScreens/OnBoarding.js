@@ -42,10 +42,13 @@ export default function OnBoarding() {
         style={{
           fontSize: 54,
           fontFamily:
-            i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "UbuntuBold"
+              : "NotoBold",
           width: "75%",
           marginTop: 200,
-          textAlign: i18n.locale === ("en-US" || "en") ? "left" : "right",
+          textAlign:
+            i18n.locale === "en-US" || i18n.locale === "en" ? "left" : "right",
         }}
       >
         {i18n.t("out")}
@@ -66,10 +69,12 @@ export default function OnBoarding() {
             borderRadius: 12,
             height: 70,
             width: "75%",
-            backgroundColor: "#9279f7",
+            backgroundColor: "#e52b51",
             justifyContent: "space-between",
             flexDirection:
-              i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "row"
+                : "row-reverse",
             padding: 10,
           }}
           onPress={() => navigation.navigate("SetUpAccount")}
@@ -81,7 +86,10 @@ export default function OnBoarding() {
               alignSelf: "center",
               marginLeft: 10,
               marginRight: 10,
-              fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
             }}
           >
             {i18n.t("start")}
@@ -89,7 +97,7 @@ export default function OnBoarding() {
           <Ionicons
             style={styles.icon}
             name={
-              i18n.locale === ("en-US" || "en")
+              i18n.locale === "en-US" || i18n.locale === "en"
                 ? "chevron-forward-outline"
                 : "chevron-back-outline"
             }
@@ -112,7 +120,7 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontFamily: "UbuntuBold",
     marginTop: 10,
-    color: "#9279f7",
+    color: "#e52b51",
   },
   container: {
     width: "100%",
@@ -130,7 +138,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     height: 70,
     width: "75%",
-    backgroundColor: "#9279f7",
+    backgroundColor: "#e52b51",
     justifyContent: "space-between",
     flexDirection: "row",
     padding: 10,

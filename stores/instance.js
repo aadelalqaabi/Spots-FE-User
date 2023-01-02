@@ -1,5 +1,6 @@
 import axios from "axios";
-const baseURL = "http://192.168.0.80.nip.io:8000";
+const baseURL =
+  process.env.NODE_ENV === "production" ? "/" : "https://destkw.com/api";
 
 const instance = axios.create({
   baseURL: baseURL,

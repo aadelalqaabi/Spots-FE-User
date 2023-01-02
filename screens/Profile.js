@@ -140,7 +140,7 @@ function Profile() {
                 <TouchableOpacity
                   style={{
                     alignSelf:
-                      i18n.locale === ("en-US" || "en")
+                      i18n.locale === "en-US" || i18n.locale === "en"
                         ? "flex-end"
                         : "flex-start",
                     position: "absolute",
@@ -161,7 +161,7 @@ function Profile() {
                   style={{
                     fontSize: 30,
                     fontFamily:
-                      i18n.locale === ("en-US" || "en")
+                      i18n.locale === "en-US" || i18n.locale === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
@@ -178,7 +178,9 @@ function Profile() {
                   alignContent: "center",
                   alignItems: "center",
                   flexDirection:
-                    i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "row"
+                      : "row-reverse",
                   marginBottom: 10,
                   marginRight: 80,
                   marginLeft: 40,
@@ -231,7 +233,9 @@ function Profile() {
                     style={{
                       fontSize: 25,
                       fontFamily:
-                        i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "Ubuntu"
+                          : "Noto",
                       color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                     }}
                   >

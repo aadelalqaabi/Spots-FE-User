@@ -62,9 +62,10 @@ export default function Settings() {
       <Text
         style={{
           alignSelf: "center",
-          margin: i18n.locale === ("en-US" || "en") ? 30 : 20,
+          margin: i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 20,
           fontSize: 28,
-          fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+          fontFamily:
+            i18n.locale === "en-US" || i18n.locale === "en" ? "Ubuntu" : "Noto",
           color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}
       >
@@ -73,11 +74,15 @@ export default function Settings() {
       <Text
         style={{
           alignSelf:
-            i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
-          margin: i18n.locale === ("en-US" || "en") ? 30 : 20,
-          marginBottom: i18n.locale === ("en-US" || "en") ? 20 : 10,
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "flex-start"
+              : "flex-end",
+          margin: i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 20,
+          marginBottom:
+            i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
           fontSize: 25,
-          fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+          fontFamily:
+            i18n.locale === "en-US" || i18n.locale === "en" ? "Ubuntu" : "Noto",
           color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}
       >
@@ -92,7 +97,9 @@ export default function Settings() {
           borderRadius: 10,
           display: "flex",
           flexDirection:
-            i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "row"
+              : "row-reverse",
           alignContent: "center",
           alignItems: "center",
           justifyContent: "space-between",
@@ -103,7 +110,10 @@ export default function Settings() {
           style={{
             color: "#1b1b1b",
             fontSize: 18,
-            fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Ubuntu"
+                : "Noto",
             margin: 10,
             marginRight: 15,
             marginLeft: 15,
@@ -116,12 +126,15 @@ export default function Settings() {
           style={{
             color: "#1b1b1b",
             fontSize: 18,
-            fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Ubuntu"
+                : "Noto",
             margin: 22,
             opacity: 0.8,
           }}
           name={
-            i18n.locale === ("en-US" || "en")
+            i18n.locale === "en-US" || i18n.locale === "en"
               ? "chevron-forward-outline"
               : "chevron-back-outline"
           }
@@ -136,7 +149,9 @@ export default function Settings() {
           borderRadius: 10,
           display: "flex",
           flexDirection:
-            i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "row"
+              : "row-reverse",
           alignContent: "center",
           alignItems: "center",
           marginTop: 20,
@@ -149,7 +164,10 @@ export default function Settings() {
           style={{
             color: "#1b1b1b",
             fontSize: 18,
-            fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Ubuntu"
+                : "Noto",
             margin: 10,
             marginRight: 15,
             marginLeft: 15,
@@ -162,12 +180,15 @@ export default function Settings() {
           style={{
             color: "#1b1b1b",
             fontSize: 18,
-            fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Ubuntu"
+                : "Noto",
             margin: 22,
             opacity: 0.8,
           }}
           name={
-            i18n.locale === ("en-US" || "en")
+            i18n.locale === "en-US" || i18n.locale === "en"
               ? "chevron-forward-outline"
               : "chevron-back-outline"
           }
@@ -182,7 +203,9 @@ export default function Settings() {
           borderRadius: 10,
           display: "flex",
           flexDirection:
-            i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "row"
+              : "row-reverse",
           alignContent: "center",
           alignItems: "center",
           marginTop: 20,
@@ -191,18 +214,24 @@ export default function Settings() {
         }}
         onPress={() =>
           Alert.alert(
-            i18n.locale === ("en-US" || "en")
+            i18n.locale === "en-US" || i18n.locale === "en"
               ? "Do You Want to Logout?"
               : "هل ترغب بالخروج؟",
             "",
             [
               {
-                text: i18n.locale === ("en-US" || "en") ? "Cancel" : "الغاء",
+                text:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Cancel"
+                    : "الغاء",
                 onPress: () => console.log("Cancel Pressed"),
                 style: "cancel",
               },
               {
-                text: i18n.locale === ("en-US" || "en") ? "OK" : "تسجيل الخروج",
+                text:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "OK"
+                    : "تسجيل الخروج",
                 onPress: () => authStore.logout(),
               },
             ]
@@ -213,7 +242,10 @@ export default function Settings() {
           style={{
             color: "#1b1b1b",
             fontSize: 18,
-            fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Ubuntu"
+                : "Noto",
             margin: 10,
             marginRight: 15,
             marginLeft: 15,
@@ -226,12 +258,15 @@ export default function Settings() {
           style={{
             color: "#1b1b1b",
             fontSize: 18,
-            fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Ubuntu"
+                : "Noto",
             margin: 22,
             opacity: 0.8,
           }}
           name={
-            i18n.locale === ("en-US" || "en")
+            i18n.locale === "en-US" || i18n.locale === "en"
               ? "chevron-forward-outline"
               : "chevron-back-outline"
           }

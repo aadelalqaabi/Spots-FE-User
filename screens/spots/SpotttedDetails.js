@@ -63,7 +63,7 @@ export default function SpotttedDetails({ navigation, route }) {
       style={{
         width: "100%",
         height: "100%",
-        backgroundColor: "#9279f7",
+        backgroundColor: "#e52b51",
         flex: 1,
       }}
     >
@@ -80,15 +80,18 @@ export default function SpotttedDetails({ navigation, route }) {
       ></View>
       <Text
         style={{
-          fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+          fontFamily:
+            i18n.locale === "en-US" || i18n.locale === "en" ? "Ubuntu" : "Noto",
           alignSelf: "center",
           letterSpacing: 1,
           fontSize: 30,
           zIndex: 99,
           color: "#f1f1f1",
           alignSelf: "center",
-          marginBottom: i18n.locale === ("en-US" || "en") ? 25 : 10,
-          marginTop: i18n.locale === ("en-US" || "en") ? -10 : -15,
+          marginBottom:
+            i18n.locale === "en-US" || i18n.locale === "en" ? 25 : 10,
+          marginTop:
+            i18n.locale === "en-US" || i18n.locale === "en" ? -10 : -15,
         }}
       >
         {i18n.t("details")}
@@ -114,7 +117,7 @@ export default function SpotttedDetails({ navigation, route }) {
       >
         <View
           style={{
-            backgroundColor: "#9279f7",
+            backgroundColor: "#e52b51",
             position: "absolute",
             width: 90,
             height: 90,
@@ -166,12 +169,20 @@ export default function SpotttedDetails({ navigation, route }) {
               fontSize: 28,
               marginLeft: 30,
               paddingRight: 30,
-              textAlign: i18n.locale === ("en-US" || "en") ? "left" : "right",
+              textAlign:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "left"
+                  : "right",
               fontFamily:
-                i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "UbuntuBold"
+                  : "NotoBold",
               alignSelf:
-                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
-              marginTop: i18n.locale === ("en-US" || "en") ? "89%" : "86%",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "flex-start"
+                  : "flex-end",
+              marginTop:
+                i18n.locale === "en-US" || i18n.locale === "en" ? "89%" : "86%",
               shadowColor: "#1b1b1b",
               shadowOffset: {
                 width: 0,
@@ -182,7 +193,9 @@ export default function SpotttedDetails({ navigation, route }) {
               elevation: 4,
             }}
           >
-            {i18n.locale === ("en-US" || "en") ? spot.name : spot.nameAr}
+            {i18n.locale === "en-US" || i18n.locale === "en"
+              ? spot.name
+              : spot.nameAr}
           </Text>
         </View>
         <View
@@ -224,9 +237,13 @@ export default function SpotttedDetails({ navigation, route }) {
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
-                  marginTop: i18n.locale === ("en-US" || "en") ? 10 : -5,
-                  marginBottom: i18n.locale === ("en-US" || "en") ? 10 : -5,
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Ubuntu"
+                      : "Noto",
+                  marginTop:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : -5,
+                  marginBottom:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : -5,
                   fontSize: 20,
                   color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
                   marginLeft: 0,
@@ -240,17 +257,21 @@ export default function SpotttedDetails({ navigation, route }) {
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === ("en-US" || "en")
+                    i18n.locale === "en-US" || i18n.locale === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
-                  marginTop: i18n.locale === ("en-US" || "en") ? 0 : -10,
-                  marginBottom: i18n.locale === ("en-US" || "en") ? 0 : -10,
+                  marginTop:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -10,
+                  marginBottom:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -10,
                   fontSize: 22,
                   color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
                   alignSelf: "center",
                 }}
               >
-                {i18n.locale === ("en-US" || "en") ? dateEn : dateAr}
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? dateEn
+                  : dateAr}
               </Text>
             </View>
             <View
@@ -269,9 +290,13 @@ export default function SpotttedDetails({ navigation, route }) {
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
-                  marginTop: i18n.locale === ("en-US" || "en") ? 10 : -5,
-                  marginBottom: i18n.locale === ("en-US" || "en") ? 10 : -5,
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Ubuntu"
+                      : "Noto",
+                  marginTop:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : -5,
+                  marginBottom:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : -5,
                   fontSize: 20,
                   color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
                   marginLeft: 0,
@@ -285,15 +310,17 @@ export default function SpotttedDetails({ navigation, route }) {
               <Text
                 style={{
                   alignSelf:
-                    i18n.locale === ("en-US" || "en")
+                    i18n.locale === "en-US" || i18n.locale === "en"
                       ? "flex-start"
                       : "flex-end",
                   fontFamily:
-                    i18n.locale === ("en-US" || "en")
+                    i18n.locale === "en-US" || i18n.locale === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
-                  marginTop: i18n.locale === ("en-US" || "en") ? 0 : -10,
-                  marginBottom: i18n.locale === ("en-US" || "en") ? 0 : -10,
+                  marginTop:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -10,
+                  marginBottom:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -10,
                   fontSize: 22,
                   color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
                 }}
@@ -314,9 +341,13 @@ export default function SpotttedDetails({ navigation, route }) {
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
-                  marginTop: i18n.locale === ("en-US" || "en") ? 10 : -5,
-                  marginBottom: i18n.locale === ("en-US" || "en") ? 10 : -5,
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Ubuntu"
+                      : "Noto",
+                  marginTop:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : -5,
+                  marginBottom:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : -5,
                   fontSize: 20,
                   margin: 10,
                   marginLeft: 0,
@@ -331,15 +362,17 @@ export default function SpotttedDetails({ navigation, route }) {
               <Text
                 style={{
                   alignSelf:
-                    i18n.locale === ("en-US" || "en")
+                    i18n.locale === "en-US" || i18n.locale === "en"
                       ? "flex-start"
                       : "flex-end",
                   fontFamily:
-                    i18n.locale === ("en-US" || "en")
+                    i18n.locale === "en-US" || i18n.locale === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
-                  marginTop: i18n.locale === ("en-US" || "en") ? 0 : -10,
-                  marginBottom: i18n.locale === ("en-US" || "en") ? 0 : -10,
+                  marginTop:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -10,
+                  marginBottom:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -10,
                   fontSize: 22,
                   color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
                 }}
@@ -349,21 +382,26 @@ export default function SpotttedDetails({ navigation, route }) {
                     <Text
                       style={{
                         fontFamily:
-                          i18n.locale === ("en-US" || "en")
+                          i18n.locale === "en-US" || i18n.locale === "en"
                             ? "UbuntuBold"
                             : "NotoBold",
-                        marginTop: i18n.locale === ("en-US" || "en") ? 0 : -10,
+                        marginTop:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 0
+                            : -10,
                         marginBottom:
-                          i18n.locale === ("en-US" || "en") ? 0 : -10,
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 0
+                            : -10,
                         fontSize: 22,
                         color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
                         alignSelf:
-                          i18n.locale === ("en-US" || "en")
+                          i18n.locale === "en-US" || i18n.locale === "en"
                             ? "flex-start"
                             : "flex-end",
                       }}
                     >
-                      {i18n.locale === ("en-US" || "en")
+                      {i18n.locale === "en-US" || i18n.locale === "en"
                         ? ticket.amount + " tickets"
                         : ticket.amount + " تذاكر"}
                     </Text>
@@ -373,21 +411,28 @@ export default function SpotttedDetails({ navigation, route }) {
                     <Text
                       style={{
                         fontFamily:
-                          i18n.locale === ("en-US" || "en")
+                          i18n.locale === "en-US" || i18n.locale === "en"
                             ? "UbuntuBold"
                             : "NotoBold",
-                        marginTop: i18n.locale === ("en-US" || "en") ? 0 : -10,
+                        marginTop:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 0
+                            : -10,
                         marginBottom:
-                          i18n.locale === ("en-US" || "en") ? 0 : -10,
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 0
+                            : -10,
                         fontSize: 22,
                         color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
                         alignSelf:
-                          i18n.locale === ("en-US" || "en")
+                          i18n.locale === "en-US" || i18n.locale === "en"
                             ? "flex-start"
                             : "flex-end",
                       }}
                     >
-                      {i18n.locale === ("en-US" || "en") ? "Free" : "مجاني"}
+                      {i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Free"
+                        : "مجاني"}
                     </Text>
                   </>
                 )}
@@ -415,7 +460,9 @@ export default function SpotttedDetails({ navigation, route }) {
                 justifyContent: "center",
                 alignItems: "center",
                 flexDirection:
-                  i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "row"
+                    : "row-reverse",
                 shadowOffset: {
                   width: 0,
                   height: 2,
@@ -430,16 +477,16 @@ export default function SpotttedDetails({ navigation, route }) {
                 style={{
                   fontSize: 28,
                   zIndex: 99,
-                  color: "#9279f7",
+                  color: "#e52b51",
                 }}
                 name="location-outline"
               ></Ionicons>
               <Text
                 style={{
-                  color: "#9279f7",
+                  color: "#e52b51",
                   fontSize: 18,
                   fontFamily:
-                    i18n.locale === ("en-US" || "en")
+                    i18n.locale === "en-US" || i18n.locale === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   marginLeft: 10,
@@ -454,7 +501,7 @@ export default function SpotttedDetails({ navigation, route }) {
                 width: "102%",
                 height: 80,
                 borderRadius: "50%",
-                backgroundColor: "#9279f7",
+                backgroundColor: "#e52b51",
                 margin: 50,
                 marginBottom: -30,
                 marginTop: "5%",
@@ -464,7 +511,9 @@ export default function SpotttedDetails({ navigation, route }) {
                 justifyContent: "center",
                 alignItems: "center",
                 flexDirection:
-                  i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "row"
+                    : "row-reverse",
                 shadowOffset: {
                   width: 0,
                   height: 2,
@@ -490,7 +539,7 @@ export default function SpotttedDetails({ navigation, route }) {
                   color: "#f1f1f1",
                   fontSize: 22,
                   fontFamily:
-                    i18n.locale === ("en-US" || "en")
+                    i18n.locale === "en-US" || i18n.locale === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   marginLeft: 10,
@@ -517,7 +566,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.23,
     shadowRadius: 2.62,
     elevation: 4,
-    backgroundColor: "#9279f7",
+    backgroundColor: "#e52b51",
     borderRadius: "50%",
     margin: 15,
     marginTop: 40,
@@ -637,7 +686,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     height: 60,
     width: 380,
-    backgroundColor: "#9279f7",
+    backgroundColor: "#e52b51",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

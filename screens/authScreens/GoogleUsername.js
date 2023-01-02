@@ -45,7 +45,7 @@ export default function GoogleUsername({ route }) {
   const [user, setUser] = useState(itemId);
   console.log("user1", user);
   const [checkValidation, setCheckValidation] = useState(true);
-  const [checkValidationColor, setCheckValidationColor] = useState("#9279f7");
+  const [checkValidationColor, setCheckValidationColor] = useState("#e52b51");
   const [begining, setBegining] = useState(true);
   const [showError, setShowError] = useState(true);
   const [uniqueUsername, setUniqueUsername] = useState(true);
@@ -65,7 +65,7 @@ export default function GoogleUsername({ route }) {
       if (check === true) {
         setUser({ ...user, [name]: value });
         setCheckValidation(false);
-        setCheckValidationColor("#9279f7");
+        setCheckValidationColor("#e52b51");
         setShowError(false);
         setUniqueUsername(true);
       } else {
@@ -110,11 +110,13 @@ export default function GoogleUsername({ route }) {
               marginLeft: 20,
               paddingRight: 20,
               alignSelf:
-                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "flex-start"
+                  : "flex-end",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
             name={
-              i18n.locale === ("en-US" || "en")
+              i18n.locale === "en-US" || i18n.locale === "en"
                 ? "chevron-back-outline"
                 : "chevron-forward-outline"
             }
@@ -132,11 +134,14 @@ export default function GoogleUsername({ route }) {
             <Text
               style={{
                 fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
                 fontSize: 29,
                 margin: 20,
                 marginTop: 0,
-                marginBottom: i18n.locale === ("en-US" || "en") ? 20 : 10,
+                marginBottom:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
                 width: "100%",
                 textAlign: "center",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
@@ -147,11 +152,15 @@ export default function GoogleUsername({ route }) {
             <Text
               style={{
                 fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
-                fontSize: i18n.locale === ("en-US" || "en") ? 16 : 18,
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                fontSize:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 18,
                 margin: 20,
                 marginTop: 0,
-                marginBottom: i18n.locale === ("en-US" || "en") ? 20 : 10,
+                marginBottom:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
                 width: "100%",
                 textAlign: "center",
                 color: "#64666b",
@@ -184,9 +193,13 @@ export default function GoogleUsername({ route }) {
                     paddingLeft: 50,
                     paddingRight: 50,
                     fontFamily:
-                      i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Ubuntu"
+                        : "Noto",
                     textAlign:
-                      i18n.locale === ("en-US" || "en") ? "left" : "right",
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "left"
+                        : "right",
                     backgroundColor: "white",
                     shadowColor: "#000",
                     shadowOffset: {
@@ -208,7 +221,7 @@ export default function GoogleUsername({ route }) {
                   onSubmitEditing={() => {
                     checkValidation === false
                       ? navigation.navigate("GoogleImage", { itemId: user })
-                      : i18n.locale === ("en-US" || "en")
+                      : i18n.locale === "en-US" || i18n.locale === "en"
                       ? Alert.alert("Invalid Username", "", ["Try Again"])
                       : Alert.alert("اسم المستخدم غير صالح", "", [
                           { text: "حاول مرة اخرى" },
@@ -232,13 +245,13 @@ export default function GoogleUsername({ route }) {
                       margin: 12,
                       fontSize: 25,
                       alignSelf:
-                        i18n.locale === ("en-US" || "en")
+                        i18n.locale === "en-US" || i18n.locale === "en"
                           ? "flex-start"
                           : "flex-end",
                     }}
                     name="person-circle"
                     size={30}
-                    color="#9279f7"
+                    color="#e52b51"
                   />
                 ) : (
                   <>
@@ -250,7 +263,7 @@ export default function GoogleUsername({ route }) {
                           margin: 12,
                           fontSize: 25,
                           alignSelf:
-                            i18n.locale === ("en-US" || "en")
+                            i18n.locale === "en-US" || i18n.locale === "en"
                               ? "flex-start"
                               : "flex-end",
                         }}
@@ -266,7 +279,7 @@ export default function GoogleUsername({ route }) {
                           margin: 12,
                           fontSize: 25,
                           alignSelf:
-                            i18n.locale === ("en-US" || "en")
+                            i18n.locale === "en-US" || i18n.locale === "en"
                               ? "flex-start"
                               : "flex-end",
                         }}
@@ -292,7 +305,7 @@ export default function GoogleUsername({ route }) {
                       paddingHorizontal: 32,
                       borderRadius: 10,
                       elevation: 3,
-                      backgroundColor: "#a08cf3",
+                      backgroundColor: "#ef7f96",
                     }}
                   >
                     <Button
@@ -311,7 +324,7 @@ export default function GoogleUsername({ route }) {
                       paddingHorizontal: 32,
                       borderRadius: 10,
                       elevation: 3,
-                      backgroundColor: "#9279f7",
+                      backgroundColor: "#e52b51",
                     }}
                   >
                     <Button
@@ -354,14 +367,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 10,
     elevation: 3,
-    backgroundColor: "#9279f7",
+    backgroundColor: "#e52b51",
   },
   buttonx: {
     paddingVertical: 8,
     paddingHorizontal: 32,
     borderRadius: 10,
     elevation: 3,
-    backgroundColor: "#a08cf3",
+    backgroundColor: "#ef7f96",
   },
   passwordContainer: {
     flexDirection: "row",

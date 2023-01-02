@@ -87,12 +87,18 @@ function RewardClaimed({ reward, onRefresh }) {
             fontSize: 22,
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             fontFamily:
-              i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "UbuntuBold"
+                : "NotoBold",
             alignSelf:
-              i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "flex-start"
+                : "flex-end",
           }}
         >
-          {i18n.locale === ("en-US" || "en") ? reward?.title : reward.titleAr}
+          {i18n.locale === "en-US" || i18n.locale === "en"
+            ? reward?.title
+            : reward.titleAr}
         </Text>
       </View>
       <View style={styles.descriptionContainer}>
@@ -102,15 +108,23 @@ function RewardClaimed({ reward, onRefresh }) {
             marginRight: -20,
             fontSize: 18,
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-            fontFamily: i18n.locale === ("en-US" || "en") ? "Cabin" : "Noto",
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Cabin"
+                : "Noto",
             alignSelf:
-              i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "flex-start"
+                : "flex-end",
             width: 300,
             lineHeight: 25,
-            textAlign: i18n.locale === ("en-US" || "en") ? "left" : "right",
+            textAlign:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "left"
+                : "right",
           }}
         >
-          {i18n.locale === ("en-US" || "en")
+          {i18n.locale === "en-US" || i18n.locale === "en"
             ? reward?.description
             : reward?.descriptionAr}
         </Text>
@@ -166,7 +180,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 8,
     elevation: 3,
-    backgroundColor: "#9279f7",
+    backgroundColor: "#e52b51",
     width: 225,
     height: 50,
     alignSelf: "center",

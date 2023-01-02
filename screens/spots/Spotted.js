@@ -70,33 +70,42 @@ function Spotted({ ticket, navigation }) {
       onPress: () => {
         if (ticket.isFree === true) {
           Alert.alert(
-            i18n.locale === ("en-US" || "en")
+            i18n.locale === "en-US" || i18n.locale === "en"
               ? "Do You Want to Delete this Spot?"
               : "هل تريد حذف هذه النقطة؟",
             "",
             [
               {
-                text: i18n.locale === ("en-US" || "en") ? "Cancel" : "الغاء",
+                text:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Cancel"
+                    : "الغاء",
                 onPress: () => console.log("Cancel Pressed"),
                 style: "cancel",
               },
               {
-                text: i18n.locale === ("en-US" || "en") ? "Yes" : "نعم",
+                text:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Yes"
+                    : "نعم",
                 onPress: () => ticketStore.deleteTicket(ticket._id),
               },
             ]
           );
         } else {
           Alert.alert(
-            i18n.locale === ("en-US" || "en")
+            i18n.locale === "en-US" || i18n.locale === "en"
               ? "This is a paid spot"
               : "هذه نقطة مدفوعة",
-            i18n.locale === ("en-US" || "en")
+            i18n.locale === "en-US" || i18n.locale === "en"
               ? "Contact us to cancel your booking"
               : "تواصل معنا لالغاء الحجز",
             [
               {
-                text: i18n.locale === ("en-US" || "en") ? "OK" : "حسنا",
+                text:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "OK"
+                    : "حسنا",
                 onPress: () => console.log("Cancel Pressed"),
               },
             ]
@@ -107,7 +116,7 @@ function Spotted({ ticket, navigation }) {
   ];
   return (
     <>
-      {i18n.locale === ("en-US" || "en") ? (
+      {i18n.locale === "en-US" || i18n.locale === "en" ? (
         <Swipeout
           backgroundColor={colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1"}
           right={swipeoutBtns}
@@ -117,7 +126,9 @@ function Spotted({ ticket, navigation }) {
             style={{
               display: "flex",
               flexDirection:
-                i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "row"
+                  : "row-reverse",
               backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
               justifyContent: "space-between",
               alignItems: "center",
@@ -147,27 +158,35 @@ function Spotted({ ticket, navigation }) {
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === ("en-US" || "en")
+                    i18n.locale === "en-US" || i18n.locale === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 23,
                   color: "#0a0a0b",
-                  marginTop: i18n.locale === ("en-US" || "en") ? 0 : -5,
+                  marginTop:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -5,
                 }}
               >
-                {i18n.locale === ("en-US" || "en") ? dayEn : dayAr}
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? dayEn
+                  : dayAr}
               </Text>
 
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Ubuntu"
+                      : "Noto",
                   fontSize: 17,
                   color: "grey",
-                  marginTop: i18n.locale === ("en-US" || "en") ? 0 : -20,
+                  marginTop:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -20,
                 }}
               >
-                {i18n.locale === ("en-US" || "en") ? monthEn : monthAr}
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? monthEn
+                  : monthAr}
               </Text>
             </View>
             <TouchableOpacity
@@ -189,8 +208,10 @@ function Spotted({ ticket, navigation }) {
                 marginVertical: 5,
                 height: 290,
                 marginBottom: 10,
-                marginRight: i18n.locale === ("en-US" || "en") ? 20 : -8,
-                marginLeft: i18n.locale === ("en-US" || "en") ? -8 : 20,
+                marginRight:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 20 : -8,
+                marginLeft:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? -8 : 20,
               }}
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
@@ -224,14 +245,16 @@ function Spotted({ ticket, navigation }) {
                       width: 1,
                     },
                     fontFamily:
-                      i18n.locale === ("en-US" || "en")
+                      i18n.locale === "en-US" || i18n.locale === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     textAlign: "center",
                     width: "80%",
                   }}
                 >
-                  {i18n.locale === ("en-US" || "en") ? spot.name : spot.nameAr}
+                  {i18n.locale === "en-US" || i18n.locale === "en"
+                    ? spot.name
+                    : spot.nameAr}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -247,7 +270,9 @@ function Spotted({ ticket, navigation }) {
             style={{
               display: "flex",
               flexDirection:
-                i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "row"
+                  : "row-reverse",
               backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
               justifyContent: "space-between",
               alignItems: "center",
@@ -278,27 +303,35 @@ function Spotted({ ticket, navigation }) {
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === ("en-US" || "en")
+                    i18n.locale === "en-US" || i18n.locale === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 23,
                   color: "#0a0a0b",
-                  marginTop: i18n.locale === ("en-US" || "en") ? 0 : -5,
+                  marginTop:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -5,
                 }}
               >
-                {i18n.locale === ("en-US" || "en") ? dayEn : dayAr}
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? dayEn
+                  : dayAr}
               </Text>
 
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Ubuntu"
+                      : "Noto",
                   fontSize: 17,
                   color: "grey",
-                  marginTop: i18n.locale === ("en-US" || "en") ? 0 : -20,
+                  marginTop:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -20,
                 }}
               >
-                {i18n.locale === ("en-US" || "en") ? monthEn : monthAr}
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? monthEn
+                  : monthAr}
               </Text>
             </View>
             <TouchableOpacity
@@ -320,8 +353,10 @@ function Spotted({ ticket, navigation }) {
                 marginVertical: 5,
                 height: 290,
                 marginBottom: 10,
-                marginRight: i18n.locale === ("en-US" || "en") ? 20 : -8,
-                marginLeft: i18n.locale === ("en-US" || "en") ? -8 : 20,
+                marginRight:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 20 : -8,
+                marginLeft:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? -8 : 20,
               }}
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
@@ -356,13 +391,15 @@ function Spotted({ ticket, navigation }) {
                       width: 1,
                     },
                     fontFamily:
-                      i18n.locale === ("en-US" || "en")
+                      i18n.locale === "en-US" || i18n.locale === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     textAlign: "center",
                   }}
                 >
-                  {i18n.locale === ("en-US" || "en") ? spot.name : spot.nameAr}{" "}
+                  {i18n.locale === "en-US" || i18n.locale === "en"
+                    ? spot.name
+                    : spot.nameAr}{" "}
                 </Text>
               </View>
             </TouchableOpacity>

@@ -13,8 +13,7 @@ import { useState } from "react";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
-import PhoneInput from "react-native-phone-number-input";
-
+import TextInput from "react-native-text-input-interactive";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import OTPInputView from "@twotalltotems/react-native-otp-input";
@@ -35,13 +34,14 @@ export default function CheckOTP({ navigation, route }) {
       description: "Enter the OTP code sent to your phone number",
       next: "Next",
       phone: "Phone Number",
+      resend: "Resend OTP",
     },
     ar: {
-      name: "ادخل رقمك",
-      description:
-        "اضف رقمك للتسجيل في حسابك لاحقا \n(يجب ان يكون ٨ ارقام على الاقل)",
+      name: "ادخل رمز التأكيد",
+      description: "اذا كان بريدك الالكتروني صحيح، سيصلك رمز تأكيد عليه",
       next: "التالي",
-      phone: "رقم الهاتف",
+      phone: "رمز التأكيد",
+      resend: "اعادة ارسالة رمز التأكيد",
     },
   };
   const i18n = new I18n(translations);
@@ -75,7 +75,7 @@ export default function CheckOTP({ navigation, route }) {
     if (authStore.OTP === otpCode) {
       navigation.navigate("ForgotPassword", { itemId: user });
     } else {
-      if (i18n.locale === ("en-US" || "en")) {
+      if (i18n.locale === "en-US" || i18n.locale === "en") {
         Alert.alert("Wrong OTP", "", ["Try Again"]);
       } else {
         Alert.alert("اسم المستخدم غير صالح", "", [{ text: "حاول مرة اخرى" }]);
@@ -102,11 +102,13 @@ export default function CheckOTP({ navigation, route }) {
               marginLeft: 20,
               paddingRight: 20,
               alignSelf:
-                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "flex-start"
+                  : "flex-end",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
             name={
-              i18n.locale === ("en-US" || "en")
+              i18n.locale === "en-US" || i18n.locale === "en"
                 ? "chevron-back-outline"
                 : "chevron-forward-outline"
             }
@@ -124,10 +126,14 @@ export default function CheckOTP({ navigation, route }) {
             <Text
               style={{
                 fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
-                fontSize: i18n.locale === ("en-US" || "en") ? 30 : 35,
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
+                fontSize:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 35,
                 margin: 20,
-                marginBottom: i18n.locale === ("en-US" || "en") ? 20 : 10,
+                marginBottom:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
                 marginTop: 0,
                 width: "100%",
                 textAlign: "center",
@@ -139,8 +145,11 @@ export default function CheckOTP({ navigation, route }) {
             <Text
               style={{
                 fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
-                fontSize: i18n.locale === ("en-US" || "en") ? 16 : 18,
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                fontSize:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 18,
                 margin: 20,
                 paddingTop: 3,
                 marginTop: 0,
@@ -155,20 +164,31 @@ export default function CheckOTP({ navigation, route }) {
             </Text>
             <View
               style={{
-                width: "110%",
                 alignSelf: "center",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
+                alignContent: "center",
+                alignItems: "center",
                 height: "73%",
               }}
             >
               <View style={styles.container}>
-                <OTPInputView
-                  containerStyle={{
+                <TextInput
+                  textInputStyle={{
                     alignSelf: "center",
-                    width: "100%",
-                    borderRadius: 10,
+                    width: "105%",
+                    marginBottom: 10,
+                    padding: 14,
+                    fontFamily:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Ubuntu"
+                        : "Noto",
+                    textAlign:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "left"
+                        : "right",
+                    backgroundColor: "white",
                     shadowColor: "#000",
                     shadowOffset: {
                       width: 0,
@@ -178,49 +198,33 @@ export default function CheckOTP({ navigation, route }) {
                     shadowRadius: 1.41,
                     elevation: 2,
                   }}
-                  codeInputFieldStyle={{
-                    borderRadius: 10,
-                    backgroundColor: "white",
-                    color: "#9279f7",
-                  }}
-                  codeInputHighlightStyle={{ borderColor: "#9279f7" }}
-                  pinCount={6}
-                  autoFocusOnLoad
-                  onCodeFilled={(code) => {
-                    handleSubmit(code);
+                  mainColor="#9297f9"
+                  placeholder=""
+                  keyboardType="phone-pad"
+                  enableIcon="true"
+                  onSubmitEditing={(text) => {
+                    handleSubmit(text);
                   }}
                 />
-                <View>
-                  {sent === false ? (
-                    <TouchableOpacity onPress={handleOTP}>
-                      <Text
-                        style={{
-                          color: "#9279f7",
-                          marginTop: -206,
-                          alignSelf: "center",
-                          fontSize: 19,
-                        }}
-                      >
-                        Resend OTP?
-                      </Text>
-                    </TouchableOpacity>
-                  ) : (
-                    <>
-                      <Text
-                        style={{
-                          color: "#9279f7",
-                          marginTop: -206,
-                          alignSelf: "center",
-                          textAlign: "center",
-                          fontSize: 19,
-                        }}
-                      >
-                        After 6 minutes you can request a new OTP
-                      </Text>
-                      {setTimeout}
-                    </>
-                  )}
-                </View>
+                <TouchableOpacity
+                  style={{
+                    // justifyContent: "center",
+                    marginTop: "30%",
+                    alignSelf: "center",
+                    marginLeft: "5%",
+                  }}
+                  onPress={handleOTP}
+                >
+                  <Text
+                    style={{
+                      color: "#e52b51",
+                      fontSize: 19,
+                      textAlign: "center",
+                    }}
+                  >
+                    {i18n.t("resend")}
+                  </Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
@@ -251,14 +255,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 10,
     elevation: 3,
-    backgroundColor: "#9279f7",
+    backgroundColor: "#e52b51",
   },
   buttonx: {
     paddingVertical: 8,
     paddingHorizontal: 32,
     borderRadius: 10,
     elevation: 3,
-    backgroundColor: "#a08cf3",
+    backgroundColor: "#ef7f96",
   },
   errorContainer: {
     // borderWidth: 2,
@@ -288,7 +292,6 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
   container: {
-    //width: "90%",
     alignSelf: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -298,9 +301,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 1.41,
     elevation: 2,
-    marginTop: -280,
+    marginTop: 5,
     marginRight: 15,
-    marginLeft: 29,
+    marginLeft: 5,
     flex: 1,
   },
   icon: {

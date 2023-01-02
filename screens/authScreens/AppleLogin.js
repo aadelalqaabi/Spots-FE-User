@@ -11,7 +11,7 @@ import * as Localization from "expo-localization";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 
-export default function GoogleLogin() {
+export default function AppleLogin() {
   authStore.getEmails();
   const [uri, setURL] = useState("");
   const navigation = useNavigation();
@@ -86,7 +86,7 @@ export default function GoogleLogin() {
               paddingVertical: 8,
               borderRadius: 10,
               elevation: 3,
-              backgroundColor: "#ffffff",
+              backgroundColor: "red",
               marginTop: 20,
               width: "103%",
               display: "flex",
@@ -106,7 +106,7 @@ export default function GoogleLogin() {
               shadowRadius: 1.41,
               elevation: 2,
             }}
-            onPress={() => openURL(`${baseURL}/user/login/google`)}
+            onPress={() => openURL(`${baseURL}/auth/apple/callback`)}
           >
             <Image
               style={{

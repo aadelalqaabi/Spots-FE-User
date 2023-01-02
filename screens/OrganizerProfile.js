@@ -64,7 +64,9 @@ function OrganizerProfile({ route }) {
         style={{
           display: "flex",
           flexDirection:
-            i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "row"
+              : "row-reverse",
           alignItems: "center",
           justifyContent: "center",
           marginTop: 50,
@@ -88,10 +90,12 @@ function OrganizerProfile({ route }) {
               fontSize: 35,
               margin: 20,
               alignSelf:
-                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "flex-start"
+                  : "flex-end",
             }}
             name={
-              i18n.locale === ("en-US" || "en")
+              i18n.locale === "en-US" || i18n.locale === "en"
                 ? "chevron-back-outline"
                 : "chevron-forward-outline"
             }
@@ -122,14 +126,33 @@ function OrganizerProfile({ route }) {
         <View style={styles.imageUserName}>
           {organizer?.image === "" ? (
             <Image
-              style={styles.profileImage}
+              style={{
+                backgroundColor:
+                  colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                width: 180,
+                height: 180,
+                borderRadius: 150,
+                alignItems: "center",
+                alignSelf: "center",
+                marginRight: 35,
+              }}
               source={{
                 uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPWpbYe9c5YS6KNOXFWiawk-ox545j3ya978qwGXmcladr3eLFh6IabWhNFVtFRI0YNjI&usqp=CAU",
               }}
             />
           ) : (
             <Image
-              style={styles.profileImage}
+              style={{
+                backgroundColor:
+                  colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                width: 180,
+                height: 180,
+                borderRadius: 150,
+                alignItems: "center",
+                alignSelf: "center",
+                marginRight: 35,
+                resizeMode: "contain",
+              }}
               source={{
                 uri: baseURL + organizer?.image,
               }}
@@ -149,11 +172,15 @@ function OrganizerProfile({ route }) {
               style={{
                 fontSize: 25,
                 fontFamily:
-                  i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
             >
-              {i18n.locale === ("en-US" || "en") ? "Spots" : "نقاط"}
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Spots"
+                : "نقاط"}
             </Text>
           </View>
         </View>
@@ -216,6 +243,7 @@ const styles = StyleSheet.create({
     fontFamily: "UbuntuBold",
   },
   profileImage: {
+    backgroundColor: "white",
     width: 180,
     height: 180,
     borderRadius: 150,

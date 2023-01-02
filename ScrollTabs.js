@@ -81,10 +81,13 @@ export default function ScrollTabs({ userSpots }) {
           <Text
             style={{
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              fontSize: i18n.locale === ("en-US" || "en") ? 35 : 30,
+              fontSize:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 35 : 30,
               padding: 35,
               fontFamily:
-                i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "UbuntuBold"
+                  : "NotoBold",
               textAlign: "center",
             }}
           >
@@ -129,10 +132,13 @@ export default function ScrollTabs({ userSpots }) {
           <Text
             style={{
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              fontSize: i18n.locale === ("en-US" || "en") ? 35 : 30,
+              fontSize:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 35 : 30,
               padding: 35,
               fontFamily:
-                i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "UbuntuBold"
+                  : "NotoBold",
               textAlign: "center",
             }}
           >
@@ -144,7 +150,7 @@ export default function ScrollTabs({ userSpots }) {
           style={{
             flex: 1,
             zIndex: 99,
-            marginBottom: "50%",
+            marginBottom: 390,
             backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
           }}
         >

@@ -83,7 +83,9 @@ export default function Search({ route, navigation }) {
           display: "flex",
           alignSelf: "center",
           flexDirection:
-            i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "row"
+              : "row-reverse",
           alignItems: "center",
           alignContent: "center",
           justifyContent: "space-between",
@@ -103,7 +105,7 @@ export default function Search({ route, navigation }) {
               alignSelf: "center",
             }}
             name={
-              i18n.locale === ("en-US" || "en")
+              i18n.locale === "en-US" || i18n.locale === "en"
                 ? "chevron-back-outline"
                 : "chevron-forward-outline"
             }
@@ -114,7 +116,9 @@ export default function Search({ route, navigation }) {
             width: "90%",
             alignSelf: "center",
             flexDirection:
-              i18n.locale === ("en-US" || "en") ? "row" : "row-reverse",
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "row"
+                : "row-reverse",
             shadowColor: "#000",
             shadowOffset: {
               width: 0,
@@ -135,10 +139,16 @@ export default function Search({ route, navigation }) {
               paddingRight: 50,
               borderRadius: 13,
               fontSize: 18,
-              fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
 
               width: "100%",
-              textAlign: i18n.locale === ("en-US" || "en") ? "left" : "right",
+              textAlign:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "left"
+                  : "right",
             }}
             placeholder={i18n.t("search")}
             placeholderTextColor={"grey"}
@@ -147,7 +157,7 @@ export default function Search({ route, navigation }) {
               setToggle(false);
               if (text === "") setToggle(true);
             }}
-            mainColor="#9279f7"
+            mainColor="#e52b51"
           />
           <Ionicons style={styles.icon} name="search-outline"></Ionicons>
         </View>
@@ -158,13 +168,17 @@ export default function Search({ route, navigation }) {
           <Text
             style={{
               fontFamily:
-                i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "UbuntuBold"
+                  : "NotoBold",
               fontSize: 20,
               margin: 32,
               marginBottom: 10,
               marginTop: 10,
               alignSelf:
-                i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "flex-start"
+                  : "flex-end",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
           >

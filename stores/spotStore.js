@@ -11,18 +11,21 @@ class SpotStore {
   fetchSpots = async () => {
     try {
       const response = await instance.get("/spot");
-        this.spots = response.data;
+      this.spots = response.data;
     } catch (error) {
       console.log(error);
     }
   };
 
   updateSpot = async (updatedSpot, spotId) => {
-    console.log("category: "+updatedSpot.category.name)
     try {
-      const res = await instance.put(`spot/update/${spotId}/cat/${updatedSpot.category._id}`, updatedSpot);
+      const res = await instance.put(
+        `spot/update/${spotId}/cat/${updatedSpot.category}`,
+        updatedSpot
+      );
+      console.log("res.data", res.data);
       this.spots = this.spots.map((spot) =>
-      spot._id === spotId ? res.data : spot
+        spot._id === spotId ? res.data : spot
       );
     } catch (error) {
       console.log("hi", error);
@@ -36,7 +39,6 @@ class SpotStore {
   getSpots = () => {
     return this.spots;
   };
-
 }
 
 const spotStore = new SpotStore();

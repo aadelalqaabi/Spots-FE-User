@@ -96,10 +96,12 @@ export default function SpottedScanner({ route }) {
           marginRight: 25,
           fontSize: 35,
           alignSelf:
-            i18n.locale === ("en-US" || "en") ? "flex-start" : "flex-end",
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "flex-start"
+              : "flex-end",
         }}
         name={
-          i18n.locale === ("en-US" || "en")
+          i18n.locale === "en-US" || i18n.locale === "en"
             ? "chevron-back-outline"
             : "chevron-forward-outline"
         }
@@ -118,7 +120,7 @@ export default function SpottedScanner({ route }) {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor: "#9279f7",
+              backgroundColor: "#e52b51",
               borderRadius: 50,
               width: "100%",
             }}
@@ -140,28 +142,34 @@ export default function SpottedScanner({ route }) {
             marginTop: -16,
             marginBottom: 32,
             fontFamily:
-              i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "UbuntuBold"
+                : "NotoBold",
             width: "90%",
             textAlign: "center",
             fontSize: 24,
           }}
         >
-          {i18n.locale === ("en-US" || "en")
+          {i18n.locale === "en-US" || i18n.locale === "en"
             ? `Welcome to ${spot.name}`
             : `${spot.nameAr} مرحبا بك في`}
         </Text>
         <Text
           style={{
-            marginTop: i18n.locale === ("en-US" || "en") ? -16 : -20,
+            marginTop:
+              i18n.locale === "en-US" || i18n.locale === "en" ? -16 : -20,
             marginBottom: 32,
             width: "80%",
             textAlign: "center",
             fontSize: 17,
-            fontFamily: i18n.locale === ("en-US" || "en") ? "Ubuntu" : "Noto",
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Ubuntu"
+                : "Noto",
             lineHeight: 30,
           }}
         >
-          {i18n.locale === ("en-US" || "en")
+          {i18n.locale === "en-US" || i18n.locale === "en"
             ? "Live the experience of this destination by viewing its Rewards and Offers"
             : "عيش تجربة وجهتك من خلال عرض الجوائز والعروض"}
         </Text>
@@ -170,7 +178,7 @@ export default function SpottedScanner({ route }) {
             marginTop: -16,
             marginBottom: 32,
             width: "60%",
-            backgroundColor: "#9279f7",
+            backgroundColor: "#e52b51",
             borderRadius: "50%",
             height: 40,
             justifyContent: "center",
@@ -182,11 +190,13 @@ export default function SpottedScanner({ route }) {
               textAlign: "center",
               color: "#f1f1f1",
               fontFamily:
-                i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "UbuntuBold"
+                  : "NotoBold",
               fontSize: 15,
             }}
           >
-            {i18n.locale === ("en-US" || "en")
+            {i18n.locale === "en-US" || i18n.locale === "en"
               ? "View Experience"
               : "عرض التجربة"}
           </Text>
@@ -201,7 +211,7 @@ export default function SpottedScanner({ route }) {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor: "#9279f7",
+              backgroundColor: "#e52b51",
               borderRadius: 50,
               width: "100%",
             }}
@@ -223,19 +233,22 @@ export default function SpottedScanner({ route }) {
             marginTop: -16,
             marginBottom: 32,
             fontFamily:
-              i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "UbuntuBold"
+                : "NotoBold",
             width: "90%",
             textAlign: "center",
             fontSize: 24,
           }}
         >
-          {i18n.locale === ("en-US" || "en")
+          {i18n.locale === "en-US" || i18n.locale === "en"
             ? `Welcome to ${spot.name}`
             : `${spot.nameAr} مرحبا بك في`}
         </Text>
         <Text
           style={{
-            marginTop: i18n.locale === ("en-US" || "en") ? -16 : -20,
+            marginTop:
+              i18n.locale === "en-US" || i18n.locale === "en" ? -16 : -20,
             marginBottom: 20,
             width: "80%",
             textAlign: "center",
@@ -248,7 +261,8 @@ export default function SpottedScanner({ route }) {
         </Text>
         <Text
           style={{
-            marginTop: i18n.locale === ("en-US" || "en") ? -16 : -20,
+            marginTop:
+              i18n.locale === "en-US" || i18n.locale === "en" ? -16 : -20,
             marginBottom: 35,
             width: "80%",
             textAlign: "center",
@@ -264,7 +278,7 @@ export default function SpottedScanner({ route }) {
             marginTop: -16,
             marginBottom: 32,
             width: "60%",
-            backgroundColor: "#9279f7",
+            backgroundColor: "#e52b51",
             borderRadius: "50%",
             height: 40,
             justifyContent: "center",
@@ -276,11 +290,13 @@ export default function SpottedScanner({ route }) {
               textAlign: "center",
               color: "#f1f1f1",
               fontFamily:
-                i18n.locale === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "UbuntuBold"
+                  : "NotoBold",
               fontSize: 15,
             }}
           >
-            {i18n.locale === ("en-US" || "en")
+            {i18n.locale === "en-US" || i18n.locale === "en"
               ? "View Experience"
               : "عرض التجربة"}
           </Text>
