@@ -1,7 +1,12 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  useColorScheme,
+} from "react-native";
 import React from "react";
 import { useFonts } from "expo-font";
-
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { I18n } from "i18n-js";
@@ -9,6 +14,7 @@ import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 export default function OnBoarding() {
+  const colorScheme = useColorScheme();
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
@@ -37,7 +43,18 @@ export default function OnBoarding() {
   i18n.enableFallback = true;
   const navigation = useNavigation();
   return (
-    <View style={styles.container}>
+    <View
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignContent: "center",
+        alignItems: "center",
+        justifyContent: "space-evenly",
+        backgroundColor: colorScheme === "light" ? "#f1f1f1" : "#1b1b1b",
+      }}
+    >
       <Text
         style={{
           fontSize: 54,
@@ -49,6 +66,7 @@ export default function OnBoarding() {
           marginTop: 200,
           textAlign:
             i18n.locale === "en-US" || i18n.locale === "en" ? "left" : "right",
+          color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
         }}
       >
         {i18n.t("out")}

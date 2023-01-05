@@ -31,7 +31,7 @@ class AuthStore {
   }
   user = null;
   OTP = 1;
-  useUsernames = null;
+  //useUsernames = null;
   userEmails = null;
   isChanged = "";
 
@@ -57,12 +57,11 @@ class AuthStore {
   };
 
   register = async (newUser) => {
-    newUser.username = newUser.username.toLowerCase();
+    // newUser.username = newUser.username.toLowerCase();
     const formData = new FormData();
     try {
       for (const key in newUser) formData.append(key, newUser[key]);
       const response = await instance.post("/user/register", formData);
-      console.log("response", response);
       this.setUser(response.data.token);
     } catch (error) {
       console.log(error);
@@ -70,16 +69,15 @@ class AuthStore {
   };
 
   login = async (userData) => {
-    // userData.username = userData.username.toLowerCase();
-    console.log("userData", userData);
+    //userData.username = userData.username.toLowerCase();
     try {
       const response = await instance.post("/user/login", userData);
       this.setUser(response.data.token);
     } catch (error) {
       console.log(error);
       i18n.locale === "en-US" || i18n.locale === "en"
-        ? Alert.alert("Wrong username or password", "", [{ text: "Try Again" }])
-        : Alert.alert("مستخدم او كلمه سر خاطئه", "", [
+        ? Alert.alert("Wrong email or password", "", [{ text: "Try Again" }])
+        : Alert.alert("بريد الكتروني او كلمه سر خاطئه", "", [
             { text: "حاول مرة اخرى" },
           ]);
     }
@@ -128,7 +126,7 @@ class AuthStore {
   };
 
   forgotUser = async (userForgot) => {
-    userForgot.username = userForgot.username.toLowerCase();
+    //userForgot.username = userForgot.username.toLowerCase();
     try {
       console.log("userForgot", userForgot);
       await instance.put(`/user/forgot`, userForgot);
@@ -176,15 +174,14 @@ class AuthStore {
     }
   };
 
-  getUsernames = async () => {
-    try {
-      const res = await instance.get(`/user/usernames`);
-      // console.log('useUsernames', res.data)
-      this.useUsernames = res.data;
-    } catch (error) {
-      console.log("OTP", error);
-    }
-  };
+  //getUsernames = async () => {
+  // try {
+  //   const res = await instance.get(`/user/usernames`);
+  //   this.useUsernames = res.data;
+  // } catch (error) {
+  //   console.log("usernames: ", error);
+  //  }
+  // };
 
   getEmails = async () => {
     try {
@@ -193,19 +190,6 @@ class AuthStore {
     } catch (error) {
       console.log("emails error", error);
     }
-  };
-
-  sendBookingEmail = (tickets, spot) => {
-    let date = moment(spot.startDate).format("LL");
-    const emailContent = {
-      to_name: this.user.username,
-      message: `Thank You For Your purchase of ${tickets} tickets for ${spot.name} Spot.
-      The Spot begins at ${spot.startTime} on ${date}`,
-      to_email: this.user.email,
-    };
-    emailjs.init("0CGPMjHzm16JAhRPl");
-    // emailjs.accessToken("nHQDJbHUos1qKT50oPIoG")
-    emailjs.send("AB-Serv-12", "template_uma67do", emailContent);
   };
 }
 

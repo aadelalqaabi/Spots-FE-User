@@ -26,7 +26,7 @@ import * as Localization from "expo-localization";
 export default function ChangePassword() {
   const colorScheme = useColorScheme();
   const [user, setUser] = useState({
-    username: `${authStore.user.username}`,
+    email: `${authStore.user.email}`,
     newPassword: "",
     currentPassword: "",
   });

@@ -5,13 +5,13 @@ import {
   TouchableOpacity,
   View,
   useColorScheme,
+  FlatList,
 } from "react-native";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import TextInput from "react-native-text-input-interactive";
 import Spot from "./spots/Spot";
 import Carousel from "react-native-snap-carousel";
-import { FlatList } from "react-native-gesture-handler";
 import SearchSpot from "./spots/SearchSpot";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
@@ -20,7 +20,7 @@ import { useFonts } from "expo-font";
 import spotStore from "../stores/spotStore";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
 
-export default function Search({ route, navigation }) {
+export default function Search({ navigation }) {
   const colorScheme = useColorScheme();
   const translations = {
     en: {
@@ -39,8 +39,11 @@ export default function Search({ route, navigation }) {
   today.setHours(3, 0, 0, 0);
   const [query, setQuery] = useState("");
   const [toggle, setToggle] = useState(true);
-  const spots = spotStore.spots.filter(
-    (spot) => spot.isAd === true && new Date(spot.startDate) >= today
+  const spotsAdsChecker = spotStore.spots.some((spot) => spot.isAd === true);
+  const spots = spotStore.spots.filter((spot) =>
+    spotsAdsChecker === true
+      ? spot.isAd === true && new Date(spot.startDate) >= today
+      : new Date(spot.startDate) >= today
   );
   let suggested = [];
   const randomIndex = Math.floor(Math.random() * spots.length);

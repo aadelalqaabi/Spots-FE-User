@@ -23,7 +23,6 @@ import { useNavigation } from "@react-navigation/native";
 import ReviewList from "../reviews/ReviewList";
 import organizerStore from "../../stores/organizerStore";
 import ticketStore from "../../stores/ticketStore";
-import { Popup, Root } from "popup-ui";
 import {
   ImageHeaderScrollView,
   TriggeringView,
@@ -31,7 +30,7 @@ import {
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import "moment/locale/ar";
-import { FancyAlert } from "react-native-expo-fancy-alerts";
+//import { FancyAlert } from "react-native-expo-fancy-alerts";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 LogBox.ignoreAllLogs();
 
@@ -110,7 +109,7 @@ export function SpotDetails({ route }) {
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message: `${authStore.user.username} wants you to check this destination!`,
+        message: `${authStore.user.name} wants you to check this destination!`,
         url: `exp://127.0.0.1:19000/--/SpotDetails/${spot._id}`,
       });
       if (result.action === Share.sharedAction) {
@@ -997,7 +996,7 @@ export function SpotDetails({ route }) {
               </TouchableOpacity>
             </>
           )}
-          <FancyAlert
+          {/*} <FancyAlert
             visible={visible}
             icon={
               <View
@@ -1087,7 +1086,7 @@ export function SpotDetails({ route }) {
                   : "اغلاق"}
               </Text>
             </TouchableOpacity>
-          </FancyAlert>
+          </FancyAlert>*/}
         </TriggeringView>
       </ImageHeaderScrollView>
     </View>

@@ -138,7 +138,7 @@ function Spot({ spot, navigation, day }) {
                   alignSelf: "center",
                   width: 60,
                   height: 60,
-                  borderRadius: "50%",
+                  borderRadius: 60,
                   zIndex: -1,
                   borderWidth: 1.5,
                   borderColor: "white",

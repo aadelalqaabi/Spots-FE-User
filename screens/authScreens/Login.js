@@ -4,13 +4,14 @@ import {
   View,
   TouchableOpacity,
   useColorScheme,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { useState } from "react";
 import authStore from "../../stores/authStore";
 import React from "react";
-
 import { useFonts } from "expo-font";
-import PhoneInput from "react-native-phone-number-input";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import TextInput from "react-native-text-input-interactive";
@@ -26,10 +27,16 @@ export default function Login() {
     en: {
       phone: "Phone Number",
       login: "Login",
+      new: "New here?",
+      register: "Register Now",
+      title: "Login",
     },
     ar: {
+      new: "جديد هنا؟",
+      register: "سجل الآن ",
       phone: "رقم الهاتف",
       login: "تسجيل دخول",
+      title: "تسجيل دخول",
     },
   };
   const i18n = new I18n(translations);
@@ -37,7 +44,7 @@ export default function Login() {
   i18n.enableFallback = true;
 
   const [user, setUser] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -58,202 +65,273 @@ export default function Login() {
     return <MyAwesomeSplashScreen />;
   }
   return (
-    <View
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{
-        justifyContent: "center",
-        width: "105%",
-        alignSelf: "center",
+        height: "100%",
+        width: "100%",
+        backgroundColor: colorScheme === "light" ? "#f1f1f1" : "#1b1b1b",
       }}
     >
-      <View style={{ display: "flex", width: "100%" }}>
-        {/* <PhoneInput
-          containerStyle={{
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View
+          style={{
+            marginTop: "30%",
+            width: "80%",
             alignSelf: "center",
-            width: "100%",
-            borderRadius: 10,
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowOpacity: 0.1,
-            shadowRadius: 1.41,
-            elevation: 2,
-          }}
-          textContainerStyle={{
-            borderRadius: 10,
-            backgroundColor: "white",
-          }}
-          textInputStyle={{
-            fontFamily:   i18n.locale === "en-US" ||  i18n.locale === "en"  ? "Ubuntu" : "Noto",
-            textAlign:   i18n.locale === "en-US" ||  i18n.locale === "en"  ? "left" : "right",
-            marginTop:   i18n.locale === "en-US" ||  i18n.locale === "en"  ? 0 : -4,
-            marginBottom:   i18n.locale === "en-US" ||  i18n.locale === "en"  ? 0 : -4,
-          }}
-          defaultValue={user.phone}
-          defaultCode="KW"
-          layout="first"
-          placeholder={i18n.t("Enter username or phone number")}
-          onChangeFormattedText={(text) => {
-            handleChange("username", text);
-          }}
-          withDarkTheme
-          autoFocus
-        /> */}
-        <TextInput
-          textInputStyle={{
-            alignSelf: "center",
-            width: "103%",
-            marginBottom: 20,
-            padding: 10,
-            fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
-            textAlign:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "left"
-                : "right",
-            backgroundColor: "white",
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowOpacity: 0.1,
-            shadowRadius: 1.41,
-            elevation: 2,
-          }}
-          label="Username"
-          // secureTextEntry={secure}
-          onChangeText={(text) => {
-            handleChange("username", text);
-          }}
-          placeholder={
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "Username or Email"
-              : "اسم المستخدم او الايميل"
-          }
-          placeholderTextColor={"grey"}
-          keyboardType="web-search"
-        />
-        <TextInput
-          textInputStyle={{
-            alignSelf: "center",
-            width: "103%",
-            marginBottom: 30,
-            padding: 10,
-            fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
-            textAlign:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "left"
-                : "right",
-            backgroundColor: "white",
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowOpacity: 0.1,
-            shadowRadius: 1.41,
-            elevation: 2,
-          }}
-          label="Password"
-          secureTextEntry={secure}
-          onChangeText={(text) => {
-            handleChange("password", text);
-          }}
-          placeholder={
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "Password"
-              : "كلمة السر"
-          }
-          placeholderTextColor={"grey"}
-          keyboardType="web-search"
-        />
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("UsernameCheck");
           }}
         >
-          <Text
+          <TouchableOpacity
             style={{
-              color: "#e52b51",
-              marginTop: -16,
+              position: "absolute",
+              marginTop: -40,
+              marginLeft: -10,
+              paddingRight: -10,
               alignSelf:
                 i18n.locale === "en-US" || i18n.locale === "en"
                   ? "flex-start"
                   : "flex-end",
-              fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "UbuntuBold"
-                  : "NotoBold",
-              fontSize: 15,
             }}
+            onPress={() => navigation.goBack()}
           >
-            {i18n.locale === "en-US" || i18n.locale === "en"
-              ? " Forgot password?"
-              : "نسيت كلمة السر؟"}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            zIndex: 99,
-            position: "absolute",
-            margin: 82,
-            marginLeft:
-              i18n.locale === "en-US" || i18n.locale === "en" ? 82 : 20,
-            alignSelf:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "flex-end"
-                : "flex-start",
-          }}
-          onPress={() => setSecure(!secure)}
-        >
-          <Ionicons
-            style={{
-              fontSize: 25,
-            }}
-            name={secure === true ? "eye" : "eye-off"}
-            size={30}
-            color="#e52b51"
-          />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            paddingVertical: 8,
-            borderRadius: 10,
-            elevation: 3,
-            backgroundColor: "#e52b51",
-            marginTop: 20,
-            width: "103%",
-          }}
-          onPress={handleSubmit}
-        >
+            <Ionicons
+              style={{
+                fontSize: 35,
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              }}
+              name={
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "chevron-back-outline"
+                  : "chevron-forward-outline"
+              }
+            ></Ionicons>
+          </TouchableOpacity>
           <Text
             style={{
-              paddingVertical:
-                i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 5,
-              borderRadius: 15,
-              elevation: 3,
-              color: "#f1f1f1",
-              fontSize: 18,
-              fontWeight: "800",
-              alignSelf: "center",
+              fontSize:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 40 : 30,
               fontFamily:
                 i18n.locale === "en-US" || i18n.locale === "en"
                   ? "UbuntuBold"
                   : "NotoBold",
+              textAlign:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "left"
+                  : "right",
+              color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
+              margin: 0,
+              marginTop: 20,
+              marginBottom:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 25,
             }}
           >
-            {i18n.t("login")}
+            {i18n.t("title")}
           </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+          <View style={{ display: "flex", width: "100%" }}>
+            <TextInput
+              textInputStyle={{
+                alignSelf: "center",
+                width: "103%",
+                marginBottom: 20,
+                padding: 10,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                textAlign:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "left"
+                    : "right",
+                backgroundColor: "white",
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 1,
+                },
+                shadowOpacity: 0.1,
+                shadowRadius: 1.41,
+                elevation: 2,
+              }}
+              label="Email"
+              // secureTextEntry={secure}
+              onChangeText={(text) => {
+                handleChange("email", text);
+              }}
+              placeholder={
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Email"
+                  : "البريد الالكتروني"
+              }
+              placeholderTextColor={"grey"}
+              keyboardType="web-search"
+            />
+            <TextInput
+              textInputStyle={{
+                alignSelf: "center",
+                width: "103%",
+                marginBottom: 30,
+                padding: 10,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                textAlign:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "left"
+                    : "right",
+                backgroundColor: "white",
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 1,
+                },
+                shadowOpacity: 0.1,
+                shadowRadius: 1.41,
+                elevation: 2,
+              }}
+              label="Password"
+              secureTextEntry={secure}
+              onChangeText={(text) => {
+                handleChange("password", text);
+              }}
+              placeholder={
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Password"
+                  : "كلمة السر"
+              }
+              placeholderTextColor={"grey"}
+              keyboardType="web-search"
+            />
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("UsernameCheck");
+              }}
+            >
+              <Text
+                style={{
+                  color: "#e52b51",
+                  marginTop: -16,
+                  alignSelf:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "flex-start"
+                      : "flex-end",
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "UbuntuBold"
+                      : "NotoBold",
+                  fontSize: 15,
+                }}
+              >
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? " Forgot password?"
+                  : "نسيت كلمة السر؟"}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                zIndex: 99,
+                position: "absolute",
+                margin: 82,
+                marginLeft:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 82 : 20,
+                alignSelf:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "flex-end"
+                    : "flex-start",
+              }}
+              onPress={() => setSecure(!secure)}
+            >
+              <Ionicons
+                style={{
+                  fontSize: 25,
+                }}
+                name={secure === true ? "eye" : "eye-off"}
+                size={30}
+                color="#e52b51"
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                paddingVertical: 8,
+                borderRadius: 10,
+                elevation: 3,
+                backgroundColor: "#e52b51",
+                marginTop: 20,
+                width: "103%",
+              }}
+              onPress={handleSubmit}
+            >
+              <Text
+                style={{
+                  paddingVertical:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 5,
+                  borderRadius: 15,
+                  elevation: 3,
+                  color: "#f1f1f1",
+                  fontSize: 18,
+                  fontWeight: "800",
+                  alignSelf: "center",
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "UbuntuBold"
+                      : "NotoBold",
+                }}
+              >
+                {i18n.t("login")}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
+              alignItems: "center",
+              flexDirection:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "row"
+                  : "row-reverse",
+              marginTop: 20,
+            }}
+          >
+            <Text
+              style={{
+                color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                fontSize: 18,
+                paddingRight: 8,
+                paddingLeft: 8,
+                opacity: 0.8,
+              }}
+            >
+              {i18n.t("new")}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("MainPageRegister");
+              }}
+              style={styles.signUp}
+            >
+              <Text
+                style={{
+                  color: "#e52b51",
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "UbuntuBold"
+                      : "NotoBold",
+                  fontSize: 20,
+                }}
+              >
+                {i18n.t("register")}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }
 

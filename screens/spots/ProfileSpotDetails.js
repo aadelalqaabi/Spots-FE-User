@@ -5,7 +5,6 @@ import {
   Text,
   View,
   LogBox,
-  Button,
   RefreshControl,
   TouchableOpacity,
   useColorScheme,
@@ -15,7 +14,6 @@ import React, { useEffect, useState } from "react";
 import spotStore from "../../stores/spotStore";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
-
 import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import { Rating } from "react-native-ratings";
 import Toast from "react-native-toast-message";
@@ -125,7 +123,7 @@ function ProfileSpotDetails({ route }) {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{ marginBottom: -35 }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
@@ -604,8 +602,8 @@ function ProfileSpotDetails({ route }) {
                 >
                   <Ionicons
                     style={{
-                      color: "#aba9aa",
-                      opacity: 0.9,
+                      color: "black",
+                      opacity: 0.5,
                       fontSize: 35,
                     }}
                     name="close-outline"
@@ -619,7 +617,15 @@ function ProfileSpotDetails({ route }) {
                   ratingTextColor="grey"
                   unSelectedColor="grey"
                   onFinishRating={ratingCompleted}
-                  style={{ margin: 20, marginBottom: 30, marginTop: 10 }}
+                  starContainerStyle={{
+                    margin: 100,
+                    justifyContent: "space-evenly",
+                  }}
+                  style={{
+                    margin: 20,
+                    marginBottom: 30,
+                    marginTop: 10,
+                  }}
                 />
                 <Text
                   style={{

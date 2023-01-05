@@ -135,6 +135,7 @@ function Profile() {
                   justifyContent: "center",
                   alignContent: "center",
                   marginTop: "2%",
+                  marginBottom: "2%",
                 }}
               >
                 <TouchableOpacity
@@ -168,7 +169,8 @@ function Profile() {
                     alignSelf: "center",
                   }}
                 >
-                  {authStore.user.username}
+                  {/*authStore.user.username*/}
+                  {authStore.user.name}
                 </Text>
               </View>
               <View
@@ -197,7 +199,7 @@ function Profile() {
                       alignItems: "center",
                       alignSelf: "center",
                     }}
-                    source={require("../assets/PP.jpeg")}
+                    source={require("../assets/PP.png")}
                   />
                 ) : (
                   <Image

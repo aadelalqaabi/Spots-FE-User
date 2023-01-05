@@ -6,7 +6,7 @@ export default function MyAwesomeSplashScreen() {
     <View style={{ height: "100%", width: "100%" }}>
       <Image
         style={{ height: "100%", width: "100%" }}
-        source={require("./assets/splash.png")}
+        source={require("./assets/DestSplash.png")}
       ></Image>
     </View>
   );

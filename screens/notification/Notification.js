@@ -80,7 +80,7 @@ export default function Notification({ spot }) {
 async function schedulePushNotification(spot) {
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: `Can't Wait to see you ${authStore.user.username} !!!`,
+      title: `Can't Wait to see you ${authStore.user.name} !!!`,
       body: `Don't Forget ${spot.name} starts in 2 hours`,
       //   data: { data: 'goes here' },
     },
