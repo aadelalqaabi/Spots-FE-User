@@ -3,24 +3,29 @@
     "scheme": "dest",
     "name": "Dest",
     "slug": "Dest",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/DestLogo.png",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/DestSplash.png",
       "resizeMode": "contain",
       "backgroundColor": "#e52b51"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/a4b4c105-4742-46f9-9d80-0ecfd286c07f"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.dest.kuwait"
+      "buildNumber": "2",
+      "bundleIdentifier": "com.dest.kuwait",
+      "associatedDomains": [
+        "applinks:destkw.com"
+      ]
     },
     "android": {
       "adaptiveIcon": {
@@ -34,12 +39,8 @@
       [
         "expo-notifications",
         {
-          "icon": "./assets/icon.png",
-          "color": "#ffffff",
-          "sounds": [
-            "./local/assets/notification-sound.wav",
-            "./local/assets/notification-sound-other.wav"
-          ]
+          "icon": "./assets/DestLogo.png",
+          "color": "#ffffff"
         }
       ]
     ],
@@ -47,6 +48,9 @@
       "eas": {
         "projectId": "a4b4c105-4742-46f9-9d80-0ecfd286c07f"
       }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     }
   }
 }

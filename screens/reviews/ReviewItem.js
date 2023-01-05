@@ -23,7 +23,7 @@ function ReviewItem({ review }) {
             source={
               reviewImage !== ""
                 ? { uri: baseURL + reviewImage }
-                : require("../../assets/PP.jpeg")
+                : require("../../assets/PP.png")
             }
           />
           <View
@@ -43,7 +43,7 @@ function ReviewItem({ review }) {
                 color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
               }}
             >
-              {review?.user?.username}
+              {review?.user?.name}
             </Text>
             <Text
               style={{

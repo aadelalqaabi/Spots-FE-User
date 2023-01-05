@@ -163,7 +163,7 @@ function EditScreen() {
                       ? {
                           uri: image,
                         }
-                      : require("../assets/PP.jpeg")
+                      : require("../assets/PP.png")
                   }
                   style={{
                     alignSelf: "center",

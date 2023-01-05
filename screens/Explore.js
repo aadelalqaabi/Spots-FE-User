@@ -176,7 +176,7 @@ function Explore() {
                   <TouchableOpacity
                     style={{ marginLeft: 5, marginRight: 5 }}
                     onPress={() => {
-                      navigation.navigate("Search", { spots: sortedSpots });
+                      navigation.navigate("Search");
                     }}
                   >
                     <Ionicons
@@ -268,7 +268,7 @@ function Explore() {
                       selectedCategory === -1
                         ? {
                             flexWrap: "wrap",
-                            borderRadius: "10%",
+
                             fontSize: 20,
                             alignSelf: "center",
                             fontFamily:
@@ -281,7 +281,7 @@ function Explore() {
                             color:
                               colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                             flexWrap: "wrap",
-                            borderRadius: "10%",
+
                             fontSize: 20,
                             alignSelf: "center",
                             fontFamily:
@@ -327,7 +327,7 @@ function Explore() {
                               color:
                                 colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                               flexWrap: "wrap",
-                              borderRadius: "10%",
+
                               fontSize: 20,
                               alignSelf: "center",
                               fontFamily:
@@ -341,7 +341,7 @@ function Explore() {
                               color:
                                 colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                               flexWrap: "wrap",
-                              borderRadius: "10%",
+
                               fontSize: 20,
                               alignSelf: "center",
                               fontFamily:

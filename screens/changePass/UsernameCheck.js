@@ -23,7 +23,7 @@ import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 export default function UsernameCheck() {
   const [user, setUser] = useState({
-    username: "",
+    email: "",
     newPassword: "",
   });
   const colorScheme = useColorScheme();
@@ -51,7 +51,7 @@ export default function UsernameCheck() {
   const handleSubmit = () => {
     if (i18n.locale === "en-US" || i18n.locale === "en") {
       Alert.alert(
-        "An OTP has been sent to the phone number associated with this username",
+        "An OTP has been sent to the phone number associated with this email",
         "",
         ["ok"]
       );
@@ -194,9 +194,9 @@ export default function UsernameCheck() {
                     elevation: 2,
                   }}
                   mainColor={"#e52b51"}
-                  label="Username"
+                  label="Email"
                   onChangeText={(text) => {
-                    handleChange("username", text);
+                    handleChange("email", text);
                   }}
                   placeholder=""
                   keyboardType="default"

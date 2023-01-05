@@ -22,7 +22,7 @@ import authStore from "../../stores/authStore";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 export default function GoogleUsername({ route }) {
-  authStore.getUsernames();
+  //authStore.getUsernames();
   const colorScheme = useColorScheme();
   const translations = {
     en: {

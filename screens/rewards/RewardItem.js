@@ -1,10 +1,15 @@
-import { useColorScheme, Image, StyleSheet, Text, View } from "react-native";
+import {
+  useColorScheme,
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
-
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import Modal from "react-native-modal";
 import pointStore from "../../stores/pointStore";
@@ -178,11 +183,8 @@ function RewardItem({ reward, onRefresh }) {
                   display: "flex",
                 }}
               >
-                <Ionicons
+                <TouchableOpacity
                   style={{
-                    color: "#aba9aa",
-                    opacity: 0.9,
-                    fontSize: 35,
                     zIndex: 99,
                     position: "absolute",
                     top: 0,
@@ -190,10 +192,17 @@ function RewardItem({ reward, onRefresh }) {
                     margin: 20,
                     marginTop: 15,
                   }}
-                  name="close-outline"
                   onPress={toggleModal}
-                ></Ionicons>
-
+                >
+                  <Ionicons
+                    style={{
+                      color: "black",
+                      opacity: 0.5,
+                      fontSize: 35,
+                    }}
+                    name="close-outline"
+                  ></Ionicons>
+                </TouchableOpacity>
                 <Text
                   style={{
                     fontFamily:
@@ -345,6 +354,8 @@ function RewardItem({ reward, onRefresh }) {
                         color: "white",
                         fontSize: 20,
                         fontFamily: "Ubuntu",
+                        width: "60%",
+                        textAlign: "center",
                       }}
                     >
                       {i18n.locale === "en-US" || i18n.locale === "en"
@@ -359,6 +370,7 @@ function RewardItem({ reward, onRefresh }) {
                         color: "white",
                         fontSize: 20,
                         fontFamily: "Ubuntu",
+                        textAlign: "center",
                       }}
                     >
                       {i18n.locale === "en-US" || i18n.locale === "en"
@@ -387,11 +399,8 @@ function RewardItem({ reward, onRefresh }) {
                   display: "flex",
                 }}
               >
-                <Ionicons
+                <TouchableOpacity
                   style={{
-                    color: "#aba9aa",
-                    opacity: 0.8,
-                    fontSize: 35,
                     zIndex: 99,
                     position: "absolute",
                     top: 0,
@@ -399,10 +408,17 @@ function RewardItem({ reward, onRefresh }) {
                     margin: 20,
                     marginTop: 15,
                   }}
-                  name="close-outline"
                   onPress={toggleModal}
-                ></Ionicons>
-
+                >
+                  <Ionicons
+                    style={{
+                      color: "black",
+                      opacity: 0.5,
+                      fontSize: 35,
+                    }}
+                    name="close-outline"
+                  ></Ionicons>
+                </TouchableOpacity>
                 <Text
                   style={{
                     fontFamily:

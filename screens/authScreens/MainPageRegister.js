@@ -14,7 +14,6 @@ import React from "react";
 import TextInput from "react-native-text-input-interactive";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-
 import { Ionicons } from "@expo/vector-icons";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
@@ -22,18 +21,16 @@ import authStore from "../../stores/authStore";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 export default function MainPageRegister() {
-  authStore.getUsernames();
   const colorScheme = useColorScheme();
   const translations = {
     en: {
-      name: "Enter Your Username",
-      description:
-        "Choose a name for your account\n (Must be at least 2 characters)",
+      name: "Enter Your Full name",
+      description: "What can we call you?\n (Must be at least 2 characters)",
       next: "Next",
     },
     ar: {
-      name: "ادخل اسم المستخدم",
-      description: "اختر اسم ليظهر في حسابك \n(يجب ان يكون حرفين على الاقل)",
+      name: "ادخل اسمك الكامل",
+      description: "ماذا تريد ان نناديك؟\n(يجب ان يكون حرفين على الاقل)",
       next: "التالي",
     },
   };
@@ -42,7 +39,7 @@ export default function MainPageRegister() {
   i18n.enableFallback = true;
   const navigation = useNavigation();
   const [user, setUser] = useState({
-    username: "",
+    name: "",
     password: "",
     phone: "",
     email: "",
@@ -52,38 +49,38 @@ export default function MainPageRegister() {
   const [checkValidationColor, setCheckValidationColor] = useState("#e52b51");
   const [begining, setBegining] = useState(true);
   const [showError, setShowError] = useState(true);
-  const [uniqueUsername, setUniqueUsername] = useState(true);
+  //const [uniqueUsername, setUniqueUsername] = useState(true);
 
   const handleChange = (name, value) => {
-    const foundUsername = authStore.useUsernames.filter(
-      (current) => current.username.toLowerCase() === value.toLowerCase()
-    );
-    if (foundUsername.length !== 0) {
-      setUniqueUsername(false);
+    //const foundUsername = authStore.useUsernames.filter(
+    //  (current) => current.username.toLowerCase() === value.toLowerCase()
+    // );
+    // if (foundUsername.length !== 0) {
+    // setUniqueUsername(false);
+    // setCheckValidation(true);
+    // setCheckValidationColor("#ea3e29");
+    // setBegining(false);
+    // setShowError(true);
+    // } else {
+    const check = checkEntry(value);
+    if (check === true) {
+      setUser({ ...user, [name]: value });
+      setCheckValidation(false);
+      setCheckValidationColor("#e52b51");
+      setShowError(false);
+      //setUniqueUsername(true);
+    } else {
       setCheckValidation(true);
       setCheckValidationColor("#ea3e29");
       setBegining(false);
       setShowError(true);
-    } else {
-      const check = checkEntry(value);
-      if (check === true) {
-        setUser({ ...user, [name]: value });
-        setCheckValidation(false);
-        setCheckValidationColor("#e52b51");
-        setShowError(false);
-        setUniqueUsername(true);
-      } else {
-        setCheckValidation(true);
-        setCheckValidationColor("#ea3e29");
-        setBegining(false);
-        setShowError(true);
-        setUniqueUsername(true);
-      }
+      // setUniqueUsername(true);
     }
+    // }
   };
-  const checkEntry = (username) => {
-    const re = new RegExp("^(?=.{2,})");
-    return re.test(username);
+  const checkEntry = (name) => {
+    const re = new RegExp("^[a-zA-Z ]{2,}$");
+    return re.test(name);
   };
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
@@ -215,9 +212,9 @@ export default function MainPageRegister() {
                     elevation: 2,
                   }}
                   mainColor={checkValidationColor}
-                  label="Username"
+                  label="Name"
                   onChangeText={(text) => {
-                    handleChange("username", text);
+                    handleChange("name", text);
                   }}
                   placeholder=""
                   keyboardType="url"
@@ -226,13 +223,13 @@ export default function MainPageRegister() {
                     checkValidation === false
                       ? navigation.navigate("Email", { itemId: user })
                       : i18n.locale === "en-US" || i18n.locale === "en"
-                      ? Alert.alert("Invalid Username", "", ["Try Again"])
-                      : Alert.alert("اسم المستخدم غير صالح", "", [
+                      ? Alert.alert("Invalid name", "", ["Try Again"])
+                      : Alert.alert("اسمك غير صالح", "", [
                           { text: "حاول مرة اخرى" },
                         ]);
                   }}
                 />
-                {uniqueUsername === false ? (
+                {/* {uniqueUsername === false ? (
                   <Text
                     style={{ color: "#ea3e29", marginTop: -8, marginLeft: 10 }}
                   >
@@ -240,7 +237,7 @@ export default function MainPageRegister() {
                   </Text>
                 ) : (
                   <></>
-                )}
+                )}*/}
                 {begining === true ? (
                   <Ionicons
                     style={{

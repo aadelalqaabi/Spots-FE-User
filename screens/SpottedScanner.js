@@ -13,7 +13,7 @@ import authStore from "../stores/authStore";
 import pointStore from "../stores/pointStore";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
-import { FancyAlert } from "react-native-expo-fancy-alerts";
+//import { FancyAlert } from "react-native-expo-fancy-alerts";
 import spotStore from "../stores/spotStore";
 import ticketStore from "../stores/ticketStore";
 
@@ -55,6 +55,7 @@ export default function SpottedScanner({ route }) {
       (point) => point.user === authStore.user.id && point.spot === spotId
     );
     if (!found) {
+      let spot = spotStore.getSpotsById(spotId);
       authStore.spotAdd(spotId);
       setTicket(
         ticketStore.tickets.find(
@@ -63,6 +64,8 @@ export default function SpottedScanner({ route }) {
         )
       );
       pointStore.createPoint(spotId);
+      spot.scanned = spot?.scanned + 1;
+      spotStore.updateSpot(spot, spotId);
       if (spot.isFree === true) {
         toggleAlert();
       } else {
@@ -111,7 +114,7 @@ export default function SpottedScanner({ route }) {
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
-      <FancyAlert
+      {/* <FancyAlert
         visible={visible}
         icon={
           <View
@@ -201,8 +204,8 @@ export default function SpottedScanner({ route }) {
               : "عرض التجربة"}
           </Text>
         </TouchableOpacity>
-      </FancyAlert>
-      <FancyAlert
+      </FancyAlert>*/}
+      {/* <FancyAlert
         visible={visible2}
         icon={
           <View
@@ -301,7 +304,7 @@ export default function SpottedScanner({ route }) {
               : "عرض التجربة"}
           </Text>
         </TouchableOpacity>
-      </FancyAlert>
+          </FancyAlert>*/}
     </View>
   );
 }

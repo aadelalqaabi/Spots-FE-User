@@ -41,7 +41,7 @@ export default function Password({ navigation, route }) {
       lower: "At least 1 lowercase character",
       upper: "At least 1 uppercase character",
       number: "At least 1 number",
-      special: "At least 1 special character",
+      special: "At least 1 special character (!@#$%^&*=)",
       eight: "At least 8 characters",
     },
     ar: {
@@ -52,7 +52,7 @@ export default function Password({ navigation, route }) {
       lower: "١ حرف صغير على الاقل",
       upper: "١ حرف كبير على الاقل",
       number: "١ رقم على الاقل",
-      special: "١ رمز على الاقل",
+      special: "١ رمز على الاقل (!@#$%^&*=)",
       eight: "٨ احرف على الاقل",
     },
   };
@@ -80,7 +80,7 @@ export default function Password({ navigation, route }) {
     const lowerCase = new RegExp("^(?=.*[a-z])");
     const upperCase = new RegExp("^(?=.*[A-Z])");
     const number = new RegExp("^(?=.*[0-9])");
-    const specialCharacter = new RegExp("^(?=.*[!@#$%^&*])");
+    const specialCharacter = new RegExp("^(?=.*[!@#$%^&*=])");
     const characterLength = new RegExp("^(?=.{8,})");
 
     if (lowerCase.test(password) === true) {
@@ -222,7 +222,7 @@ export default function Password({ navigation, route }) {
                     alignSelf: "center",
                     width: "103%",
                     marginBottom: 10,
-                    padding: 14,
+                    paddingTop: 10,
                     fontFamily:
                       i18n.locale === "en-US" || i18n.locale === "en"
                         ? "Ubuntu"
