@@ -21,7 +21,7 @@ function Payment({ navigation, route }) {
     try {
       await spotStore.updateSpot(spot, spot._id);
       await ticketStore.createTicket(newTicket, spot._id);
-      authStore.sendBookingEmail(tickets, spot);
+      //authStore.sendBookingEmail(tickets, spot);
       navigation.navigate("MySpots");
     } catch (e) {
       alert(e.message);

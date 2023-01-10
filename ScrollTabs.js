@@ -95,23 +95,20 @@ export default function ScrollTabs({ userSpots }) {
           </Text>
         </View>
       ) : (
-        <ScrollView
+        <FlatList
+          data={sortedActiveSpots}
+          nestedScrollEnabled={true}
+          renderItem={renderSpotActive}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
           style={{
-            flex: 1,
-            zIndex: 99,
-            marginBottom: 390,
-            backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+            backgroundColor: "transparent",
+            height: "100%",
+            width: "100%",
+            marginBottom: 400,
           }}
-        >
-          <FlatList
-            data={sortedActiveSpots}
-            renderItem={renderSpotActive}
-            style={{
-              backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-            }}
-            contentContainerStyle={styles.spotsListContainer}
-          />
-        </ScrollView>
+          contentContainerStyle={styles.spotsListContainer}
+        />
       )}
     </>
   );
@@ -146,24 +143,18 @@ export default function ScrollTabs({ userSpots }) {
           </Text>
         </View>
       ) : (
-        <ScrollView
+        <FlatList
+          data={sortedFinishedSpots}
+          renderItem={renderSpotFinished}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
           style={{
-            flex: 1,
-            zIndex: 99,
-            marginBottom: 390,
-            backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+            backgroundColor: "transparent",
+            height: "100%",
+            width: "100%",
+            marginBottom: 400,
           }}
-        >
-          <FlatList
-            data={sortedFinishedSpots}
-            renderItem={renderSpotFinished}
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-            style={{
-              backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-            }}
-          />
-        </ScrollView>
+        />
       )}
     </>
   );
@@ -229,7 +220,5 @@ const styles = StyleSheet.create({
   spotsList: {
     height: "100%",
   },
-  spotsListContainer: {
-    height: "100%",
-  },
+  spotsListContainer: {},
 });

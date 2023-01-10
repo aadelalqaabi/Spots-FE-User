@@ -4,10 +4,8 @@ import React, { useState, useEffect } from "react";
 import { View, TouchableOpacity, Linking, Text, Image } from "react-native";
 import authStore from "../../stores/authStore";
 import { baseURL } from "../../stores/instance";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
-import { Ionicons } from "@expo/vector-icons";
 
 export default function GoogleLogin() {
   authStore.getEmails();
@@ -93,7 +91,7 @@ export default function GoogleLogin() {
         shadowRadius: 1.41,
         elevation: 2,
       }}
-      onPress={() => openURL(`${baseURL}/universal/user/login/google`)}
+      onPress={() => openURL(`https://destkw.com/universal/user/login/google`)}
     >
       <Image
         style={{

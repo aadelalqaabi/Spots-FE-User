@@ -14,7 +14,7 @@ import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 function Spot({ spot, navigation, day }) {
   const translations = {
     en: {
-      suggested: "Suggested Spot",
+      suggested: "Suggested Destination",
       search: "Search",
     },
     ar: {
@@ -48,15 +48,13 @@ function Spot({ spot, navigation, day }) {
         display: "flex",
         flexDirection: "row",
         alignSelf: "center",
-        marginBottom: "7%",
-        height: "94%",
+        //marginBottom: "7%",
+        height: "100%",
         width: "100%",
         borderRadius: 20,
         zIndex: -1,
       }}
-      showsVerticalScrollIndicator={false}
-      showsHorizontalScrollIndicator={false}
-      activeOpacity={0.95}
+      activeOpacity={0.8}
       onPress={() => {
         navigation.navigate("SpotDetails", { id: spot._id });
       }}
@@ -116,7 +114,7 @@ function Spot({ spot, navigation, day }) {
                 alignSelf: "center",
                 width: 60,
                 height: 60,
-                borderRadius: "50%",
+                borderRadius: 50,
                 zIndex: -1,
                 shadowOpacity: 0.1,
                 shadowRadius: 20,
@@ -255,7 +253,6 @@ function Spot({ spot, navigation, day }) {
             </View>
           )}
         </View>
-
         <LinearGradient
           colors={["rgba(0,0,0,0)", "transparent"]}
           start={{ x: 0, y: 0.7 }}
@@ -387,7 +384,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: 55,
     height: 55,
-    borderRadius: "50%",
+    borderRadius: 50,
     zIndex: -1,
     marginRight: 10,
     shadowOpacity: 0.2,
@@ -414,7 +411,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     width: 45,
     height: 45,
-    borderRadius: "50%",
+    borderRadius: 50,
     zIndex: -1,
     opacity: 1,
     marginRight: 10,
@@ -517,7 +514,7 @@ const styles = StyleSheet.create({
   usersimage: {
     height: 50,
     width: 50,
-    borderRadius: "50%",
+    borderRadius: 50,
   },
   spotted: {
     fontSize: 12,
@@ -525,7 +522,7 @@ const styles = StyleSheet.create({
     fontFamily: "UbuntuBold",
   },
   spottedview: {
-    borderRadius: "50%",
+    borderRadius: 50,
     height: 35,
     width: 35,
     justifyContent: "center",

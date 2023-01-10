@@ -120,7 +120,7 @@ function Spotted({ ticket, navigation }) {
         <Swipeout
           backgroundColor={colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1"}
           right={swipeoutBtns}
-          autoClose="true"
+          autoClose={true}
         >
           <View
             style={{
@@ -264,7 +264,7 @@ function Spotted({ ticket, navigation }) {
         <Swipeout
           backgroundColor={colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1"}
           left={swipeoutBtns}
-          autoClose="true"
+          autoClose={true}
         >
           <View
             style={{

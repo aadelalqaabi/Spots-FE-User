@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   star: {
     width: 20,
     height: 20,
-    borderRadius: "50%",
+    borderRadius: 50,
     objectFit: "cover",
     margin: 8,
     marginLeft: 4,
