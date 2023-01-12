@@ -61,7 +61,7 @@ export default function Notification({ spot }) {
           borderWidth: 0.5,
           width: 150,
           alignSelf: "center",
-          borderRadius: "50%",
+          borderRadius: 50,
           backgroundColor: "white",
         }}
       >

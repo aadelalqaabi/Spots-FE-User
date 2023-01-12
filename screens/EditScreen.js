@@ -31,7 +31,6 @@ function EditScreen() {
     navigation.goBack();
     console.log("cancel");
   };
-  console.log("image", image);
   const translations = {
     en: {
       phone: "Phone Number",
@@ -178,7 +177,7 @@ function EditScreen() {
                       height: 0,
                       width: 0,
                     },
-                    elevation: 1,
+
                     zIndex: -1,
                   }}
                 />
@@ -221,6 +220,59 @@ function EditScreen() {
                 : "right",
             width: "80%",
             padding: 10,
+            paddingRight: 0,
+            paddingLeft: 0,
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "UbuntuBold"
+                : "NotoBold",
+            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            fontSize: 18,
+          }}
+        >
+          {i18n.locale === "en-US" || i18n.locale === "en"
+            ? "Full Name"
+            : "الاسم الكامل"}
+        </Text>
+        <TextInput
+          textInputStyle={{
+            alignSelf: "center",
+            width: "80%",
+            marginBottom: 10,
+            padding: 10,
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Ubuntu"
+                : "Noto",
+            backgroundColor: "white",
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 1,
+            },
+            shadowOpacity: 0.1,
+            shadowRadius: 1.41,
+            elevation: 2,
+          }}
+          label="Name"
+          onChangeText={(text) => {
+            handleChange("name", text);
+          }}
+          defaultValue={authStore.user.name}
+          placeholderTextColor={"grey"}
+          keyboardType="web-search"
+          editable={true}
+        />
+        <Text
+          style={{
+            textAlign:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "left"
+                : "right",
+            width: "80%",
+            padding: 10,
+            paddingRight: 0,
+            paddingLeft: 0,
             fontFamily:
               i18n.locale === "en-US" || i18n.locale === "en"
                 ? "UbuntuBold"
@@ -257,9 +309,10 @@ function EditScreen() {
           onChangeText={(text) => {
             handleChange("email", text);
           }}
-          value={authStore.user.email}
+          defaultValue={authStore.user.email}
           placeholderTextColor={"grey"}
           keyboardType="web-search"
+          editable={true}
         />
       </View>
     </SafeAreaView>
@@ -289,9 +342,9 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     justifyContent: "flex-start",
-    marginTop: 20,
+    marginTop: 0,
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 10,
   },
   addImage: {
     backgroundColor: "pink",

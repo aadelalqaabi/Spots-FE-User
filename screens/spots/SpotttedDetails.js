@@ -17,11 +17,12 @@ import organizerStore from "../../stores/organizerStore";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import "moment/locale/ar";
-import { LinearGradient } from "expo-linear-gradient";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
+import { useNavigation } from "@react-navigation/native";
 
-export default function SpotttedDetails({ navigation, route }) {
+export default function SpotttedDetails({ route }) {
   const colorScheme = useColorScheme();
+  const navigation = useNavigation();
   const translations = {
     en: {
       details: "Booking Details",
@@ -44,7 +45,6 @@ export default function SpotttedDetails({ navigation, route }) {
   i18n.locale = Localization.locale;
   i18n.enableFallback = true;
   const spot = spotStore.getSpotsById(route.params.id);
-  const organizer = organizerStore.getOrganizerById(spot.organizer);
   const ticket = route.params.ticket;
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
@@ -61,21 +61,19 @@ export default function SpotttedDetails({ navigation, route }) {
   return (
     <View
       style={{
-        width: "100%",
-        height: "100%",
         backgroundColor: "#e52b51",
         flex: 1,
       }}
     >
       <View
         style={{
-          backgroundColor: "#e0e3e7",
+          backgroundColor: "#f1f1f1",
           height: 6,
           width: 40,
           margin: 20,
-          opacity: 0.8,
+          opacity: 0.5,
           alignSelf: "center",
-          borderRadius: "100%",
+          borderRadius: 50,
         }}
       ></View>
       <Text
@@ -107,7 +105,7 @@ export default function SpotttedDetails({ navigation, route }) {
           shadowRadius: 2.62,
           elevation: 4,
           backgroundColor: colorScheme === "light" ? "#f1f1f1" : "#1b1b1b",
-          borderRadius: "50%",
+          borderRadius: 50,
           margin: 15,
           marginTop: 0,
           height: "85%",
@@ -122,7 +120,7 @@ export default function SpotttedDetails({ navigation, route }) {
             width: 90,
             height: 90,
             alignSelf: "center",
-            borderRadius: "100%",
+            borderRadius: 100,
             marginTop: -50,
           }}
         ></View>
@@ -131,8 +129,8 @@ export default function SpotttedDetails({ navigation, route }) {
             width: "100%",
             height: "100%",
             position: "absolute",
-            borderTopRightRadius: "50%",
-            borderTopLeftRadius: "50%",
+            borderTopRightRadius: 30,
+            borderTopLeftRadius: 30,
             zIndex: -1,
           }}
         >
@@ -140,8 +138,8 @@ export default function SpotttedDetails({ navigation, route }) {
             style={{
               width: "100%",
               height: "56%",
-              borderTopRightRadius: "50%",
-              borderTopLeftRadius: "50%",
+              borderTopRightRadius: 30,
+              borderTopLeftRadius: 30,
               alignItems: "center",
               alignSelf: "center",
               zIndex: -1,
@@ -158,8 +156,8 @@ export default function SpotttedDetails({ navigation, route }) {
               backgroundColor: "black",
               height: "56%",
               opacity: 0.3,
-              borderTopRightRadius: "50%",
-              borderTopLeftRadius: "50%",
+              borderTopRightRadius: 30,
+              borderTopLeftRadius: 30,
             }}
           ></View>
           <Text
@@ -453,7 +451,7 @@ export default function SpotttedDetails({ navigation, route }) {
                 margin: 50,
                 marginBottom: 0,
                 marginTop: 15,
-                borderRadius: "50%",
+                borderRadius: 50,
                 alignSelf: "center",
                 display: "flex",
                 alignContent: "center",
@@ -500,7 +498,7 @@ export default function SpotttedDetails({ navigation, route }) {
               style={{
                 width: "102%",
                 height: 80,
-                borderRadius: "50%",
+                borderRadius: 50,
                 backgroundColor: "#e52b51",
                 margin: 50,
                 marginBottom: -30,
@@ -567,7 +565,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
     elevation: 4,
     backgroundColor: "#e52b51",
-    borderRadius: "50%",
+    borderRadius: 50,
     margin: 15,
     marginTop: 40,
     height: "78%",
@@ -713,7 +711,7 @@ const styles = StyleSheet.create({
   ownerthumb: {
     width: 60,
     height: 60,
-    borderRadius: "50%",
+    borderRadius: 50,
     zIndex: -1,
     marginRight: 10,
     marginLeft: 10,

@@ -1,8 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
 import authStore from "../../stores/authStore";
-import { observer } from "mobx-react";
-import { StatusBar } from "expo-status-bar";
 import {
   View,
   Button,
@@ -198,7 +196,7 @@ export default function ChangePassword() {
           <View
             style={{
               justifyContent: "center",
-              marginTop: 130,
+              marginTop: 100,
               width: "70%",
               alignSelf: "center",
               alignItems: "center",
@@ -282,7 +280,11 @@ export default function ChangePassword() {
                   onChangeText={(text) => {
                     handleCurrent("currentPassword", text);
                   }}
-                  placeholder="Current Password"
+                  placeholder={
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Current Password"
+                      : "كلمة السر الحالية"
+                  }
                   placeholderTextColor={"grey"}
                   keyboardType="web-search"
                   onSubmitEditing={() => {
@@ -329,7 +331,11 @@ export default function ChangePassword() {
                   onChangeText={(text) => {
                     handleChange("newPassword", text);
                   }}
-                  placeholder="New Password"
+                  placeholder={
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "New Password"
+                      : "كلمة السر الجديدة"
+                  }
                   placeholderTextColor={"grey"}
                   keyboardType="web-search"
                   onSubmitEditing={() => {
@@ -376,7 +382,11 @@ export default function ChangePassword() {
                   onChangeText={(text) => {
                     handleConfirm(text);
                   }}
-                  placeholder="Confirm Password"
+                  placeholder={
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Confirm Password"
+                      : "تأكيد كلمة السر"
+                  }
                   placeholderTextColor={"grey"}
                   keyboardType="web-search"
                   onSubmitEditing={() => {
@@ -430,10 +440,7 @@ export default function ChangePassword() {
                           marginTop: -18,
                           marginBottom: 15,
                         }}
-                      >
-                        {" "}
-                        Passwords Match
-                      </Text>
+                      ></Text>
                     )}
                   </>
                 )}
@@ -781,9 +788,12 @@ export default function ChangePassword() {
               <View style={{ flex: 1, justifyContent: "flex-end" }}>
                 <View style={styles.buttonx}>
                   <Button
-                    title={"Set Password"}
-                    color="white"
-                    disabled={!confirmed}
+                    title={
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Set Password"
+                        : "تغيير كلمة السر"
+                    }
+                    color="#f1f1f1"
                     onPress={handleSubmit}
                   />
                 </View>
@@ -824,7 +834,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 10,
     elevation: 3,
-    backgroundColor: "#ef7f96",
+    color: "#f1f1f1",
+    backgroundColor: "#e52b51",
   },
   container: {
     alignSelf: "center",

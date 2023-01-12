@@ -5,6 +5,7 @@ import {
   StyleSheet,
   StatusBar,
   TouchableOpacity,
+  Modal,
 } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { useNavigation } from "@react-navigation/native";
@@ -13,7 +14,6 @@ import authStore from "../stores/authStore";
 import pointStore from "../stores/pointStore";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
-//import { FancyAlert } from "react-native-expo-fancy-alerts";
 import spotStore from "../stores/spotStore";
 import ticketStore from "../stores/ticketStore";
 
@@ -114,197 +114,202 @@ export default function SpottedScanner({ route }) {
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={StyleSheet.absoluteFillObject}
       />
-      {/* <FancyAlert
+
+      <Modal
+        transparent={true}
         visible={visible}
-        icon={
+        animationIn="slideInLeft"
+        animationOut="slideOutRight"
+      >
+        <View
+          style={{
+            backgroundColor: "rgba(0,0,0,0.2)",
+            alignItems: "center",
+            justifyContent: "center",
+            flex: 1,
+          }}
+        >
           <View
             style={{
-              flex: 1,
-              display: "flex",
+              width: "85%",
+              backgroundColor: "white",
+              padding: 25,
+              paddingTop: 30,
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor: "#e52b51",
-              borderRadius: 50,
-              width: "100%",
+              borderRadius: 20,
+              borderColor: "rgba(0, 0, 0, 0.1)",
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "center",
+              alignSelf: "center",
             }}
           >
-            <Ionicons
+            <Text
               style={{
-                color: "white",
-                fontSize: 40,
-                fontWeight: "bold",
+                marginBottom: 10,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
+                width: "90%",
+                textAlign: "center",
+                fontSize: 24,
               }}
-              name="flash"
-            ></Ionicons>
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? `Welcome to ${spot.name}`
+                : `${spot.nameAr} مرحبا بك في`}
+            </Text>
+            <Text
+              style={{
+                marginBottom: 10,
+                width: "70%",
+                textAlign: "center",
+                fontSize: 17,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                lineHeight: 30,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Live the experience of this destination by viewing its Rewards and Offers"
+                : "عيش تجربة وجهتك من خلال عرض الجوائز والعروض"}
+            </Text>
+            <TouchableOpacity
+              style={{
+                width: "50%",
+                backgroundColor: "#e52b51",
+                borderRadius: 50,
+                height: 40,
+                justifyContent: "center",
+              }}
+              onPress={() => navigation.navigate("Profile")}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  color: "white",
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "UbuntuBold"
+                      : "NotoBold",
+                  fontSize: 15,
+                }}
+              >
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "View Experience"
+                  : "عرض التجربة"}
+              </Text>
+            </TouchableOpacity>
           </View>
-        }
-        style={{ backgroundColor: "white" }}
-      >
-        <Text
-          style={{
-            marginTop: -16,
-            marginBottom: 32,
-            fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "UbuntuBold"
-                : "NotoBold",
-            width: "90%",
-            textAlign: "center",
-            fontSize: 24,
-          }}
-        >
-          {i18n.locale === "en-US" || i18n.locale === "en"
-            ? `Welcome to ${spot.name}`
-            : `${spot.nameAr} مرحبا بك في`}
-        </Text>
-        <Text
-          style={{
-            marginTop:
-              i18n.locale === "en-US" || i18n.locale === "en" ? -16 : -20,
-            marginBottom: 32,
-            width: "80%",
-            textAlign: "center",
-            fontSize: 17,
-            fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
-            lineHeight: 30,
-          }}
-        >
-          {i18n.locale === "en-US" || i18n.locale === "en"
-            ? "Live the experience of this destination by viewing its Rewards and Offers"
-            : "عيش تجربة وجهتك من خلال عرض الجوائز والعروض"}
-        </Text>
-        <TouchableOpacity
-          style={{
-            marginTop: -16,
-            marginBottom: 32,
-            width: "60%",
-            backgroundColor: "#e52b51",
-            borderRadius: "50%",
-            height: 40,
-            justifyContent: "center",
-          }}
-          onPress={() => navigation.navigate("Profile")}
-        >
-          <Text
-            style={{
-              textAlign: "center",
-              color: "#f1f1f1",
-              fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "UbuntuBold"
-                  : "NotoBold",
-              fontSize: 15,
-            }}
-          >
-            {i18n.locale === "en-US" || i18n.locale === "en"
-              ? "View Experience"
-              : "عرض التجربة"}
-          </Text>
-        </TouchableOpacity>
-      </FancyAlert>*/}
-      {/* <FancyAlert
+        </View>
+      </Modal>
+
+      <Modal
+        transparent={true}
         visible={visible2}
-        icon={
+        animationIn="slideInLeft"
+        animationOut="slideOutRight"
+      >
+        <View
+          style={{
+            backgroundColor: "rgba(0,0,0,0.2)",
+            alignItems: "center",
+            justifyContent: "center",
+            flex: 1,
+          }}
+        >
           <View
             style={{
-              flex: 1,
-              display: "flex",
+              width: "85%",
+              backgroundColor: "white",
+              padding: 25,
+              paddingTop: 30,
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor: "#e52b51",
-              borderRadius: 50,
-              width: "100%",
+              borderRadius: 20,
+              borderColor: "rgba(0, 0, 0, 0.1)",
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "center",
+              alignSelf: "center",
             }}
           >
-            <Ionicons
+            <Text
               style={{
-                color: "white",
-                fontSize: 40,
-                fontWeight: "bold",
+                marginBottom: 10,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
+                width: "90%",
+                textAlign: "center",
+                fontSize: 24,
               }}
-              name="flash"
-            ></Ionicons>
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? `Welcome to ${spot.name}`
+                : `${spot.nameAr} مرحبا بك في`}
+            </Text>
+            <Text
+              style={{
+                margin: 15,
+                marginBottom: 0,
+                marginTop: 5,
+                width: "80%",
+                textAlign: "center",
+                fontSize: 21,
+                fontFamily: "UbuntuBold",
+                lineHeight: 30,
+              }}
+            >
+              Name: {authStore.user.name}
+            </Text>
+            <Text
+              style={{
+                margin: 15,
+                marginTop: 5,
+                width: "80%",
+                textAlign: "center",
+                fontSize: 21,
+                fontFamily: "UbuntuBold",
+                lineHeight: 30,
+              }}
+            >
+              Tickets: {ticket?.amount}
+            </Text>
+            <TouchableOpacity
+              style={{
+                width: "60%",
+                backgroundColor: "#e52b51",
+                borderRadius: 50,
+                height: 40,
+                justifyContent: "center",
+              }}
+              onPress={() => navigation.navigate("Profile")}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  color: "white",
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "UbuntuBold"
+                      : "NotoBold",
+                  fontSize: 15,
+                }}
+              >
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "View Experience"
+                  : "عرض التجربة"}
+              </Text>
+            </TouchableOpacity>
           </View>
-        }
-        style={{ backgroundColor: "white" }}
-      >
-        <Text
-          style={{
-            marginTop: -16,
-            marginBottom: 32,
-            fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "UbuntuBold"
-                : "NotoBold",
-            width: "90%",
-            textAlign: "center",
-            fontSize: 24,
-          }}
-        >
-          {i18n.locale === "en-US" || i18n.locale === "en"
-            ? `Welcome to ${spot.name}`
-            : `${spot.nameAr} مرحبا بك في`}
-        </Text>
-        <Text
-          style={{
-            marginTop:
-              i18n.locale === "en-US" || i18n.locale === "en" ? -16 : -20,
-            marginBottom: 20,
-            width: "80%",
-            textAlign: "center",
-            fontSize: 21,
-            fontFamily: "UbuntuBold",
-            lineHeight: 30,
-          }}
-        >
-          Name: {authStore.user.username}
-        </Text>
-        <Text
-          style={{
-            marginTop:
-              i18n.locale === "en-US" || i18n.locale === "en" ? -16 : -20,
-            marginBottom: 35,
-            width: "80%",
-            textAlign: "center",
-            fontSize: 21,
-            fontFamily: "UbuntuBold",
-            lineHeight: 30,
-          }}
-        >
-          Tickets: {ticket?.amount}
-        </Text>
-        <TouchableOpacity
-          style={{
-            marginTop: -16,
-            marginBottom: 32,
-            width: "60%",
-            backgroundColor: "#e52b51",
-            borderRadius: "50%",
-            height: 40,
-            justifyContent: "center",
-          }}
-          onPress={() => navigation.navigate("Profile")}
-        >
-          <Text
-            style={{
-              textAlign: "center",
-              color: "#f1f1f1",
-              fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "UbuntuBold"
-                  : "NotoBold",
-              fontSize: 15,
-            }}
-          >
-            {i18n.locale === "en-US" || i18n.locale === "en"
-              ? "View Experience"
-              : "عرض التجربة"}
-          </Text>
-        </TouchableOpacity>
-          </FancyAlert>*/}
+        </View>
+      </Modal>
     </View>
   );
 }

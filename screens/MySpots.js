@@ -40,15 +40,17 @@ function MySpots() {
   const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
   };
-  useEffect(async () => {
-    try {
-      setLoading(true);
-      await ticketStore.fetchTickets();
-    } finally {
-      setLoading(false);
-    }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        await ticketStore.fetchTickets();
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, []);
-
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     ticketStore.fetchTickets();
@@ -87,7 +89,7 @@ function MySpots() {
         width: "100%",
         height: "100%",
         backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-        marginBottom: 150,
+        // marginBottom: 150,
       }}
     >
       <StatusBar
@@ -154,24 +156,18 @@ function MySpots() {
             )}
           </>
         ) : tickets.length !== 0 ? (
-          <ScrollView
+          <FlatList
+            nestedScrollEnabled={true}
+            style={styles.spotsList}
+            contentContainerStyle={styles.spotsListContainer}
+            data={tickets}
+            renderItem={renderTicket}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
-            nestedScrollEnabled={true}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }
-          >
-            <FlatList
-              nestedScrollEnabled={true}
-              style={styles.spotsList}
-              contentContainerStyle={styles.spotsListContainer}
-              data={tickets}
-              renderItem={renderTicket}
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}
-            />
-          </ScrollView>
+          />
         ) : (
           <View
             style={{
@@ -209,7 +205,7 @@ export default observer(MySpots);
 
 const styles = StyleSheet.create({
   spotsList: {
-    backgroundColor: "#fffffc",
+    backgroundColor: "transparent",
     height: "100%",
     width: "100%",
   },

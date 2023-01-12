@@ -1,5 +1,5 @@
 import {
-  ScrollView,
+  Modal,
   StyleSheet,
   StatusBar,
   Text,
@@ -11,6 +11,7 @@ import {
   LogBox,
   Share,
   useColorScheme,
+  Button,
 } from "react-native";
 import React, { useCallback, useState } from "react";
 import spotStore from "../../stores/spotStore";
@@ -30,7 +31,6 @@ import {
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import "moment/locale/ar";
-//import { FancyAlert } from "react-native-expo-fancy-alerts";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 LogBox.ignoreAllLogs();
 
@@ -110,7 +110,7 @@ export function SpotDetails({ route }) {
     try {
       const result = await Share.share({
         message: `${authStore.user.name} wants you to check this destination!`,
-        url: `exp://127.0.0.1:19000/--/SpotDetails/${spot._id}`,
+        url: `http://destkw.com/api/universal/SpotDetails/${spot._id}`,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -137,8 +137,8 @@ export function SpotDetails({ route }) {
     } else {
       Alert.alert(
         i18n.locale === "en-US" || i18n.locale === "en"
-          ? "Already in your spots"
-          : "موجودة في نقاطك"
+          ? "Already in your tickets"
+          : "موجودة في تذاكرك"
       );
     }
   };
@@ -294,9 +294,9 @@ export function SpotDetails({ route }) {
             </View>
             <View
               style={{
-                margin: "3%",
-                alignSelf: "center",
-                marginTop: "128%",
+                alignSelf: "flex-start",
+                marginTop: "129%",
+                margin: 45,
               }}
             >
               <Text
@@ -320,10 +320,9 @@ export function SpotDetails({ route }) {
                   shadowOpacity: 0.29,
                   shadowRadius: 4.65,
                   elevation: 7,
-                  margin: 20,
-                  marginTop: 10,
+
                   marginBottom:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 20,
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 5,
                 }}
               >
                 {i18n.locale === "en-US" || i18n.locale === "en"
@@ -332,8 +331,6 @@ export function SpotDetails({ route }) {
               </Text>
               <View
                 style={{
-                  margin: 20,
-                  marginTop: 0,
                   marginBottom:
                     i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 20,
                   display: "flex",
@@ -350,7 +347,7 @@ export function SpotDetails({ route }) {
                     alignSelf: "center",
                     width: 50,
                     height: 50,
-                    borderRadius: "50%",
+                    borderRadius: 50,
                     zIndex: -1,
                     marginRight:
                       i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
@@ -387,7 +384,7 @@ export function SpotDetails({ route }) {
               </View>
               <Text
                 style={{
-                  fontSize: 18,
+                  fontSize: 19,
                   color: "white",
                   fontFamily:
                     i18n.locale === "en-US" || i18n.locale === "en"
@@ -406,8 +403,6 @@ export function SpotDetails({ route }) {
                     i18n.locale === "en-US" || i18n.locale === "en"
                       ? "left"
                       : "right",
-                  margin: 20,
-                  marginTop: 0,
                 }}
               >
                 {i18n.locale === "en-US" || i18n.locale === "en"
@@ -421,7 +416,7 @@ export function SpotDetails({ route }) {
         <StatusBar barStyle="light-content" />
         <TriggeringView
           style={{
-            borderRadius: "40%",
+            borderRadius: 40,
             backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
             shadowColor: "#161616",
             shadowOffset: {
@@ -749,7 +744,7 @@ export function SpotDetails({ route }) {
                   marginLeft: 15,
                   marginRight: 15,
                   alignSelf: "center",
-                  borderRadius: "150%",
+                  borderRadius: 150,
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 }}
               >
@@ -996,97 +991,98 @@ export function SpotDetails({ route }) {
               </TouchableOpacity>
             </>
           )}
-          {/*} <FancyAlert
+          <Modal
+            transparent={true}
             visible={visible}
-            icon={
+            animationIn="slideInLeft"
+            animationOut="slideOutRight"
+          >
+            <View
+              style={{
+                backgroundColor: "rgba(0,0,0,0.2)",
+                alignItems: "center",
+                justifyContent: "center",
+                flex: 1,
+              }}
+            >
               <View
                 style={{
-                  flex: 1,
-                  display: "flex",
+                  width: "85%",
+                  backgroundColor: "white",
+                  padding: 25,
+                  paddingTop: 30,
                   justifyContent: "center",
                   alignItems: "center",
-                  backgroundColor: "#e52b51",
-                  borderRadius: 50,
-                  width: "100%",
+                  borderRadius: 20,
+                  borderColor: "rgba(0, 0, 0, 0.1)",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignContent: "center",
+                  alignSelf: "center",
                 }}
               >
-                <Ionicons
+                <Text
                   style={{
-                    color: "white",
-                    fontSize: 40,
-                    fontWeight: "bold",
+                    marginBottom: 10,
+                    fontFamily:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "UbuntuBold"
+                        : "NotoBold",
+                    width: "90%",
+                    textAlign: "center",
+                    fontSize: 24,
                   }}
-                  name="happy"
-                ></Ionicons>
+                >
+                  {i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "You're going there!"
+                    : "انت ذاهب هناك!"}
+                </Text>
+                <Text
+                  style={{
+                    marginBottom: 20,
+                    width: "70%",
+                    textAlign: "center",
+                    fontSize: 17,
+                    fontFamily:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Ubuntu"
+                        : "Noto",
+                    lineHeight: 30,
+                  }}
+                >
+                  {i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "To view your ticket details go to your tickets page"
+                    : "لعرض تفاصيل الوجهة اذهب لصفحة وجهاتك"}
+                </Text>
+                <TouchableOpacity
+                  style={{
+                    width: "50%",
+                    backgroundColor: "#e52b51",
+                    borderRadius: 50,
+                    height: 40,
+                    justifyContent: "center",
+                  }}
+                  onPress={() => navigation.navigate("MySpots")}
+                >
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      color: "#f1f1f1",
+                      fontFamily:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "UbuntuBold"
+                          : "NotoBold",
+                      fontSize: 15,
+                    }}
+                  >
+                    {i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Close"
+                      : "اغلاق"}
+                  </Text>
+                </TouchableOpacity>
               </View>
-            }
-            style={{ backgroundColor: "white" }}
-          >
-            <Text
-              style={{
-                marginTop: -16,
-                marginBottom: 32,
-                fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "UbuntuBold"
-                    : "NotoBold",
-                width: "90%",
-                textAlign: "center",
-                fontSize: 24,
-              }}
-            >
-              {i18n.locale === "en-US" || i18n.locale === "en"
-                ? "You're going there!"
-                : "انت ذاهب هناك!"}
-            </Text>
-            <Text
-              style={{
-                marginTop:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? -16 : -20,
-                marginBottom: 32,
-                width: "70%",
-                textAlign: "center",
-                fontSize: 17,
-                fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
-                lineHeight: 30,
-              }}
-            >
-              {i18n.locale === "en-US" || i18n.locale === "en"
-                ? "To view the spot details go to your spots page"
-                : "لعرض تفاصيل الوجهة اذهب لصفحة وجهاتك"}
-            </Text>
-            <TouchableOpacity
-              style={{
-                marginTop: -16,
-                marginBottom: 32,
-                width: "50%",
-                backgroundColor: "#e52b51",
-                borderRadius: "50%",
-                height: 40,
-                justifyContent: "center",
-              }}
-              onPress={() => navigation.navigate("Explore")}
-            >
-              <Text
-                style={{
-                  textAlign: "center",
-                  color: "#f1f1f1",
-                  fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "UbuntuBold"
-                      : "NotoBold",
-                  fontSize: 15,
-                }}
-              >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Close"
-                  : "اغلاق"}
-              </Text>
-            </TouchableOpacity>
-          </FancyAlert>*/}
+            </View>
+          </Modal>
         </TriggeringView>
       </ImageHeaderScrollView>
     </View>
@@ -1218,7 +1214,7 @@ const styles = StyleSheet.create({
   ownerthumb: {
     width: 45,
     height: 45,
-    borderRadius: "50%",
+    borderRadius: 50,
     zIndex: -1,
     marginRight: 10,
     marginLeft: 10,

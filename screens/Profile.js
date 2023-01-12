@@ -29,13 +29,16 @@ LogBox.ignoreAllLogs();
 
 function Profile() {
   const [loading, setLoading] = useState(false);
-  useEffect(async () => {
-    try {
-      setLoading(true);
-      await authStore.checkForToken();
-    } finally {
-      setLoading(false);
-    }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        await authStore.checkForToken();
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, []);
   const colorScheme = useColorScheme();
   // let num = 1;
@@ -60,10 +63,10 @@ function Profile() {
   //}
   const translations = {
     en: {
-      spots: "Spots",
+      spots: "Dests",
     },
     ar: {
-      spots: "نقاطي",
+      spots: "وجهة",
     },
   };
   const i18n = new I18n(translations);
@@ -270,7 +273,7 @@ const styles = StyleSheet.create({
     marginTop: 360,
     marginLeft: "16%",
     backgroundColor: "#e7e7e7",
-    borderRadius: "50%",
+    borderRadius: 50,
     justifyContent: "center",
     paddingLeft: 80,
     paddingRight: 80,

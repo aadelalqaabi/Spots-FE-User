@@ -5,6 +5,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  TouchableWithoutFeedback,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
@@ -92,7 +93,7 @@ function RewardItem({ reward, onRefresh }) {
               padding: 10,
               paddingLeft: 10,
               paddingRight: 10,
-              borderRadius: "40%",
+              borderRadius: 40,
               alignSelf:
                 i18n.locale === "en-US" || i18n.locale === "en"
                   ? "flex-start"
@@ -154,12 +155,11 @@ function RewardItem({ reward, onRefresh }) {
           </Text>
         </View>
       </TouchableOpacity>
-
       <View style={{ flex: 1 }}>
         <Modal
           isVisible={isModalVisible}
           onBackdropPress={() => setModalVisible(false)}
-          style={{ height: 450 }}
+          style={{ height: "100%" }}
         >
           {!found ? (
             <View
@@ -168,218 +168,209 @@ function RewardItem({ reward, onRefresh }) {
                 alignItems: "center",
                 alignContent: "center",
                 justifyContent: "center",
+                backgroundColor: "white",
+                borderRadius: 30,
+                height: "40%",
+                width: "105%",
+                display: "flex",
               }}
             >
+              <TouchableOpacity
+                style={{
+                  zIndex: 99,
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  margin: 20,
+                  marginTop: 15,
+                }}
+                onPress={toggleModal}
+              >
+                <Ionicons
+                  style={{
+                    color: "black",
+                    opacity: 1,
+                    fontSize: 35,
+                  }}
+                  name="close-outline"
+                ></Ionicons>
+              </TouchableOpacity>
+              <Text
+                style={{
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Ubuntu"
+                      : "Noto",
+                  fontSize: 30,
+                  alignSelf: "center",
+                  // margin:   i18n.locale === "en-US" ||  i18n.locale === "en"  ? 35 : 10,
+                  // marginTop:   i18n.locale === "en-US" ||  i18n.locale === "en"  ? 10 : 35,
+                }}
+              >
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? reward.title
+                  : reward.titleAr}
+              </Text>
               <View
                 style={{
                   display: "flex",
-                  alignItems: "center",
-                  alignContent: "center",
-                  justifyContent: "center",
-                  backgroundColor: "white",
-                  borderRadius: 40,
-                  height: "68%",
-                  width: "105%",
-                  display: "flex",
+                  flexDirection:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "row"
+                      : "row-reverse",
+                  alignSelf: "center",
+                  marginTop: -10,
                 }}
               >
-                <TouchableOpacity
-                  style={{
-                    zIndex: 99,
-                    position: "absolute",
-                    top: 0,
-                    right: 0,
-                    margin: 20,
-                    marginTop: 15,
-                  }}
-                  onPress={toggleModal}
-                >
-                  <Ionicons
+                <View>
+                  <Text
                     style={{
-                      color: "black",
-                      opacity: 0.5,
-                      fontSize: 35,
+                      fontFamily: "UbuntuBold",
+                      fontSize: 25,
+                      alignSelf:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "flex-start"
+                          : "flex-end",
+                      margin: 35,
+                      // marginTop: 2,
+                      marginBottom: 0,
                     }}
-                    name="close-outline"
-                  ></Ionicons>
-                </TouchableOpacity>
-                <Text
-                  style={{
-                    fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "Ubuntu"
-                        : "Noto",
-                    fontSize: 30,
-                    alignSelf: "center",
-                    // margin:   i18n.locale === "en-US" ||  i18n.locale === "en"  ? 35 : 10,
-                    // marginTop:   i18n.locale === "en-US" ||  i18n.locale === "en"  ? 10 : 35,
-                  }}
-                >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? reward.title
-                    : reward.titleAr}
-                </Text>
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection:
-                      i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "row"
-                        : "row-reverse",
-                    alignSelf: "center",
-                    marginTop: -10,
-                  }}
-                >
-                  <View>
-                    <Text
-                      style={{
-                        fontFamily: "UbuntuBold",
-                        fontSize: 25,
-                        alignSelf:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "flex-start"
-                            : "flex-end",
-                        margin: 35,
-                        // marginTop: 2,
-                        marginBottom: 0,
-                      }}
-                    >
-                      {reward.points}
-                    </Text>
-                    <Text
-                      style={{
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        fontSize: 18,
-                        alignSelf: "flex-start",
-                        margin: 35,
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 2
-                            : -2,
-                        marginBottom: 0,
-                        color: "#7a797a",
-                      }}
-                    >
-                      {i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "Reward Points"
-                        : "نقاط المكافأة"}
-                    </Text>
-                  </View>
-                  <View>
-                    <Text
-                      style={{
-                        fontFamily: "UbuntuBold",
-                        fontSize: 25,
-                        alignSelf:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "flex-start"
-                            : "flex-end",
-                        margin: 35,
-                        //marginTop: 2,
-                        marginBottom: 0,
-                      }}
-                    >
-                      {myPoints?.amount}
-                    </Text>
-                    <Text
-                      style={{
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        fontSize: 18,
-                        alignSelf: "flex-start",
-                        margin: 35,
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 2
-                            : -2,
-                        marginBottom: 0,
-                        color: "#7a797a",
-                      }}
-                    >
-                      {i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "Your Points"
-                        : "نقاطك حاليا"}
-                    </Text>
-                  </View>
-                </View>
-                {myPoints?.amount < reward.points ? (
+                  >
+                    {reward.points}
+                  </Text>
                   <Text
                     style={{
                       fontFamily:
                         i18n.locale === "en-US" || i18n.locale === "en"
                           ? "Ubuntu"
                           : "Noto",
-                      textAlign:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "left"
-                          : "right",
-                      fontSize: 20,
-                      alignSelf: "center",
+                      fontSize: 18,
+                      alignSelf: "flex-start",
                       margin: 35,
-                      marginTop: 20,
-                      paddingTop: 3,
-                      marginBottom: 25,
-                      color: "#cc0000",
-                      lineHeight: 30,
+                      marginTop:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? 2
+                          : -2,
+                      marginBottom: 0,
+                      color: "#7a797a",
                     }}
                   >
                     {i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "You Need"
-                      : "تحتاج"}{" "}
-                    {
-                      <Text style={styles.pointsNotEnoughNum}>
-                        {reward.points - myPoints?.amount}
-                      </Text>
-                    }{" "}
-                    {i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "more points to claim this reward"
-                      : "نقطة اكثر للحصول على هذه المكافأة"}
+                      ? "Reward Points"
+                      : "نقاط المكافأة"}
                   </Text>
-                ) : (
-                  <Text style={styles.claimNow}>
-                    {i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "You can claim this reward now!"
-                      : "تستطيع الحصول على هذه الجائزة!"}
+                </View>
+                <View>
+                  <Text
+                    style={{
+                      fontFamily: "UbuntuBold",
+                      fontSize: 25,
+                      alignSelf:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "flex-start"
+                          : "flex-end",
+                      margin: 35,
+                      //marginTop: 2,
+                      marginBottom: 0,
+                    }}
+                  >
+                    {myPoints?.amount}
                   </Text>
-                )}
-                {myPoints?.amount >= reward.points ? (
-                  <TouchableOpacity style={styles.button} onPress={handleClaim}>
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 20,
-                        fontFamily: "Ubuntu",
-                        width: "60%",
-                        textAlign: "center",
-                      }}
-                    >
-                      {i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "Claim"
-                        : "الحصول الآن"}
-                    </Text>
-                  </TouchableOpacity>
-                ) : (
-                  <View style={styles.disbutton}>
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 20,
-                        fontFamily: "Ubuntu",
-                        textAlign: "center",
-                      }}
-                    >
-                      {i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "Claim"
-                        : "الحصول الآن"}
-                    </Text>
-                  </View>
-                )}
+                  <Text
+                    style={{
+                      fontFamily:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "Ubuntu"
+                          : "Noto",
+                      fontSize: 18,
+                      alignSelf: "flex-start",
+                      margin: 35,
+                      marginTop:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? 2
+                          : -2,
+                      marginBottom: 0,
+                      color: "#7a797a",
+                    }}
+                  >
+                    {i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Your Points"
+                      : "نقاطك حاليا"}
+                  </Text>
+                </View>
               </View>
+              {myPoints?.amount < reward.points ? (
+                <Text
+                  style={{
+                    fontFamily:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Ubuntu"
+                        : "Noto",
+                    textAlign:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "left"
+                        : "right",
+                    fontSize: 20,
+                    alignSelf: "center",
+                    margin: 35,
+                    marginTop: 20,
+                    paddingTop: 3,
+                    marginBottom: 25,
+                    color: "#cc0000",
+                    lineHeight: 30,
+                  }}
+                >
+                  {i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "You Need"
+                    : "تحتاج"}{" "}
+                  {
+                    <Text style={styles.pointsNotEnoughNum}>
+                      {reward.points - myPoints?.amount}
+                    </Text>
+                  }{" "}
+                  {i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "more points to claim this reward"
+                    : "نقطة اكثر للحصول على هذه المكافأة"}
+                </Text>
+              ) : (
+                <Text style={styles.claimNow}>
+                  {i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "You can claim this reward now!"
+                    : "تستطيع الحصول على هذه الجائزة!"}
+                </Text>
+              )}
+              {myPoints?.amount >= reward.points ? (
+                <TouchableOpacity style={styles.button} onPress={handleClaim}>
+                  <Text
+                    style={{
+                      color: "white",
+                      fontSize: 20,
+                      fontFamily: "Ubuntu",
+                      width: "60%",
+                      textAlign: "center",
+                    }}
+                  >
+                    {i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Claim"
+                      : "الحصول الآن"}
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <View style={styles.disbutton}>
+                  <Text
+                    style={{
+                      color: "white",
+                      fontSize: 20,
+                      fontFamily: "Ubuntu",
+                      textAlign: "center",
+                    }}
+                  >
+                    {i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Claim"
+                      : "الحصول الآن"}
+                  </Text>
+                </View>
+              )}
             </View>
           ) : (
             <View
@@ -413,7 +404,7 @@ function RewardItem({ reward, onRefresh }) {
                   <Ionicons
                     style={{
                       color: "black",
-                      opacity: 0.5,
+                      opacity: 1,
                       fontSize: 35,
                     }}
                     name="close-outline"
@@ -530,7 +521,8 @@ const styles = StyleSheet.create({
   disbutton: {
     borderRadius: 15,
     elevation: 3,
-    backgroundColor: "grey",
+    backgroundColor: "#e52b51",
+    opacity: 0.6,
     width: "75%",
     height: 55,
     alignSelf: "center",

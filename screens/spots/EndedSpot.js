@@ -138,8 +138,8 @@ export default function EndedSpot({ route }) {
             }}
           >
             {i18n.locale === "en-US" || i18n.locale === "en"
-              ? "Users Spotted Here"
-              : "مستخدمين اتوا هنا"}
+              ? "Users Visited"
+              : "مستخدمين زارونا"}
           </Text>
         </View>
         <Text
