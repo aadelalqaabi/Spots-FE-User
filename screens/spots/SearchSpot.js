@@ -4,6 +4,7 @@ import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 function SearchSpot({ spot, navigation }) {
   let [fontsLoaded] = useFonts({

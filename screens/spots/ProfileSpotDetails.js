@@ -57,13 +57,20 @@ function ProfileSpotDetails({ route }) {
   const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
   };
+
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
-  useEffect(() => {
-    rewardStore.fetchRewards();
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        await pointStore.fetchPoints();
+        await rewardStore.fetchRewards();
+        await offerStore.fetchOffers();
+        await reviewStore.fetchReviews();
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, []);
 
   const onRefresh = React.useCallback(() => {
@@ -76,6 +83,7 @@ function ProfileSpotDetails({ route }) {
       setRefreshing(false);
     });
   }, []);
+
   const spot = spotStore.getSpotsById(route.params.id);
   let point = pointStore.points.find(
     (point) => point?.user === authStore.user.id && point?.spot === spot?._id
@@ -286,7 +294,6 @@ function ProfileSpotDetails({ route }) {
                   i18n.locale === "en-US" || i18n.locale === "en"
                     ? "left"
                     : "right",
-                margin: 10,
                 marginBottom:
                   i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 0,
                 marginTop:
@@ -853,7 +860,7 @@ const styles = StyleSheet.create({
   ownerthumb: {
     width: 45,
     height: 45,
-    borderRadius: "50%",
+    borderRadius: 50,
     zIndex: -1,
     marginRight: 10,
   },

@@ -30,6 +30,7 @@ export default function Info({ route }) {
   const ref = React.useRef(null);
   const navigation = useNavigation();
   let users = 0;
+  console.log("spot", spot);
   spot.users.forEach((user) => users++);
   const rewards = rewardStore.rewards.filter(
     (reward) =>
@@ -151,69 +152,70 @@ export default function Info({ route }) {
             }}
           >
             {i18n.locale === "en-US" || i18n.locale === "en"
-              ? "Users Spotted Here"
-              : "مستخدمين اتوا هنا"}
+              ? "Users Visited"
+              : "مستخدمين زارونا"}
           </Text>
         </View>
-        <View style={{ marginTop: 30 }}>
-          <Text
-            style={{
-              fontSize: 20,
-              alignSelf:
+        {rewards.length > 0 ? (
+          <View style={{ marginTop: 30 }}>
+            <Text
+              style={{
+                fontSize: 20,
+                alignSelf:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "flex-start"
+                    : "flex-end",
+                textAlign: "center",
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
+                margin: 20,
+                marginBottom: -5,
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                marginTop:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Rewards claimed"
+                : "مكافآت تم الحصول عليها"}
+            </Text>
+            <ScrollView
+              horizontal={true}
+              style={{
+                backgroundColor: "transparent",
+                display: "flex",
+              }}
+              contentContainerStyle={{
+                backgroundColor: "transparent",
+                display: "flex",
+                flexDirection:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "row"
+                    : "row-reverse",
+              }}
+              ref={scrollViewRef}
+              onContentSizeChange={() =>
                 i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "flex-start"
-                  : "flex-end",
-              textAlign: "center",
-              fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "UbuntuBold"
-                  : "NotoBold",
-              margin: 20,
-              marginBottom: -5,
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              marginTop:
-                i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
-            }}
-          >
-            {i18n.locale === "en-US" || i18n.locale === "en"
-              ? "Rewards claimed"
-              : "مكافآت تم الحصول عليها"}
-          </Text>
-          <ScrollView
-            horizontal={true}
-            style={{
-              backgroundColor: "transparent",
-              display: "flex",
-            }}
-            contentContainerStyle={{
-              backgroundColor: "transparent",
-              paddingRight: 30,
-              paddingLeft:
-                i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 30,
-              display: "flex",
-              flexDirection:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "row"
-                  : "row-reverse",
-            }}
-            ref={scrollViewRef}
-            onContentSizeChange={() =>
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? scrollViewRef.current.scrollTo({
-                    x: 0,
-                    y: 0,
-                    animated: true,
-                  })
-                : scrollViewRef.current.scrollToEnd({ animated: true })
-            }
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-          >
-            {rewards.map((reward) => (
-              <RewardItem reward={reward} />
-            ))}
-          </ScrollView>
-        </View>
+                  ? scrollViewRef.current.scrollTo({
+                      x: 0,
+                      y: 0,
+                      animated: true,
+                    })
+                  : scrollViewRef.current.scrollToEnd({ animated: true })
+              }
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+            >
+              {rewards.map((reward) => (
+                <RewardItem reward={reward} />
+              ))}
+            </ScrollView>
+          </View>
+        ) : (
+          <></>
+        )}
         <View style={{ marginTop: 0 }}>
           <Text
             style={{

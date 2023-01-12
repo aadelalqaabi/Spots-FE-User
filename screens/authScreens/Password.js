@@ -75,7 +75,7 @@ export default function Password({ navigation, route }) {
   };
   const checkEntry = (password) => {
     const re = new RegExp(
-      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+      "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*=])(?=.{8,})"
     );
     const lowerCase = new RegExp("^(?=.*[a-z])");
     const upperCase = new RegExp("^(?=.*[A-Z])");

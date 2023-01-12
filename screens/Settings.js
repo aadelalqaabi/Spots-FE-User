@@ -51,12 +51,13 @@ export default function Settings() {
     >
       <View
         style={{
-          backgroundColor: "#e8e8e8",
+          backgroundColor: "grey",
           height: 6,
-          width: 150,
+          width: 40,
           margin: 20,
+          opacity: 0.5,
           alignSelf: "center",
-          borderRadius: "100%",
+          borderRadius: 100,
         }}
       ></View>
       <Text

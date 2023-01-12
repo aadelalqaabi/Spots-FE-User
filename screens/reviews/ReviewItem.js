@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     height: 50,
     marginRight: 10,
     marginLeft: 8,
-    borderRadius: "50%",
+    borderRadius: 50,
     objectFit: "cover",
   },
   reviewName: {

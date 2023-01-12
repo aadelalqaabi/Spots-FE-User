@@ -37,7 +37,7 @@ function OrganizerProfile({ route }) {
   i18n.locale = Localization.locale;
   i18n.enableFallback = true;
   function renderSpot({ item: spot }) {
-    return <OrganizerSpot spot={spot} />;
+    return <OrganizerSpot spot={spot} navigation={navigation} />;
   }
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
@@ -179,8 +179,8 @@ function OrganizerProfile({ route }) {
               }}
             >
               {i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Spots"
-                : "نقاط"}
+                ? "Dests"
+                : "وجهة"}
             </Text>
           </View>
         </View>
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
     marginTop: 360,
     marginLeft: "16%",
     backgroundColor: "#e7e7e7",
-    borderRadius: "50%",
+    borderRadius: 50,
     justifyContent: "center",
     paddingLeft: 80,
     paddingRight: 80,

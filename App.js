@@ -223,8 +223,7 @@ function RootNavigator() {
               borderTopRightRadius: 30,
               borderTopLeftRadius: 30,
             },
-            gestureEnabled: "true",
-            gestureDirection: "vertical",
+            detachPreviousScreen: false,
             gestureResponseDistance: 10000,
           }}
         >
@@ -256,9 +255,7 @@ function RootNavigator() {
               borderTopRightRadius: 30,
               borderTopLeftRadius: 30,
             },
-
-            gestureEnabled: "true",
-            gestureDirection: "vertical",
+            detachPreviousScreen: false,
             gestureResponseDistance: 10000,
           }}
         >
@@ -277,6 +274,11 @@ function RootNavigator() {
         <Screen
           name="ChangePassword"
           component={ChangePassword}
+          options={{ headerShown: false }}
+        />
+        <Screen
+          name="EndedSpot"
+          component={EndedSpot}
           options={{ headerShown: false }}
         />
       </Navigator>
@@ -318,8 +320,7 @@ function RootNavigator() {
               borderTopRightRadius: 30,
               borderTopLeftRadius: 30,
             },
-            gestureEnabled: "true",
-            gestureDirection: "vertical",
+            detachPreviousScreen: false,
             gestureResponseDistance: 10000,
           }}
         >
@@ -350,7 +351,15 @@ function RootNavigator() {
           }}
           component={Search}
         />
-
+        <Screen
+          name="ChangePassword"
+          component={ChangePassword}
+          options={{
+            gestureDirection: "horizontal-inverted",
+            gestureEnabled: "true",
+            presentation: "transparentModal",
+          }}
+        />
         <Screen
           name="BookingDetails"
           component={BookingDetails}
@@ -403,14 +412,11 @@ function RootNavigator() {
         <Group
           screenOptions={{
             presentation: "modal",
-
             cardStyle: {
               borderTopRightRadius: 30,
               borderTopLeftRadius: 30,
             },
-
-            gestureEnabled: "true",
-            gestureDirection: "vertical",
+            detachPreviousScreen: false,
             gestureResponseDistance: 10000,
           }}
         >

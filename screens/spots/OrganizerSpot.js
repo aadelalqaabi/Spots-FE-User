@@ -2,27 +2,23 @@ import { observer } from "mobx-react";
 import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
 import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
-
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import { useNavigation } from "@react-navigation/native";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
-function OrganizerSpot({ spot }) {
+function OrganizerSpot({ spot, navigation }) {
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
-
   if (!fontsLoaded) {
     return <MyAwesomeSplashScreen />;
   }
-  const navigation = useNavigation();
-
   const translations = {
     en: {
-      suggested: "Suggested Spot",
+      suggested: "Suggested Destination",
       search: "Search",
     },
     ar: {
@@ -56,7 +52,9 @@ function OrganizerSpot({ spot }) {
         }}
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
-        onPress={() => navigation.navigate("EndedSpot", { spot: spot })}
+        onPress={() => {
+          navigation.navigate("EndedSpot", { spot: spot });
+        }}
       >
         <Image
           style={{
