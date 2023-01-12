@@ -93,7 +93,7 @@ export default function GoogleLogin() {
         shadowRadius: 1.41,
         elevation: 2,
       }}
-      onPress={() => openURL(`${baseURL}/universal/user/login/google`)}
+      onPress={() => openURL(`http://destkw.com/universal/user/login/google`)}
     >
       <Image
         style={{
