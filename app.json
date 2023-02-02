@@ -1,6 +1,7 @@
 {
   "expo": {
     "scheme": "dest",
+    "paths":[ "SpotDetails/:id"],
     "name": "Dest",
     "slug": "Dest",
     "version": "1.0.3",
@@ -19,6 +20,9 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "notification":{
+      "icon":"./assets/DestLogo.png"
+    },
     "ios": {
       "supportsTablet": true,
       "buildNumber": "3",
@@ -26,7 +30,10 @@
       "associatedDomains": [
         "applinks:destkw.com"
       ],
-      "CFBundleURLSchemes": ["com.dest.kuwait"]
+      "infoPlist":{
+        "CFBundleAllowMixedLocalizations": true,
+        "CFBundleDevelopmentRegion":"ar"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -43,7 +50,8 @@
           "icon": "./assets/DestLogo.png",
           "color": "#ffffff"
         }
-      ]
+        
+      ],["expo-apple-authentication"]
     ],
     "extra": {
       "eas": {

@@ -50,7 +50,7 @@ export default function SpottedScanner({ route }) {
   }, []);
   const handleBarCodeScanned = ({ data }) => {
     setScanned(true);
-    const spotId = data.split("spots://Profile/")[1];
+    const spotId = data.split("dest://Profile/")[1];
     const found = pointStore.points.some(
       (point) => point.user === authStore.user.id && point.spot === spotId
     );
@@ -64,7 +64,7 @@ export default function SpottedScanner({ route }) {
         )
       );
       pointStore.createPoint(spotId);
-      spot.scanned = spot?.scanned + 1;
+      //spot.scanned = spot?.scanned + 1;
       spotStore.updateSpot(spot, spotId);
       if (spot.isFree === true) {
         toggleAlert();
@@ -260,9 +260,9 @@ export default function SpottedScanner({ route }) {
                 marginBottom: 0,
                 marginTop: 5,
                 width: "80%",
-                textAlign: "center",
+                textAlign: "left",
                 fontSize: 21,
-                fontFamily: "UbuntuBold",
+                fontFamily: "Ubuntu",
                 lineHeight: 30,
               }}
             >
@@ -273,9 +273,9 @@ export default function SpottedScanner({ route }) {
                 margin: 15,
                 marginTop: 5,
                 width: "80%",
-                textAlign: "center",
+                textAlign: "left",
                 fontSize: 21,
-                fontFamily: "UbuntuBold",
+                fontFamily: "Ubuntu",
                 lineHeight: 30,
               }}
             >

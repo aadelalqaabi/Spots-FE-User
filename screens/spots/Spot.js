@@ -48,7 +48,6 @@ function Spot({ spot, navigation, day }) {
         display: "flex",
         flexDirection: "row",
         alignSelf: "center",
-        //marginBottom: "7%",
         height: "100%",
         width: "100%",
         borderRadius: 20,
@@ -84,7 +83,10 @@ function Spot({ spot, navigation, day }) {
             display: "flex",
             position: "absolute",
             alignSelf: "flex-start",
-            flexDirection: "row",
+            flexDirection:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "row"
+                : "row-reverse",
             alignContent: "center",
             flexWrap: "wrap",
             alignItems: "center",
@@ -96,7 +98,10 @@ function Spot({ spot, navigation, day }) {
           <TouchableOpacity
             style={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "row"
+                  : "row-reverse",
               flexWrap: "nowrap",
               textAlign: "center",
               width: 220,
@@ -119,6 +124,7 @@ function Spot({ spot, navigation, day }) {
                 shadowOpacity: 0.1,
                 shadowRadius: 20,
                 marginRight: 10,
+                marginLeft: 10,
                 shadowColor: "#004365",
                 shadowOffset: {
                   height: 10,
@@ -157,13 +163,22 @@ function Spot({ spot, navigation, day }) {
                   height: 5,
                   width: 0,
                 },
-                fontFamily: "Ubuntu",
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
                 alignSelf: "center",
+                textAlign:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "left"
+                    : "right",
                 flex: 1,
                 textTransform: "capitalize",
               }}
             >
-              {organizer?.username}
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? organizer?.displayNameEn
+                : organizer?.displayNameAr}
             </Text>
           </TouchableOpacity>
 
