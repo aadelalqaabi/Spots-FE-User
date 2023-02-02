@@ -125,528 +125,538 @@ export default function Password({ navigation, route }) {
     return <MyAwesomeSplashScreen />;
   }
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View
-          style={{
-            width: "100%",
-            height: "100%",
-            backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-          }}
-        >
-          <Ionicons
-            style={{
-              position: "absolute",
-              fontSize: 35,
-              marginTop: 80,
-              marginLeft: 20,
-              paddingRight: 20,
-              alignSelf:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "flex-start"
-                  : "flex-end",
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-            }}
-            name={
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "chevron-back-outline"
-                : "chevron-forward-outline"
-            }
-            onPress={() => navigation.goBack()}
-          ></Ionicons>
+    <>
+      {/* <View style={{ position: "absolute", top: "6%", left: "5%",display: "flex", flexDirection: "row", zIndex: 1, width: "100%" }}>
+        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
+        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
+        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
+      </View> */}
+      <View style={{ position: "absolute", top: "6%", left: "5%",display: "flex", flexDirection: "row", zIndex: 1, width: "100%" }}>
+        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
+        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
+        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
+        <View style={{ backgroundColor: colorScheme === "dark" ? "black" : "#E2DFD2", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
+      </View>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View
             style={{
-              justifyContent: "center",
-              marginTop: 80,
-              width: "70%",
-              alignSelf: "center",
-              alignItems: "center",
+              width: "100%",
+              height: "100%",
+              backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
             }}
           >
-            <Text
+            <Ionicons
               style={{
-                fontFamily:
+                position: "absolute",
+                fontSize: 35,
+                marginTop: 80,
+                marginLeft: 20,
+                paddingRight: 20,
+                alignSelf:
                   i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "UbuntuBold"
-                    : "NotoBold",
-                fontSize: 27,
-                margin: 20,
-                marginTop: 0,
-                marginBottom:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
-                width: "100%",
-                textAlign: "center",
+                    ? "flex-start"
+                    : "flex-end",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
-            >
-              {i18n.t("name")}
-            </Text>
-            <Text
-              style={{
-                fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
-                fontSize:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 18,
-                margin: 20,
-                marginTop: 0,
-                marginBottom:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
-                width: "100%",
-                textAlign: "center",
-                lineHeight: 23,
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                opacity: 0.8,
-                paddingTop: 3,
-              }}
-            >
-              {i18n.t("description")}
-            </Text>
-
+              name={
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "chevron-back-outline"
+                  : "chevron-forward-outline"
+              }
+              onPress={() => navigation.goBack()}
+            ></Ionicons>
             <View
               style={{
-                width: "110%",
+                justifyContent: "center",
+                marginTop: 80,
+                width: "70%",
                 alignSelf: "center",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                height: "73%",
+                alignItems: "center",
               }}
             >
-              <View style={styles.container}>
-                <TextInput
-                  textInputStyle={{
-                    alignSelf: "center",
-                    width: "103%",
-                    marginBottom: 10,
-                    paddingTop: 10,
-                    fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "Ubuntu"
-                        : "Noto",
-                    backgroundColor: "white",
-                    shadowColor: "#000",
-                    shadowOffset: {
-                      width: 0,
-                      height: 1,
-                    },
-                    shadowOpacity: 0.1,
-                    shadowRadius: 1.41,
-                    elevation: 2,
-                  }}
-                  mainColor={checkValidationColor}
-                  label="Password"
-                  secureTextEntry={secure}
-                  onChangeText={(text) => {
-                    handleChange("password", text);
-                  }}
-                  placeholder=""
-                  keyboardType="web-search"
-                  onSubmitEditing={() => {
-                    checkValidation === false
-                      ? navigation.navigate("MyImage", { itemId: user })
-                      : i18n.locale === "en-US" || i18n.locale === "en"
-                      ? Alert.alert("Invalid Password", "", [
-                          { text: "Try Again" },
-                        ])
-                      : Alert.alert("كلمة سر غير صالحة", "", [
-                          { text: "حاول مرة اخرى" },
-                        ]);
-                  }}
-                />
-                <Ionicons
-                  style={{
-                    zIndex: 99,
-                    position: "absolute",
-                    margin: 12,
-                    fontSize: 25,
-                    alignSelf: "flex-end",
-                  }}
-                  name={secure === true ? "eye" : "eye-off"}
-                  size={30}
-                  color="#e52b51"
-                  onPress={() => setSecure(!secure)}
-                />
-                {lowerCase === true ? (
-                  <View
-                    style={{
-                      flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "row"
-                          : "row-reverse",
-                      paddingBottom: 5,
-                    }}
-                  >
-                    <Ionicons name="close-circle" size={22} color="#ea3e29" />
-                    <Text
-                      style={{
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 3
-                            : -3,
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        marginLeft: 10,
-                        marginRight: 10,
-                        fontSize: 15,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        opacity: 0.8,
-                      }}
-                    >
-                      {i18n.t("lower")}
-                    </Text>
-                  </View>
-                ) : (
-                  <View
-                    style={{
-                      flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "row"
-                          : "row-reverse",
-                      paddingBottom: 5,
-                    }}
-                  >
-                    <Ionicons
-                      name="checkmark-circle"
-                      size={22}
-                      color="#5fcf40"
-                    />
-                    <Text
-                      style={{
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 3
-                            : -3,
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        marginLeft: 10,
-                        marginRight: 10,
-                        color: "#525252",
-                        fontSize: 15,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        opacity: 0.8,
-                      }}
-                    >
-                      {i18n.t("lower")}
-                    </Text>
-                  </View>
-                )}
-                {upperCase === true ? (
-                  <View
-                    style={{
-                      flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "row"
-                          : "row-reverse",
-                      paddingBottom: 5,
-                    }}
-                  >
-                    <Ionicons name="close-circle" size={22} color="#ea3e29" />
-                    <Text
-                      style={{
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 3
-                            : -3,
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        marginLeft: 10,
-                        marginRight: 10,
-                        fontSize: 15,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        opacity: 0.8,
-                      }}
-                    >
-                      {i18n.t("upper")}
-                    </Text>
-                  </View>
-                ) : (
-                  <View
-                    style={{
-                      flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "row"
-                          : "row-reverse",
-                      paddingBottom: 5,
-                    }}
-                  >
-                    <Ionicons
-                      name="checkmark-circle"
-                      size={22}
-                      color="#5fcf40"
-                    />
-                    <Text
-                      style={{
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 3
-                            : -3,
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        marginLeft: 10,
-                        marginRight: 10,
-                        color: "#525252",
-                        fontSize: 15,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        opacity: 0.8,
-                      }}
-                    >
-                      {i18n.t("upper")}
-                    </Text>
-                  </View>
-                )}
-                {number === true ? (
-                  <View
-                    style={{
-                      flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "row"
-                          : "row-reverse",
-                      paddingBottom: 5,
-                    }}
-                  >
-                    <Ionicons name="close-circle" size={22} color="#ea3e29" />
-                    <Text
-                      style={{
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 3
-                            : -3,
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        marginLeft: 10,
-                        marginRight: 10,
-                        fontSize: 15,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        opacity: 0.8,
-                      }}
-                    >
-                      {i18n.t("number")}
-                    </Text>
-                  </View>
-                ) : (
-                  <View
-                    style={{
-                      flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "row"
-                          : "row-reverse",
-                      paddingBottom: 5,
-                    }}
-                  >
-                    <Ionicons
-                      name="checkmark-circle"
-                      size={22}
-                      color="#5fcf40"
-                    />
-                    <Text
-                      style={{
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 3
-                            : -3,
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        marginLeft: 10,
-                        marginRight: 10,
-                        color: "#525252",
-                        fontSize: 15,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        opacity: 0.8,
-                      }}
-                    >
-                      {i18n.t("number")}
-                    </Text>
-                  </View>
-                )}
-                {specialCharacter === true ? (
-                  <View
-                    style={{
-                      flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "row"
-                          : "row-reverse",
-                      paddingBottom: 5,
-                    }}
-                  >
-                    <Ionicons name="close-circle" size={22} color="#ea3e29" />
-                    <Text
-                      style={{
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 3
-                            : -3,
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        marginLeft: 10,
-                        marginRight: 10,
-                        fontSize: 15,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        opacity: 0.8,
-                      }}
-                    >
-                      {i18n.t("special")}
-                    </Text>
-                  </View>
-                ) : (
-                  <View
-                    style={{
-                      flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "row"
-                          : "row-reverse",
-                      paddingBottom: 5,
-                    }}
-                  >
-                    <Ionicons
-                      name="checkmark-circle"
-                      size={22}
-                      color="#5fcf40"
-                    />
-                    <Text
-                      style={{
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 3
-                            : -3,
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        marginLeft: 10,
-                        marginRight: 10,
-                        color: "#525252",
-                        fontSize: 15,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        opacity: 0.8,
-                      }}
-                    >
-                      {i18n.t("special")}
-                    </Text>
-                  </View>
-                )}
-                {characterLength === true ? (
-                  <View
-                    style={{
-                      flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "row"
-                          : "row-reverse",
-                      paddingBottom: 5,
-                    }}
-                  >
-                    <Ionicons name="close-circle" size={22} color="#ea3e29" />
-                    <Text
-                      style={{
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 3
-                            : -3,
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        marginLeft: 10,
-                        marginRight: 10,
-                        fontSize: 15,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        opacity: 0.8,
-                      }}
-                    >
-                      {i18n.t("eight")}
-                    </Text>
-                  </View>
-                ) : (
-                  <View
-                    style={{
-                      flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "row"
-                          : "row-reverse",
-                      paddingBottom: 5,
-                    }}
-                  >
-                    <Ionicons
-                      name="checkmark-circle"
-                      size={22}
-                      color="#5fcf40"
-                    />
-                    <Text
-                      style={{
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 3
-                            : -3,
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        marginLeft: 10,
-                        marginRight: 10,
-                        color: "#525252",
-                        fontSize: 15,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        opacity: 0.8,
-                      }}
-                    >
-                      {i18n.t("eight")}
-                    </Text>
-                  </View>
-                )}
-              </View>
-              <View
+              <Text
                 style={{
-                  flex: 1,
-                  justifyContent: "flex-end",
-                  marginBottom: 35,
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "UbuntuBold"
+                      : "NotoBold",
+                  fontSize: 27,
+                  margin: 20,
+                  marginTop: 0,
+                  marginBottom:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+                  width: "100%",
+                  textAlign: "center",
+                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 }}
               >
-                {checkValidation === true ? (
-                  <View style={styles.buttonx}>
-                    <Button
-                      title={i18n.t("next")}
-                      color="white"
-                      disabled={checkValidation}
-                      onPress={() => {
-                        navigation.navigate("MyImage", { itemId: user });
+                {i18n.t("name")}
+              </Text>
+              <Text
+                style={{
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Ubuntu"
+                      : "Noto",
+                  fontSize:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 18,
+                  margin: 20,
+                  marginTop: 0,
+                  marginBottom:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+                  width: "100%",
+                  textAlign: "center",
+                  lineHeight: 23,
+                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  opacity: 0.8,
+                  paddingTop: 3,
+                }}
+              >
+                {i18n.t("description")}
+              </Text>
+
+              <View
+                style={{
+                  width: "110%",
+                  alignSelf: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  height: "73%",
+                }}
+              >
+                <View style={styles.container}>
+                  <TextInput
+                    textInputStyle={{
+                      alignSelf: "center",
+                      width: "103%",
+                      marginBottom: 10,
+                      padding: 10,
+                      backgroundColor: "white",
+                      shadowColor: "#000",
+                      shadowOffset: {
+                        width: 0,
+                        height: 1,
+                      },
+                      shadowOpacity: 0.1,
+                      shadowRadius: 1.41,
+                      elevation: 2,
+                    }}
+                    mainColor={checkValidationColor}
+                    label="Password"
+                    secureTextEntry={secure}
+                    onChangeText={(text) => {
+                      handleChange("password", text);
+                    }}
+                    placeholder=""
+                    keyboardType="web-search"
+                    onSubmitEditing={() => {
+                      checkValidation === false
+                        ? navigation.navigate("MyImage", { itemId: user })
+                        : i18n.locale === "en-US" || i18n.locale === "en"
+                        ? Alert.alert("Invalid Password", "", [
+                            { text: "Try Again" },
+                          ])
+                        : Alert.alert("كلمة سر غير صالحة", "", [
+                            { text: "حاول مرة اخرى" },
+                          ]);
+                    }}
+                  />
+                  <Ionicons
+                    style={{
+                      zIndex: 99,
+                      position: "absolute",
+                      margin: 12,
+                      fontSize: 25,
+                      alignSelf: "flex-end",
+                    }}
+                    name={secure === true ? "eye" : "eye-off"}
+                    size={30}
+                    color="#e52b51"
+                    onPress={() => setSecure(!secure)}
+                  />
+                  {lowerCase === true ? (
+                    <View
+                      style={{
+                        flexDirection:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "row"
+                            : "row-reverse",
+                        paddingBottom: 5,
                       }}
-                    />
-                  </View>
-                ) : (
-                  <View style={styles.button}>
-                    <Button
-                      title={i18n.t("next")}
-                      color="white"
-                      disabled={checkValidation}
-                      onPress={() => {
-                        navigation.navigate("MyImage", { itemId: user });
+                    >
+                      <Ionicons name="close-circle" size={22} color="#ea3e29" />
+                      <Text
+                        style={{
+                          marginTop:
+                            i18n.locale === "en-US" || i18n.locale === "en"
+                              ? 3
+                              : -3,
+                          fontFamily:
+                            i18n.locale === "en-US" || i18n.locale === "en"
+                              ? "Ubuntu"
+                              : "Noto",
+                          marginLeft: 10,
+                          marginRight: 10,
+                          fontSize: 15,
+                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          opacity: 0.8,
+                        }}
+                      >
+                        {i18n.t("lower")}
+                      </Text>
+                    </View>
+                  ) : (
+                    <View
+                      style={{
+                        flexDirection:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "row"
+                            : "row-reverse",
+                        paddingBottom: 5,
                       }}
-                    />
-                  </View>
-                )}
+                    >
+                      <Ionicons
+                        name="checkmark-circle"
+                        size={22}
+                        color="#5fcf40"
+                      />
+                      <Text
+                        style={{
+                          marginTop:
+                            i18n.locale === "en-US" || i18n.locale === "en"
+                              ? 3
+                              : -3,
+                          fontFamily:
+                            i18n.locale === "en-US" || i18n.locale === "en"
+                              ? "Ubuntu"
+                              : "Noto",
+                          marginLeft: 10,
+                          marginRight: 10,
+                          color: "#525252",
+                          fontSize: 15,
+                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          opacity: 0.8,
+                        }}
+                      >
+                        {i18n.t("lower")}
+                      </Text>
+                    </View>
+                  )}
+                  {upperCase === true ? (
+                    <View
+                      style={{
+                        flexDirection:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "row"
+                            : "row-reverse",
+                        paddingBottom: 5,
+                      }}
+                    >
+                      <Ionicons name="close-circle" size={22} color="#ea3e29" />
+                      <Text
+                        style={{
+                          marginTop:
+                            i18n.locale === "en-US" || i18n.locale === "en"
+                              ? 3
+                              : -3,
+                          fontFamily:
+                            i18n.locale === "en-US" || i18n.locale === "en"
+                              ? "Ubuntu"
+                              : "Noto",
+                          marginLeft: 10,
+                          marginRight: 10,
+                          fontSize: 15,
+                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          opacity: 0.8,
+                        }}
+                      >
+                        {i18n.t("upper")}
+                      </Text>
+                    </View>
+                  ) : (
+                    <View
+                      style={{
+                        flexDirection:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "row"
+                            : "row-reverse",
+                        paddingBottom: 5,
+                      }}
+                    >
+                      <Ionicons
+                        name="checkmark-circle"
+                        size={22}
+                        color="#5fcf40"
+                      />
+                      <Text
+                        style={{
+                          marginTop:
+                            i18n.locale === "en-US" || i18n.locale === "en"
+                              ? 3
+                              : -3,
+                          fontFamily:
+                            i18n.locale === "en-US" || i18n.locale === "en"
+                              ? "Ubuntu"
+                              : "Noto",
+                          marginLeft: 10,
+                          marginRight: 10,
+                          color: "#525252",
+                          fontSize: 15,
+                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          opacity: 0.8,
+                        }}
+                      >
+                        {i18n.t("upper")}
+                      </Text>
+                    </View>
+                  )}
+                  {number === true ? (
+                    <View
+                      style={{
+                        flexDirection:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "row"
+                            : "row-reverse",
+                        paddingBottom: 5,
+                      }}
+                    >
+                      <Ionicons name="close-circle" size={22} color="#ea3e29" />
+                      <Text
+                        style={{
+                          marginTop:
+                            i18n.locale === "en-US" || i18n.locale === "en"
+                              ? 3
+                              : -3,
+                          fontFamily:
+                            i18n.locale === "en-US" || i18n.locale === "en"
+                              ? "Ubuntu"
+                              : "Noto",
+                          marginLeft: 10,
+                          marginRight: 10,
+                          fontSize: 15,
+                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          opacity: 0.8,
+                        }}
+                      >
+                        {i18n.t("number")}
+                      </Text>
+                    </View>
+                  ) : (
+                    <View
+                      style={{
+                        flexDirection:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "row"
+                            : "row-reverse",
+                        paddingBottom: 5,
+                      }}
+                    >
+                      <Ionicons
+                        name="checkmark-circle"
+                        size={22}
+                        color="#5fcf40"
+                      />
+                      <Text
+                        style={{
+                          marginTop:
+                            i18n.locale === "en-US" || i18n.locale === "en"
+                              ? 3
+                              : -3,
+                          fontFamily:
+                            i18n.locale === "en-US" || i18n.locale === "en"
+                              ? "Ubuntu"
+                              : "Noto",
+                          marginLeft: 10,
+                          marginRight: 10,
+                          color: "#525252",
+                          fontSize: 15,
+                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          opacity: 0.8,
+                        }}
+                      >
+                        {i18n.t("number")}
+                      </Text>
+                    </View>
+                  )}
+                  {specialCharacter === true ? (
+                    <View
+                      style={{
+                        flexDirection:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "row"
+                            : "row-reverse",
+                        paddingBottom: 5,
+                      }}
+                    >
+                      <Ionicons name="close-circle" size={22} color="#ea3e29" />
+                      <Text
+                        style={{
+                          marginTop:
+                            i18n.locale === "en-US" || i18n.locale === "en"
+                              ? 3
+                              : -3,
+                          fontFamily:
+                            i18n.locale === "en-US" || i18n.locale === "en"
+                              ? "Ubuntu"
+                              : "Noto",
+                          marginLeft: 10,
+                          marginRight: 10,
+                          fontSize: 15,
+                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          opacity: 0.8,
+                        }}
+                      >
+                        {i18n.t("special")}
+                      </Text>
+                    </View>
+                  ) : (
+                    <View
+                      style={{
+                        flexDirection:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "row"
+                            : "row-reverse",
+                        paddingBottom: 5,
+                      }}
+                    >
+                      <Ionicons
+                        name="checkmark-circle"
+                        size={22}
+                        color="#5fcf40"
+                      />
+                      <Text
+                        style={{
+                          marginTop:
+                            i18n.locale === "en-US" || i18n.locale === "en"
+                              ? 3
+                              : -3,
+                          fontFamily:
+                            i18n.locale === "en-US" || i18n.locale === "en"
+                              ? "Ubuntu"
+                              : "Noto",
+                          marginLeft: 10,
+                          marginRight: 10,
+                          color: "#525252",
+                          fontSize: 15,
+                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          opacity: 0.8,
+                        }}
+                      >
+                        {i18n.t("special")}
+                      </Text>
+                    </View>
+                  )}
+                  {characterLength === true ? (
+                    <View
+                      style={{
+                        flexDirection:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "row"
+                            : "row-reverse",
+                        paddingBottom: 5,
+                      }}
+                    >
+                      <Ionicons name="close-circle" size={22} color="#ea3e29" />
+                      <Text
+                        style={{
+                          marginTop:
+                            i18n.locale === "en-US" || i18n.locale === "en"
+                              ? 3
+                              : -3,
+                          fontFamily:
+                            i18n.locale === "en-US" || i18n.locale === "en"
+                              ? "Ubuntu"
+                              : "Noto",
+                          marginLeft: 10,
+                          marginRight: 10,
+                          fontSize: 15,
+                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          opacity: 0.8,
+                        }}
+                      >
+                        {i18n.t("eight")}
+                      </Text>
+                    </View>
+                  ) : (
+                    <View
+                      style={{
+                        flexDirection:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "row"
+                            : "row-reverse",
+                        paddingBottom: 5,
+                      }}
+                    >
+                      <Ionicons
+                        name="checkmark-circle"
+                        size={22}
+                        color="#5fcf40"
+                      />
+                      <Text
+                        style={{
+                          marginTop:
+                            i18n.locale === "en-US" || i18n.locale === "en"
+                              ? 3
+                              : -3,
+                          fontFamily:
+                            i18n.locale === "en-US" || i18n.locale === "en"
+                              ? "Ubuntu"
+                              : "Noto",
+                          marginLeft: 10,
+                          marginRight: 10,
+                          color: "#525252",
+                          fontSize: 15,
+                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          opacity: 0.8,
+                        }}
+                      >
+                        {i18n.t("eight")}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: "flex-end",
+                    marginBottom: 35,
+                  }}
+                >
+                  {checkValidation === true ? (
+                    <View style={styles.buttonx}>
+                      <Button
+                        title={i18n.t("next")}
+                        color="white"
+                        disabled={checkValidation}
+                        onPress={() => {
+                          navigation.navigate("MyImage", { itemId: user });
+                        }}
+                      />
+                    </View>
+                  ) : (
+                    <View style={styles.button}>
+                      <Button
+                        title={i18n.t("next")}
+                        color="white"
+                        disabled={checkValidation}
+                        onPress={() => {
+                          navigation.navigate("MyImage", { itemId: user });
+                        }}
+                      />
+                    </View>
+                  )}
+                </View>
               </View>
             </View>
           </View>
-        </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </>
+    
   );
 }
 

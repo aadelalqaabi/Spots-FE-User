@@ -3,8 +3,7 @@ import { Alert } from "react-native";
 import { instance } from "./instance";
 import decode from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import moment from "moment";
-import emailjs from "emailjs-com";
+
 import { I18n } from "i18n-js";
 import Toast from "react-native-toast-message";
 import * as Localization from "expo-localization";
@@ -31,7 +30,6 @@ class AuthStore {
   }
   user = null;
   OTP = 1;
-  //useUsernames = null;
   userEmails = null;
   isChanged = "";
 
@@ -48,16 +46,12 @@ class AuthStore {
     if (token) {
       const currentTime = Date.now();
       const user = decode(token);
-      // if (user.exp >= currentTime) {
       this.setUser(token);
-      // } else {
-      //   this.logout();
-      // }
     }
   };
 
   register = async (newUser) => {
-    // newUser.username = newUser.username.toLowerCase();
+    newUser.email = newUser.email.toLowerCase();
     const formData = new FormData();
     try {
       for (const key in newUser) formData.append(key, newUser[key]);
@@ -69,7 +63,7 @@ class AuthStore {
   };
 
   login = async (userData) => {
-    //userData.username = userData.username.toLowerCase();
+    // userData.email = userData.email.toLowerCase();
     try {
       const response = await instance.post("/user/login", userData);
       this.setUser(response.data.token);
@@ -94,9 +88,8 @@ class AuthStore {
       const formData = new FormData();
       for (const key in updatedUser) formData.append(key, updatedUser[key]);
       const res = await instance.put(`/user/update`, formData);
-      runInAction(() => {
-        for (const key in this.user) this.user[key] = res.data[key];
-      });
+      this.setUser(res.data.token);
+      // console.log("res", res.data)
     } catch (error) {
       console.log("here", error);
     }
@@ -189,6 +182,36 @@ class AuthStore {
       this.userEmails = res.data;
     } catch (error) {
       console.log("emails error", error);
+    }
+  };
+
+  addToken = async (newToken) => {
+    const newUser = {...this.user, notificationToken: newToken}
+    try {
+      const res = await instance.put(`/user/notification/add`, newUser);
+      this.setUser(res.data.token);
+    } catch (error) {
+      console.log("add token", error);
+    }
+  };
+
+  removeToken = async () => {
+    const newUser = {...this.user, notificationToken: ""}
+    try {
+      const res = await instance.put(`/user/notification/remove`, newUser);
+      this.setUser(res.data.token);
+    } catch (error) {
+      console.log("remove token", error);
+    }
+  };
+
+  changeLocal = async (newLocale) => {
+    const newUser = {...this.user, locale: newLocale}
+    try {
+      const res = await instance.put(`/user/local/change`, newUser);
+      this.setUser(res.data.newtoken);
+    } catch (error) {
+      console.log("change local", error);
     }
   };
 }
