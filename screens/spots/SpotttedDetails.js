@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Linking,
   useColorScheme,
+  SafeAreaView,
 } from "react-native";
 import moment from "moment";
 import { Ionicons } from "@expo/vector-icons";
@@ -59,41 +60,69 @@ export default function SpotttedDetails({ route }) {
   let dateEn = moment(spot?.startDate).locale("en").format("DD MMM");
   let dateAr = moment(spot?.startDate).locale("ar").format("MMM DD");
   return (
-    <View
+    <SafeAreaView
       style={{
         backgroundColor: "#e52b51",
         flex: 1,
+        justifyContent: "center",
+        alignContent: "center",
       }}
     >
       <View
         style={{
-          backgroundColor: "#f1f1f1",
-          height: 6,
-          width: 40,
-          margin: 20,
-          opacity: 0.5,
+          display: "flex",
+          width: "100%",
+          justifyContent: "center",
+          alignContent: "center",
+          alignItems: "center",
           alignSelf: "center",
-          borderRadius: 50,
-        }}
-      ></View>
-      <Text
-        style={{
-          fontFamily:
-            i18n.locale === "en-US" || i18n.locale === "en" ? "Ubuntu" : "Noto",
-          alignSelf: "center",
-          letterSpacing: 1,
-          fontSize: 30,
-          zIndex: 99,
-          color: "#f1f1f1",
-          alignSelf: "center",
-          marginBottom:
-            i18n.locale === "en-US" || i18n.locale === "en" ? 25 : 10,
           marginTop:
-            i18n.locale === "en-US" || i18n.locale === "en" ? -10 : -15,
+            i18n.locale === "en-US" || i18n.locale === "en" ? "10%" : "2%",
+          marginBottom:
+            i18n.locale === "en-US" || i18n.locale === "en" ? "6%" : "6%",
         }}
       >
-        {i18n.t("details")}
-      </Text>
+        <TouchableOpacity
+          style={{
+            alignSelf:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "flex-start"
+                : "flex-end",
+            position: "absolute",
+            marginLeft: 20,
+            paddingRight: 20,
+          }}
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons
+            style={{
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              fontSize: 30,
+            }}
+            name={
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "chevron-back-outline"
+                : "chevron-forward-outline"
+            }
+          ></Ionicons>
+        </TouchableOpacity>
+        <Text
+          style={{
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Ubuntu"
+                : "Noto",
+            letterSpacing: 1,
+            fontSize: 35,
+            zIndex: 99,
+            color: "#f1f1f1",
+            alignSelf: "center",
+          }}
+        >
+          {i18n.t("details")}
+        </Text>
+      </View>
+
       <View
         style={{
           shadowColor: "#000",
@@ -107,7 +136,7 @@ export default function SpotttedDetails({ route }) {
           backgroundColor: colorScheme === "light" ? "#f1f1f1" : "#1b1b1b",
           borderRadius: 50,
           margin: 15,
-          marginTop: 0,
+          marginTop: i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 10,
           height: "85%",
           display: "flex",
           flexDirection: "column",
@@ -129,8 +158,8 @@ export default function SpotttedDetails({ route }) {
             width: "100%",
             height: "100%",
             position: "absolute",
-            borderTopRightRadius: 30,
-            borderTopLeftRadius: 30,
+            borderTopRightRadius: 50,
+            borderTopLeftRadius: 50,
             zIndex: -1,
           }}
         >
@@ -138,8 +167,8 @@ export default function SpotttedDetails({ route }) {
             style={{
               width: "100%",
               height: "56%",
-              borderTopRightRadius: 30,
-              borderTopLeftRadius: 30,
+              borderTopRightRadius: 50,
+              borderTopLeftRadius: 50,
               alignItems: "center",
               alignSelf: "center",
               zIndex: -1,
@@ -156,8 +185,8 @@ export default function SpotttedDetails({ route }) {
               backgroundColor: "black",
               height: "56%",
               opacity: 0.3,
-              borderTopRightRadius: 30,
-              borderTopLeftRadius: 30,
+              borderTopRightRadius: 50,
+              borderTopLeftRadius: 50,
             }}
           ></View>
           <Text
@@ -550,7 +579,7 @@ export default function SpotttedDetails({ route }) {
           </View>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

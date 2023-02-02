@@ -29,7 +29,7 @@ export default function EmailLogin() {
       title: "وجهتك تنتظرك",
       new: "جديد هنا؟",
       register: "سجل الآن ",
-      google: "اكمل مع البريد الاكتروني",
+      google: "اكمل مع البريد الالكتروني",
       login: " دخول",
     },
   };
@@ -40,8 +40,7 @@ export default function EmailLogin() {
   return (
     <TouchableOpacity
       style={{
-        paddingVertical:
-          i18n.locale === "en-US" || i18n.locale === "en" ? 12 : 8,
+        height: 60,
         borderRadius: 10,
         elevation: 3,
         backgroundColor: "#e52b51",
@@ -78,18 +77,12 @@ export default function EmailLogin() {
       ></Ionicons>
       <Text
         style={{
-          paddingVertical:
-            i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 5,
           borderRadius: 15,
           elevation: 3,
           color: "#f1f1f1",
-          fontSize: 18,
-          fontWeight: "800",
+          fontSize: 23,
+          fontWeight: "500",
           alignSelf: "center",
-          fontFamily:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "UbuntuBold"
-              : "NotoBold",
         }}
       >
         {i18n.t("google")}

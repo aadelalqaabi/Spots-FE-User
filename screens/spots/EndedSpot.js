@@ -164,7 +164,32 @@ export default function EndedSpot({ route }) {
             : "مراجعات"}
         </Text>
         <View style={{ marginTop: 20 }}>
-          <ReviewList key="2" reviews={spot?.reviews} spotId={spot?._id} />
+          {spot.reviews.length > 0 ? (
+            <ReviewList key="2" reviews={spot?.reviews} spotId={spot?._id} />
+          ) : (
+            <View
+              style={{
+                height: "100%",
+                display: "flex",
+                alignContent: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Text
+                style={{
+                  alignSelf: "center",
+                  color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
+                  fontSize: 30,
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Ubuntu"
+                      : "Noto",
+                }}
+              >
+                No Reviews Here
+              </Text>
+            </View>
+          )}
         </View>
       </ScrollView>
     </SafeAreaView>

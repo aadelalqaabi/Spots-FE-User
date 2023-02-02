@@ -77,9 +77,9 @@ function Explore() {
   const spotsByDate = spotStore.spots.filter(
     (spot) => new Date(spot?.startDate) >= today
   );
-  const sortedSpots = spotsByDate.sort(
-    (objA, objB) => new Date(objA.startDate) - new Date(objB.startDate)
-  );
+  const sortedSpots = spotsByDate
+    .sort((objA, objB) => new Date(objA.startDate) - new Date(objB.startDate))
+    .sort((objA, objB) => parseInt(objA.startTime) - parseInt(objB.startTime));
   const spots = sortedSpots
     .filter((spot) =>
       day !== null
@@ -113,8 +113,7 @@ function Explore() {
           <ContentLoader
             speed={3}
             style={{
-              height: "110%",
-              marginTop: -35,
+              height: "100%",
             }}
             viewBox="0 0 255 420"
             backgroundColor={colorScheme === "dark" ? "#313131" : "#d8d8d8"}
@@ -244,7 +243,6 @@ function Explore() {
                   selectedCategory === -1
                     ? {
                         width: 80,
-                        //height: 100,
                         borderRadius: 50,
                         zIndex: -1,
                         color: "#e52b51",
@@ -252,7 +250,6 @@ function Explore() {
                       }
                     : {
                         width: 80,
-                        //height: 100,
                         zIndex: -1,
                         padding: 5,
                       }
@@ -302,7 +299,6 @@ function Explore() {
                     selectedCategory === categories.indexOf(category)
                       ? {
                           width: 100,
-                          //height: 100,
                           borderRadius: 50,
                           zIndex: 99,
                           color: "#e52b51",
@@ -310,7 +306,6 @@ function Explore() {
                         }
                       : {
                           width: 100,
-                          //height: 100,
                           zIndex: 99,
                           display: "flex",
                           padding: 5,
@@ -353,22 +348,29 @@ function Explore() {
                           }
                     }
                   >
-                    {i18n.locale === "ar-US" && category?.name === "Food"
+                    {(i18n.locale === "ar-US" || i18n.locale === "ar") &&
+                    category?.name === "Food"
                       ? "طعام"
-                      : i18n.locale === "ar-US" && category?.name === "Music"
+                      : (i18n.locale === "ar-US" || i18n.locale === "ar") &&
+                        category?.name === "Music"
                       ? "موسيقى"
-                      : i18n.locale === "ar-US" && category?.name === "Sports"
+                      : (i18n.locale === "ar-US" || i18n.locale === "ar") &&
+                        category?.name === "Sports"
                       ? "رياضة"
-                      : i18n.locale === "ar-US" && category?.name === "Health"
+                      : (i18n.locale === "ar-US" || i18n.locale === "ar") &&
+                        category?.name === "Health"
                       ? "صحة"
-                      : i18n.locale === "ar-US" &&
+                      : (i18n.locale === "ar-US" || i18n.locale === "ar") &&
                         category?.name === "Education"
                       ? "تعليم"
-                      : i18n.locale === "ar-US" && category?.name === "Fashion"
+                      : (i18n.locale === "ar-US" || i18n.locale === "ar") &&
+                        category?.name === "Fashion"
                       ? "موضة"
-                      : i18n.locale === "ar-US" && category?.name === "Carnival"
+                      : (i18n.locale === "ar-US" || i18n.locale === "ar") &&
+                        category?.name === "Carnival"
                       ? "كرنفال"
-                      : i18n.locale === "ar-US" && category?.name === "Other"
+                      : (i18n.locale === "ar-US" || i18n.locale === "ar") &&
+                        category?.name === "Other"
                       ? "اخرى"
                       : category?.name}
                   </Text>
@@ -380,7 +382,7 @@ function Explore() {
                 style={{
                   display: "flex",
                   alignSelf: "center",
-                  height: "90%",
+                  height: "81%",
                   alignItems: "center",
                   flexDirection: "column",
                   justifyContent: "center",

@@ -132,7 +132,6 @@ function Spotted({ ticket, navigation }) {
               backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
               justifyContent: "space-between",
               alignItems: "center",
-              marginTop: 5,
             }}
           >
             <View

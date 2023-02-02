@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
-import { Ionicons } from "@expo/vector-icons";
-import Modal from "react-native-modal";
 import pointStore from "../../stores/pointStore";
 import authStore from "../../stores/authStore";
 import rewardStore from "../../stores/rewardStore";

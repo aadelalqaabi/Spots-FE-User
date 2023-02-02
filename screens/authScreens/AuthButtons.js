@@ -103,7 +103,7 @@ export default function AuthButtons() {
           {i18n.t("desc")}
         </Text>
         <EmailLogin />
-        <GoogleLogin />
+        {/* <GoogleLogin />*/}
         <AppleLogin />
       </View>
     </View>
