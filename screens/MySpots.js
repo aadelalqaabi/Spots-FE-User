@@ -5,6 +5,7 @@ import {
   RefreshControl,
   useColorScheme,
   View,
+  Image,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import authStore from "../stores/authStore";
@@ -25,11 +26,11 @@ function MySpots() {
   const translations = {
     en: {
       myspots: "Tickets",
-      empty: "You don't have any tickets yet",
+      empty: "No tickets yet",
     },
     ar: {
       myspots: "تذاكر",
-      empty: "ليس لديك اي تذاكر",
+      empty: "لا تذاكر حتى الآن",
     },
   };
   const i18n = new I18n(translations);
@@ -89,7 +90,6 @@ function MySpots() {
         width: "100%",
         height: "100%",
         backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-        // marginBottom: 150,
       }}
     >
       <StatusBar
@@ -179,6 +179,14 @@ function MySpots() {
               justifyContent: "center",
             }}
           >
+            <Image
+              style={{
+                width: 350,
+                height: 262,
+                alignSelf: "center",
+              }}
+              source={require("./../assets/EmptyTickets.png")}
+            ></Image>
             <Text
               style={{
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
@@ -190,6 +198,8 @@ function MySpots() {
                 alignSelf: "center",
                 textAlign: "center",
                 width: 350,
+                marginTop:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
               }}
             >
               {i18n.t("empty")}

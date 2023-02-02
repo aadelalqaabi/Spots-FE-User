@@ -14,25 +14,23 @@ import React from "react";
 import TextInput from "react-native-text-input-interactive";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-
 import { Ionicons } from "@expo/vector-icons";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import authStore from "../../stores/authStore";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
-export default function GoogleUsername({ route }) {
-  //authStore.getUsernames();
+export default function AppleUsername({ route }) {
   const colorScheme = useColorScheme();
   const translations = {
     en: {
-      name: "Create a Username",
+      name: "Enter Your Full Name",
       description:
         "Choose a name for your account\n (Must be at least 2 characters)",
       next: "Next",
     },
     ar: {
-      name: "ادخل اسم المستخدم",
+      name: "ادخل اسمك الكامل",
       description: "اختر اسم ليظهر في حسابك \n(يجب ان يكون حرفين على الاقل)",
       next: "التالي",
     },
@@ -48,37 +46,23 @@ export default function GoogleUsername({ route }) {
   const [checkValidationColor, setCheckValidationColor] = useState("#e52b51");
   const [begining, setBegining] = useState(true);
   const [showError, setShowError] = useState(true);
-  const [uniqueUsername, setUniqueUsername] = useState(true);
 
   const handleChange = (name, value) => {
-    const foundUsername = authStore.useUsernames.filter(
-      (current) => current.username.toLowerCase() === value.toLowerCase()
-    );
-    if (foundUsername.length !== 0) {
-      setUniqueUsername(false);
+    const check = checkEntry(value);
+    if (check === true) {
+      setUser({ ...user, [name]: value });
+      setCheckValidation(false);
+      setCheckValidationColor("#e52b51");
+      setShowError(false);
+    } else {
       setCheckValidation(true);
       setCheckValidationColor("#ea3e29");
       setBegining(false);
       setShowError(true);
-    } else {
-      const check = checkEntry(value);
-      if (check === true) {
-        setUser({ ...user, [name]: value });
-        setCheckValidation(false);
-        setCheckValidationColor("#e52b51");
-        setShowError(false);
-        setUniqueUsername(true);
-      } else {
-        setCheckValidation(true);
-        setCheckValidationColor("#ea3e29");
-        setBegining(false);
-        setShowError(true);
-        setUniqueUsername(true);
-      }
     }
   };
   const checkEntry = (username) => {
-    const re = new RegExp("^(?=.{2,})");
+    const re = new RegExp("^[a-zA-Z ]{2,}$");
     return re.test(username);
   };
   let [fontsLoaded] = useFonts({
@@ -211,32 +195,25 @@ export default function GoogleUsername({ route }) {
                     elevation: 2,
                   }}
                   mainColor={checkValidationColor}
-                  label="Username"
+                  label="Name"
                   onChangeText={(text) => {
-                    handleChange("username", text);
+                    handleChange("name", text);
                   }}
                   placeholder=""
-                  keyboardType="url"
+                  keyboardType="ascii-capable"
+                  autoCapitalize="none"
+                  autoCorrect={false}
                   enableIcon="true"
                   onSubmitEditing={() => {
                     checkValidation === false
-                      ? navigation.navigate("GoogleImage", { itemId: user })
+                      ? navigation.navigate("AppleImage", { itemId: user })
                       : i18n.locale === "en-US" || i18n.locale === "en"
-                      ? Alert.alert("Invalid Username", "", ["Try Again"])
-                      : Alert.alert("اسم المستخدم غير صالح", "", [
+                      ? Alert.alert("Invalid Name", "", ["Try Again"])
+                      : Alert.alert("اسم غير صالح", "", [
                           { text: "حاول مرة اخرى" },
                         ]);
                   }}
                 />
-                {uniqueUsername === false ? (
-                  <Text
-                    style={{ color: "#ea3e29", marginTop: -8, marginLeft: 10 }}
-                  >
-                    Username is already taken
-                  </Text>
-                ) : (
-                  <></>
-                )}
                 {begining === true ? (
                   <Ionicons
                     style={{
@@ -313,7 +290,7 @@ export default function GoogleUsername({ route }) {
                       color="white"
                       disabled={checkValidation}
                       onPress={() => {
-                        navigation.navigate("GoogleImage", { itemId: user });
+                        navigation.navigate("AppleImage", { itemId: user });
                       }}
                     />
                   </View>
@@ -332,7 +309,7 @@ export default function GoogleUsername({ route }) {
                       color="white"
                       disabled={checkValidation}
                       onPress={() => {
-                        navigation.navigate("GoogleImage", { itemId: user });
+                        navigation.navigate("AppleImage", { itemId: user });
                       }}
                     />
                   </View>

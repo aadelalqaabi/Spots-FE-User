@@ -26,6 +26,7 @@ function EditScreen() {
   const colorScheme = useColorScheme();
   const [image, setImage] = useState(baseURL + authStore.user.image);
   const [user, setUser] = useState();
+  const [appleEmail, setAppleEmail] = useState();
   const navigation = useNavigation();
   const cancelButton = () => {
     navigation.goBack();
@@ -263,57 +264,116 @@ function EditScreen() {
           keyboardType="web-search"
           editable={true}
         />
-        <Text
-          style={{
-            textAlign:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "left"
-                : "right",
-            width: "80%",
-            padding: 10,
-            paddingRight: 0,
-            paddingLeft: 0,
-            fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "UbuntuBold"
-                : "NotoBold",
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-            fontSize: 18,
-          }}
-        >
-          {i18n.locale === "en-US" || i18n.locale === "en"
-            ? "Email"
-            : "البريد الالكتروني"}
-        </Text>
-        <TextInput
-          textInputStyle={{
-            alignSelf: "center",
-            width: "80%",
-            marginBottom: 20,
-            padding: 10,
-            fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
-            backgroundColor: "white",
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 1,
-            },
-            shadowOpacity: 0.1,
-            shadowRadius: 1.41,
-            elevation: 2,
-          }}
-          label="Email"
-          onChangeText={(text) => {
-            handleChange("email", text);
-          }}
-          defaultValue={authStore.user.email}
-          placeholderTextColor={"grey"}
-          keyboardType="web-search"
-          editable={true}
-        />
+        {!authStore.user.email.includes("@privaterelay.appleid.com") ? (
+          <>
+            <Text
+              style={{
+                textAlign:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "left"
+                    : "right",
+                width: "80%",
+                padding: 10,
+                paddingRight: 0,
+                paddingLeft: 0,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                fontSize: 18,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Email"
+                : "البريد الالكتروني"}
+            </Text>
+            <TextInput
+              textInputStyle={{
+                alignSelf: "center",
+                width: "80%",
+                marginBottom: 20,
+                padding: 10,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                backgroundColor: "white",
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 1,
+                },
+                shadowOpacity: 0.1,
+                shadowRadius: 1.41,
+                elevation: 2,
+              }}
+              label="Email"
+              onChangeText={(text) => {
+                handleChange("email", text);
+              }}
+              defaultValue={authStore.user.email}
+              placeholderTextColor={"grey"}
+              keyboardType="email-address"
+              editable={true}
+            />
+          </>
+        ) : (
+          <>
+            <Text
+              style={{
+                textAlign:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "left"
+                    : "right",
+                width: "80%",
+                padding: 10,
+                paddingRight: 0,
+                paddingLeft: 0,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                fontSize: 18,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Email"
+                : "البريد الالكتروني"}
+            </Text>
+            <TextInput
+              textInputStyle={{
+                alignSelf: "center",
+                width: "80%",
+                marginBottom: 20,
+                color: "grey",
+                padding: 10,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                backgroundColor: "white",
+                shadowColor: "#000",
+                shadowOffset: {
+                  width: 0,
+                  height: 1,
+                },
+                shadowOpacity: 0.1,
+                shadowRadius: 1.41,
+                elevation: 2,
+              }}
+              label="Email"
+              onChangeText={(text) => {
+                handleChange("email", text);
+              }}
+              defaultValue={authStore.user.email}
+              placeholderTextColor={"grey"}
+              keyboardType="email-address"
+              editable={false}
+            />
+          </>
+        )}
       </View>
     </SafeAreaView>
   );

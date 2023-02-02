@@ -222,11 +222,7 @@ export default function Password({ navigation, route }) {
                     alignSelf: "center",
                     width: "103%",
                     marginBottom: 10,
-                    paddingTop: 10,
-                    fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "Ubuntu"
-                        : "Noto",
+                    padding: 10,
                     backgroundColor: "white",
                     shadowColor: "#000",
                     shadowOffset: {
@@ -245,6 +241,8 @@ export default function Password({ navigation, route }) {
                   }}
                   placeholder=""
                   keyboardType="web-search"
+                  autoCapitalize="none"
+                  autoCorrect={false}
                   onSubmitEditing={() => {
                     checkValidation === false
                       ? navigation.navigate("MyImage", { itemId: user })

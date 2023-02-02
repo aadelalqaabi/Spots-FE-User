@@ -5,13 +5,11 @@ import {
   View,
   StyleSheet,
   Text,
-  ScrollView,
+  Image,
   useColorScheme,
 } from "react-native";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import ProfileSpot from "./screens/spots/ProfileSpot";
-import authStore from "./stores/authStore";
-import spotStore from "./stores/spotStore";
 import FinishedSpot from "./screens/spots/FinishedSpot";
 import { useFonts } from "expo-font";
 
@@ -25,14 +23,14 @@ export default function ScrollTabs({ userSpots }) {
     en: {
       active: "Active",
       finished: "Finished",
-      empty: "You don't have any active spots",
-      emptyE: "You don't have any finished spots",
+      empty: "No active dests yet",
+      emptyE: "No finished dests yet",
     },
     ar: {
       active: "نشط",
       finished: "انتهى",
-      empty: "ليس لديك اي نقاط نشطة",
-      emptyE: "ليس لديك اي نقاط منتهية",
+      empty: "لا وجهات نشطة حتى الآن",
+      emptyE: "لا وجهات منتهية حتى الآن",
     },
   };
   const i18n = new I18n(translations);
@@ -78,11 +76,20 @@ export default function ScrollTabs({ userSpots }) {
             height: "70%",
           }}
         >
+          <Image
+            style={{
+              width: 300,
+              height: 229,
+              alignSelf: "center",
+              marginTop: "-30%",
+            }}
+            source={require("./assets/Active.png")}
+          ></Image>
           <Text
             style={{
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               fontSize:
-                i18n.locale === "en-US" || i18n.locale === "en" ? 35 : 30,
+                i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 25,
               padding: 35,
               fontFamily:
                 i18n.locale === "en-US" || i18n.locale === "en"
@@ -126,11 +133,20 @@ export default function ScrollTabs({ userSpots }) {
             height: "70%",
           }}
         >
+          <Image
+            style={{
+              width: 300,
+              height: 237,
+              alignSelf: "center",
+              marginTop: "-28%",
+            }}
+            source={require("./assets/finished.png")}
+          ></Image>
           <Text
             style={{
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               fontSize:
-                i18n.locale === "en-US" || i18n.locale === "en" ? 35 : 30,
+                i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 25,
               padding: 35,
               fontFamily:
                 i18n.locale === "en-US" || i18n.locale === "en"
@@ -190,7 +206,10 @@ export default function ScrollTabs({ userSpots }) {
             return (
               <Text
                 style={{
-                  fontFamily: i18n === ("en-US" || "en") ? "Ubuntu" : "Noto",
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Ubuntu"
+                      : "Noto",
                   fontSize: 22,
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                   margin: -10,
@@ -202,12 +221,10 @@ export default function ScrollTabs({ userSpots }) {
           }}
           indicatorStyle={{
             backgroundColor: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-            marginBottom: -1,
-            opacity: 0.6,
-            width: "20%",
-            height: "6%",
+            width: "15%",
+            height: "5%",
             borderRadius: 100,
-            marginLeft: 64,
+            marginLeft: 74,
           }}
           style={{ backgroundColor: "transparent", shadowOpacity: 0 }}
         />

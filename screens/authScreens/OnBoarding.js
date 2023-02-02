@@ -27,13 +27,13 @@ export default function OnBoarding() {
   const translations = {
     en: {
       start: "Get Started",
-      out: "Going out never felt this fun",
+      out: "Your Destiny Awaits",
       or: "Or",
       login: "Login",
     },
     ar: {
       start: "ابدأ",
-      out: "الطلعة احلى من قبل",
+      out: "وجهتك تنتظرك",
       or: "او",
       login: "تسجيل الدخول",
     },

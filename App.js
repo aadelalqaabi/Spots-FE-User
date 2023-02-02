@@ -10,7 +10,6 @@ import MainPageRegister from "./screens/authScreens/MainPageRegister";
 import Login from "./screens/authScreens/Login";
 import authStore from "./stores/authStore";
 import Toast from "react-native-toast-message";
-import { MenuProvider } from "react-native-popup-menu";
 import Email from "./screens/authScreens/Email";
 import Password from "./screens/authScreens/Password";
 import PhoneNo from "./screens/authScreens/PhoneNo";
@@ -21,7 +20,6 @@ import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import {
   createStackNavigator,
-  TransitionPresets,
   CardStyleInterpolators,
 } from "@react-navigation/stack";
 import Explore from "./screens/Explore";
@@ -47,28 +45,31 @@ import UsernameCheck from "./screens/changePass/UsernameCheck";
 import CheckOTP from "./screens/changePass/CheckOTP";
 import ChangePassword from "./screens/changePass/ChangePassword";
 import EndedSpot from "./screens/spots/EndedSpot";
+import AppleUsername from "./screens/authScreens/AppleUsername";
+import AppleImage from "./screens/authScreens/AppleImage";
+import * as SplashScreen from "expo-splash-screen";
+import ReviewsPage from "./screens/reviews/ReviewsPage";
+import { useCallback } from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import Advertisments from "./Advertisments";
-import GoogleUsername from "./screens/authScreens/GoogleUsername";
-import GoogleImage from "./screens/authScreens/GoogleImage";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
-const prefix = Linking.createURL("/");
+const prefix = Linking.createURL("dest://");
 
 function App() {
-  const checkUser = authStore.user;
-  const config = {
-    screens: {
-      SpotDetails: "SpotDetails/:id",
-    },
-  };
-  const linking = {
-    prefixes: [prefix],
-    config,
-  };
+  const [appIsReady, setAppIsReady] = useState(false);
+  const [isFirstLaunch, setIsFirstLaunch] = useState(null);
+  useEffect(() => {
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync();
+      setAppIsReady(true);
+    }
 
-  const [isFirstLaunch, setIsFirstLaunch] = React.useState(null);
-  React.useEffect(() => {
+    prepare();
+  }, []);
+  useEffect(() => {
     AsyncStorage.getItem("alreadyLaunched").then((value) => {
       if (value === null) {
         AsyncStorage.setItem("alreadyLaunched", "true");
@@ -80,11 +81,32 @@ function App() {
       }
     });
   }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
+  }
+  const checkUser = authStore.user;
+  const config = {
+    screens: {
+      SpotDetails: { path: "SpotDetails/:id", parse: { id: String } },
+    },
+  };
+  const linking = {
+    prefixes: [prefix],
+    config,
+  };
+
   if (isFirstLaunch === null) {
     return null;
   } else if (isFirstLaunch === true) {
     return (
-      <NavigationContainer>
+      <NavigationContainer onReady={onLayoutRootView}>
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
@@ -95,13 +117,13 @@ function App() {
           <Stack.Screen name="OnBoarding" component={OnBoarding} />
           <Stack.Screen name="SetUpAccount" component={AuthButtons} />
           <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="GoogleUsername" component={GoogleUsername} />
+          <Stack.Screen name="AppleUsername" component={AppleUsername} />
           <Stack.Screen name="PhoneNo" component={PhoneNo} />
           <Stack.Screen name="MainPageRegister" component={MainPageRegister} />
           <Stack.Screen name="Email" component={Email} />
           <Stack.Screen name="Password" component={Password} />
           <Stack.Screen name="MyImage" component={MyImage} />
-          <Stack.Screen name="GoogleImage" component={GoogleImage} />
+          <Stack.Screen name="AppleImage" component={AppleImage} />
           <Stack.Screen name="UsernameCheck" component={UsernameCheck} />
           <Stack.Screen name="CheckOTP" component={CheckOTP} />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
@@ -111,54 +133,43 @@ function App() {
   } else {
     return (
       <NativeBaseProvider>
-        <NavigationContainer
-          linking={linking}
-          fallback={<Text>Loading...</Text>}
-        >
-          <MenuProvider>
-            {checkUser ? (
-              <RootNavigator />
-            ) : (
-              <Stack.Navigator
-                screenOptions={{
-                  headerShown: false,
+        <NavigationContainer onReady={onLayoutRootView} linking={linking}>
+          {checkUser ? (
+            <RootNavigator />
+          ) : (
+            <Stack.Navigator
+              screenOptions={{
+                headerShown: false,
+                gestureEnabled: true,
+                gestureDirection: "horizontal",
+              }}
+            >
+              <Stack.Screen
+                name="SetUpAccount"
+                component={AuthButtons}
+                options={{
                   gestureEnabled: true,
-                  gestureDirection: "horizontal",
                 }}
-              >
-                <Stack.Screen
-                  name="SetUpAccount"
-                  component={AuthButtons}
-                  options={{
-                    gestureEnabled: true,
-                  }}
-                />
-                <Stack.Screen name="Login" component={Login} />
-                <Stack.Screen name="GoogleImage" component={GoogleImage} />
-                <Stack.Screen
-                  name="GoogleUsername"
-                  component={GoogleUsername}
-                />
-                <Stack.Screen
-                  name="MainPageRegister"
-                  component={MainPageRegister}
-                  options={{
-                    gestureEnabled: true,
-                  }}
-                />
-                <Stack.Screen name="PhoneNo" component={PhoneNo} />
-                <Stack.Screen name="Email" component={Email} />
-                <Stack.Screen name="Password" component={Password} />
-                <Stack.Screen name="MyImage" component={MyImage} />
-                <Stack.Screen name="UsernameCheck" component={UsernameCheck} />
-                <Stack.Screen name="CheckOTP" component={CheckOTP} />
-                <Stack.Screen
-                  name="ForgotPassword"
-                  component={ForgotPassword}
-                />
-              </Stack.Navigator>
-            )}
-          </MenuProvider>
+              />
+              <Stack.Screen name="Login" component={Login} />
+              <Stack.Screen name="AppleImage" component={AppleImage} />
+              <Stack.Screen name="AppleUsername" component={AppleUsername} />
+              <Stack.Screen
+                name="MainPageRegister"
+                component={MainPageRegister}
+                options={{
+                  gestureEnabled: true,
+                }}
+              />
+              <Stack.Screen name="PhoneNo" component={PhoneNo} />
+              <Stack.Screen name="Email" component={Email} />
+              <Stack.Screen name="Password" component={Password} />
+              <Stack.Screen name="MyImage" component={MyImage} />
+              <Stack.Screen name="UsernameCheck" component={UsernameCheck} />
+              <Stack.Screen name="CheckOTP" component={CheckOTP} />
+              <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+            </Stack.Navigator>
+          )}
         </NavigationContainer>
         <Toast />
       </NativeBaseProvider>
@@ -169,7 +180,7 @@ function App() {
 export default observer(App);
 
 function RootNavigator() {
-  const { Navigator, Screen, Group } = createStackNavigator();
+  const { Navigator, Screen } = createStackNavigator();
   const colorScheme = useColorScheme();
   const translations = {
     en: {
@@ -183,265 +194,224 @@ function RootNavigator() {
   i18n.locale = Localization.locale;
   i18n.enableFallback = true;
   return i18n.locale === "en-US" || i18n.locale === "en" ? (
-    <>
-      <Navigator
-        screenOptions={{
-          headerShown: false,
-          cardStyle: {
-            backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-          },
+    <Navigator
+      initialRouteName="Advertisments"
+      screenOptions={{
+        headerShown: false,
+        presentation: "card",
+        cardStyle: {
+          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+        },
+        cardOverlayEnabled: true,
+        cardShadowEnabled: true,
+      }}
+    >
+      <Screen name="Advertisments" component={Advertisments} />
+      <Screen
+        name="Explore"
+        component={TabBar}
+        options={{ gestureEnabled: false }}
+      />
+      <Screen name="SpotDetails" component={SpotDetails} />
+
+      <Screen name="SpotttedDetails" component={SpotttedDetails} />
+      <Screen name="ReviewsPage" component={ReviewsPage} />
+      <Screen name="Scanner" component={Scanner} />
+      <Screen name="SpottedScanner" component={SpottedScanner} />
+      <Screen
+        name="Search"
+        options={{
+          gestureDirection: "horizontal",
+          gestureEnabled: "true",
+          presentation: "transparentModal",
         }}
-      >
-        <Screen
-          name="Advertisments"
-          component={Advertisments}
-          options={{
-            presentation: "modal",
-            gestureEnabled: true,
-            gestureResponseDistance: 135,
-          }}
-        />
+        component={Search}
+      />
 
-        <Screen
-          name="Explore"
-          component={TabBar}
-          options={{ gestureEnabled: false }}
-        />
-        <Screen
-          name="SpotDetails"
-          component={SpotDetails}
-          options={{
-            gestureDirection: "horizontal",
-            gestureEnabled: "true",
-            presentation: "transparentModal",
-          }}
-        />
-        <Group
-          screenOptions={{
-            presentation: "modal",
-            cardStyle: {
-              borderTopRightRadius: 30,
-              borderTopLeftRadius: 30,
-            },
-            detachPreviousScreen: false,
-            gestureResponseDistance: 10000,
-          }}
-        >
-          <Screen name="SpotttedDetails" component={SpotttedDetails} />
-        </Group>
-        <Screen name="Scanner" component={Scanner} />
-        <Screen name="SpottedScanner" component={SpottedScanner} />
-        <Screen
-          name="Search"
-          options={{
-            gestureDirection: "horizontal",
-            gestureEnabled: "true",
-            presentation: "transparentModal",
-          }}
-          component={Search}
-        />
+      <Screen name="BookingDetails" component={BookingDetails} />
+      <Screen name="Info" component={Info} />
+      <Screen name="Payment" component={Payment} />
+      <Screen name="Confirmation" component={Confirmation} />
 
-        <Screen name="BookingDetails" component={BookingDetails} />
-        <Screen name="Info" component={Info} />
-        <Screen name="Payment" component={Payment} />
-        <Screen name="Confirmation" component={Confirmation} />
+      <Screen name="ProfileSpotDetails" component={ProfileSpotDetails} />
 
-        <Screen name="ProfileSpotDetails" component={ProfileSpotDetails} />
-        <Group
-          screenOptions={{
-            presentation: "modal",
+      <Screen name="Settings" component={Settings} />
 
-            cardStyle: {
-              borderTopRightRadius: 30,
-              borderTopLeftRadius: 30,
-            },
-            detachPreviousScreen: false,
-            gestureResponseDistance: 10000,
-          }}
-        >
-          <Screen name="Settings" component={Settings} />
-        </Group>
-        <Screen
-          name="Edit"
-          component={EditScreen}
-          options={{ headerShown: false }}
-        />
-        <Screen
-          name="Organizer"
-          component={OrganizerProfile}
-          options={{ headerShown: false }}
-        />
-        <Screen
-          name="ChangePassword"
-          component={ChangePassword}
-          options={{ headerShown: false }}
-        />
-        <Screen
-          name="EndedSpot"
-          component={EndedSpot}
-          options={{ headerShown: false }}
-        />
-      </Navigator>
-    </>
+      <Screen
+        name="Edit"
+        component={EditScreen}
+        options={{ headerShown: false }}
+      />
+      <Screen
+        name="Organizer"
+        component={OrganizerProfile}
+        options={{ headerShown: false }}
+      />
+      <Screen
+        name="ChangePassword"
+        component={ChangePassword}
+        options={{ headerShown: false }}
+      />
+      <Screen
+        name="EndedSpot"
+        component={EndedSpot}
+        options={{ headerShown: false }}
+      />
+    </Navigator>
   ) : (
-    <>
-      <Navigator
-        screenOptions={{
+    <Navigator
+      screenOptions={{
+        headerShown: false,
+        cardStyle: {
+          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+        },
+      }}
+    >
+      <Screen
+        name="Advertisments"
+        component={Advertisments}
+        options={{ gestureEnabled: true, gestureResponseDistance: 135 }}
+      />
+      <Screen
+        name="ReviewsPage"
+        component={ReviewsPage}
+        options={{ gestureEnabled: true, gestureResponseDistance: 135 }}
+      />
+      <Screen
+        name="Explore"
+        component={TabBar}
+        options={{ gestureEnabled: false }}
+      />
+      <Screen
+        name="SpotDetails"
+        component={SpotDetails}
+        options={{
           headerShown: false,
-          cardStyle: {
-            backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-          },
+          gestureDirection: "horizontal-inverted",
         }}
-      >
-        <Screen
-          name="Advertisments"
-          component={Advertisments}
-          options={{ gestureEnabled: true, gestureResponseDistance: 135 }}
-        />
-        <Screen
-          name="Explore"
-          component={TabBar}
-          options={{ gestureEnabled: false }}
-        />
-        <Screen
-          name="SpotDetails"
-          component={SpotDetails}
-          options={{
-            gestureEnabled: "true",
-            presentation: "transparentModal",
-            headerShown: false,
-            gestureDirection: "horizontal-inverted",
-          }}
-        />
-        <Group
-          screenOptions={{
-            presentation: "modal",
-            cardStyle: {
-              borderTopRightRadius: 30,
-              borderTopLeftRadius: 30,
-            },
-            detachPreviousScreen: false,
-            gestureResponseDistance: 10000,
-          }}
-        >
-          <Screen name="SpotttedDetails" component={SpotttedDetails} />
-        </Group>
-        <Screen
-          name="Scanner"
-          component={Scanner}
-          options={{
-            gestureDirection: "horizontal-inverted",
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          }}
-        />
-        <Screen
-          name="SpottedScanner"
-          component={SpottedScanner}
-          options={{
-            gestureDirection: "horizontal-inverted",
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          }}
-        />
-        <Screen
-          name="Search"
-          options={{
-            gestureDirection: "horizontal-inverted",
-            gestureEnabled: "true",
-            presentation: "transparentModal",
-          }}
-          component={Search}
-        />
-        <Screen
-          name="ChangePassword"
-          component={ChangePassword}
-          options={{
-            gestureDirection: "horizontal-inverted",
-            gestureEnabled: "true",
-            presentation: "transparentModal",
-          }}
-        />
-        <Screen
-          name="BookingDetails"
-          component={BookingDetails}
-          options={{
-            gestureDirection: "horizontal-inverted",
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          }}
-        />
-        <Screen
-          name="Info"
-          component={Info}
-          options={{
-            gestureDirection: "horizontal-inverted",
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          }}
-        />
-        <Screen
-          name="EndedSpot"
-          component={EndedSpot}
-          options={{
-            gestureDirection: "horizontal-inverted",
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          }}
-        />
-        <Screen
-          name="Payment"
-          component={Payment}
-          options={{
-            gestureDirection: "horizontal-inverted",
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          }}
-        />
-        <Screen
-          name="Confirmation"
-          component={Confirmation}
-          options={{
-            gestureDirection: "horizontal-inverted",
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          }}
-        />
+      />
 
-        <Screen
-          name="ProfileSpotDetails"
-          component={ProfileSpotDetails}
-          options={{
-            gestureDirection: "horizontal-inverted",
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          }}
-        />
-        <Group
-          screenOptions={{
-            presentation: "modal",
-            cardStyle: {
-              borderTopRightRadius: 30,
-              borderTopLeftRadius: 30,
-            },
-            detachPreviousScreen: false,
-            gestureResponseDistance: 10000,
-          }}
-        >
-          <Screen name="Settings" component={Settings} />
-        </Group>
-        <Screen
-          name="Edit"
-          component={EditScreen}
-          options={{
-            headerShown: false,
-            gestureDirection: "horizontal-inverted",
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          }}
-        />
-        <Screen
-          name="Organizer"
-          component={OrganizerProfile}
-          options={{
-            headerShown: false,
-            gestureDirection: "horizontal-inverted",
-            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-          }}
-        />
-      </Navigator>
-    </>
+      <Screen
+        options={{
+          gestureDirection: "horizontal-inverted",
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+        name="SpotttedDetails"
+        component={SpotttedDetails}
+      />
+
+      <Screen
+        name="Scanner"
+        component={Scanner}
+        options={{
+          gestureDirection: "horizontal-inverted",
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
+      <Screen
+        name="SpottedScanner"
+        component={SpottedScanner}
+        options={{
+          gestureDirection: "horizontal-inverted",
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
+      <Screen
+        name="Search"
+        options={{
+          gestureDirection: "horizontal-inverted",
+          gestureEnabled: "true",
+          presentation: "transparentModal",
+        }}
+        component={Search}
+      />
+      <Screen
+        name="ChangePassword"
+        component={ChangePassword}
+        options={{
+          gestureDirection: "horizontal-inverted",
+          gestureEnabled: "true",
+          presentation: "transparentModal",
+        }}
+      />
+      <Screen
+        name="BookingDetails"
+        component={BookingDetails}
+        options={{
+          gestureDirection: "horizontal-inverted",
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
+      <Screen
+        name="Info"
+        component={Info}
+        options={{
+          gestureDirection: "horizontal-inverted",
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
+      <Screen
+        name="EndedSpot"
+        component={EndedSpot}
+        options={{
+          gestureDirection: "horizontal-inverted",
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
+      <Screen
+        name="Payment"
+        component={Payment}
+        options={{
+          gestureDirection: "horizontal-inverted",
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
+      <Screen
+        name="Confirmation"
+        component={Confirmation}
+        options={{
+          gestureDirection: "horizontal-inverted",
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
+
+      <Screen
+        name="ProfileSpotDetails"
+        component={ProfileSpotDetails}
+        options={{
+          gestureDirection: "horizontal-inverted",
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
+
+      <Screen
+        name="Settings"
+        component={Settings}
+        options={{
+          gestureDirection: "horizontal-inverted",
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
+
+      <Screen
+        name="Edit"
+        component={EditScreen}
+        options={{
+          headerShown: false,
+          gestureDirection: "horizontal-inverted",
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
+      <Screen
+        name="Organizer"
+        component={OrganizerProfile}
+        options={{
+          headerShown: false,
+          gestureDirection: "horizontal-inverted",
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
+    </Navigator>
   );
 }
 
@@ -453,10 +423,10 @@ function TabBar() {
       initialRouteName="Home"
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: "transparent",
-          marginBottom: 10,
-          marginLeft: 5,
-          marginRight: 5,
+          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+          paddingBottom: 50,
+          paddingLeft: 5,
+          paddingRight: 5,
           borderTopWidth: 0,
         },
         headerShown: false,
