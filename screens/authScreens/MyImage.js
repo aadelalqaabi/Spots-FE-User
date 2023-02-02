@@ -100,93 +100,121 @@ export default function MyImage({ navigation, route }) {
     authStore.register(user);
   };
   return (
-    <View
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-        height: "100%",
-        alignSelf: "center",
-        alignContent: "center",
-        justifyContent: "space-between",
-        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-      }}
-    >
-      <Ionicons
-        style={{
-          position: "absolute",
-          fontSize: 35,
-          marginTop: 80,
-          marginLeft: 20,
-          paddingRight: 20,
-          alignSelf:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "flex-start"
-              : "flex-end",
-          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-        }}
-        name={
-          i18n.locale === "en-US" || i18n.locale === "en"
-            ? "chevron-back-outline"
-            : "chevron-forward-outline"
-        }
-        onPress={() => navigation.goBack()}
-      ></Ionicons>
+    <>
+      <View style={{ position: "absolute", top: "6%", left: "5%",display: "flex", flexDirection: "row", zIndex: 1, width: "100%" }}>
+        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
+        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
+        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
+        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
+      </View>
       <View
         style={{
-          justifyContent: "center",
-          marginTop: 130,
-          width: "70%",
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          height: "100%",
           alignSelf: "center",
-          alignItems: "center",
+          alignContent: "center",
+          justifyContent: "space-between",
+          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
         }}
       >
-        <Text
+        <Ionicons
           style={{
-            fontFamily:
+            position: "absolute",
+            fontSize: 35,
+            marginTop: 80,
+            marginLeft: 20,
+            paddingRight: 20,
+            alignSelf:
               i18n.locale === "en-US" || i18n.locale === "en"
-                ? "UbuntuBold"
-                : "NotoBold",
-            fontSize: i18n.locale === "en-US" || i18n.locale === "en" ? 28 : 30,
-            marginBottom:
-              i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
-            margin: 20,
-            marginTop: 0,
-            width: "100%",
-            textAlign: "center",
+                ? "flex-start"
+                : "flex-end",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
-        >
-          {i18n.t("image")}
-        </Text>
-        <Text
-          style={{
-            fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
-            fontSize: i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 18,
-            paddingTop: 3,
-            margin: 20,
-            marginTop: 0,
-            marginBottom:
-              i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
-            width: "100%",
-            textAlign: "center",
-            color: "#64666b",
-            lineHeight: 23,
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-            opacity: 0.8,
-          }}
-        >
-          {i18n.t("description")}
-        </Text>
+          name={
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "chevron-back-outline"
+              : "chevron-forward-outline"
+          }
+          onPress={() => navigation.goBack()}
+        ></Ionicons>
         <View
           style={{
-            marginTop: "30%",
+            justifyContent: "center",
+            marginTop: 130,
+            width: "70%",
+            alignSelf: "center",
+            alignItems: "center",
           }}
         >
-          {image === null ? (
+          <Text
+            style={{
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "UbuntuBold"
+                  : "NotoBold",
+              fontSize: i18n.locale === "en-US" || i18n.locale === "en" ? 28 : 30,
+              marginBottom:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+              margin: 20,
+              marginTop: 0,
+              width: "100%",
+              textAlign: "center",
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            }}
+          >
+            {i18n.t("image")}
+          </Text>
+          <Text
+            style={{
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
+              fontSize: i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 18,
+              paddingTop: 3,
+              margin: 20,
+              marginTop: 0,
+              marginBottom:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+              width: "100%",
+              textAlign: "center",
+              color: "#64666b",
+              lineHeight: 23,
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              opacity: 0.8,
+            }}
+          >
+            {i18n.t("description")}
+          </Text>
+          <View
+            style={{
+              marginTop: "30%",
+            }}
+          >
+            {image === null ? (
+              <View
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignContent: "center",
+                  alignItems: "center",
+                  flexDirection: "column",
+                  marginBottom: "-30%",
+                }}
+              >
+                <Ionicons
+                  style={{
+                    fontSize: 165,
+                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  }}
+                  name="image-outline"
+                ></Ionicons>
+              </View>
+            ) : (
+              <></>
+            )}
             <View
               style={{
                 display: "flex",
@@ -194,100 +222,80 @@ export default function MyImage({ navigation, route }) {
                 alignContent: "center",
                 alignItems: "center",
                 flexDirection: "column",
-                marginBottom: "-30%",
+                marginBottom: toggle ? "45%" : 0,
               }}
             >
-              <Ionicons
+              <Image
+                source={{ uri: image }}
                 style={{
-                  fontSize: 165,
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  alignSelf: "center",
+                  width: 240,
+                  height: 240,
+                  marginTop: -20,
+                  borderRadius: 150,
                 }}
-                name="image-outline"
-              ></Ionicons>
+              />
+              {image && (
+                <View
+                  style={{
+                    marginTop: 10,
+                  }}
+                >
+                  <Button
+                    color="#e52b51"
+                    title={i18n.t("choose")}
+                    onPress={pickImage}
+                  />
+                </View>
+              )}
             </View>
-          ) : (
-            <></>
-          )}
+          </View>
           <View
             style={{
-              display: "flex",
-              justifyContent: "center",
-              alignContent: "center",
-              alignItems: "center",
-              flexDirection: "column",
-              marginBottom: toggle ? "45%" : 0,
+              width: "100%",
             }}
           >
-            <Image
-              source={{ uri: image }}
-              style={{
-                alignSelf: "center",
-                width: 240,
-                height: 240,
-                marginTop: -20,
-                borderRadius: 150,
-              }}
-            />
-            {image && (
+            {toggle === false ? (
+              <View style={styles.button}>
+                <Button
+                  onPress={pickImage}
+                  title={i18n.t("pick")}
+                  color="white"
+                />
+              </View>
+            ) : (
               <View
                 style={{
-                  marginTop: 10,
+                  paddingVertical: 12,
+                  paddingHorizontal: 32,
+                  borderRadius: 15,
+                  elevation: 3,
+                  backgroundColor: "#e52b51",
+                  alignSelf: "center",
+                  width: "100%",
+                  marginBottom: 45,
                 }}
               >
                 <Button
+                  title={i18n.t("done")}
+                  color="white"
+                  onPress={handleSubmit}
+                />
+              </View>
+            )}
+            {!toggle && (
+              <View>
+                <Button
+                  title={i18n.t("skip")}
                   color="#e52b51"
-                  title={i18n.t("choose")}
-                  onPress={pickImage}
+                  onPress={handleSubmit}
                 />
               </View>
             )}
           </View>
         </View>
-        <View
-          style={{
-            width: "100%",
-          }}
-        >
-          {toggle === false ? (
-            <View style={styles.button}>
-              <Button
-                onPress={pickImage}
-                title={i18n.t("pick")}
-                color="white"
-              />
-            </View>
-          ) : (
-            <View
-              style={{
-                paddingVertical: 12,
-                paddingHorizontal: 32,
-                borderRadius: 15,
-                elevation: 3,
-                backgroundColor: "#e52b51",
-                alignSelf: "center",
-                width: "100%",
-                marginBottom: 45,
-              }}
-            >
-              <Button
-                title={i18n.t("done")}
-                color="white"
-                onPress={handleSubmit}
-              />
-            </View>
-          )}
-          {!toggle && (
-            <View>
-              <Button
-                title={i18n.t("skip")}
-                color="#e52b51"
-                onPress={handleSubmit}
-              />
-            </View>
-          )}
-        </View>
       </View>
-    </View>
+    </>
   );
 }
 

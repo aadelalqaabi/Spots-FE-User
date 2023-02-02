@@ -28,6 +28,17 @@ import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
 LogBox.ignoreAllLogs();
 
 function Profile() {
+  const translations = {
+    en: {
+      spots: "Dests",
+    },
+    ar: {
+      spots: "وجهة",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
@@ -61,23 +72,25 @@ function Profile() {
   // authStore.spotAdd(spotId);
   //num--;
   //}
-  const translations = {
-    en: {
-      spots: "Dests",
-    },
-    ar: {
-      spots: "وجهة",
-    },
-  };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  if(authStore.user.locale === ""){ 
+    console.log('inside if no locale')
+    authStore.changeLocal(i18n.locale)
+  } else if(i18n?.locale?.includes("en") && authStore?.user?.locale?.includes("en")){
+    authStore.changeLocal(i18n.locale)
+    console.log('changed to: ', i18n.locale)
+  } else{
+    authStore.changeLocal(i18n.locale)
+    console.log('changed to: ', i18n.locale)
+  }
+
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../assets/fonts/Ubuntu.ttf"),
     Noto: require("../assets/fonts/Noto.ttf"),
     NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
+
   if (!fontsLoaded) {
     return <MyAwesomeSplashScreen />;
   }
@@ -102,10 +115,6 @@ function Profile() {
           barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
         />
         <SafeAreaView>
-          {/* style={{
-         backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-         height: "100%",
-       }} */}
           {loading ? (
             <ContentLoader
               speed={3}
@@ -125,8 +134,6 @@ function Profile() {
               <Rect x="28" y="170" rx="5" ry="5" width="60" height="20" />
               <Rect x="166" y="170" rx="5" ry="5" width="60" height="20" />
               <Rect x="12" y="222" rx="15" ry="15" width="233" height="228" />
-              {/* 
-          <Rect x="243" y="101" rx="10" ry="10" width="201" height="329" /> */}
             </ContentLoader>
           ) : (
             // >
@@ -137,8 +144,8 @@ function Profile() {
                   width: "100%",
                   justifyContent: "center",
                   alignContent: "center",
-                  marginTop: "2%",
-                  marginBottom: "2%",
+                  marginTop: "4%",
+                  marginBottom: "4%",
                 }}
               >
                 <TouchableOpacity
@@ -172,7 +179,6 @@ function Profile() {
                     alignSelf: "center",
                   }}
                 >
-                  {/*authStore.user.username*/}
                   {authStore.user.name}
                 </Text>
               </View>

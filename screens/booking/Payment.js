@@ -4,6 +4,18 @@ import spotStore from "../../stores/spotStore";
 import ticketStore from "../../stores/ticketStore";
 import authStore from "../../stores/authStore";
 import { observer } from "mobx-react";
+import * as Notifications from "expo-notifications";
+import { baseURL } from "../../stores/instance";
+import * as Localization from "expo-localization";
+import { I18n } from "i18n-js";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 function Payment({ navigation, route }) {
   const spot = route.params.itemId;
@@ -13,6 +25,19 @@ function Payment({ navigation, route }) {
     image: "",
     isFree: false,
   });
+
+  const translations = {
+    en: {
+      Payment: "Payment",
+    },
+    ar: {
+      Payment: "دفع",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
+
   const handleBooking = async () => {
     spot.seatsRemaining = spot.seatsRemaining - tickets;
     spot.spotRevenue = spot.spotRevenue + tickets * spot.price;
@@ -20,7 +45,32 @@ function Payment({ navigation, route }) {
     newTicket.amount = tickets;
     try {
       await spotStore.updateSpot(spot, spot._id);
-      await ticketStore.createTicket(newTicket, spot._id);
+      if(i18n.locale === "en-US" || i18n.locale === "en"){
+        await ticketStore.createTicket(newTicket, spot._id).then(
+          authStore.user.notificationToken !== "" && (
+
+            await Notifications.scheduleNotificationAsync({
+              content: {
+                title: `Can't Wait to see you ${authStore.user.name} !!!`,
+                body: `Don't Forget ${spot.name} starts in 2 hours`,
+                icon: `${baseURL}${spot.image}`
+                //   data: { data: 'goes here' },
+              },
+              trigger: { seconds: 5 },
+            })
+          ))
+      } else {
+        await ticketStore.createTicket(newTicket, spot._id).then(
+          await Notifications.scheduleNotificationAsync({
+            content: {
+              title: `!!! ${authStore.user.name} لا نستطيع الانتظار لرؤيتك`,
+              body: `تبدا في ساعتين ${spot.name}لا تنس `,
+              icon: `${baseURL}${spot.image}`
+              //   data: { data: 'goes here' },
+            },
+            trigger: { seconds: 1 },
+          }));
+      }
       //authStore.sendBookingEmail(tickets, spot);
       navigation.navigate("MySpots");
     } catch (e) {
