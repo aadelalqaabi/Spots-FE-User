@@ -130,16 +130,13 @@ class AuthStore {
 
   spotAdd = async (spotId) => {
     try {
-      const formData = new FormData();
-      for (const key in updatedUser) formData.append(key, updatedUser[key]);
       const res = await instance.put(`/user/spots/${spotId}`);
-      runInAction(() => {
-        for (const key in this.user) this.user[key] = res.data[key];
-      });
+      this.setUser(res.data.token);
     } catch (error) {
       console.log("here", error);
     }
   };
+
   rewardAdd = async (rewardId) => {
     try {
       const res = await instance.put(`/user/rewards/${rewardId}`);
@@ -186,7 +183,7 @@ class AuthStore {
   };
 
   addToken = async (newToken) => {
-    const newUser = {...this.user, notificationToken: newToken}
+    const newUser = { ...this.user, notificationToken: newToken };
     try {
       const res = await instance.put(`/user/notification/add`, newUser);
       this.setUser(res.data.token);
@@ -196,7 +193,7 @@ class AuthStore {
   };
 
   removeToken = async () => {
-    const newUser = {...this.user, notificationToken: ""}
+    const newUser = { ...this.user, notificationToken: "" };
     try {
       const res = await instance.put(`/user/notification/remove`, newUser);
       this.setUser(res.data.token);
@@ -206,7 +203,7 @@ class AuthStore {
   };
 
   changeLocal = async (newLocale) => {
-    const newUser = {...this.user, locale: newLocale}
+    const newUser = { ...this.user, locale: newLocale };
     try {
       const res = await instance.put(`/user/local/change`, newUser);
       this.setUser(res.data.newtoken);

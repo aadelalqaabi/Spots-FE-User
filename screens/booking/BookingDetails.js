@@ -204,6 +204,7 @@ export default function BookingDetails({ navigation, route }) {
                 }}
               >
                 {spot.startTime}
+                {spot.endTime ? ` - ${spot.endTime}` : ""}
               </Text>
             </View>
           </View>

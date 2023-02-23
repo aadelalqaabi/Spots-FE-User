@@ -103,6 +103,7 @@ export default function Confirmation({ navigation, route }) {
               style={{ fontFamily: "UbuntuBold", fontSize: 20, color: "white" }}
             >
               {spot.startTime}
+              {spot.endTime ? ` - ${spot.endTime}` : ""}
             </Text>
           </View>
         </View>

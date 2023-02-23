@@ -9,9 +9,12 @@ import {
   Alert,
   Share,
   useColorScheme,
-  ImageBackground,
+  Dimensions,
   ScrollView,
+  LayoutAnimation,
+  StatusBar,
 } from "react-native";
+const { width } = Dimensions.get("window");
 import React, { useCallback, useState } from "react";
 import spotStore from "../../stores/spotStore";
 import { baseURL } from "../../stores/instance";
@@ -26,6 +29,8 @@ import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import "moment/locale/ar";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
+import Swiper from "react-native-swiper";
+import * as StoreReview from "expo-store-review";
 
 export function SpotDetails({ route }) {
   const spot = spotStore.getSpotsById(route.params.id);
@@ -103,8 +108,8 @@ export function SpotDetails({ route }) {
       const result = await Share.share({
         message:
           i18n.locale === "en-US" || i18n.locale === "en"
-            ? `${authStore.user.name} wants you to check this destination!`
-            : `يريد ${authStore.user.name} ان يشاركك هذه الوجهه!`,
+            ? `${authStore.user.name} wants you to check this destination`
+            : `يريد ${authStore.user.name} ان يشاركك هذه الوجهه`,
         url: `https://www.destkw.com/SpotDetails/${spot._id}`,
       });
     } catch (error) {
@@ -117,6 +122,11 @@ export function SpotDetails({ route }) {
         ticket.spot?._id === newSpot._id && ticket.user === authStore.user.id
     );
     if (!found) {
+      if (authStore.user.tickets.length !== 0) {
+        if (await StoreReview.hasAction()) {
+          StoreReview.requestReview();
+        }
+      }
       await ticketStore.createTicket(newTicket, newSpot._id);
       await ticketStore.fetchTickets();
       toggleAlert();
@@ -135,7 +145,19 @@ export function SpotDetails({ route }) {
     });
   };
   return (
-    <>
+    <View
+      style={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        flexWrap: "nowrap",
+        alignContent: "center",
+        justifyContent: "center",
+      }}
+    >
+      <StatusBar
+        barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
+      />
       <View
         style={{
           display: "flex",
@@ -144,7 +166,6 @@ export function SpotDetails({ route }) {
               ? "row"
               : "row-reverse",
           justifyContent: "space-between",
-          position: "absolute",
           padding: 20,
           marginTop: "10%",
           zIndex: 99,
@@ -153,58 +174,86 @@ export function SpotDetails({ route }) {
           alignItems: "center",
         }}
       >
-        <TouchableOpacity
-          onPress={() => {
-            navigation.goBack();
+        <View
+          style={{
+            display: "flex",
+            flexDirection:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "row"
+                : "row-reverse",
+            alignContent: "center",
+            alignItems: "center",
           }}
         >
-          <Ionicons
-            style={{
-              color: "white",
-              fontSize: 40,
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 8,
-              },
-              shadowOpacity: 0.46,
-              shadowRadius: 11.14,
-              elevation: 17,
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
             }}
-            name={
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "chevron-back-outline"
-                : "chevron-forward-outline"
+          >
+            <Ionicons
+              style={{
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                fontSize: 30,
+              }}
+              name={
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "chevron-back-outline"
+                  : "chevron-forward-outline"
+              }
+            ></Ionicons>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Organizer", {
+                organizer: organizer,
+              })
             }
-          ></Ionicons>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() =>
-            navigation.navigate("Organizer", {
-              organizer: organizer,
-            })
-          }
-        >
-          <Image
             style={{
-              width: 65,
-              height: 65,
-              borderRadius: 50,
-              borderWidth: 1.5,
-              borderColor: "white",
-              backgroundColor: "white",
-              resizeMode: "contain",
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 8,
-              },
-              shadowOpacity: 0.46,
-              shadowRadius: 11.14,
+              display: "flex",
+              flexDirection:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "row"
+                  : "row-reverse",
+              alignContent: "center",
+              alignItems: "center",
             }}
-            source={{ uri: `${baseURL}${organizer.image}` }}
-          />
-        </TouchableOpacity>
+          >
+            <Image
+              style={{
+                width: 45,
+                height: 45,
+                borderRadius: 50,
+                borderWidth: 1.5,
+                borderColor: "white",
+                backgroundColor: "white",
+                resizeMode: "cover",
+                marginRight: 10,
+                marginLeft: 10,
+              }}
+              source={{ uri: `${baseURL}${organizer.image}` }}
+            />
+            <Text
+              style={{
+                fontSize: 22,
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                alignSelf: "center",
+                textAlign:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "left"
+                    : "right",
+                textTransform: "capitalize",
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? organizer?.displayNameEn
+                : organizer?.displayNameAr}
+            </Text>
+          </TouchableOpacity>
+        </View>
         <TouchableOpacity
           onPress={() => {
             onShare();
@@ -212,17 +261,9 @@ export function SpotDetails({ route }) {
         >
           <Ionicons
             style={{
-              color: "white",
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               marginTop: -4,
-              fontSize: 40,
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 8,
-              },
-              shadowOpacity: 0.46,
-              shadowRadius: 11.14,
-              elevation: 17,
+              fontSize: 32,
             }}
             name="share-outline"
           ></Ionicons>
@@ -235,116 +276,158 @@ export function SpotDetails({ route }) {
         }}
         showsVerticalScrollIndicator={false}
       >
-        <ImageBackground
-          source={{ uri: `${baseURL}${spot.image}` }}
-          style={{
-            flex: 1,
-            height: "100%",
-            paddingBottom: "2%",
-          }}
-        >
+        {spot.galleryImage0 !== "" &&
+        spot.galleryImage1 !== "" &&
+        spot.galleryImage2 !== "" &&
+        spot.galleryImage3 !== "" &&
+        spot.galleryImage4 !== "" &&
+        spot.galleryImage0 !== null &&
+        spot.galleryImage1 !== null &&
+        spot.galleryImage2 !== null &&
+        spot.galleryImage3 !== null &&
+        spot.galleryImage4 !== null ? (
           <View
             style={{
-              height: "100%",
-              width: "100%",
-              backgroundColor: "black",
-              opacity: 0.4,
-              position: "absolute",
-            }}
-          ></View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              flexWrap: "wrap",
+              height: 330,
+              margin: 10,
             }}
           >
-            <View
-              style={{
-                alignSelf: "flex-start",
-                marginTop: "32%",
-                marginBottom: "12%",
-                padding: 20,
-                width: "100%",
+            <Swiper
+              height={330}
+              showsButtons={false}
+              activeDotColor={"#e52b51"}
+              activeDotStyle={{ opacity: 0.8 }}
+              dotColor={"white"}
+              dotStyle={{ opacity: 0.8 }}
+              containerStyle={{
+                borderRadius: 25,
+                overflow: "hidden",
               }}
             >
-              <Text
-                style={{
-                  fontSize: 40,
-                  fontWeight: "700",
-                  fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "UbuntuBold"
-                      : "NotoBold",
-                  color: "white",
-                  textAlign: "center",
-                  alignSelf: "center",
-                  marginBottom:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 5,
-                }}
-              >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? spot.name
-                  : spot.nameAr}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 19,
-                  color: "white",
-                  alignSelf: "center",
-
-                  fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "UbuntuBold"
-                      : "NotoBold",
-                  shadowColor: "#000",
-                  shadowOffset: {
-                    width: 0,
-                    height: 3,
-                  },
-                  shadowOpacity: 0.29,
-                  shadowRadius: 4.65,
-                  elevation: 7,
-                  textAlign: "center",
-                  lineHeight: 33,
-                }}
-              >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? spot.description
-                  : spot.descriptionAr}
-              </Text>
-            </View>
+              {spot.galleryImage0 && (
+                <View style={styles.slide}>
+                  <Image
+                    style={{
+                      flex: 1,
+                      width: "100%",
+                    }}
+                    source={{ uri: `${baseURL}${spot.galleryImage0}` }}
+                  ></Image>
+                </View>
+              )}
+              {spot.galleryImage1 && (
+                <View style={styles.slide}>
+                  <Image
+                    style={{
+                      flex: 1,
+                      width: "100%",
+                    }}
+                    source={{ uri: `${baseURL}${spot.galleryImage1}` }}
+                  ></Image>
+                </View>
+              )}
+              {spot.galleryImage2 && (
+                <View style={styles.slide}>
+                  <Image
+                    style={{
+                      flex: 1,
+                      width: "100%",
+                    }}
+                    source={{ uri: `${baseURL}${spot.galleryImage2}` }}
+                  ></Image>
+                </View>
+              )}
+              {spot.galleryImage3 && (
+                <View style={styles.slide}>
+                  <Image
+                    style={{
+                      flex: 1,
+                      width: "100%",
+                    }}
+                    source={{ uri: `${baseURL}${spot.galleryImage3}` }}
+                  ></Image>
+                </View>
+              )}
+              {spot.galleryImage4 && (
+                <View style={styles.slide}>
+                  <Image
+                    style={{
+                      flex: 1,
+                      width: "100%",
+                    }}
+                    source={{ uri: `${baseURL}${spot.galleryImage4}` }}
+                  ></Image>
+                </View>
+              )}
+            </Swiper>
           </View>
-        </ImageBackground>
-
+        ) : (
+          <></>
+        )}
         <View
           style={{
             flex: 1,
             width: "100%",
-            borderRadius: 40,
-            marginTop: "-10%",
             backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
             display: "flex",
             flexDirection: "column",
             marginBottom: 20,
+            paddingTop: "2%",
           }}
         >
           <Text
             style={{
+              fontSize: 27,
+              fontWeight: "700",
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "UbuntuBold"
+                  : "NotoBold",
+              textAlign:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "left"
+                  : "right",
+              alignSelf:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "flex-start"
+                  : "flex-end",
+              margin: 20,
+              marginTop:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
+              marginBottom:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 5,
+            }}
+          >
+            {i18n.locale === "en-US" || i18n.locale === "en"
+              ? spot.name
+              : spot.nameAr}
+          </Text>
+          <Text
+            style={{
+              fontSize: 20,
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              alignSelf:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "flex-start"
+                  : "flex-end",
               fontFamily:
                 i18n.locale === "en-US" || i18n.locale === "en"
                   ? "Ubuntu"
                   : "Noto",
-              fontSize: 25,
-              alignSelf: "center",
+              textAlign:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "left"
+                  : "right",
               margin: 20,
-              letterSpacing: 3,
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              lineHeight: 30,
+              marginBottom: 10,
+              marginTop: 10,
             }}
           >
             {i18n.locale === "en-US" || i18n.locale === "en"
-              ? "More Informations"
-              : "المزيد من المعلومات"}
+              ? spot.description
+              : spot.descriptionAr}
           </Text>
           <View
             style={{
@@ -355,15 +438,17 @@ export function SpotDetails({ route }) {
                   : "row-reverse",
               alignContent: "center",
               alignItems: "center",
-              margin: 30,
+              margin: 15,
               marginBottom: 10,
               marginTop: 10,
             }}
           >
             <Ionicons
               style={{
-                marginRight: 5,
-                marginLeft: 5,
+                marginRight:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 5,
+                marginLeft:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 5 : 10,
                 color: "#e52b51",
                 fontSize: 30,
               }}
@@ -411,15 +496,17 @@ export function SpotDetails({ route }) {
                   : "row-reverse",
               alignContent: "center",
               alignItems: "center",
-              margin: 30,
+              margin: 15,
               marginBottom: 10,
               marginTop: 0,
             }}
           >
             <Ionicons
               style={{
-                marginRight: 5,
-                marginLeft: 5,
+                marginRight:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 5,
+                marginLeft:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 5 : 10,
                 color: "#e52b51",
                 fontSize: 32,
               }}
@@ -435,7 +522,13 @@ export function SpotDetails({ route }) {
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
             >
-              {spot.startTime}
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? spot.endTime
+                  ? `${spot.startTime} - ${spot.endTime}`
+                  : spot.startTime
+                : spot.endTime
+                ? `${spot.endTime} - ${spot.startTime}`
+                : spot.startTime}
             </Text>
           </View>
           <View
@@ -447,15 +540,17 @@ export function SpotDetails({ route }) {
                   : "row-reverse",
               alignContent: "center",
               alignItems: "center",
-              margin: 30,
+              margin: 15,
               marginBottom: 10,
               marginTop: 0,
             }}
           >
             <Ionicons
               style={{
-                marginRight: 5,
-                marginLeft: 5,
+                marginRight:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 5,
+                marginLeft:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 5 : 10,
                 color: "#e52b51",
                 fontSize: 32,
                 transform: [
@@ -470,6 +565,7 @@ export function SpotDetails({ route }) {
             <View
               style={{
                 borderBottomWidth: 2,
+                paddingBottom: 3,
                 borderColor: "#e52b51",
               }}
             >
@@ -499,15 +595,17 @@ export function SpotDetails({ route }) {
                   : "row-reverse",
               alignContent: "center",
               alignItems: "center",
-              margin: 30,
+              margin: 15,
               marginBottom: 10,
               marginTop: 0,
             }}
           >
             <Ionicons
               style={{
-                marginRight: 5,
-                marginLeft: 5,
+                marginRight:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 5,
+                marginLeft:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 5 : 10,
                 color: "#e52b51",
                 fontSize: 32,
               }}
@@ -515,6 +613,7 @@ export function SpotDetails({ route }) {
             ></Ionicons>
             <View
               style={{
+                paddingBottom: 3,
                 borderBottomWidth: 2,
                 borderColor: "#e52b51",
               }}
@@ -549,7 +648,7 @@ export function SpotDetails({ route }) {
                 i18n.locale === "en-US" || i18n.locale === "en"
                   ? "flex-start"
                   : "flex-end",
-              margin: 30,
+              margin: 20,
               marginTop: 10,
               marginBottom: 0,
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
@@ -568,7 +667,7 @@ export function SpotDetails({ route }) {
                   ? "Ubuntu"
                   : "Noto",
               paddingTop: 3,
-              margin: 30,
+              margin: 20,
               marginBottom: 0,
               marginTop: 10,
               lineHeight: 25,
@@ -586,7 +685,7 @@ export function SpotDetails({ route }) {
           <TouchableOpacity
             style={{
               fontSize: 20,
-              margin: 25,
+              margin: 20,
               marginTop: 15,
               marginBottom: 10,
               height: 70,
@@ -754,7 +853,155 @@ export function SpotDetails({ route }) {
               </View>
             </View>
           </Modal>
-          {spot.isFree === true ? (
+        </View>
+      </ScrollView>
+
+      {spot.isFree === true ? (
+        <TouchableOpacity
+          style={{
+            display: "flex",
+            alignSelf: "center",
+            borderRadius: 25,
+            height: 60,
+            width: "90%",
+            backgroundColor: "#e52b51",
+            marginTop: 20,
+            marginBottom: 25,
+            justifyContent: "center",
+            zIndex: 99,
+            flexDirection:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "row-reverse"
+                : "row",
+          }}
+          onPress={() => handleSpots(spot)}
+        >
+          <Text
+            style={{
+              color: "white",
+              fontSize: 22,
+              alignSelf: "center",
+              marginLeft: 10,
+              marginRight: 10,
+              fontFamily: "Ubuntu",
+            }}
+          >
+            {i18n.locale === "en-US" || i18n.locale === "en"
+              ? "Visit Dest"
+              : "زيارة الوجهة"}
+          </Text>
+          <Ionicons style={styles.spoticon} name="location-sharp"></Ionicons>
+        </TouchableOpacity>
+      ) : (
+        <>
+          {spot.seats > 0 ? (
+            <View
+              style={{
+                display: "flex",
+                flexDirection:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "row"
+                    : "row-reverse",
+                alignItems: "center",
+                justifyContent: "center",
+                alignContent: "center",
+                width: "100%",
+                alignSelf: "center",
+              }}
+            >
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "row-reverse",
+                  alignSelf: "flex-start",
+                  borderRadius: 20,
+                  borderWidth: 1,
+                  justifyContent: "center",
+                  alignContent: "center",
+                  alignItems: "center",
+                  padding: 10,
+                  marginBottom: 16,
+                  borderColor: "#e52b51",
+                  width: "30%",
+                  alignSelf: "center",
+                  height: 60,
+                }}
+              >
+                <Ionicons
+                  style={{
+                    color: "#e52b51",
+                    fontFamily: "Ubuntu",
+                    fontSize: 28,
+                    marginLeft: 10,
+                  }}
+                  name="add-outline"
+                  onPress={handleInc}
+                ></Ionicons>
+                <Text
+                  style={{
+                    fontSize: 28,
+                    fontFamily: "Ubuntu",
+                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  }}
+                >
+                  {quantity}
+                </Text>
+                <Ionicons
+                  style={{
+                    color: "#e52b51",
+                    fontFamily:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Ubuntu"
+                        : "Noto",
+                    fontSize: 28,
+                    marginRight: 10,
+                  }}
+                  name="remove-outline"
+                  onPress={handleDec}
+                ></Ionicons>
+              </View>
+              <TouchableOpacity
+                style={{
+                  display: "flex",
+                  alignSelf: "center",
+                  borderRadius: 20,
+                  height: 60,
+                  width: "60%",
+                  backgroundColor: "#e52b51",
+                  margin: 10,
+                  marginBottom: 25,
+                  justifyContent: "center",
+                  zIndex: 99,
+                  flexDirection:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "row-reverse"
+                      : "row",
+                }}
+                onPress={() => {
+                  handleBook(spot);
+                }}
+              >
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: 22,
+                    alignSelf: "center",
+                    marginLeft: 10,
+                    marginRight: 10,
+                    fontFamily:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Ubuntu"
+                        : "Noto",
+                  }}
+                >
+                  {i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Book"
+                    : "احجز"}
+                </Text>
+                <Ionicons style={styles.spoticon} name="location"></Ionicons>
+              </TouchableOpacity>
+            </View>
+          ) : (
             <TouchableOpacity
               style={{
                 display: "flex",
@@ -762,16 +1009,12 @@ export function SpotDetails({ route }) {
                 borderRadius: 25,
                 height: 60,
                 width: "90%",
-                backgroundColor: "#e52b51",
-                marginBottom: 25,
+                backgroundColor: "grey",
+                margin: 10,
                 justifyContent: "center",
                 zIndex: 99,
-                flexDirection:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "row-reverse"
-                    : "row",
+                flexDirection: "row-reverse",
               }}
-              onPress={() => handleSpots(spot)}
             >
               <Text
                 style={{
@@ -780,166 +1023,21 @@ export function SpotDetails({ route }) {
                   alignSelf: "center",
                   marginLeft: 10,
                   marginRight: 10,
-                  fontFamily: "Ubuntu",
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Ubuntu"
+                      : "Noto",
                 }}
               >
                 {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Add Dest"
-                  : "اضف الوجهة"}
+                  ? "Sold Out"
+                  : "نفذت الكمية"}
               </Text>
-              <Ionicons style={styles.spoticon} name="location"></Ionicons>
             </TouchableOpacity>
-          ) : (
-            <>
-              {spot.seats > 0 ? (
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection:
-                      i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "row"
-                        : "row-reverse",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    alignContent: "center",
-                    width: "100%",
-                    alignSelf: "center",
-                  }}
-                >
-                  <View
-                    style={{
-                      display: "flex",
-                      flexDirection: "row-reverse",
-                      alignSelf: "flex-start",
-                      borderRadius: 20,
-                      borderWidth: 1,
-                      justifyContent: "center",
-                      alignContent: "center",
-                      alignItems: "center",
-                      padding: 10,
-                      marginBottom: 16,
-                      borderColor: "#e52b51",
-                      width: "30%",
-                      alignSelf: "center",
-                      height: 60,
-                    }}
-                  >
-                    <Ionicons
-                      style={{
-                        color: "#e52b51",
-                        fontFamily: "Ubuntu",
-                        fontSize: 28,
-                        marginLeft: 10,
-                      }}
-                      name="add-outline"
-                      onPress={handleInc}
-                    ></Ionicons>
-                    <Text
-                      style={{
-                        fontSize: 28,
-                        fontFamily: "Ubuntu",
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                      }}
-                    >
-                      {quantity}
-                    </Text>
-                    <Ionicons
-                      style={{
-                        color: "#e52b51",
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        fontSize: 28,
-                        marginRight: 10,
-                      }}
-                      name="remove-outline"
-                      onPress={handleDec}
-                    ></Ionicons>
-                  </View>
-                  <TouchableOpacity
-                    style={{
-                      display: "flex",
-                      alignSelf: "center",
-                      borderRadius: 20,
-                      height: 60,
-                      width: "60%",
-                      backgroundColor: "#e52b51",
-                      margin: 10,
-                      marginBottom: 25,
-                      justifyContent: "center",
-                      zIndex: 99,
-                      flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "row-reverse"
-                          : "row",
-                    }}
-                    onPress={() => {
-                      handleBook(spot);
-                    }}
-                  >
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 22,
-                        alignSelf: "center",
-                        marginLeft: 10,
-                        marginRight: 10,
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                      }}
-                    >
-                      {i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "Book"
-                        : "احجز"}
-                    </Text>
-                    <Ionicons
-                      style={styles.spoticon}
-                      name="location"
-                    ></Ionicons>
-                  </TouchableOpacity>
-                </View>
-              ) : (
-                <TouchableOpacity
-                  style={{
-                    display: "flex",
-                    alignSelf: "center",
-                    borderRadius: 25,
-                    height: 60,
-                    width: "90%",
-                    backgroundColor: "grey",
-                    margin: 10,
-                    justifyContent: "center",
-                    zIndex: 99,
-                    flexDirection: "row-reverse",
-                  }}
-                >
-                  <Text
-                    style={{
-                      color: "white",
-                      fontSize: 22,
-                      alignSelf: "center",
-                      marginLeft: 10,
-                      marginRight: 10,
-                      fontFamily:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "Ubuntu"
-                          : "Noto",
-                    }}
-                  >
-                    {i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Sold Out"
-                      : "نفذت الكمية"}
-                  </Text>
-                </TouchableOpacity>
-              )}
-            </>
           )}
-        </View>
-      </ScrollView>
-    </>
+        </>
+      )}
+    </View>
   );
 }
 
@@ -1165,5 +1263,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     zIndex: 99,
     flexDirection: "row-reverse",
+  },
+  wrapper: {},
+  slide: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
