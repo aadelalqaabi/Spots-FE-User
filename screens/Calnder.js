@@ -114,7 +114,6 @@ export default function Calnder({ calendar, setCalendar, day, setDay }) {
   };
   LocaleConfig.defaultLocale =
     i18n.locale === "en-US" || i18n.locale === "en" ? "en" : "ar";
-
   return (
     <Modal animationType="fade" transparent={true} visible={calendar}>
       <TouchableOpacity
@@ -146,7 +145,6 @@ export default function Calnder({ calendar, setCalendar, day, setDay }) {
           style={{
             padding: 20,
             borderRadius: 20,
-
             shadowOffset: { width: 0, height: 0 },
             shadowColor: colorScheme === "dark" ? "#e7e7e7" : "#171717",
             shadowOpacity: 0.1,

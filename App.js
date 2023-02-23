@@ -15,7 +15,7 @@ import Password from "./screens/authScreens/Password";
 import PhoneNo from "./screens/authScreens/PhoneNo";
 import MyImage from "./screens/authScreens/MyImage";
 import * as Linking from "expo-linking";
-import { Text, useColorScheme } from "react-native";
+import { Text, useColorScheme, View } from "react-native";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import {
@@ -195,25 +195,18 @@ function RootNavigator() {
   i18n.enableFallback = true;
   return i18n.locale === "en-US" || i18n.locale === "en" ? (
     <Navigator
-      initialRouteName="Advertisments"
+      initialRouteName="Explore"
       screenOptions={{
         headerShown: false,
         presentation: "card",
         cardStyle: {
           backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
         },
-        cardOverlayEnabled: true,
-        cardShadowEnabled: true,
       }}
     >
-      <Screen name="Advertisments" component={Advertisments} />
-      <Screen
-        name="Explore"
-        component={TabBar}
-        options={{ gestureEnabled: false }}
-      />
+      <Screen name="Explore" component={TabBar} />
+      {/* <Screen name="Advertisments" component={Advertisments} /> */}
       <Screen name="SpotDetails" component={SpotDetails} />
-
       <Screen name="SpotttedDetails" component={SpotttedDetails} />
       <Screen name="ReviewsPage" component={ReviewsPage} />
       <Screen name="Scanner" component={Scanner} />
@@ -260,6 +253,7 @@ function RootNavigator() {
     </Navigator>
   ) : (
     <Navigator
+      initialRouteName="Explore"
       screenOptions={{
         headerShown: false,
         cardStyle: {
@@ -268,19 +262,19 @@ function RootNavigator() {
       }}
     >
       <Screen
+        name="Explore"
+        component={TabBar}
+        options={{ gestureEnabled: false }}
+      />
+      {/* <Screen
         name="Advertisments"
         component={Advertisments}
         options={{ gestureEnabled: true, gestureResponseDistance: 135 }}
-      />
+      /> */}
       <Screen
         name="ReviewsPage"
         component={ReviewsPage}
         options={{ gestureEnabled: true, gestureResponseDistance: 135 }}
-      />
-      <Screen
-        name="Explore"
-        component={TabBar}
-        options={{ gestureEnabled: false }}
       />
       <Screen
         name="SpotDetails"
@@ -424,9 +418,7 @@ function TabBar() {
       screenOptions={{
         tabBarStyle: {
           backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-          paddingBottom: 50,
-          paddingLeft: 5,
-          paddingRight: 5,
+          //margin: 5,
           borderTopWidth: 0,
         },
         headerShown: false,
@@ -442,10 +434,9 @@ function TabBar() {
               name={focused ? "compass" : "compass-outline"}
               size={40}
               color={color}
-              style={{ position: "absolute", paddingTop: "13%" }}
+              style={{ position: "absolute", paddingTop: "5%" }}
             ></Ionicons>
           ),
-
           tabBarActiveTintColor: "#e52b51",
           tabBarInactiveTintColor:
             colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
@@ -463,10 +454,11 @@ function TabBar() {
               color={color}
               style={{
                 position: "absolute",
-                paddingTop: "13%",
+                paddingTop: "5%",
               }}
             />
           ),
+
           tabBarActiveTintColor: "#e52b51",
           tabBarInactiveTintColor:
             colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
@@ -483,7 +475,7 @@ function TabBar() {
               name={focused ? "person-circle" : "person-circle-outline"}
               size={40}
               color={color}
-              style={{ position: "absolute", paddingTop: "13%" }}
+              style={{ position: "absolute", paddingTop: "5%" }}
             />
           ),
           tabBarActiveTintColor: "#e52b51",

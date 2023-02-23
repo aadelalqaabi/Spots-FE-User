@@ -22,7 +22,7 @@ function ReviewItem({ review }) {
             style={styles.reviewImage}
             source={
               reviewImage !== ""
-                ? { uri: baseURL + reviewImage }
+                ? { uri: `${baseURL}${reviewImage}` }
                 : require("../../assets/PP.png")
             }
           />

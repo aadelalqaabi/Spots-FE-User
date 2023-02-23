@@ -89,7 +89,7 @@ export default function AppleUsername({ route }) {
           <Ionicons
             style={{
               position: "absolute",
-              fontSize: 35,
+              fontSize: 32,
               marginTop: 80,
               marginLeft: 20,
               paddingRight: 20,

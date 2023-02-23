@@ -24,8 +24,8 @@
       "icon":"./assets/DestLogo.png"
     },
     "ios": {
-      "supportsTablet": true,
-      "buildNumber": "3",
+      "supportsTablet": false,
+      "buildNumber": "4",
       "bundleIdentifier": "com.dest.kuwait",
       "associatedDomains": [
         "applinks:destkw.com"

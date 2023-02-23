@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import {
   StyleSheet,
   Text,
@@ -29,7 +29,10 @@ function Advertisments() {
   const today = new Date();
   today.setHours(3, 0, 0, 0);
   const adSpots = spotStore.spots.filter(
-    (spot) => spot.isAd === true && new Date(spot.startDate) >= today
+    (spot) =>
+      spot.isAd === true &&
+      new Date(spot.startDate) >= today &&
+      spot.isPublished === true
   );
   const [current, setCurrent] = useState(0);
 
@@ -60,12 +63,14 @@ function Advertisments() {
       finish: 0,
     },
   ]);
+
   // for get the duration
   const [end, setEnd] = useState(0);
   // current is for get the current content is now playing
 
   // if load true then start the animation of the bars at the top
   const [load, setLoad] = useState(false);
+
   // progress is the animation value of the bars content playing the current state
   const progress = useRef(new Animated.Value(0)).current;
   let [fontsLoaded] = useFonts({
@@ -86,7 +91,7 @@ function Advertisments() {
     },
   };
   const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
+  i18n.locale = "ar";
   i18n.enableFallback = true;
   // start() is for starting the animation bars at the top
   function start(n) {
@@ -147,6 +152,7 @@ function Advertisments() {
   const organizer = organizerStore.getOrganizerById(
     adSpots[current]?.organizer
   );
+
   return (
     <View style={styles.containerModal}>
       <StatusBar backgroundColor="black" barStyle="light-content" />
@@ -167,6 +173,16 @@ function Advertisments() {
             borderRadius: 10,
           }}
         />
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: "black",
+            position: "absolute",
+            height: "100%",
+            width: "100%",
+            opacity: 0.3,
+          }}
+        ></View>
       </View>
       <View
         style={{
@@ -224,14 +240,25 @@ function Advertisments() {
         <View
           style={{
             height: 50,
-            flexDirection: "row",
+            flexDirection:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "row"
+                : "row-reverse",
             justifyContent: "space-between",
             paddingHorizontal: 15,
             marginTop: 10,
           }}
         >
           {/* THE AVATAR AND USERNAME  */}
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <View
+            style={{
+              flexDirection:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "row"
+                  : "row-reverse",
+              alignItems: "center",
+            }}
+          >
             <Image
               style={{
                 height: 50,
@@ -249,6 +276,7 @@ function Advertisments() {
                 fontWeight: "bold",
                 color: "white",
                 paddingLeft: 10,
+                paddingRight: 10,
                 fontFamily:
                   i18n.locale === "en-US" || i18n.locale === "en"
                     ? "Ubuntu"

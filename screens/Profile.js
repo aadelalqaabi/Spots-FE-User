@@ -45,6 +45,19 @@ function Profile() {
       try {
         setLoading(true);
         await authStore.checkForToken();
+        if (authStore.user.locale === "") {
+          console.log("inside if no locale");
+          authStore.changeLocal(i18n.locale);
+        } else if (
+          i18n?.locale?.includes("en") &&
+          authStore?.user?.locale?.includes("en")
+        ) {
+          authStore.changeLocal(i18n.locale);
+          console.log("changed to: ", i18n.locale);
+        } else {
+          authStore.changeLocal(i18n.locale);
+          console.log("changed to: ", i18n.locale);
+        }
       } finally {
         setLoading(false);
       }
@@ -73,17 +86,6 @@ function Profile() {
   //num--;
   //}
 
-  if(authStore.user.locale === ""){ 
-    console.log('inside if no locale')
-    authStore.changeLocal(i18n.locale)
-  } else if(i18n?.locale?.includes("en") && authStore?.user?.locale?.includes("en")){
-    authStore.changeLocal(i18n.locale)
-    console.log('changed to: ', i18n.locale)
-  } else{
-    authStore.changeLocal(i18n.locale)
-    console.log('changed to: ', i18n.locale)
-  }
-
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../assets/fonts/Ubuntu.ttf"),
@@ -106,7 +108,7 @@ function Profile() {
       <View
         style={{
           width: "100%",
-          height: "90%",
+          height: "100%",
           zIndex: 99,
           backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
         }}
@@ -170,7 +172,7 @@ function Profile() {
                 </TouchableOpacity>
                 <Text
                   style={{
-                    fontSize: 30,
+                    fontSize: 25,
                     fontFamily:
                       i18n.locale === "en-US" || i18n.locale === "en"
                         ? "UbuntuBold"
@@ -185,7 +187,7 @@ function Profile() {
               <View
                 style={{
                   display: "flex",
-                  justifyContent: "space-between",
+                  justifyContent: "space-evenly",
                   alignContent: "center",
                   alignItems: "center",
                   flexDirection:
@@ -193,48 +195,48 @@ function Profile() {
                       ? "row"
                       : "row-reverse",
                   marginBottom: 10,
-                  marginRight: 80,
-                  marginLeft: 40,
-                  borderRadius: 20,
-                  height: 180,
+                  height: 140,
+                  width: "100%",
                 }}
               >
-                {authStore.user.image === "" ? (
-                  <Image
-                    style={{
-                      width: 150,
-                      height: 150,
-                      borderRadius: 150,
-                      alignItems: "center",
-                      alignSelf: "center",
-                    }}
-                    source={require("../assets/PP.png")}
-                  />
-                ) : (
-                  <Image
-                    style={{
-                      width: 150,
-                      height: 150,
-                      borderRadius: 150,
-                      alignItems: "center",
-                      alignSelf: "center",
-                    }}
-                    source={{
-                      uri: baseURL + authStore.user.image,
-                    }}
-                  />
-                )}
+                <View style={{ width: "50%" }}>
+                  {authStore.user.image === "" ? (
+                    <Image
+                      style={{
+                        width: 120,
+                        height: 120,
+                        borderRadius: 100,
+                        alignItems: "center",
+                        alignSelf: "center",
+                      }}
+                      source={require("../assets/PP.png")}
+                    />
+                  ) : (
+                    <Image
+                      style={{
+                        width: 120,
+                        height: 120,
+                        borderRadius: 100,
+                        alignItems: "center",
+                        alignSelf: "center",
+                      }}
+                      source={{
+                        uri: baseURL + authStore.user.image,
+                      }}
+                    />
+                  )}
+                </View>
                 <View
                   style={{
                     alignItems: "center",
                     alignSelf: "center",
+                    width: "50%",
                   }}
                 >
                   <Text
                     style={{
-                      fontSize: 30,
-                      fontWeight: "bold",
-                      fontFamily: "Ubuntu",
+                      fontSize: 25,
+                      fontFamily: "UbuntuBold",
                       color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                     }}
                   >
@@ -242,11 +244,7 @@ function Profile() {
                   </Text>
                   <Text
                     style={{
-                      fontSize: 25,
-                      fontFamily:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "Ubuntu"
-                          : "Noto",
+                      fontSize: 20,
                       color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                     }}
                   >
@@ -254,7 +252,7 @@ function Profile() {
                   </Text>
                 </View>
               </View>
-              <View style={{ height: "100%" }}>
+              <View style={{ height: "100%", marginBottom: "-10%" }}>
                 <ScrollTabs userSpots={userSpots} />
               </View>
             </>

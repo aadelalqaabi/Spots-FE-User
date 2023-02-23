@@ -25,6 +25,7 @@ import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
 import Calnder from "./Calnder";
+import moment from "moment";
 
 LogBox.ignoreAllLogs(true);
 
@@ -75,11 +76,11 @@ function Explore() {
   const today = new Date();
   today.setHours(3, 0, 0, 0);
   const spotsByDate = spotStore.spots.filter(
-    (spot) => new Date(spot?.startDate) >= today
+    (spot) => new Date(spot?.startDate) >= today && spot.isPublished === true
   );
   const sortedSpots = spotsByDate
-    .sort((objA, objB) => new Date(objA.startDate) - new Date(objB.startDate))
-    .sort((objA, objB) => parseInt(objA.startTime) - parseInt(objB.startTime));
+    .sort((objA, objB) => parseInt(objA.startTime) - parseInt(objB.startTime))
+    .sort((objA, objB) => new Date(objA.startDate) - new Date(objB.startDate));
   const spots = sortedSpots
     .filter((spot) =>
       day !== null
@@ -96,6 +97,10 @@ function Explore() {
   const handleCategory = (index) => {
     setSelectedCategory(index);
   };
+
+  const dayHolder = moment(day).locale(Localization.locale).format("D");
+  const dayStringHolder = moment(day).locale(Localization.locale).format("ddd");
+
   return (
     <View
       style={{
@@ -115,7 +120,7 @@ function Explore() {
             style={{
               height: "100%",
             }}
-            viewBox="0 0 255 420"
+            viewBox="0 0 255 440"
             backgroundColor={colorScheme === "dark" ? "#313131" : "#d8d8d8"}
             foregroundColor={colorScheme === "dark" ? "#5a5a5a" : "#c2c2c2"}
           >
@@ -171,7 +176,95 @@ function Explore() {
               >
                 {i18n.t("explore")}
               </Text>
-              <View style={{ display: "flex", flexDirection: "row" }}>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "row"
+                      : "row-reverse",
+                  alignContent: "center",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {day === null ? (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setCalendar(true);
+                    }}
+                    style={{
+                      marginLeft:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? 20
+                          : 10,
+                      marginRight:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? 10
+                          : 20,
+                    }}
+                  >
+                    <Ionicons
+                      style={{
+                        fontSize: 30,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                      }}
+                      name="md-calendar-outline"
+                    ></Ionicons>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity
+                    onPress={() => {
+                      setCalendar(true);
+                    }}
+                    style={{
+                      marginLeft:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? 15
+                          : 10,
+                      marginRight:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? 10
+                          : 20,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignContent: "center",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: "#e52b51",
+                        fontSize: 20,
+                        alignSelf: "center",
+                        fontFamily:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "UbuntuBold"
+                            : "NotoBold",
+                      }}
+                    >
+                      {dayHolder}
+                    </Text>
+                    <Text
+                      style={{
+                        color: "#e52b51",
+                        fontSize: 15,
+                        alignSelf: "center",
+                        fontFamily:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "Ubuntu"
+                            : "Noto",
+                        marginTop:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 0
+                            : -15,
+                      }}
+                    >
+                      {dayStringHolder}
+                    </Text>
+                  </TouchableOpacity>
+                )}
                 <TouchableOpacity
                   style={{ marginLeft: 5, marginRight: 5 }}
                   onPress={() => {
@@ -184,25 +277,6 @@ function Explore() {
                       color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                     }}
                     name="search-outline"
-                  ></Ionicons>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    setCalendar(true);
-                  }}
-                  style={{
-                    marginLeft:
-                      i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
-                    marginRight:
-                      i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 20,
-                  }}
-                >
-                  <Ionicons
-                    style={{
-                      fontSize: 30,
-                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                    }}
-                    name="md-calendar-outline"
                   ></Ionicons>
                 </TouchableOpacity>
               </View>
@@ -277,7 +351,6 @@ function Explore() {
                           color:
                             colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                           flexWrap: "wrap",
-
                           fontSize: 22,
                           alignSelf: "center",
                           fontFamily:
@@ -424,7 +497,7 @@ function Explore() {
                 renderItem={renderSpot}
                 windowSize={1}
                 sliderWidth={420}
-                itemWidth={350}
+                itemWidth={320}
                 layout={"default"}
                 containerCustomStyle={{
                   alignSelf: "center",
