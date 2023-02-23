@@ -209,9 +209,29 @@ class AuthStore {
     const newUser = {...this.user, locale: newLocale}
     try {
       const res = await instance.put(`/user/local/change`, newUser);
-      this.setUser(res.data.newtoken);
+      this.setUser(res.data.token);
     } catch (error) {
       console.log("change local", error);
+    }
+  };
+
+  unRegisterUser = async (organizerId) => {
+    try {
+      console.log('Un Registerd')
+      const res = await instance.put(`/user/un-register/${organizerId}`);
+      this.setUser(res.data.token);
+    } catch (error) {
+      console.log("un reg", error);
+    }
+  };
+
+  registerUser = async (organizerId) => {
+    try {
+      console.log('Registered')
+      const res = await instance.put(`/user/register/${organizerId}`);
+      this.setUser(res.data.token);
+    } catch (error) {
+      console.log("reg", error);
     }
   };
 }

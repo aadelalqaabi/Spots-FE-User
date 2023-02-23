@@ -7,24 +7,57 @@ import {
   ScrollView,
   TouchableOpacity,
   useColorScheme,
+  Modal,
+  SafeAreaView
 } from "react-native";
 import OrganizerSpot from "../screens/spots/OrganizerSpot";
 import { observer } from "mobx-react";
 import { baseURL } from "../stores/instance";
 import { useNavigation } from "@react-navigation/native";
 import { Fontisto, Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useFonts } from "expo-font";
 
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
+import authStore from "../stores/authStore";
 
 function OrganizerProfile({ route }) {
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
-  const [notification, setNotification] = useState();
   const organizer = route.params.organizer;
+  const spots = organizer.spots.filter(spot.isPublished === true)
+  const [notifications, setNotifications] = useState(() => {
+    try {
+      return authStore?.user?.organizers?.includes(organizer?._id) ? "notifications-off" : "notifications";
+    } catch (error) {
+      return "profile";
+    }
+  });
+  const [notificationsColor, setNotificationsColor] = useState(() => {
+    try {
+      return authStore?.user?.organizers?.includes(organizer?._id) ? "#e52b51" : colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b"
+    } catch (error) {
+      return colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b";
+    }
+  });
+
+  const [visibleEnable, setVisibleEnable] = useState(false);
+  const toggleAlertEnableNoti = useCallback(() => {
+    setVisibleEnable(!visibleEnable);
+  }, [visibleEnable]);
+
+  const [visibleReg, setVisibleReg] = useState(false);
+  const toggleAlertReg = useCallback(() => {
+    setVisibleReg(!visibleReg);
+  }, [visibleReg]);
+
+  const [visibleUnReg, setVisibleUnReg] = useState(false);
+  const toggleAlertUnReg = useCallback(() => {
+    setVisibleUnReg(!visibleUnReg);
+  }, [visibleUnReg]);
+
   const translations = {
     en: {
       more: "More Info",
@@ -52,8 +85,28 @@ function OrganizerProfile({ route }) {
     return <MyAwesomeSplashScreen />;
   }
 
+  const registerUser = async () => {
+    if(authStore.user.notificationToken === "") {
+      toggleAlertEnableNoti()
+    } else if(authStore?.user?.organizers?.includes(organizer?._id)) {
+      console.log('in Un register')
+      await authStore.unRegisterUser(organizer._id).then(
+        setNotifications("notifications"), // inactive
+        setNotificationsColor(colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b"),
+        toggleAlertUnReg()
+      )
+    } else if(!authStore?.user?.organizers?.includes(organizer?._id)) {
+      console.log('in register')
+      await authStore.registerUser(organizer._id).then(
+        setNotifications("notifications-off"), // active
+        setNotificationsColor("#e52b51"),
+        toggleAlertReg()
+      )
+    }
+  }
+
   return (
-    <View
+    <SafeAreaView
       style={{
         width: "100%",
         height: "100%",
@@ -68,8 +121,7 @@ function OrganizerProfile({ route }) {
               ? "row"
               : "row-reverse",
           alignItems: "center",
-          justifyContent: "center",
-          marginTop: 50,
+          justifyContent: "space-between",
           width: "100%",
         }}
       >
@@ -79,8 +131,6 @@ function OrganizerProfile({ route }) {
           }}
           style={{
             zIndex: 99,
-            position: "absolute",
-            width: "100%",
           }}
         >
           <Ionicons
@@ -104,16 +154,38 @@ function OrganizerProfile({ route }) {
         <Text
           style={{
             fontSize: 30,
-            marginLeft: 0,
-            marginRight: 0,
-            marginBottom: 10,
-            marginTop: 15,
             fontFamily: "UbuntuBold",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
           {organizer?.username}
         </Text>
+        <TouchableOpacity
+          onPress={() => {
+            registerUser()
+          }}
+          style={{
+            zIndex: 99,
+            margin: 20,
+          }}
+        >
+           <Ionicons
+              style={{
+                color: notificationsColor,
+                zIndex: 99,
+                fontSize: 30,
+                alignSelf:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "flex-start"
+                    : "flex-end",
+              }}
+              name={
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? notifications
+                  : notifications
+              }
+            ></Ionicons>
+        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -151,7 +223,7 @@ function OrganizerProfile({ route }) {
                 alignItems: "center",
                 alignSelf: "center",
                 marginRight: 35,
-                resizeMode: "contain",
+                resizeMode: "cover",
               }}
               source={{
                 uri: baseURL + organizer?.image,
@@ -206,14 +278,246 @@ function OrganizerProfile({ route }) {
           <FlatList
             style={styles.spotsList}
             contentContainerStyle={styles.spotsListContainer}
-            data={organizer?.spots}
+            data={spots}
             renderItem={renderSpot}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}
           />
         </View>
       </ScrollView>
-    </View>
+
+                  {/* Enable Modal */}
+      <Modal
+        transparent={true}
+        visible={visibleEnable}
+        animationIn="slideInLeft"
+        animationOut="slideOutRight"
+      > 
+        <View
+          style={{
+            backgroundColor: "rgba(0,0,0,0.2)",
+            alignItems: "center",
+            justifyContent: "center",
+            flex: 1,
+          }}
+        >
+          <View
+            style={{
+              width: "85%",
+              backgroundColor: "white",
+              padding: 25,
+              paddingTop: 30,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 20,
+              borderColor: "rgba(0, 0, 0, 0.1)",
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "center",
+              alignSelf: "center",
+            }}
+          >
+            <Text
+              style={{
+                marginBottom: 30,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                width: "90%",
+                textAlign: "center",
+                fontSize: 24,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "You Must Enable Notifications First!!"
+                : "!! يجب عليك تفعيل الإخطارات أولاً"}
+            </Text>
+            <TouchableOpacity
+                style={{
+                  width: "50%",
+                  backgroundColor: "#e52b51",
+                  borderRadius: 50,
+                  height: 40,
+                  justifyContent: "center",
+                }}
+                onPress={() => toggleAlertEnableNoti()}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  color: "#f1f1f1",
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "UbuntuBold"
+                      : "NotoBold",
+                  fontSize: 15,
+                }}
+              >
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "ok"
+                  : "حسنا"}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+                  {/* Enable Modal */}
+                  {/* Registered */}
+      <Modal
+        transparent={true}
+        visible={visibleReg}
+        animationIn="slideInLeft"
+        animationOut="slideOutRight"
+      > 
+        <View
+          style={{
+            backgroundColor: "rgba(0,0,0,0.2)",
+            alignItems: "center",
+            justifyContent: "center",
+            flex: 1,
+          }}
+        >
+          <View
+            style={{
+              width: "85%",
+              backgroundColor: "white",
+              padding: 25,
+              paddingTop: 30,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 20,
+              borderColor: "rgba(0, 0, 0, 0.1)",
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "center",
+              alignSelf: "center",
+            }}
+          >
+            <Text
+              style={{
+                marginBottom: 30,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                width: "90%",
+                textAlign: "center",
+                fontSize: 20,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "You'll Recieve a Notification Once this Organizer Posts a New Dest!!"
+                : "!! ستتلقى إشعارًا بمجرد قيام المنظم بنشر وجهة جديدة"}
+            </Text>
+            <TouchableOpacity
+                style={{
+                  width: "50%",
+                  backgroundColor: "#e52b51",
+                  borderRadius: 50,
+                  height: 40,
+                  justifyContent: "center",
+                }}
+                onPress={() => toggleAlertReg()}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  color: "#f1f1f1",
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "UbuntuBold"
+                      : "NotoBold",
+                  fontSize: 15,
+                }}
+              >
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "ok"
+                  : "حسنا"}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+                  {/* Registered */}
+                  {/* Un Registered */}
+      <Modal
+        transparent={true}
+        visible={visibleUnReg}
+        animationIn="slideInLeft"
+        animationOut="slideOutRight"
+      > 
+        <View
+          style={{
+            backgroundColor: "rgba(0,0,0,0.2)",
+            alignItems: "center",
+            justifyContent: "center",
+            flex: 1,
+          }}
+        >
+          <View
+            style={{
+              width: "85%",
+              backgroundColor: "white",
+              padding: 25,
+              paddingTop: 30,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 20,
+              borderColor: "rgba(0, 0, 0, 0.1)",
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "center",
+              alignSelf: "center",
+            }}
+          >
+            <Text
+              style={{
+                marginBottom: 30,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                width: "90%",
+                textAlign: "center",
+                fontSize: 24,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "You'll Stop Recieving Notifications from this Organizer"
+                : "ستتوقف عن تلقي إشعارات من هذا المنظم"}
+            </Text>
+            <TouchableOpacity
+                style={{
+                  width: "50%",
+                  backgroundColor: "#e52b51",
+                  borderRadius: 50,
+                  height: 40,
+                  justifyContent: "center",
+                }}
+                onPress={() => toggleAlertUnReg()}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  color: "#f1f1f1",
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "UbuntuBold"
+                      : "NotoBold",
+                  fontSize: 15,
+                }}
+              >
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "ok"
+                  : "حسنا"}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+                  {/* Un Registered */}
+    </SafeAreaView>
   );
 }
 export default observer(OrganizerProfile);
