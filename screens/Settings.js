@@ -1,9 +1,16 @@
-import { View, Text, useColorScheme, TouchableOpacity, Modal, SafeAreaView } from "react-native";
+import {
+  View,
+  Text,
+  useColorScheme,
+  TouchableOpacity,
+  Modal,
+  SafeAreaView,
+} from "react-native";
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { I18n } from "i18n-js";
-import * as Permissions from 'expo-permissions';
+import * as Permissions from "expo-permissions";
 import * as Notifications from "expo-notifications";
-import * as Device from 'expo-device';
+import * as Device from "expo-device";
 import * as Localization from "expo-localization";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
@@ -61,7 +68,8 @@ function Settings() {
     setVisibleAdd(!visibleAdd);
   }, [visibleAdd]);
 
-  const [visibleSomethingWentWrong, setVisibleSomethingWentWrong] = useState(false);
+  const [visibleSomethingWentWrong, setVisibleSomethingWentWrong] =
+    useState(false);
   const toggleAlertSomethingWentWrong = useCallback(() => {
     setVisibleSomethingWentWrong(!visibleSomethingWentWrong);
   }, [visibleSomethingWentWrong]);
@@ -79,75 +87,88 @@ function Settings() {
   // Notifications.removeNotificationSubscription(notificationListener.current);
   // Notifications.removeNotificationSubscription(responseListener.current);
 
-
   async function registerForPushNotificationsAsync() {
     let token;
     if (Device.isDevice) {
-      const { status: existingStatus } = await Notifications.getPermissionsAsync();
+      const { status: existingStatus } =
+        await Notifications.getPermissionsAsync();
       let finalStatus = existingStatus;
-      if (existingStatus !== 'granted') {
+      if (existingStatus !== "granted") {
         const { status } = await Notifications.requestPermissionsAsync();
         finalStatus = status;
       }
-      if (finalStatus !== 'granted') {
+      if (finalStatus !== "granted") {
         i18n.locale === "en-US" || i18n.locale === "en"
-          ? Alert.alert("Enabling Notifcation Failed", "Plrease try again", [{ text: "ok" }])
+          ? Alert.alert("Enabling Notifcation Failed", "Plrease try again", [
+              { text: "ok" },
+            ])
           : Alert.alert("فشل تفعيل الاشعارات", "حاول مره اخرى", [
               { text: "حسنا" },
             ]);
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
-      console.log('token', token)
-      if(token.includes("ExponentPushToken")){ // add token
-        if(authStore.user.notificationToken === ""){ // only add token if user doesnt have one
-          await authStore.addToken(token).then(
-            toggleAlertEnabled())
+      console.log("token", token);
+      if (token.includes("ExponentPushToken")) {
+        // add token
+        if (authStore.user.notificationToken === "") {
+          // only add token if user doesnt have one
+          await authStore.addToken(token).then(toggleAlertEnabled());
         }
       }
     } else {
-      alert('Must use physical device for Push Notifications');
+      alert("Must use physical device for Push Notifications");
     }
-  
-    if (Platform.OS === 'android') {
-      Notifications.setNotificationChannelAsync('default', {
-        name: 'default',
+
+    if (Platform.OS === "android") {
+      Notifications.setNotificationChannelAsync("default", {
+        name: "default",
         importance: Notifications.AndroidImportance.MAX,
         vibrationPattern: [0, 250, 250, 250],
-        lightColor: '#FF231F7C',
+        lightColor: "#FF231F7C",
       });
     }
-  
+
     return token;
   }
 
   const removeNotificationFromUser = async () => {
-    await authStore.removeToken().then( toggleAlertDisabled )
-  }
+    await authStore.removeToken().then(toggleAlertDisabled);
+  };
 
   useEffect(() => {
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      console.log('entered listener')
-      if (notification.data && notification.data.locale === 'en' && i18n.locale === "en-US") {
-        console.log('entered if')
-        console.log('Notification is in English');
-        Notifications.presentedNotificationsAsync({
-          title: notification.title,
-          body: notification.body,
-        });
-      } else {
-        console.log('Notification is not in English');
-      }
-    });
+    notificationListener.current =
+      Notifications.addNotificationReceivedListener((notification) => {
+        console.log("entered listener");
+        if (
+          notification.data &&
+          notification.data.locale === "en" &&
+          i18n.locale === "en-US"
+        ) {
+          console.log("entered if");
+          console.log("Notification is in English");
+          Notifications.presentedNotificationsAsync({
+            title: notification.title,
+            body: notification.body,
+          });
+        } else {
+          console.log("Notification is not in English");
+        }
+      });
 
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log(response);
+    responseListener.current =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log(response);
 
-      return () => {
-        Notifications.removeNotificationSubscription(notificationListener.current);
-        Notifications.removeNotificationSubscription(responseListener.current);
-      };
-    });
+        return () => {
+          Notifications.removeNotificationSubscription(
+            notificationListener.current
+          );
+          Notifications.removeNotificationSubscription(
+            responseListener.current
+          );
+        };
+      });
 
     // let [fontsLoaded] = useFonts({
     //   UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
@@ -158,7 +179,6 @@ function Settings() {
     // if (!fontsLoaded) {
     //   return <MyAwesomeSplashScreen />;
     // }
-  
   }, []);
 
   return (
@@ -171,28 +191,33 @@ function Settings() {
       <View
         style={{
           display: "flex",
-          flexDirection:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "row"
-              : "row-reverse",
-          alignContent: "center",
-          alignItems: "center",
-          justifyContent: "cnter",
           width: "100%",
-          padding: 30,
+          justifyContent: "center",
+          alignContent: "center",
+          marginTop: "6%",
+          marginBottom: "4%",
         }}
       >
         <TouchableOpacity
           onPress={() => {
             navigation.goBack();
           }}
-          style={{ zIndex: 99 }}
+          style={{
+            zIndex: 99,
+            alignSelf:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "flex-start"
+                : "flex-end",
+            position: "absolute",
+            marginLeft: 20,
+            paddingRight: 20,
+          }}
         >
           <Ionicons
             style={{
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               zIndex: 99,
-              fontSize: 35,
+              fontSize: 32,
             }}
             name={
               i18n.locale === "en-US" || i18n.locale === "en"
@@ -205,12 +230,12 @@ function Settings() {
           style={{
             textAlign: "center",
             alignSelf: "center",
-            margin: i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 20,
             fontSize: 28,
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en" ? "Ubuntu" : "Noto",
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Ubuntu"
+                : "Noto",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-            width: "80%"
           }}
         >
           {i18n.t("Settings")}
@@ -359,12 +384,12 @@ function Settings() {
           justifyContent: "space-between",
         }}
         onPress={() => {
-          if(authStore.user.notificationToken !== ''){
+          if (authStore.user.notificationToken !== "") {
             toggleAlertRemoveNoti();
-          } else if(authStore.user.notificationToken === '') {
+          } else if (authStore.user.notificationToken === "") {
             toggleAlertAddNoti();
           } else {
-            toggleAlertSomethingWentWrong()
+            toggleAlertSomethingWentWrong();
           }
         }}
       >
@@ -382,57 +407,53 @@ function Settings() {
             opacity: 0.8,
           }}
         >
-
-          {authStore.user.notificationToken === '' ? (
-            <>
-              {i18n.t("Notification")}
-            </>) : (
-            <>
-              {i18n.t("DisNotification")}
-            </>
+          {authStore.user.notificationToken === "" ? (
+            <>{i18n.t("Notification")}</>
+          ) : (
+            <>{i18n.t("DisNotification")}</>
           )}
         </Text>
-        {authStore.user.notificationToken === '' ? (
-            <>
-              <Ionicons
-                style={{
-                  color: "#1b1b1b",
-                  fontSize: 22,
-                  fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
-                  margin: 18,
-                  opacity: 0.8,
-                }}
-                name={
+        {authStore.user.notificationToken === "" ? (
+          <>
+            <Ionicons
+              style={{
+                color: "#1b1b1b",
+                fontSize: 22,
+                fontFamily:
                   i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "notifications"
-                    : "notifications"
-                }
-              ></Ionicons>
-            </>) : (
-            <>
-              <Ionicons
-                style={{
-                  color: "#1b1b1b",
-                  fontSize: 22,
-                  fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
-                  margin: 19,
-                  opacity: 0.8, 
-                }}
-                name={
+                    ? "Ubuntu"
+                    : "Noto",
+                margin: 18,
+                opacity: 0.8,
+              }}
+              name={
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "notifications"
+                  : "notifications"
+              }
+            ></Ionicons>
+          </>
+        ) : (
+          <>
+            <Ionicons
+              style={{
+                color: "#1b1b1b",
+                fontSize: 22,
+                fontFamily:
                   i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "notifications-off"
-                    : "notifications-off"
-                }
-              ></Ionicons>
-            </>
-          )}
-        
+                    ? "Ubuntu"
+                    : "Noto",
+                margin: 19,
+                opacity: 0.8,
+              }}
+              name={
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "notifications-off"
+                  : "notifications-off"
+              }
+            ></Ionicons>
+          </>
+        )}
       </TouchableOpacity>
       <TouchableOpacity
         style={{
@@ -512,13 +533,13 @@ function Settings() {
           }
         ></Ionicons>
       </TouchableOpacity>
-                  {/* Disable Modal */}
+      {/* Disable Modal */}
       <Modal
         transparent={true}
         visible={visibleRemove}
         animationIn="slideInLeft"
         animationOut="slideOutRight"
-      > 
+      >
         <View
           style={{
             backgroundColor: "rgba(0,0,0,0.2)",
@@ -545,11 +566,11 @@ function Settings() {
           >
             <Text
               style={{
-                marginBottom: 10,
+                marginBottom: 30,
                 fontFamily:
                   i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "UbuntuBold"
-                    : "NotoBold",
+                    ? "Ubuntu"
+                    : "Noto",
                 width: "90%",
                 textAlign: "center",
                 fontSize: 24,
@@ -559,7 +580,13 @@ function Settings() {
                 ? "Do You want to turn off Notifications?"
                 : "هل تريد إيقاف تفعيل الاشعارات؟"}
             </Text>
-            <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
               <TouchableOpacity
                 style={{
                   width: "25%",
@@ -568,7 +595,9 @@ function Settings() {
                   height: 40,
                   justifyContent: "center",
                 }}
-                onPress={() => removeNotificationFromUser().then(toggleAlertRemoveNoti())}
+                onPress={() =>
+                  removeNotificationFromUser().then(toggleAlertRemoveNoti())
+                }
               >
                 <Text
                   style={{
@@ -592,7 +621,7 @@ function Settings() {
                   backgroundColor: "#e52b51",
                   borderRadius: 50,
                   height: 40,
-                  marginLeft: 50, 
+                  marginLeft: 50,
                   justifyContent: "center",
                 }}
                 onPress={() => toggleAlertRemoveNoti()}
@@ -613,20 +642,19 @@ function Settings() {
                     : "لا"}
                 </Text>
               </TouchableOpacity>
-
             </View>
           </View>
         </View>
       </Modal>
-                  {/* Disable Modal */}
-          
-                  {/* Enable Modal */}
+      {/* Disable Modal */}
+
+      {/* Enable Modal */}
       <Modal
         transparent={true}
         visible={visibleAdd}
         animationIn="slideInLeft"
         animationOut="slideOutRight"
-      > 
+      >
         <View
           style={{
             backgroundColor: "rgba(0,0,0,0.2)",
@@ -653,11 +681,11 @@ function Settings() {
           >
             <Text
               style={{
-                marginBottom: 10,
+                marginBottom: 30,
                 fontFamily:
                   i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "UbuntuBold"
-                    : "NotoBold",
+                    ? "Ubuntu"
+                    : "Noto",
                 width: "90%",
                 textAlign: "center",
                 fontSize: 24,
@@ -667,7 +695,13 @@ function Settings() {
                 ? "Do You want to turn on Notifications?"
                 : "هل تريد تفعيل الاشعارات؟"}
             </Text>
-            <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
               <TouchableOpacity
                 style={{
                   width: "25%",
@@ -676,7 +710,9 @@ function Settings() {
                   height: 40,
                   justifyContent: "center",
                 }}
-                onPress={() => registerForPushNotificationsAsync().then(toggleAlertAddNoti())}
+                onPress={() =>
+                  registerForPushNotificationsAsync().then(toggleAlertAddNoti())
+                }
               >
                 <Text
                   style={{
@@ -721,20 +757,19 @@ function Settings() {
                     : "لا"}
                 </Text>
               </TouchableOpacity>
-
             </View>
           </View>
         </View>
       </Modal>
-                  {/* Enable Modal */}
-              
-                  {/* Somthing Went Wrong Modal */}
+      {/* Enable Modal */}
+
+      {/* Somthing Went Wrong Modal */}
       <Modal
         transparent={true}
         visible={visibleSomethingWentWrong}
         animationIn="slideInLeft"
         animationOut="slideOutRight"
-      > 
+      >
         <View
           style={{
             backgroundColor: "rgba(0,0,0,0.2)",
@@ -793,14 +828,14 @@ function Settings() {
                 : "يرجى المحاولة مرة أخرى"}
             </Text>
             <TouchableOpacity
-                style={{
-                  width: "50%",
-                  backgroundColor: "#e52b51",
-                  borderRadius: 50,
-                  height: 40,
-                  justifyContent: "center",
-                }}
-                onPress={() => toggleAlertSomethingWentWrong()}
+              style={{
+                width: "50%",
+                backgroundColor: "#e52b51",
+                borderRadius: 50,
+                height: 40,
+                justifyContent: "center",
+              }}
+              onPress={() => toggleAlertSomethingWentWrong()}
             >
               <Text
                 style={{
@@ -821,15 +856,15 @@ function Settings() {
           </View>
         </View>
       </Modal>
-                  {/* Somthing Went Wrong Modal */}
-                
-                  {/* Noti Enabled Modal */}
+      {/* Somthing Went Wrong Modal */}
+
+      {/* Noti Enabled Modal */}
       <Modal
         transparent={true}
         visible={visibleEnabled}
         animationIn="slideInLeft"
         animationOut="slideOutRight"
-      > 
+      >
         <View
           style={{
             backgroundColor: "rgba(0,0,0,0.2)",
@@ -856,11 +891,11 @@ function Settings() {
           >
             <Text
               style={{
-                marginBottom: 10,
+                marginBottom: 30,
                 fontFamily:
                   i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "UbuntuBold"
-                    : "NotoBold",
+                    ? "Ubuntu"
+                    : "Noto",
                 width: "90%",
                 textAlign: "center",
                 fontSize: 24,
@@ -871,14 +906,14 @@ function Settings() {
                 : "تم تفعيل الاشعارات"}
             </Text>
             <TouchableOpacity
-                style={{
-                  width: "50%",
-                  backgroundColor: "#e52b51",
-                  borderRadius: 50,
-                  height: 40,
-                  justifyContent: "center",
-                }}
-                onPress={() => toggleAlertEnabled()}
+              style={{
+                width: "50%",
+                backgroundColor: "#e52b51",
+                borderRadius: 50,
+                height: 40,
+                justifyContent: "center",
+              }}
+              onPress={() => toggleAlertEnabled()}
             >
               <Text
                 style={{
@@ -899,15 +934,15 @@ function Settings() {
           </View>
         </View>
       </Modal>
-                  {/* Noti Enabled Modal */}
+      {/* Noti Enabled Modal */}
 
-                  {/* Noti Disabled Modal */}
+      {/* Noti Disabled Modal */}
       <Modal
         transparent={true}
         visible={visibleDisabled}
         animationIn="slideInLeft"
         animationOut="slideOutRight"
-      > 
+      >
         <View
           style={{
             backgroundColor: "rgba(0,0,0,0.2)",
@@ -934,11 +969,11 @@ function Settings() {
           >
             <Text
               style={{
-                marginBottom: 10,
+                marginBottom: 30,
                 fontFamily:
                   i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "UbuntuBold"
-                    : "NotoBold",
+                    ? "Ubuntu"
+                    : "Noto",
                 width: "90%",
                 textAlign: "center",
                 fontSize: 24,
@@ -949,14 +984,14 @@ function Settings() {
                 : "تم ايقاف الاشعارات"}
             </Text>
             <TouchableOpacity
-                style={{
-                  width: "50%",
-                  backgroundColor: "#e52b51",
-                  borderRadius: 50,
-                  height: 40,
-                  justifyContent: "center",
-                }}
-                onPress={() => toggleAlertDisabled()}
+              style={{
+                width: "50%",
+                backgroundColor: "#e52b51",
+                borderRadius: 50,
+                height: 40,
+                justifyContent: "center",
+              }}
+              onPress={() => toggleAlertDisabled()}
             >
               <Text
                 style={{
@@ -977,7 +1012,7 @@ function Settings() {
           </View>
         </View>
       </Modal>
-                  {/* Noti Disabled Modal */}
+      {/* Noti Disabled Modal */}
     </SafeAreaView>
   );
 }

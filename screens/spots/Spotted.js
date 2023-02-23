@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert,
   useColorScheme,
+  ImageBackground,
 } from "react-native";
 import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
@@ -19,9 +20,11 @@ import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import "moment/locale/ar";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
+import organizerStore from "../../stores/organizerStore";
 
 function Spotted({ ticket, navigation }) {
   const spot = spotStore.getSpotsById(ticket.spot._id);
+  const organizer = organizerStore.getOrganizerById(spot?.organizer);
   const colorScheme = useColorScheme();
   const translations = {
     en: {
@@ -122,133 +125,169 @@ function Spotted({ ticket, navigation }) {
           right={swipeoutBtns}
           autoClose={true}
         >
-          <View
-            style={{
-              display: "flex",
-              flexDirection:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "row"
-                  : "row-reverse",
-              backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-              justifyContent: "space-between",
-              alignItems: "center",
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("SpotttedDetails", {
+                id: spot._id,
+                ticket: ticket,
+              });
             }}
           >
-            <View
+            <ImageBackground
               style={{
-                width: 60,
-                height: 70,
-                backgroundColor: "#f1f1f1",
-                alignContent: "center",
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: 15,
-                shadowColor: "#161616",
-                shadowOffset: {
-                  width: 0,
-                  height: 3,
-                },
-                shadowOpacity: 0.09,
-                shadowRadius: 5,
-                marginRight: 15,
-                marginLeft: 15,
-              }}
-            >
-              <Text
-                style={{
-                  fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "UbuntuBold"
-                      : "NotoBold",
-                  fontSize: 23,
-                  color: "#0a0a0b",
-                  marginTop:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -5,
-                }}
-              >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? dayEn
-                  : dayAr}
-              </Text>
-
-              <Text
-                style={{
-                  fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
-                  fontSize: 17,
-                  color: "grey",
-                  marginTop:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -20,
-                }}
-              >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? monthEn
-                  : monthAr}
-              </Text>
-            </View>
-            <TouchableOpacity
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignContent: "center",
+                width: 400,
+                height: 250,
+                borderRadius: 30,
+                padding: 20,
+                margin: 20,
+                marginBottom: 5,
                 alignSelf: "center",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 16,
-                shadowColor: "#161616",
-                shadowOffset: {
-                  width: 0,
-                  height: 3,
-                },
-                shadowOpacity: 0.2,
-                shadowRadius: 5,
-                marginVertical: 5,
-                height: 290,
-                marginBottom: 10,
-                marginRight:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 20 : -8,
-                marginLeft:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? -8 : 20,
+                overflow: "hidden",
               }}
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}
-              onPress={() => {
-                navigation.navigate("SpotttedDetails", {
-                  id: spot._id,
-                  ticket: ticket,
-                });
-              }}
+              source={{ uri: `${baseURL}${spot?.image}` }}
             >
-              <Image
-                style={{
-                  width: "85%",
-                  height: "90%",
-                  borderRadius: 20,
-                  zIndex: -1,
-                }}
-                source={{ uri: `${baseURL}${spot?.image}` }}
-              />
               <View style={styles.overlay}></View>
-              <View style={styles.infoContainer}>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  zIndex: 99,
+                }}
+              >
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection: "row-reverse",
+                    justifyContent: "space-between",
+                    padding: 10,
+                  }}
+                >
+                  <View
+                    style={{
+                      width: 60,
+                      height: 70,
+                      backgroundColor: "#f1f1f1",
+                      alignContent: "center",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: 20,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "UbuntuBold"
+                            : "NotoBold",
+                        fontSize: 23,
+                        color: "#0a0a0b",
+                        marginTop:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 0
+                            : -5,
+                      }}
+                    >
+                      {i18n.locale === "en-US" || i18n.locale === "en"
+                        ? dayEn
+                        : dayAr}
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "Ubuntu"
+                            : "Noto",
+                        fontSize: 17,
+                        color: "grey",
+                        marginTop:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 0
+                            : -20,
+                      }}
+                    >
+                      {i18n.locale === "en-US" || i18n.locale === "en"
+                        ? monthEn
+                        : monthAr}
+                    </Text>
+                  </View>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("Organizer", {
+                        organizer: organizer,
+                      })
+                    }
+                    style={{
+                      display: "flex",
+                      flexDirection:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "row"
+                          : "row-reverse",
+                      alignContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Image
+                      style={{
+                        width: 50,
+                        height: 50,
+                        borderRadius: 50,
+                        borderColor: "white",
+                        backgroundColor: "white",
+                        resizeMode: "cover",
+                        marginRight: 10,
+                        marginLeft: 10,
+                      }}
+                      source={{ uri: `${baseURL}${organizer.image}` }}
+                    />
+                    <Text
+                      style={{
+                        fontSize: 22,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        fontFamily:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "Ubuntu"
+                            : "Noto",
+                        alignSelf: "center",
+                        textAlign:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "left"
+                            : "right",
+                        textTransform: "capitalize",
+                        shadowColor: "#000",
+                        shadowOffset: {
+                          width: 0,
+                          height: 9,
+                        },
+                        shadowOpacity: 0.68,
+                        shadowRadius: 11.95,
+                        elevation: 18,
+                      }}
+                    >
+                      {i18n.locale === "en-US" || i18n.locale === "en"
+                        ? organizer?.displayNameEn
+                        : organizer?.displayNameAr}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
                 <Text
                   style={{
-                    fontSize: 28,
+                    fontSize: 35,
                     color: "#fffffc",
-                    shadowOpacity: 1,
-                    shadowRadius: 4,
-                    shadowColor: "black",
-                    shadowOffset: {
-                      height: 1,
-                      width: 1,
-                    },
                     fontFamily:
                       i18n.locale === "en-US" || i18n.locale === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     textAlign: "center",
-                    width: "80%",
+                    alignSelf: "center",
+                    marginTop: "8%",
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 9,
+                    },
+                    shadowOpacity: 0.68,
+                    shadowRadius: 11.95,
+                    elevation: 18,
                   }}
                 >
                   {i18n.locale === "en-US" || i18n.locale === "en"
@@ -256,8 +295,8 @@ function Spotted({ ticket, navigation }) {
                     : spot.nameAr}
                 </Text>
               </View>
-            </TouchableOpacity>
-          </View>
+            </ImageBackground>
+          </TouchableOpacity>
         </Swipeout>
       ) : (
         <Swipeout
@@ -265,144 +304,187 @@ function Spotted({ ticket, navigation }) {
           left={swipeoutBtns}
           autoClose={true}
         >
-          <View
-            style={{
-              display: "flex",
-              flexDirection:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "row"
-                  : "row-reverse",
-              backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginTop: 5,
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("SpotttedDetails", {
+                id: spot._id,
+                ticket: ticket,
+              });
             }}
           >
-            <View
+            <ImageBackground
               style={{
-                width: 60,
-                height: 70,
-                backgroundColor: "#f1f1f1",
-                alignContent: "center",
-                justifyContent: "center",
-                alignItems: "center",
-
-                borderRadius: 15,
-                shadowColor: "#161616",
-                shadowOffset: {
-                  width: 0,
-                  height: 3,
-                },
-                shadowOpacity: 0.09,
-                shadowRadius: 5,
-                marginRight: 15,
-                marginLeft: 15,
-              }}
-            >
-              <Text
-                style={{
-                  fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "UbuntuBold"
-                      : "NotoBold",
-                  fontSize: 23,
-                  color: "#0a0a0b",
-                  marginTop:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -5,
-                }}
-              >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? dayEn
-                  : dayAr}
-              </Text>
-
-              <Text
-                style={{
-                  fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
-                  fontSize: 17,
-                  color: "grey",
-                  marginTop:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -20,
-                }}
-              >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? monthEn
-                  : monthAr}
-              </Text>
-            </View>
-            <TouchableOpacity
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignContent: "center",
+                width: 400,
+                height: 250,
+                borderRadius: 30,
+                padding: 20,
+                margin: 20,
+                marginBottom: 5,
                 alignSelf: "center",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 16,
-                shadowColor: "#161616",
-                shadowOffset: {
-                  width: 0,
-                  height: 3,
-                },
-                shadowOpacity: 0.2,
-                shadowRadius: 5,
-                marginVertical: 5,
-                height: 290,
-                marginBottom: 10,
-                marginRight:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 20 : -8,
-                marginLeft:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? -8 : 20,
+                overflow: "hidden",
               }}
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}
-              onPress={() => {
-                navigation.navigate("SpotttedDetails", {
-                  id: spot._id,
-                  ticket: ticket,
-                });
-              }}
+              source={{ uri: `${baseURL}${spot?.image}` }}
             >
-              <Image
-                style={{
-                  width: "85%",
-                  height: "90%",
-                  borderRadius: 20,
-                  //margin: 10,
-                  zIndex: -1,
-                }}
-                source={{ uri: `${baseURL}${spot?.image}` }}
-              />
               <View style={styles.overlay}></View>
-              <View style={styles.infoContainer}>
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  zIndex: 99,
+                }}
+              >
+                <View
+                  style={{
+                    display: "flex",
+                    flexDirection:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "row-reverse"
+                        : "row",
+                    justifyContent: "space-between",
+                    padding: 10,
+                  }}
+                >
+                  <View
+                    style={{
+                      width: 60,
+                      height: 70,
+                      backgroundColor: "#f1f1f1",
+                      alignContent: "center",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: 20,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontFamily:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "UbuntuBold"
+                            : "NotoBold",
+                        fontSize: 23,
+                        color: "#0a0a0b",
+                        marginTop:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 0
+                            : -5,
+                      }}
+                    >
+                      {i18n.locale === "en-US" || i18n.locale === "en"
+                        ? dayEn
+                        : dayAr}
+                    </Text>
+                    <Text
+                      style={{
+                        fontFamily:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "Ubuntu"
+                            : "Noto",
+                        fontSize: 17,
+                        color: "grey",
+                        marginTop:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 0
+                            : -20,
+                      }}
+                    >
+                      {i18n.locale === "en-US" || i18n.locale === "en"
+                        ? monthEn
+                        : monthAr}
+                    </Text>
+                  </View>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("Organizer", {
+                        organizer: organizer,
+                      })
+                    }
+                    style={{
+                      display: "flex",
+                      flexDirection:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "row"
+                          : "row-reverse",
+                      alignContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Image
+                      style={{
+                        width: 50,
+                        height: 50,
+                        borderRadius: 50,
+                        borderColor: "white",
+                        backgroundColor: "white",
+                        resizeMode: "cover",
+                        marginRight:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 10
+                            : 0,
+                        marginLeft:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 0
+                            : 10,
+                      }}
+                      source={{ uri: `${baseURL}${organizer.image}` }}
+                    />
+                    <Text
+                      style={{
+                        fontSize: 22,
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        fontFamily:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "Ubuntu"
+                            : "Noto",
+                        alignSelf: "center",
+                        textAlign:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "left"
+                            : "right",
+                        textTransform: "capitalize",
+                        shadowColor: "#000",
+                        shadowOffset: {
+                          width: 0,
+                          height: 9,
+                        },
+                        shadowOpacity: 0.68,
+                        shadowRadius: 11.95,
+                        elevation: 18,
+                      }}
+                    >
+                      {i18n.locale === "en-US" || i18n.locale === "en"
+                        ? organizer?.displayNameEn
+                        : organizer?.displayNameAr}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
                 <Text
                   style={{
-                    fontSize: 28,
+                    fontSize: 35,
                     color: "#fffffc",
-                    shadowOpacity: 1,
-                    shadowRadius: 4,
-                    shadowColor: "black",
-                    shadowOffset: {
-                      height: 1,
-                      width: 1,
-                    },
                     fontFamily:
                       i18n.locale === "en-US" || i18n.locale === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     textAlign: "center",
+                    alignSelf: "center",
+                    marginTop: "4%",
+                    shadowColor: "#000",
+                    shadowOffset: {
+                      width: 0,
+                      height: 9,
+                    },
+                    shadowOpacity: 0.68,
+                    shadowRadius: 11.95,
+                    elevation: 18,
                   }}
                 >
                   {i18n.locale === "en-US" || i18n.locale === "en"
                     ? spot.name
-                    : spot.nameAr}{" "}
+                    : spot.nameAr}
                 </Text>
               </View>
-            </TouchableOpacity>
-          </View>
+            </ImageBackground>
+          </TouchableOpacity>
         </Swipeout>
       )}
     </>
@@ -443,17 +525,10 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   overlay: {
-    display: "flex",
     position: "absolute",
-    zIndex: -1,
-    alignSelf: "center",
-    justifyContent: "center",
-    alignContent: "center",
-    alignItems: "center",
-    width: "85%",
-    height: "90%",
-    borderRadius: 20,
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
-    margin: 10,
+    borderRadius: 30,
+    backgroundColor: "rgba(0, 0, 0, 0.45)",
+    width: 400,
+    height: 250,
   },
 });

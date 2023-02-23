@@ -1,6 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import { observer } from "mobx-react";
-import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Text,
+  Image,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
 import { baseURL } from "../../stores/instance";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
@@ -10,6 +17,8 @@ import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 function ProfileSpot({ spot }) {
   const navigation = useNavigation();
+  let users = 0;
+  spot.users.forEach((user) => users++);
   const translations = {
     en: {
       active: "Active",
@@ -33,13 +42,16 @@ function ProfileSpot({ spot }) {
     return <MyAwesomeSplashScreen />;
   }
   return (
-    <View
+    <TouchableOpacity
       style={{
         backgroundColor: "transparent",
-        marginBottom: "-10%",
+        marginBottom: "-5%",
+      }}
+      onPress={() => {
+        navigation.navigate("ProfileSpotDetails", { id: spot._id });
       }}
     >
-      <TouchableOpacity
+      <ImageBackground
         style={{
           display: "flex",
           flexDirection: "row",
@@ -47,50 +59,111 @@ function ProfileSpot({ spot }) {
           alignSelf: "center",
           alignItems: "center",
           justifyContent: "center",
-          borderRadius: 16,
-          shadowColor: "#161616",
-          shadowOffset: {
-            width: 0,
-            height: 3,
-          },
-          shadowOpacity: 0.2,
-          shadowRadius: 5,
+          borderRadius: 30,
           margin: "5%",
           marginLeft: 0,
           marginRight: 0,
+          overflow: "hidden",
+          alignSelf: "center",
+          width: 400,
+          height: 380,
+          padding: 30,
         }}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        onPress={() => {
-          navigation.navigate("ProfileSpotDetails", { id: spot._id });
-        }}
+        source={{ uri: `${baseURL}${spot?.image}` }}
       >
+        <View style={styles.overlay}></View>
         <View
           style={{
-            alignSelf: "center",
-            width: "95%",
-            height: 350,
-            borderRadius: 20,
-            zIndex: -1,
-            opacity: 0.9,
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+            justifyContent: "space-between",
           }}
         >
-          <Image
+          <View
             style={{
+              display: "flex",
+              flexDirection:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "row"
+                  : "row-reverse",
+              justifyContent: "space-between",
               alignSelf: "center",
-              width: "95%",
-              height: 330,
-              borderRadius: 20,
-              zIndex: -1,
-              opacity: 1,
+              marginTop: "2%",
+              width: "82%",
             }}
-            source={{ uri: `${baseURL}${spot?.image}` }}
-          />
-        </View>
-        <View style={styles.infoContainer}>
+          >
+            <View
+              style={{
+                display: "flex",
+                flexDirection:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "row"
+                    : "row-reverse",
+                alignContent: "center",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <View
+                style={{
+                  height: 20,
+                  width: 20,
+                  backgroundColor: "#e52b51",
+                  borderRadius: 100,
+                  marginRight: 10,
+                  marginLeft: 10,
+                }}
+              ></View>
+              <Text
+                style={{
+                  fontSize: 22,
+                  color: "#e52b51",
+                  shadowColor: "#1b1b1b",
+                  shadowOffset: {
+                    width: 0,
+                    height: 2,
+                  },
+                  shadowOpacity: 1,
+                  shadowRadius: 2.62,
+                  elevation: 4,
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Ubuntu"
+                      : "Noto",
+                  textAlign: "center",
+                }}
+              >
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Active"
+                  : "نشط"}
+              </Text>
+            </View>
+            <Text
+              style={{
+                fontSize: 24,
+                color: "#fffffc",
+                shadowColor: "#1b1b1b",
+                shadowOffset: {
+                  width: 0,
+                  height: 2,
+                },
+                shadowOpacity: 1,
+                shadowRadius: 2.62,
+                elevation: 4,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "Noto",
+                textAlign: "center",
+              }}
+            >
+              {spot.startTime}
+            </Text>
+          </View>
           <Text
             style={{
-              fontSize: 30,
+              fontSize: 40,
               color: "#fffffc",
               shadowColor: "#1b1b1b",
               shadowOffset: {
@@ -111,9 +184,32 @@ function ProfileSpot({ spot }) {
               ? spot.name
               : spot.nameAr}
           </Text>
+          <Text
+            style={{
+              fontSize: 26,
+              color: "#fffffc",
+              shadowColor: "#1b1b1b",
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 1,
+              shadowRadius: 2.62,
+              elevation: 4,
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
+              textAlign: "center",
+            }}
+          >
+            {i18n.locale === "en-US" || i18n.locale === "en"
+              ? users + " users here"
+              : users + " مستخدم هنا  "}
+          </Text>
         </View>
-      </TouchableOpacity>
-    </View>
+      </ImageBackground>
+    </TouchableOpacity>
   );
 }
 
@@ -200,5 +296,12 @@ const styles = StyleSheet.create({
   profile: {
     flexDirection: "row",
     padding: 10,
+  },
+  overlay: {
+    position: "absolute",
+    borderRadius: 30,
+    backgroundColor: "rgba(0, 0, 0, 0.45)",
+    width: 400,
+    height: 380,
   },
 });

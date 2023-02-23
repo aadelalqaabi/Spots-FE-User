@@ -114,7 +114,7 @@ function MySpots() {
       >
         {i18n.t("myspots")}
       </Text>
-      <View style={{ width: "100%", height: "90%", zIndex: 99 }}>
+      <View style={{ width: "100%", height: "91%", zIndex: 99 }}>
         {loading ? (
           <>
             {i18n.locale === "en-US" || i18n.locale === "en" ? (

@@ -10,6 +10,7 @@ import * as Localization from "expo-localization";
 import organizerStore from "../../stores/organizerStore";
 import "moment/locale/ar";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
+import { BlurView } from "expo-blur";
 
 function Spot({ spot, navigation, day }) {
   const translations = {
@@ -72,7 +73,7 @@ function Spot({ spot, navigation, day }) {
         <View
           style={{
             position: "absolute",
-            backgroundColor: "rgba(0,0,0,0.3)",
+            backgroundColor: "rgba(0,0,0,0.4)",
             height: "100%",
             width: "100%",
             borderRadius: 20,
@@ -144,10 +145,9 @@ function Spot({ spot, navigation, day }) {
                   height: 60,
                   borderRadius: 60,
                   zIndex: -1,
-                  borderWidth: 1.5,
                   borderColor: "white",
                   backgroundColor: "white",
-                  resizeMode: "contain",
+                  resizeMode: "cover",
                 }}
                 source={{ uri: `${baseURL}${organizer?.image}` }}
               />
@@ -239,8 +239,8 @@ function Spot({ spot, navigation, day }) {
           ) : (
             <View
               style={{
-                backgroundColor: "white",
-                borderRadius: 10,
+                backgroundColor: "#f1f1f1",
+                borderRadius: 50,
                 alignContent: "center",
                 justifyContent: "center",
                 alignItems: "center",

@@ -30,7 +30,6 @@ export default function Info({ route }) {
   const ref = React.useRef(null);
   const navigation = useNavigation();
   let users = 0;
-  console.log("spot", spot);
   spot.users.forEach((user) => users++);
   const rewards = rewardStore.rewards.filter(
     (reward) =>
@@ -236,8 +235,8 @@ export default function Info({ route }) {
             }}
           >
             {i18n.locale === "en-US" || i18n.locale === "en"
-              ? "Spot Details"
-              : "تفاصيل النقطة"}
+              ? "Dest Details"
+              : "تفاصيل الوجهة"}
           </Text>
           <Text
             style={{
@@ -259,6 +258,7 @@ export default function Info({ route }) {
               marginTop:
                 i18n.locale === "en-US" || i18n.locale === "en" ? -10 : -20,
               lineHeight: 40,
+              textAlign: "justify",
             }}
           >
             {i18n.locale === "en-US" || i18n.locale === "en"

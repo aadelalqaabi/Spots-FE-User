@@ -15,11 +15,9 @@ import pointStore from "../stores/pointStore";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import spotStore from "../stores/spotStore";
-import ticketStore from "../stores/ticketStore";
 
 export default function SpottedScanner({ route }) {
-  const spot = route.params.spot;
-  const [ticket, setTicket] = useState();
+  const { spot, ticket } = route.params;
   const [visible, setVisible] = useState(false);
   const toggleAlert = useCallback(() => {
     setVisible(!visible);
@@ -48,6 +46,7 @@ export default function SpottedScanner({ route }) {
       setHasPermission(status === "granted");
     })();
   }, []);
+
   const handleBarCodeScanned = ({ data }) => {
     setScanned(true);
     const spotId = data.split("dest://Profile/")[1];
@@ -57,14 +56,7 @@ export default function SpottedScanner({ route }) {
     if (!found) {
       let spot = spotStore.getSpotsById(spotId);
       authStore.spotAdd(spotId);
-      setTicket(
-        ticketStore.tickets.find(
-          (ticket) =>
-            ticket.user === authStore.user.id && ticket.spot._id === spotId
-        )
-      );
       pointStore.createPoint(spotId);
-      //spot.scanned = spot?.scanned + 1;
       spotStore.updateSpot(spot, spotId);
       if (spot.isFree === true) {
         toggleAlert();

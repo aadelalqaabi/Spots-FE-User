@@ -14,7 +14,6 @@ import { useFonts } from "expo-font";
 import { baseURL } from "../../stores/instance";
 import spotStore from "../../stores/spotStore";
 import React from "react";
-import organizerStore from "../../stores/organizerStore";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import "moment/locale/ar";
@@ -550,7 +549,10 @@ export default function SpotttedDetails({ route }) {
                 elevation: 4,
               }}
               onPress={() =>
-                navigation.navigate("SpottedScanner", { spot: spot })
+                navigation.navigate("SpottedScanner", {
+                  spot: spot,
+                  ticket: ticket,
+                })
               }
             >
               <Ionicons
@@ -744,7 +746,7 @@ const styles = StyleSheet.create({
     zIndex: -1,
     marginRight: 10,
     marginLeft: 10,
-    resizeMode: "contain",
+    resizeMode: "cover",
   },
   ownername: {
     color: "white",

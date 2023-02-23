@@ -45,8 +45,10 @@ export default function Search({ navigation }) {
   const spotsAdsChecker = spotStore.spots.some((spot) => spot.isAd === true);
   const spots = spotStore.spots.filter((spot) =>
     spotsAdsChecker === true
-      ? spot.isAd === true && new Date(spot.startDate) >= today
-      : new Date(spot.startDate) >= today
+      ? spot.isAd === true &&
+        new Date(spot.startDate) >= today &&
+        spot.isPublished === true
+      : new Date(spot.startDate) >= today && spot.isPublished === true
   );
   let suggested = [];
   const randomIndex = Math.floor(Math.random() * spots.length);
@@ -115,7 +117,6 @@ export default function Search({ navigation }) {
         >
           <TextInput
             textInputStyle={{
-              padding: 5,
               height: 42,
               paddingLeft: 42,
               paddingRight: 42,
