@@ -272,58 +272,6 @@ function Settings() {
               : "row-reverse",
           alignContent: "center",
           alignItems: "center",
-          justifyContent: "space-between",
-        }}
-        onPress={() => navigation.navigate("Edit")}
-      >
-        <Text
-          style={{
-            color: "#1b1b1b",
-            fontSize: 18,
-            fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
-            margin: 10,
-            marginRight: 15,
-            marginLeft: 15,
-            opacity: 0.8,
-          }}
-        >
-          {i18n.t("edit")}
-        </Text>
-        <Ionicons
-          style={{
-            color: "#1b1b1b",
-            fontSize: 18,
-            fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
-            margin: 22,
-            opacity: 0.8,
-          }}
-          name={
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "chevron-forward-outline"
-              : "chevron-back-outline"
-          }
-        ></Ionicons>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={{
-          backgroundColor: "#e8e8e8",
-          height: 60,
-          width: "90%",
-          alignSelf: "center",
-          borderRadius: 10,
-          display: "flex",
-          flexDirection:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "row"
-              : "row-reverse",
-          alignContent: "center",
-          alignItems: "center",
           marginTop: 20,
 
           justifyContent: "space-between",

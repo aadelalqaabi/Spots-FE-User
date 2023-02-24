@@ -120,7 +120,7 @@ function ProfileSpotDetails({ route }) {
     toggleModal();
     Toast.show({
       type: "success",
-      text1: "Review Added 👍",
+      text1: "Review Added",
     });
   };
 

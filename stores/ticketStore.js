@@ -1,7 +1,6 @@
 import { makeAutoObservable } from "mobx";
 import authStore from "./authStore";
 import { instance } from "./instance";
-import spotStore from "./spotStore";
 
 class TicketStore {
   constructor() {
@@ -15,7 +14,9 @@ class TicketStore {
       const formData = new FormData();
       for (const key in newTicket) formData.append(key, newTicket[key]);
       const response = await instance.post(`/ticket/${spotId}`, formData);
-      this.tickets.push(response.data);
+      this.tickets.push(response.data.newTicket);
+      authStore.setUser(response.data.token);
+      console.log("response.data", response.data);
     } catch (error) {
       console.log("hello", error);
     }

@@ -23,7 +23,6 @@ class SpotStore {
         `spot/update/${spotId}/cat/${updatedSpot.category}`,
         updatedSpot
       );
-      console.log("res.data", res.data);
       this.spots = this.spots.map((spot) =>
         spot._id === spotId ? res.data : spot
       );
