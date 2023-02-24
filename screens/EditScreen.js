@@ -91,7 +91,6 @@ function EditScreen() {
   const handleSubmit = async () => {
     Toast.show({
       type: "success",
-      // text1: "Profile Updated 👍",
       text1:
         i18n.locale === "en-US" || i18n.locale === "en"
           ? "Profile Updated 👍"

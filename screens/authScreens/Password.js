@@ -131,11 +131,53 @@ export default function Password({ navigation, route }) {
         <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
         <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
       </View> */}
-      <View style={{ position: "absolute", top: "6%", left: "5%",display: "flex", flexDirection: "row", zIndex: 1, width: "100%" }}>
-        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
-        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
-        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
-        <View style={{ backgroundColor: colorScheme === "dark" ? "black" : "#E2DFD2", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
+      <View
+        style={{
+          position: "absolute",
+          top: "6%",
+          left: "5%",
+          display: "flex",
+          flexDirection: "row",
+          zIndex: 1,
+          width: "100%",
+        }}
+      >
+        <View
+          style={{
+            backgroundColor: "#e52b51",
+            width: "20%",
+            height: 10,
+            borderRadius: 4,
+            marginRight: 15,
+          }}
+        ></View>
+        <View
+          style={{
+            backgroundColor: "#e52b51",
+            width: "20%",
+            height: 10,
+            borderRadius: 4,
+            marginRight: 15,
+          }}
+        ></View>
+        <View
+          style={{
+            backgroundColor: "#e52b51",
+            width: "20%",
+            height: 10,
+            borderRadius: 4,
+            marginRight: 15,
+          }}
+        ></View>
+        <View
+          style={{
+            backgroundColor: colorScheme === "dark" ? "black" : "#E2DFD2",
+            width: "20%",
+            height: 10,
+            borderRadius: 4,
+            marginRight: 15,
+          }}
+        ></View>
       </View>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -177,399 +219,6 @@ export default function Password({ navigation, route }) {
                 alignItems: "center",
               }}
             >
-              <View style={styles.container}>
-                <TextInput
-                  textInputStyle={{
-                    alignSelf: "center",
-                    width: "103%",
-                    marginBottom: 10,
-                    padding: 10,
-                    backgroundColor: "white",
-                    shadowColor: "#000",
-                    shadowOffset: {
-                      width: 0,
-                      height: 1,
-                    },
-                    shadowOpacity: 0.1,
-                    shadowRadius: 1.41,
-                    elevation: 2,
-                  }}
-                  mainColor={checkValidationColor}
-                  label="Password"
-                  secureTextEntry={secure}
-                  onChangeText={(text) => {
-                    handleChange("password", text);
-                  }}
-                  placeholder=""
-                  keyboardType="web-search"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  onSubmitEditing={() => {
-                    checkValidation === false
-                      ? navigation.navigate("MyImage", { itemId: user })
-                      : i18n.locale === "en-US" || i18n.locale === "en"
-                      ? Alert.alert("Invalid Password", "", [
-                          { text: "Try Again" },
-                        ])
-                      : Alert.alert("كلمة سر غير صالحة", "", [
-                          { text: "حاول مرة اخرى" },
-                        ]);
-                  }}
-                />
-                <Ionicons
-                  style={{
-                    zIndex: 99,
-                    position: "absolute",
-                    margin: 12,
-                    fontSize: 25,
-                    alignSelf: "flex-end",
-                  }}
-                  name={secure === true ? "eye" : "eye-off"}
-                  size={30}
-                  color="#e52b51"
-                  onPress={() => setSecure(!secure)}
-                />
-                {lowerCase === true ? (
-                  <View
-                    style={{
-                      flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "row"
-                          : "row-reverse",
-                      paddingBottom: 5,
-                    }}
-                  >
-                    <Ionicons name="close-circle" size={22} color="#ea3e29" />
-                    <Text
-                      style={{
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 3
-                            : -3,
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        marginLeft: 10,
-                        marginRight: 10,
-                        fontSize: 15,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        opacity: 0.8,
-                      }}
-                    >
-                      {i18n.t("lower")}
-                    </Text>
-                  </View>
-                ) : (
-                  <View
-                    style={{
-                      flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "row"
-                          : "row-reverse",
-                      paddingBottom: 5,
-                    }}
-                  >
-                    <Ionicons
-                      name="checkmark-circle"
-                      size={22}
-                      color="#5fcf40"
-                    />
-                    <Text
-                      style={{
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 3
-                            : -3,
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        marginLeft: 10,
-                        marginRight: 10,
-                        color: "#525252",
-                        fontSize: 15,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        opacity: 0.8,
-                      }}
-                    >
-                      {i18n.t("lower")}
-                    </Text>
-                  </View>
-                )}
-                {upperCase === true ? (
-                  <View
-                    style={{
-                      flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "row"
-                          : "row-reverse",
-                      paddingBottom: 5,
-                    }}
-                  >
-                    <Ionicons name="close-circle" size={22} color="#ea3e29" />
-                    <Text
-                      style={{
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 3
-                            : -3,
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        marginLeft: 10,
-                        marginRight: 10,
-                        fontSize: 15,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        opacity: 0.8,
-                      }}
-                    >
-                      {i18n.t("upper")}
-                    </Text>
-                  </View>
-                ) : (
-                  <View
-                    style={{
-                      flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "row"
-                          : "row-reverse",
-                      paddingBottom: 5,
-                    }}
-                  >
-                    <Ionicons
-                      name="checkmark-circle"
-                      size={22}
-                      color="#5fcf40"
-                    />
-                    <Text
-                      style={{
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 3
-                            : -3,
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        marginLeft: 10,
-                        marginRight: 10,
-                        color: "#525252",
-                        fontSize: 15,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        opacity: 0.8,
-                      }}
-                    >
-                      {i18n.t("upper")}
-                    </Text>
-                  </View>
-                )}
-                {number === true ? (
-                  <View
-                    style={{
-                      flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "row"
-                          : "row-reverse",
-                      paddingBottom: 5,
-                    }}
-                  >
-                    <Ionicons name="close-circle" size={22} color="#ea3e29" />
-                    <Text
-                      style={{
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 3
-                            : -3,
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        marginLeft: 10,
-                        marginRight: 10,
-                        fontSize: 15,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        opacity: 0.8,
-                      }}
-                    >
-                      {i18n.t("number")}
-                    </Text>
-                  </View>
-                ) : (
-                  <View
-                    style={{
-                      flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "row"
-                          : "row-reverse",
-                      paddingBottom: 5,
-                    }}
-                  >
-                    <Ionicons
-                      name="checkmark-circle"
-                      size={22}
-                      color="#5fcf40"
-                    />
-                    <Text
-                      style={{
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 3
-                            : -3,
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        marginLeft: 10,
-                        marginRight: 10,
-                        color: "#525252",
-                        fontSize: 15,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        opacity: 0.8,
-                      }}
-                    >
-                      {i18n.t("number")}
-                    </Text>
-                  </View>
-                )}
-                {specialCharacter === true ? (
-                  <View
-                    style={{
-                      flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "row"
-                          : "row-reverse",
-                      paddingBottom: 5,
-                    }}
-                  >
-                    <Ionicons name="close-circle" size={22} color="#ea3e29" />
-                    <Text
-                      style={{
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 3
-                            : -3,
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        marginLeft: 10,
-                        marginRight: 10,
-                        fontSize: 15,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        opacity: 0.8,
-                      }}
-                    >
-                      {i18n.t("special")}
-                    </Text>
-                  </View>
-                ) : (
-                  <View
-                    style={{
-                      flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "row"
-                          : "row-reverse",
-                      paddingBottom: 5,
-                    }}
-                  >
-                    <Ionicons
-                      name="checkmark-circle"
-                      size={22}
-                      color="#5fcf40"
-                    />
-                    <Text
-                      style={{
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 3
-                            : -3,
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        marginLeft: 10,
-                        marginRight: 10,
-                        color: "#525252",
-                        fontSize: 15,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        opacity: 0.8,
-                      }}
-                    >
-                      {i18n.t("special")}
-                    </Text>
-                  </View>
-                )}
-                {characterLength === true ? (
-                  <View
-                    style={{
-                      flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "row"
-                          : "row-reverse",
-                      paddingBottom: 5,
-                    }}
-                  >
-                    <Ionicons name="close-circle" size={22} color="#ea3e29" />
-                    <Text
-                      style={{
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 3
-                            : -3,
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        marginLeft: 10,
-                        marginRight: 10,
-                        fontSize: 15,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        opacity: 0.8,
-                      }}
-                    >
-                      {i18n.t("eight")}
-                    </Text>
-                  </View>
-                ) : (
-                  <View
-                    style={{
-                      flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "row"
-                          : "row-reverse",
-                      paddingBottom: 5,
-                    }}
-                  >
-                    <Ionicons
-                      name="checkmark-circle"
-                      size={22}
-                      color="#5fcf40"
-                    />
-                    <Text
-                      style={{
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 3
-                            : -3,
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        marginLeft: 10,
-                        marginRight: 10,
-                        color: "#525252",
-                        fontSize: 15,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        opacity: 0.8,
-                      }}
-                    >
-                      {i18n.t("eight")}
-                    </Text>
-                  </View>
-                )}
-              </View>
               <Text
                 style={{
                   fontFamily:
@@ -695,7 +344,8 @@ export default function Password({ navigation, route }) {
                           marginLeft: 10,
                           marginRight: 10,
                           fontSize: 15,
-                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          color:
+                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                           opacity: 0.8,
                         }}
                       >
@@ -731,7 +381,8 @@ export default function Password({ navigation, route }) {
                           marginRight: 10,
                           color: "#525252",
                           fontSize: 15,
-                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          color:
+                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                           opacity: 0.8,
                         }}
                       >
@@ -763,7 +414,8 @@ export default function Password({ navigation, route }) {
                           marginLeft: 10,
                           marginRight: 10,
                           fontSize: 15,
-                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          color:
+                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                           opacity: 0.8,
                         }}
                       >
@@ -799,7 +451,8 @@ export default function Password({ navigation, route }) {
                           marginRight: 10,
                           color: "#525252",
                           fontSize: 15,
-                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          color:
+                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                           opacity: 0.8,
                         }}
                       >
@@ -831,7 +484,8 @@ export default function Password({ navigation, route }) {
                           marginLeft: 10,
                           marginRight: 10,
                           fontSize: 15,
-                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          color:
+                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                           opacity: 0.8,
                         }}
                       >
@@ -867,7 +521,8 @@ export default function Password({ navigation, route }) {
                           marginRight: 10,
                           color: "#525252",
                           fontSize: 15,
-                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          color:
+                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                           opacity: 0.8,
                         }}
                       >
@@ -899,7 +554,8 @@ export default function Password({ navigation, route }) {
                           marginLeft: 10,
                           marginRight: 10,
                           fontSize: 15,
-                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          color:
+                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                           opacity: 0.8,
                         }}
                       >
@@ -935,7 +591,8 @@ export default function Password({ navigation, route }) {
                           marginRight: 10,
                           color: "#525252",
                           fontSize: 15,
-                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          color:
+                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                           opacity: 0.8,
                         }}
                       >
@@ -967,7 +624,8 @@ export default function Password({ navigation, route }) {
                           marginLeft: 10,
                           marginRight: 10,
                           fontSize: 15,
-                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          color:
+                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                           opacity: 0.8,
                         }}
                       >
@@ -1003,7 +661,8 @@ export default function Password({ navigation, route }) {
                           marginRight: 10,
                           color: "#525252",
                           fontSize: 15,
-                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          color:
+                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                           opacity: 0.8,
                         }}
                       >
@@ -1049,7 +708,6 @@ export default function Password({ navigation, route }) {
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
     </>
-    
   );
 }
 

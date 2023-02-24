@@ -36,6 +36,7 @@ function MySpots() {
   const i18n = new I18n(translations);
   i18n.locale = Localization.locale;
   i18n.enableFallback = true;
+  console.log("authStore.user.tickets", authStore.user.tickets);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = React.useState(false);
   const wait = (timeout) => {

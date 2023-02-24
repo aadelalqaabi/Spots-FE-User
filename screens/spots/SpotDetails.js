@@ -116,17 +116,13 @@ export function SpotDetails({ route }) {
       alert(error.message);
     }
   };
+  console.log("authStore.user.tickets", authStore.user.tickets);
   const handleSpots = async (newSpot) => {
     const found = ticketStore.tickets.some(
       (ticket) =>
         ticket.spot?._id === newSpot._id && ticket.user === authStore.user.id
     );
     if (!found) {
-      if (authStore.user.tickets.length !== 0) {
-        if (await StoreReview.hasAction()) {
-          StoreReview.requestReview();
-        }
-      }
       await ticketStore.createTicket(newTicket, newSpot._id);
       await ticketStore.fetchTickets();
       toggleAlert();
@@ -829,8 +825,12 @@ export function SpotDetails({ route }) {
                     height: 40,
                     justifyContent: "center",
                   }}
-                  onPress={() => {
+                  onPress={async () => {
                     toggleAlert();
+                    if (authStore.user.tickets.length === 1)
+                      if (await StoreReview.hasAction()) {
+                        StoreReview.requestReview();
+                      }
                     navigation.navigate("MySpots");
                   }}
                 >

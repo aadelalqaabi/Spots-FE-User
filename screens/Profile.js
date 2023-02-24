@@ -31,9 +31,11 @@ function Profile() {
   const translations = {
     en: {
       spots: "Dests",
+      edit: "Edit Profile",
     },
     ar: {
       spots: "وجهة",
+      edit: "تعديل الحساب",
     },
   };
   const i18n = new I18n(translations);
@@ -88,6 +90,7 @@ function Profile() {
 
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
+    CabinMedium: require("../assets/fonts/CabinMedium.ttf"),
     Ubuntu: require("../assets/fonts/Ubuntu.ttf"),
     Noto: require("../assets/fonts/Noto.ttf"),
     NotoBold: require("../assets/fonts/NotoBold.ttf"),
@@ -194,17 +197,18 @@ function Profile() {
                     i18n.locale === "en-US" || i18n.locale === "en"
                       ? "row"
                       : "row-reverse",
-                  marginBottom: 10,
+
                   height: 140,
                   width: "100%",
+                  marginBottom: 10,
                 }}
               >
-                <View style={{ width: "50%" }}>
+                <View>
                   {authStore.user.image === "" ? (
                     <Image
                       style={{
-                        width: 120,
-                        height: 120,
+                        width: 110,
+                        height: 110,
                         borderRadius: 100,
                         alignItems: "center",
                         alignSelf: "center",
@@ -214,8 +218,8 @@ function Profile() {
                   ) : (
                     <Image
                       style={{
-                        width: 120,
-                        height: 120,
+                        width: 110,
+                        height: 110,
                         borderRadius: 100,
                         alignItems: "center",
                         alignSelf: "center",
@@ -230,26 +234,91 @@ function Profile() {
                   style={{
                     alignItems: "center",
                     alignSelf: "center",
-                    width: "50%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignContent: "center",
+                    justifyContent: "center",
                   }}
                 >
-                  <Text
+                  <View
                     style={{
-                      fontSize: 25,
-                      fontFamily: "UbuntuBold",
-                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                      alignItems: "center",
+                      alignSelf: "center",
+                      display: "flex",
+                      flexDirection:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "row"
+                          : "row-reverse",
+                      alignContent: "center",
+                      justifyContent: "flex-start",
+                      marginBottom:
+                        i18n.locale === "en-US" || i18n.locale === "en" ? 6 : 3,
                     }}
                   >
-                    {userSpots?.length}
-                  </Text>
-                  <Text
+                    <Text
+                      style={{
+                        fontSize: 32,
+                        fontFamily: "Ubuntu",
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        paddingLeft:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 0
+                            : 8,
+                        paddingRight:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? 8
+                            : 0,
+                      }}
+                    >
+                      {userSpots?.length}
+                    </Text>
+                    <Text
+                      style={{
+                        fontSize: 23,
+                        fontFamily:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "Ubuntu"
+                            : "Noto",
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                      }}
+                    >
+                      {i18n.t("spots")}
+                    </Text>
+                  </View>
+                  <TouchableOpacity
                     style={{
-                      fontSize: 20,
-                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                      backgroundColor:
+                        colorScheme === "light" ? "#d7d7d7" : "#515151",
+                      height: 35,
+                      width: "90%",
+                      alignSelf: "center",
+                      borderRadius: 8,
+                      display: "flex",
+                      flexDirection:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "row"
+                          : "row-reverse",
+                      alignContent: "center",
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
+                    onPress={() => navigation.navigate("Edit")}
                   >
-                    {i18n.t("spots")}
-                  </Text>
+                    <Text
+                      style={{
+                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        fontSize: 19,
+                        fontFamily:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "Ubuntu"
+                            : "Noto",
+                        alignSelf: "center",
+                        marginTop: -2,
+                      }}
+                    >
+                      {i18n.t("edit")}
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               </View>
               <View style={{ height: "100%", marginBottom: "-10%" }}>
