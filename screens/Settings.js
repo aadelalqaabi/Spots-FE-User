@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Modal,
   SafeAreaView,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { I18n } from "i18n-js";
@@ -14,7 +15,7 @@ import * as Device from "expo-device";
 import * as Localization from "expo-localization";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
-
+import { Svg, Circle, Animate } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
 import authStore from "../stores/authStore";
 import { Alert } from "react-native";
@@ -39,24 +40,39 @@ function Settings() {
       Settings: "Settings",
       edit: "Edit Profile",
       Account: "Account",
+      NotificationTitle: "Notifications",
       log: "Log out",
       Change: "Change Password",
       Notification: "Enable Notifications",
       DisNotification: "Disable Notifications",
+      NotificationList: "View Registered Organizers",
+      DeleteAccount: "Delete Account",
+      Loading: "Processing Request...",
+      Visit: "Visit Dest",
     },
     ar: {
       Settings: "الاعدادات",
       edit: "تعديل الحساب",
       Account: "الحساب",
+      NotificationTitle: "الاشعارات",
       log: "تسجيل الخروج",
       Change: "تغير كلمة السر",
       Notification: "تفعيل الاشعارات",
       DisNotification: "ايقاف الاشعارات",
+      NotificationList: "عرض اشتراكات المنضمين",
+      DeleteAccount: "حذف الحساب",
+      Loading: "جاري معالجة الطلب...",
+      Visit: "زيارة الوجهة",
     },
   };
   const i18n = new I18n(translations);
   i18n.locale = Localization.locale;
   i18n.enableFallback = true;
+
+  const [isLoading, setIsLoading] = useState(false);
+  const toggleIsLoading = useCallback(() => {
+    setIsLoading(!isLoading);
+  }, [isLoading]);
 
   const [visibleRemove, setVisibleRemove] = useState(false);
   const toggleAlertRemoveNoti = useCallback(() => {
@@ -83,6 +99,16 @@ function Settings() {
   const toggleAlertDisabled = useCallback(() => {
     setVisibleDisabled(!visibleDisabled);
   }, [visibleDisabled]);
+
+  const [deleteClicked, setDeleteClicked] = useState(false);
+  const toggleAlertDeleteClicked = useCallback(() => {
+    setDeleteClicked(!deleteClicked);
+  }, [deleteClicked]);
+
+  const [deleteMade, setDeleteMade] = useState(false);
+  const toggleAlertDeleteMade = useCallback(() => {
+    setDeleteMade(!deleteMade);
+  }, [deleteMade]);
 
   // Notifications.removeNotificationSubscription(notificationListener.current);
   // Notifications.removeNotificationSubscription(responseListener.current);
@@ -226,6 +252,7 @@ function Settings() {
             }
           ></Ionicons>
         </TouchableOpacity>
+        {/* Settings */}
         <Text
           style={{
             textAlign: "center",
@@ -240,7 +267,9 @@ function Settings() {
         >
           {i18n.t("Settings")}
         </Text>
+        {/* Settings */}
       </View>
+      {/* Notifications */}
       <Text
         style={{
           alignSelf:
@@ -256,62 +285,9 @@ function Settings() {
           color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}
       >
-        {i18n.t("Account")}
+        {i18n.t("NotificationTitle")}
       </Text>
-      <TouchableOpacity
-        style={{
-          backgroundColor: "#e8e8e8",
-          height: 60,
-          width: "90%",
-          alignSelf: "center",
-          borderRadius: 10,
-          display: "flex",
-          flexDirection:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "row"
-              : "row-reverse",
-          alignContent: "center",
-          alignItems: "center",
-          marginTop: 20,
-
-          justifyContent: "space-between",
-        }}
-        onPress={() => navigation.navigate("ChangePassword")}
-      >
-        <Text
-          style={{
-            color: "#1b1b1b",
-            fontSize: 18,
-            fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
-            margin: 10,
-            marginRight: 15,
-            marginLeft: 15,
-            opacity: 0.8,
-          }}
-        >
-          {i18n.t("Change")}
-        </Text>
-        <Ionicons
-          style={{
-            color: "#1b1b1b",
-            fontSize: 18,
-            fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
-            margin: 22,
-            opacity: 0.8,
-          }}
-          name={
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "chevron-forward-outline"
-              : "chevron-back-outline"
-          }
-        ></Ionicons>
-      </TouchableOpacity>
+      {/* Notifications */}
       {/* Push Notifications */}
       <TouchableOpacity
         style={{
@@ -403,6 +379,141 @@ function Settings() {
           </>
         )}
       </TouchableOpacity>
+      {/* Push Notifications */}
+      {/* Notification List */}
+      <TouchableOpacity
+        style={{
+          backgroundColor: "#e8e8e8",
+          height: 60,
+          width: "90%",
+          alignSelf: "center",
+          borderRadius: 10,
+          display: "flex",
+          flexDirection:
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "row"
+              : "row-reverse",
+          alignContent: "center",
+          alignItems: "center",
+          marginTop: 20,
+
+          justifyContent: "space-between",
+        }}
+        onPress={() => {
+          navigation.navigate("RegisteredOrganizers");
+        }}
+      >
+        <Text
+          style={{
+            color: "#1b1b1b",
+            fontSize: 18,
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Ubuntu"
+                : "Noto",
+            margin: 10,
+            marginRight: 15,
+            marginLeft: 15,
+            opacity: 0.8,
+          }}
+        >
+          {i18n.t("NotificationList")}
+        </Text>
+        <Ionicons
+          style={{
+            color: "#1b1b1b",
+            fontSize: 18,
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Ubuntu"
+                : "Noto",
+            margin: 22,
+            opacity: 0.8,
+          }}
+          name={
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "chevron-forward-outline"
+              : "chevron-back-outline"
+          }
+        ></Ionicons>
+      </TouchableOpacity>
+      {/* Notification List */}
+      {/* Account */}
+      <Text
+        style={{
+          alignSelf:
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "flex-start"
+              : "flex-end",
+          margin: i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 20,
+          marginBottom:
+            i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+          fontSize: 25,
+          fontFamily:
+            i18n.locale === "en-US" || i18n.locale === "en" ? "Ubuntu" : "Noto",
+          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+        }}
+      >
+        {i18n.t("Account")}
+      </Text>
+      {/* Account */}
+      {/* Change Password */}
+      <TouchableOpacity
+        style={{
+          backgroundColor: "#e8e8e8",
+          height: 60,
+          width: "90%",
+          alignSelf: "center",
+          borderRadius: 10,
+          display: "flex",
+          flexDirection:
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "row"
+              : "row-reverse",
+          alignContent: "center",
+          alignItems: "center",
+          marginTop: 20,
+
+          justifyContent: "space-between",
+        }}
+        onPress={() => navigation.navigate("ChangePassword")}
+      >
+        <Text
+          style={{
+            color: "#1b1b1b",
+            fontSize: 18,
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Ubuntu"
+                : "Noto",
+            margin: 10,
+            marginRight: 15,
+            marginLeft: 15,
+            opacity: 0.8,
+          }}
+        >
+          {i18n.t("Change")}
+        </Text>
+        <Ionicons
+          style={{
+            color: "#1b1b1b",
+            fontSize: 18,
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Ubuntu"
+                : "Noto",
+            margin: 22,
+            opacity: 0.8,
+          }}
+          name={
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "chevron-forward-outline"
+              : "chevron-back-outline"
+          }
+        ></Ionicons>
+      </TouchableOpacity>
+      {/* Change Password */}
+      {/* Logout */}
       <TouchableOpacity
         style={{
           backgroundColor: "#e8e8e8",
@@ -481,7 +592,124 @@ function Settings() {
           }
         ></Ionicons>
       </TouchableOpacity>
+      {/* Logout */}
+      {/* Delete Account */}
+      <TouchableOpacity
+        style={{
+          backgroundColor: "#e8e8e8",
+          height: 60,
+          width: "90%",
+          alignSelf: "center",
+          borderRadius: 10,
+          display: "flex",
+          flexDirection:
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "row"
+              : "row-reverse",
+          alignContent: "center",
+          alignItems: "center",
+          marginBottom: 20,
+          justifyContent: "space-between",
+        }}
+        onPress={() => toggleAlertDeleteClicked()}
+      >
+        <Text
+          style={{
+            color: "#1b1b1b",
+            fontSize: 18,
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Ubuntu"
+                : "Noto",
+            margin: 10,
+            marginRight: 15,
+            marginLeft: 15,
+            opacity: 0.8,
+          }}
+        >
+          {i18n.t("DeleteAccount")}
+        </Text>
+        <Ionicons
+          style={{
+            color: "#1b1b1b",
+            fontSize: 22,
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Ubuntu"
+                : "Noto",
+            margin: 18,
+            opacity: 0.8,
+          }}
+          name={"trash"}
+        ></Ionicons>
+      </TouchableOpacity>
+      {/* Delete Account */}
       {/* Disable Modal */}
+      {/* is Loading */}
+      <TouchableOpacity
+        style={{
+          backgroundColor: !isLoading ? "#e52b51" : "gray",
+          height: 60,
+          width: "90%",
+          alignSelf: "center",
+          borderRadius: 10,
+          display: "flex",
+          flexDirection:
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "row"
+              : "row-reverse",
+          alignContent: "center",
+          alignItems: "center",
+          marginTop: 20,
+          justifyContent: "center",
+        }}
+        // disabled={isLoading}
+        onPress={() => {
+          toggleIsLoading();
+        }}
+      >
+        {isLoading && <ActivityIndicator size={"small"} color={"white"} />}
+        {isLoading ? (
+          <>
+            <Text
+              style={{
+                color: "white",
+                fontSize: 18,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                margin: 10,
+                marginRight: 15,
+                marginLeft: 15,
+                opacity: 0.8,
+              }}
+            >
+              {i18n.t("Loading")}
+            </Text>
+          </>
+        ) : (
+          <>
+            <Text
+              style={{
+                color: "white",
+                fontSize: 18,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                margin: 10,
+                marginRight: 15,
+                marginLeft: 15,
+                opacity: 0.8,
+              }}
+            >
+              {i18n.t("Visit")}
+            </Text>
+          </>
+        )}
+      </TouchableOpacity>
+      {/* is Loading */}
       <Modal
         transparent={true}
         visible={visibleRemove}
@@ -961,6 +1189,217 @@ function Settings() {
         </View>
       </Modal>
       {/* Noti Disabled Modal */}
+      {/* Are you sure Modal */}
+      <Modal
+        transparent={true}
+        visible={deleteClicked}
+        animationIn="slideInLeft"
+        animationOut="slideOutRight"
+      >
+        <View
+          style={{
+            backgroundColor: "rgba(0,0,0,0.2)",
+            alignItems: "center",
+            justifyContent: "center",
+            flex: 1,
+          }}
+        >
+          <View
+            style={{
+              width: "85%",
+              backgroundColor: "white",
+              padding: 25,
+              paddingTop: 30,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 20,
+              borderColor: "rgba(0, 0, 0, 0.1)",
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "center",
+              alignSelf: "center",
+            }}
+          >
+            <Text
+              style={{
+                marginBottom: 10,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
+                width: "90%",
+                textAlign: "center",
+                fontSize: 24,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Are You Sure?"
+                : "هل أنت متأكد؟"}
+            </Text>
+            <Text
+              style={{
+                marginBottom: 20,
+                width:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "90%"
+                    : "70%",
+                textAlign: "center",
+                fontSize: 17,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                lineHeight: 30,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Your account will be deleted along with its information forever!"
+                : "سيتم حذف حسابك مع المعلومات الخاصة به إلى الأبد!"}
+            </Text>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  width: "25%",
+                  backgroundColor: "#e52b51",
+                  borderRadius: 50,
+                  height: 40,
+                  justifyContent: "center",
+                }}
+                onPress={() =>
+                  authStore.deleteUser().then(toggleAlertDeleteMade)
+                }
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    color: "#f1f1f1",
+                    fontFamily:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "UbuntuBold"
+                        : "NotoBold",
+                    fontSize: 18,
+                  }}
+                >
+                  {i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Yes"
+                    : "نعم"}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  width: "25%",
+                  backgroundColor: "#e52b51",
+                  borderRadius: 50,
+                  height: 40,
+                  marginLeft: 50,
+                  justifyContent: "center",
+                }}
+                onPress={() => toggleAlertDeleteClicked()}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    color: "#f1f1f1",
+                    fontFamily:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "UbuntuBold"
+                        : "NotoBold",
+                    fontSize: 18,
+                  }}
+                >
+                  {i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "No"
+                    : "لا"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      {/* Are you sure Modal */}
+      {/* Noti Enabled Modal */}
+      <Modal
+        transparent={true}
+        visible={deleteMade}
+        animationIn="slideInLeft"
+        animationOut="slideOutRight"
+      >
+        <View
+          style={{
+            backgroundColor: "rgba(0,0,0,0.2)",
+            alignItems: "center",
+            justifyContent: "center",
+            flex: 1,
+          }}
+        >
+          <View
+            style={{
+              width: "85%",
+              backgroundColor: "white",
+              padding: 25,
+              paddingTop: 30,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 20,
+              borderColor: "rgba(0, 0, 0, 0.1)",
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "center",
+              alignSelf: "center",
+            }}
+          >
+            <Text
+              style={{
+                marginBottom: 30,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                width: "90%",
+                textAlign: "center",
+                fontSize: 24,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Account Deleted"
+                : "تم حذف الحساب"}
+            </Text>
+            <TouchableOpacity
+              style={{
+                width: "50%",
+                backgroundColor: "#e52b51",
+                borderRadius: 50,
+                height: 40,
+                justifyContent: "center",
+              }}
+              onPress={() => toggleAlertEnabled()}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  color: "#f1f1f1",
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "UbuntuBold"
+                      : "NotoBold",
+                  fontSize: 15,
+                }}
+              >
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "ok"
+                  : "حسنا"}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      {/* Noti Enabled Modal */}
     </SafeAreaView>
   );
 }

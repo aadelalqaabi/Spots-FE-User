@@ -13,7 +13,7 @@ class SpotStore {
       const response = await instance.get("/spot");
       this.spots = response.data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -27,7 +27,7 @@ class SpotStore {
         spot._id === spotId ? res.data : spot
       );
     } catch (error) {
-      console.log("hi", error);
+      console.error("hi", error);
     }
   };
 

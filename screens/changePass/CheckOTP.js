@@ -68,10 +68,6 @@ export default function CheckOTP({ navigation, route }) {
 
   const handleSubmit = async (code) => {
     const otpCode = parseInt(code);
-
-    // console.log('otpCode', otpCode )
-    console.log("authStore.OTP", authStore.OTP);
-
     if (authStore.OTP === otpCode) {
       navigation.navigate("ForgotPassword", { itemId: user });
     } else {

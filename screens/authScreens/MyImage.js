@@ -44,7 +44,6 @@ export default function MyImage({ navigation, route }) {
   const [toggle, setToggle] = useState(false);
   const { itemId } = route.params;
   const [user, setUser] = useState(itemId);
-  console.log("user", user);
 
   useEffect(() => {
     (async () => {
@@ -101,11 +100,53 @@ export default function MyImage({ navigation, route }) {
   };
   return (
     <>
-      <View style={{ position: "absolute", top: "6%", left: "5%",display: "flex", flexDirection: "row", zIndex: 1, width: "100%" }}>
-        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
-        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
-        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
-        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
+      <View
+        style={{
+          position: "absolute",
+          top: "6%",
+          left: "5%",
+          display: "flex",
+          flexDirection: "row",
+          zIndex: 1,
+          width: "100%",
+        }}
+      >
+        <View
+          style={{
+            backgroundColor: "#e52b51",
+            width: "20%",
+            height: 10,
+            borderRadius: 4,
+            marginRight: 15,
+          }}
+        ></View>
+        <View
+          style={{
+            backgroundColor: "#e52b51",
+            width: "20%",
+            height: 10,
+            borderRadius: 4,
+            marginRight: 15,
+          }}
+        ></View>
+        <View
+          style={{
+            backgroundColor: "#e52b51",
+            width: "20%",
+            height: 10,
+            borderRadius: 4,
+            marginRight: 15,
+          }}
+        ></View>
+        <View
+          style={{
+            backgroundColor: "#e52b51",
+            width: "20%",
+            height: 10,
+            borderRadius: 4,
+            marginRight: 15,
+          }}
+        ></View>
       </View>
       <View
         style={{
@@ -154,7 +195,8 @@ export default function MyImage({ navigation, route }) {
                 i18n.locale === "en-US" || i18n.locale === "en"
                   ? "UbuntuBold"
                   : "NotoBold",
-              fontSize: i18n.locale === "en-US" || i18n.locale === "en" ? 28 : 30,
+              fontSize:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 28 : 30,
               marginBottom:
                 i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
               margin: 20,
@@ -172,7 +214,8 @@ export default function MyImage({ navigation, route }) {
                 i18n.locale === "en-US" || i18n.locale === "en"
                   ? "Ubuntu"
                   : "Noto",
-              fontSize: i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 18,
+              fontSize:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 18,
               paddingTop: 3,
               margin: 20,
               marginTop: 0,

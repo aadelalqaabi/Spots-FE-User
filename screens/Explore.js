@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import Carousel from "react-native-snap-carousel";
+import Carousel from "react-native-reanimated-carousel";
 import {
   useColorScheme,
   SafeAreaView,
@@ -10,13 +10,13 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-  Modal,
+  Dimensions,
 } from "react-native";
 import spotStore from "../stores/spotStore";
 import categoryStore from "../stores/categoryStore";
 import Spot from "./spots/Spot";
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useScrollToTop } from "@react-navigation/native";
 import { useFonts } from "expo-font";
@@ -97,6 +97,7 @@ function Explore() {
   const handleCategory = (index) => {
     setSelectedCategory(index);
   };
+  const width = Dimensions.get("window").width;
 
   const dayHolder = moment(day).locale(Localization.locale).format("D");
   const dayStringHolder = moment(day).locale(Localization.locale).format("ddd");
@@ -151,8 +152,8 @@ function Explore() {
             <View
               style={{
                 margin: 30,
-                marginTop: 10,
-                marginBottom: "4%",
+                marginTop: 15,
+                marginBottom: "2%",
                 display: "flex",
                 flexDirection:
                   i18n.locale === "en-US" || i18n.locale === "en"
@@ -169,7 +170,7 @@ function Explore() {
                     i18n.locale === "en-US" || i18n.locale === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
-                  fontSize: 35,
+                  fontSize: 32,
                   marginBottom: 10,
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 }}
@@ -338,7 +339,6 @@ function Explore() {
                     selectedCategory === -1
                       ? {
                           flexWrap: "wrap",
-
                           fontSize: 22,
                           alignSelf: "center",
                           fontFamily:
@@ -346,6 +346,7 @@ function Explore() {
                               ? "Ubuntu"
                               : "Noto",
                           color: "#e52b51",
+                          padding: 5,
                         }
                       : {
                           color:
@@ -357,6 +358,7 @@ function Explore() {
                             i18n.locale === "en-US" || i18n.locale === "en"
                               ? "Ubuntu"
                               : "Noto",
+                          padding: 5,
                         }
                   }
                 >
@@ -371,14 +373,14 @@ function Explore() {
                   style={
                     selectedCategory === categories.indexOf(category)
                       ? {
-                          width: 100,
+                          width: 108,
                           borderRadius: 50,
                           zIndex: 99,
                           color: "#e52b51",
                           padding: 5,
                         }
                       : {
-                          width: 100,
+                          width: 108,
                           zIndex: 99,
                           display: "flex",
                           padding: 5,
@@ -486,23 +488,23 @@ function Explore() {
               </View>
             ) : (
               <Carousel
-                contentContainerCustomStyle={{
-                  backgroundColor: "transparent",
-                  display: "flex",
-                  alignContent: "center",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+                pagingEnabled
+                snapEnabled
+                mode="parallax"
+                loop={false}
                 data={spots}
                 renderItem={renderSpot}
-                windowSize={1}
-                sliderWidth={420}
-                itemWidth={320}
+                width={width}
+                height={width + width / 2}
+                modeConfig={{
+                  parallaxScrollingScale: 1,
+                  parallaxScrollingOffset: 60,
+                }}
+                autoPlay={false}
                 layout={"default"}
-                containerCustomStyle={{
+                style={{
                   alignSelf: "center",
                 }}
-                useScrollView={true}
               />
             )}
           </View>

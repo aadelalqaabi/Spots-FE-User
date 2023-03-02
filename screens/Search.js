@@ -1,5 +1,4 @@
 import {
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -8,12 +7,13 @@ import {
   FlatList,
   TouchableWithoutFeedback,
   Keyboard,
+  Dimensions,
 } from "react-native";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import TextInput from "react-native-text-input-interactive";
 import Spot from "./spots/Spot";
-import Carousel from "react-native-snap-carousel";
+import Carousel from "react-native-reanimated-carousel";
 import SearchSpot from "./spots/SearchSpot";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
@@ -24,9 +24,11 @@ import { KeyboardAvoidingView } from "native-base";
 
 export default function Search({ navigation }) {
   const colorScheme = useColorScheme();
+  const width = Dimensions.get("window").width;
+
   const translations = {
     en: {
-      suggested: "Suggested Destination",
+      suggested: "Suggested Dest",
       search: "Search",
     },
     ar: {
@@ -42,14 +44,15 @@ export default function Search({ navigation }) {
   const [query, setQuery] = useState("");
   const [toggle, setToggle] = useState(true);
   const [day, setDay] = useState(null);
-  const spotsAdsChecker = spotStore.spots.some((spot) => spot.isAd === true);
-  const spots = spotStore.spots.filter((spot) =>
-    spotsAdsChecker === true
-      ? spot.isAd === true &&
-        new Date(spot.startDate) >= today &&
-        spot.isPublished === true
-      : new Date(spot.startDate) >= today && spot.isPublished === true
-  );
+  //const spotsAdsChecker = spotStore.spots.some((spot) => spot.isAd === true);
+  const spots = spotStore.spots;
+  // .filter((spot) =>
+  //   spotsAdsChecker === true
+  //     ? spot.isAd === true &&
+  //       new Date(spot.startDate) >= today &&
+  //       spot.isPublished === true
+  //     : new Date(spot.startDate) >= today && spot.isPublished === true
+  // );
   let suggested = [];
   const randomIndex = Math.floor(Math.random() * spots.length);
   const item = spots[randomIndex];
@@ -238,16 +241,23 @@ export default function Search({ navigation }) {
             {i18n.t("suggested")}
           </Text>
           <Carousel
-            style={styles.spotsList}
-            contentContainerStyle={styles.spotsListContainer}
-            renderItem={renderSpot}
-            windowSize={1}
+            pagingEnabled
+            snapEnabled
+            mode="parallax"
+            loop={false}
             data={suggested}
-            sliderWidth={450}
-            itemWidth={360}
+            renderItem={renderSpot}
+            width={width}
+            height={width * 1.65}
+            modeConfig={{
+              parallaxScrollingScale: 1,
+              parallaxScrollingOffset: 60,
+            }}
+            autoPlay={false}
             layout={"default"}
-            containerCustomStyle={{ alignSelf: "center" }}
-            useScrollView={true}
+            style={{
+              alignSelf: "center",
+            }}
           />
         </>
       ) : (

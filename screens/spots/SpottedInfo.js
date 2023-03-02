@@ -7,34 +7,25 @@ import {
   ScrollView,
   TouchableOpacity,
   Linking,
+  Alert,
 } from "react-native";
 import React from "react";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
-
 import { useFonts } from "expo-font";
-import { useNavigation, useScrollToTop } from "@react-navigation/native";
-import authStore from "../../stores/authStore";
+import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
-import rewardStore from "../../stores/rewardStore";
-import RewardItem from "../rewards/RewardItem";
 import organizerStore from "../../stores/organizerStore";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
+import ticketStore from "../../stores/ticketStore";
 
-export default function InfoNoExperiance({ spot }) {
+export default function SpottedInfo({ route }) {
+  const spot = route.params.spot;
+  const ticket = route.params.ticket;
   const organizer = organizerStore.getOrganizerById(spot.organizer);
   const colorScheme = useColorScheme();
-  const scrollViewRef = React.useRef(null);
-  const ref = React.useRef(null);
   const navigation = useNavigation();
-  let users = 0;
-  spot.users.forEach((user) => users++);
-  const rewards = rewardStore.rewards.filter(
-    (reward) =>
-      reward.users.includes(authStore.user.id) && reward.spot === spot._id
-  );
-  useScrollToTop(ref);
   const translations = {
     en: {
       explore: "Explore",
@@ -114,105 +105,6 @@ export default function InfoNoExperiance({ spot }) {
               : "معلومات"}
           </Text>
         </View>
-        <View
-          style={{
-            width: "100%",
-            height: 150,
-            display: "flex",
-            alignContent: "center",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 50,
-              fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "UbuntuBold"
-                  : "NotoBold",
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-            }}
-          >
-            {users}
-          </Text>
-          <Text
-            style={{
-              fontSize: 18,
-              fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              position: "absolute",
-              paddingTop: 130,
-            }}
-          >
-            {i18n.locale === "en-US" || i18n.locale === "en"
-              ? "Users Visited"
-              : "مستخدمين زارونا"}
-          </Text>
-        </View>
-        {rewards.length > 0 ? (
-          <View style={{ marginTop: 30 }}>
-            <Text
-              style={{
-                fontSize: 20,
-                alignSelf:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "flex-start"
-                    : "flex-end",
-                textAlign: "center",
-                fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "UbuntuBold"
-                    : "NotoBold",
-                margin: 20,
-                marginBottom: -5,
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                marginTop:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
-              }}
-            >
-              {i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Rewards claimed"
-                : "مكافآت تم الحصول عليها"}
-            </Text>
-            <ScrollView
-              horizontal={true}
-              style={{
-                backgroundColor: "transparent",
-                display: "flex",
-              }}
-              contentContainerStyle={{
-                backgroundColor: "transparent",
-                display: "flex",
-                flexDirection:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "row"
-                    : "row-reverse",
-              }}
-              ref={scrollViewRef}
-              onContentSizeChange={() =>
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? scrollViewRef.current.scrollTo({
-                      x: 0,
-                      y: 0,
-                      animated: true,
-                    })
-                  : scrollViewRef.current.scrollToEnd({ animated: true })
-              }
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}
-            >
-              {rewards.map((reward) => (
-                <RewardItem reward={reward} />
-              ))}
-            </ScrollView>
-          </View>
-        ) : (
-          <></>
-        )}
         <View style={{ marginTop: 0 }}>
           <Text
             style={{
@@ -233,8 +125,8 @@ export default function InfoNoExperiance({ spot }) {
             }}
           >
             {i18n.locale === "en-US" || i18n.locale === "en"
-              ? "Spot Details"
-              : "تفاصيل النقطة"}
+              ? "Dest Details"
+              : "تفاصيل الوجهة"}
           </Text>
           <Text
             style={{
@@ -256,6 +148,7 @@ export default function InfoNoExperiance({ spot }) {
               marginTop:
                 i18n.locale === "en-US" || i18n.locale === "en" ? -10 : -20,
               lineHeight: 40,
+              textAlign: "justify",
             }}
           >
             {i18n.locale === "en-US" || i18n.locale === "en"
@@ -391,6 +284,94 @@ export default function InfoNoExperiance({ spot }) {
             </View>
           </View>
         </View>
+        <TouchableOpacity
+          style={{
+            marginLeft: 20,
+            paddingRight: 20,
+            marginTop: 15,
+            display: "flex",
+            flexDirection:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "row"
+                : "row-reverse",
+            alignContent: "center",
+            alignItems: "center",
+          }}
+          onPress={() => {
+            if (ticket.isFree === true) {
+              Alert.alert(
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Do You Want to Delete this Dest?"
+                  : "هل تريد حذف هذه النقطة؟",
+                "",
+                [
+                  {
+                    text:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Cancel"
+                        : "الغاء",
+                    onPress: () => {},
+                    style: "cancel",
+                  },
+                  {
+                    text:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Yes"
+                        : "نعم",
+                    onPress: () => {
+                      ticketStore.deleteTicket(ticket._id);
+                      navigation.navigate("MySpots");
+                    },
+                  },
+                ]
+              );
+            } else {
+              Alert.alert(
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "This is a paid Dest"
+                  : "هذه نقطة مدفوعة",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Contact us to cancel your booking"
+                  : "تواصل معنا لالغاء الحجز",
+                [
+                  {
+                    text:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "OK"
+                        : "حسنا",
+                    onPress: () => {},
+                  },
+                ]
+              );
+            }
+          }}
+        >
+          <Ionicons
+            style={{
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              fontSize: 22,
+              paddingRight:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
+              paddingLeft:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 0 : 10,
+            }}
+            name="trash-outline"
+          ></Ionicons>
+          <Text
+            style={{
+              fontSize: 20,
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
+            }}
+          >
+            {i18n.locale === "en-US" || i18n.locale === "en"
+              ? "Delete Dest"
+              : "حذف الوجهه"}
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );

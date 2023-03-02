@@ -10,10 +10,10 @@ class OrganizerStore {
 
   fetchOrganizers = async () => {
     try {
-        const response = await instance.get("/organizer");
-        this.organizers = response.data;
+      const response = await instance.get("/organizer");
+      this.organizers = response.data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -24,7 +24,6 @@ class OrganizerStore {
   getOrganizers = () => {
     return this.organizers;
   };
-
 }
 
 const organizerStore = new OrganizerStore();

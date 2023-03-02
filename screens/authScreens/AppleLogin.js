@@ -63,7 +63,6 @@ export default function AppleLogin() {
 
           if (identityToken) {
             const payload = jwtDecode(identityToken);
-            console.log(payload);
             if (payload.email_verified === "true") {
               const user = {
                 name: "",
@@ -76,7 +75,6 @@ export default function AppleLogin() {
                 (emailObj) =>
                   emailObj.email.toLowerCase() === payload.email.toLowerCase()
               );
-              console.log("found", found);
               if (found === false) {
                 navigation.navigate("AppleUsername", {
                   itemId: user,

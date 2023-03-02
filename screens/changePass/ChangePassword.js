@@ -287,9 +287,6 @@ export default function ChangePassword() {
                   }
                   placeholderTextColor={"grey"}
                   keyboardType="web-search"
-                  onSubmitEditing={() => {
-                    console.log("first");
-                  }}
                 />
                 <Ionicons
                   style={{

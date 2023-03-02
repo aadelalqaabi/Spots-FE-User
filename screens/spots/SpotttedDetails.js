@@ -7,6 +7,7 @@ import {
   Linking,
   useColorScheme,
   SafeAreaView,
+  Alert,
 } from "react-native";
 import moment from "moment";
 import { Ionicons } from "@expo/vector-icons";
@@ -19,6 +20,7 @@ import * as Localization from "expo-localization";
 import "moment/locale/ar";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 import { useNavigation } from "@react-navigation/native";
+import ticketStore from "../../stores/ticketStore";
 
 export default function SpotttedDetails({ route }) {
   const colorScheme = useColorScheme();
@@ -75,6 +77,10 @@ export default function SpotttedDetails({ route }) {
           alignContent: "center",
           alignItems: "center",
           alignSelf: "center",
+          flexDirection:
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? "row"
+              : "row-reverse",
           marginTop:
             i18n.locale === "en-US" || i18n.locale === "en" ? "10%" : "2%",
           marginBottom:
@@ -83,11 +89,6 @@ export default function SpotttedDetails({ route }) {
       >
         <TouchableOpacity
           style={{
-            alignSelf:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "flex-start"
-                : "flex-end",
-            position: "absolute",
             marginLeft: 20,
             paddingRight: 20,
           }}
@@ -115,11 +116,27 @@ export default function SpotttedDetails({ route }) {
             fontSize: 35,
             zIndex: 99,
             color: "#f1f1f1",
-            alignSelf: "center",
           }}
         >
           {i18n.t("details")}
         </Text>
+        <TouchableOpacity
+          style={{
+            marginLeft: 20,
+            paddingRight: 20,
+          }}
+          onPress={() => {
+            navigation.navigate("SpottedInfo", { spot: spot, ticket: ticket });
+          }}
+        >
+          <Ionicons
+            style={{
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              fontSize: 32,
+            }}
+            name="information-outline"
+          ></Ionicons>
+        </TouchableOpacity>
       </View>
 
       <View
@@ -232,7 +249,6 @@ export default function SpotttedDetails({ route }) {
             justifyContent: "center",
             alignSelf: "center",
             position: "absolute",
-            // backgroundColor: "red",
             margin: "7%",
             marginTop: "113%",
           }}

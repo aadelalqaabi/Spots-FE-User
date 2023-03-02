@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   useColorScheme,
   Modal,
-  SafeAreaView
+  SafeAreaView,
 } from "react-native";
 import OrganizerSpot from "../screens/spots/OrganizerSpot";
 import { observer } from "mobx-react";
@@ -27,19 +27,34 @@ function OrganizerProfile({ route }) {
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
   const organizer = route.params.organizer;
-  const spots = organizer.spots.filter(spot.isPublished === true)
+  const spots = organizer.spots.filter((spot) => spot.isPublished === true);
   const [notifications, setNotifications] = useState(() => {
     try {
-      return authStore?.user?.organizers?.includes(organizer?._id) ? "notifications-off" : "notifications";
+      return authStore?.user?.organizers?.includes(organizer?._id)
+        ? "notifications"
+        : "notifications-off";
     } catch (error) {
       return "profile";
     }
   });
   const [notificationsColor, setNotificationsColor] = useState(() => {
     try {
-      return authStore?.user?.organizers?.includes(organizer?._id) ? "#e52b51" : colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b"
+      return authStore?.user?.organizers?.includes(organizer?._id)
+        ? "#e52b51"
+        : colorScheme === "light"
+        ? "#d7d7d7"
+        : "#515151";
     } catch (error) {
-      return colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b";
+      return colorScheme === "light" ? "#d7d7d7" : "#515151";
+    }
+  });
+  const [isNotification, setIsNotification] = useState(() => {
+    try {
+      return authStore?.user?.organizers?.includes(organizer?._id)
+        ? true
+        : false;
+    } catch (error) {
+      return false;
     }
   });
 
@@ -61,9 +76,15 @@ function OrganizerProfile({ route }) {
   const translations = {
     en: {
       more: "More Info",
+      dests: "dests",
+      notiOn: "Notifications On",
+      notiOff: "Notifications Off",
     },
     ar: {
       more: "التفاصيل",
+      dests: "وجهات",
+      notiOn: "الاشعارات مفعلة",
+      notiOff: "الاشعارات غير مفعلة",
     },
   };
   const i18n = new I18n(translations);
@@ -86,24 +107,26 @@ function OrganizerProfile({ route }) {
   }
 
   const registerUser = async () => {
-    if(authStore.user.notificationToken === "") {
-      toggleAlertEnableNoti()
-    } else if(authStore?.user?.organizers?.includes(organizer?._id)) {
-      console.log('in Un register')
+    if (authStore.user.notificationToken === "") {
+      toggleAlertEnableNoti();
+    } else if (authStore?.user?.organizers?.includes(organizer?._id)) {
+      console.log("in Un register");
       await authStore.unRegisterUser(organizer._id).then(
-        setNotifications("notifications"), // inactive
-        setNotificationsColor(colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b"),
+        setNotifications("notifications-off"), // inactive
+        setNotificationsColor(colorScheme === "light" ? "#d7d7d7" : "#515151"),
+        setIsNotification(false),
         toggleAlertUnReg()
-      )
-    } else if(!authStore?.user?.organizers?.includes(organizer?._id)) {
-      console.log('in register')
+      );
+    } else if (!authStore?.user?.organizers?.includes(organizer?._id)) {
+      console.log("in register");
       await authStore.registerUser(organizer._id).then(
-        setNotifications("notifications-off"), // active
+        setNotifications("notifications"), // active
         setNotificationsColor("#e52b51"),
+        setIsNotification(true),
         toggleAlertReg()
-      )
+      );
     }
-  }
+  };
 
   return (
     <SafeAreaView
@@ -116,13 +139,11 @@ function OrganizerProfile({ route }) {
       <View
         style={{
           display: "flex",
-          flexDirection:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "row"
-              : "row-reverse",
-          alignItems: "center",
-          justifyContent: "space-between",
           width: "100%",
+          justifyContent: "center",
+          alignContent: "center",
+          marginTop: "6%",
+          marginBottom: "4%",
         }}
       >
         <TouchableOpacity
@@ -131,18 +152,20 @@ function OrganizerProfile({ route }) {
           }}
           style={{
             zIndex: 99,
+            alignSelf:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "flex-start"
+                : "flex-end",
+            position: "absolute",
+            marginLeft: 20,
+            paddingRight: 20,
           }}
         >
           <Ionicons
             style={{
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               zIndex: 99,
-              fontSize: 35,
-              margin: 20,
-              alignSelf:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "flex-start"
-                  : "flex-end",
+              fontSize: 32,
             }}
             name={
               i18n.locale === "en-US" || i18n.locale === "en"
@@ -153,39 +176,20 @@ function OrganizerProfile({ route }) {
         </TouchableOpacity>
         <Text
           style={{
-            fontSize: 30,
-            fontFamily: "UbuntuBold",
+            textAlign: "center",
+            alignSelf: "center",
+            fontSize: 28,
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Ubuntu"
+                : "Noto",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
-          {organizer?.username}
+          {i18n.locale === "en-US" || i18n.locale === "en"
+            ? organizer.displayNameEn
+            : organizer.displayNameAr}
         </Text>
-        <TouchableOpacity
-          onPress={() => {
-            registerUser()
-          }}
-          style={{
-            zIndex: 99,
-            margin: 20,
-          }}
-        >
-           <Ionicons
-              style={{
-                color: notificationsColor,
-                zIndex: 99,
-                fontSize: 30,
-                alignSelf:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "flex-start"
-                    : "flex-end",
-              }}
-              name={
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? notifications
-                  : notifications
-              }
-            ></Ionicons>
-        </TouchableOpacity>
       </View>
 
       <ScrollView
@@ -195,65 +199,177 @@ function OrganizerProfile({ route }) {
           backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
         }}
       >
-        <View style={styles.imageUserName}>
-          {organizer?.image === "" ? (
-            <Image
+        <View
+          style={{
+            display: "flex",
+            justifyContent: "space-evenly",
+            alignContent: "center",
+            alignItems: "center",
+            flexDirection:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "row"
+                : "row-reverse",
+
+            height: 140,
+            width: "100%",
+            marginBottom: 10,
+          }}
+        >
+          <View
+            style={
+              {
+                // marginLeft: "10%"
+              }
+            }
+          >
+            {organizer?.image === "" ? (
+              <Image
+                style={{
+                  width: 110,
+                  height: 110,
+                  borderRadius: 100,
+                  alignItems: "center",
+                  alignSelf: "center",
+                }}
+                source={require("../assets/PP.png")}
+              />
+            ) : (
+              <Image
+                style={{
+                  width: 110,
+                  height: 110,
+                  borderRadius: 100,
+                  alignItems: "center",
+                  alignSelf: "center",
+                }}
+                source={{
+                  uri: baseURL + organizer?.image,
+                }}
+              />
+            )}
+          </View>
+          <View
+            style={{
+              alignItems: "center",
+              alignSelf: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "center",
+              justifyContent: "center",
+            }}
+          >
+            <View
               style={{
-                backgroundColor:
-                  colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                width: 180,
-                height: 180,
-                borderRadius: 150,
                 alignItems: "center",
                 alignSelf: "center",
-                marginRight: 35,
-              }}
-              source={{
-                uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPWpbYe9c5YS6KNOXFWiawk-ox545j3ya978qwGXmcladr3eLFh6IabWhNFVtFRI0YNjI&usqp=CAU",
-              }}
-            />
-          ) : (
-            <Image
-              style={{
-                backgroundColor:
-                  colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                width: 180,
-                height: 180,
-                borderRadius: 150,
-                alignItems: "center",
-                alignSelf: "center",
-                marginRight: 35,
-                resizeMode: "cover",
-              }}
-              source={{
-                uri: baseURL + organizer?.image,
-              }}
-            />
-          )}
-          <View style={styles.counter}>
-            <Text
-              style={{
-                fontSize: 35,
-                fontFamily: "Ubuntu",
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              }}
-            >
-              {organizer?.spots?.length}
-            </Text>
-            <Text
-              style={{
-                fontSize: 25,
-                fontFamily:
+                display: "flex",
+                flexDirection:
                   i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                    ? "row"
+                    : "row-reverse",
+                alignContent: "center",
+                justifyContent: "flex-start",
+                marginBottom:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 6 : 3,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Dests"
-                : "وجهة"}
-            </Text>
+              <Text
+                style={{
+                  fontSize: 32,
+                  fontFamily: "Ubuntu",
+                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  paddingLeft:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : 8,
+                  paddingRight:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 8 : 0,
+                }}
+              >
+                {organizer?.spots?.length}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 23,
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Ubuntu"
+                      : "Noto",
+                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                }}
+              >
+                {i18n.t("dests")}
+              </Text>
+            </View>
+            <TouchableOpacity
+              style={{
+                backgroundColor: notificationsColor,
+                height: 35,
+                width: "80%",
+                alignSelf: "center",
+                borderRadius: 8,
+                display: "flex",
+                flexDirection:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "row"
+                    : "row-reverse",
+                alignContent: "center",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+              onPress={() => registerUser()}
+            >
+              <View
+                style={{
+                  display: "flex",
+                  flexDirection:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "row"
+                      : "row-reverse",
+                  justifyContent: "center",
+                  alignContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Ionicons
+                  style={{
+                    color:
+                      colorScheme === "light"
+                        ? !isNotification
+                          ? "#1b1b1b"
+                          : "#f1f1f1"
+                        : "#f1f1f1",
+                    zIndex: 99,
+                    fontSize: 21,
+                  }}
+                  name={
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? notifications
+                      : notifications
+                  }
+                ></Ionicons>
+              </View>
+              <Text
+                style={{
+                  color:
+                    colorScheme === "light"
+                      ? !isNotification
+                        ? "#1b1b1b"
+                        : "#f1f1f1"
+                      : "#f1f1f1",
+                  fontSize: 19,
+                  marginLeft:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 8 : 0,
+                  marginRight:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : 8,
+                  marginTop: -2,
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Ubuntu"
+                      : "Noto",
+                }}
+              >
+                {isNotification === true ? i18n.t("notiOn") : i18n.t("notiOff")}
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -286,13 +402,13 @@ function OrganizerProfile({ route }) {
         </View>
       </ScrollView>
 
-                  {/* Enable Modal */}
+      {/* Enable Modal */}
       <Modal
         transparent={true}
         visible={visibleEnable}
         animationIn="slideInLeft"
         animationOut="slideOutRight"
-      > 
+      >
         <View
           style={{
             backgroundColor: "rgba(0,0,0,0.2)",
@@ -334,14 +450,14 @@ function OrganizerProfile({ route }) {
                 : "!! يجب عليك تفعيل الإخطارات أولاً"}
             </Text>
             <TouchableOpacity
-                style={{
-                  width: "50%",
-                  backgroundColor: "#e52b51",
-                  borderRadius: 50,
-                  height: 40,
-                  justifyContent: "center",
-                }}
-                onPress={() => toggleAlertEnableNoti()}
+              style={{
+                width: "50%",
+                backgroundColor: "#e52b51",
+                borderRadius: 50,
+                height: 40,
+                justifyContent: "center",
+              }}
+              onPress={() => toggleAlertEnableNoti()}
             >
               <Text
                 style={{
@@ -362,14 +478,14 @@ function OrganizerProfile({ route }) {
           </View>
         </View>
       </Modal>
-                  {/* Enable Modal */}
-                  {/* Registered */}
+      {/* Enable Modal */}
+      {/* Registered */}
       <Modal
         transparent={true}
         visible={visibleReg}
         animationIn="slideInLeft"
         animationOut="slideOutRight"
-      > 
+      >
         <View
           style={{
             backgroundColor: "rgba(0,0,0,0.2)",
@@ -411,14 +527,14 @@ function OrganizerProfile({ route }) {
                 : "!! ستتلقى إشعارًا بمجرد قيام المنظم بنشر وجهة جديدة"}
             </Text>
             <TouchableOpacity
-                style={{
-                  width: "50%",
-                  backgroundColor: "#e52b51",
-                  borderRadius: 50,
-                  height: 40,
-                  justifyContent: "center",
-                }}
-                onPress={() => toggleAlertReg()}
+              style={{
+                width: "50%",
+                backgroundColor: "#e52b51",
+                borderRadius: 50,
+                height: 40,
+                justifyContent: "center",
+              }}
+              onPress={() => toggleAlertReg()}
             >
               <Text
                 style={{
@@ -439,14 +555,14 @@ function OrganizerProfile({ route }) {
           </View>
         </View>
       </Modal>
-                  {/* Registered */}
-                  {/* Un Registered */}
+      {/* Registered */}
+      {/* Un Registered */}
       <Modal
         transparent={true}
         visible={visibleUnReg}
         animationIn="slideInLeft"
         animationOut="slideOutRight"
-      > 
+      >
         <View
           style={{
             backgroundColor: "rgba(0,0,0,0.2)",
@@ -488,14 +604,14 @@ function OrganizerProfile({ route }) {
                 : "ستتوقف عن تلقي إشعارات من هذا المنظم"}
             </Text>
             <TouchableOpacity
-                style={{
-                  width: "50%",
-                  backgroundColor: "#e52b51",
-                  borderRadius: 50,
-                  height: 40,
-                  justifyContent: "center",
-                }}
-                onPress={() => toggleAlertUnReg()}
+              style={{
+                width: "50%",
+                backgroundColor: "#e52b51",
+                borderRadius: 50,
+                height: 40,
+                justifyContent: "center",
+              }}
+              onPress={() => toggleAlertUnReg()}
             >
               <Text
                 style={{
@@ -516,7 +632,7 @@ function OrganizerProfile({ route }) {
           </View>
         </View>
       </Modal>
-                  {/* Un Registered */}
+      {/* Un Registered */}
     </SafeAreaView>
   );
 }

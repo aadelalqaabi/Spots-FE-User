@@ -35,7 +35,6 @@ export default function Info({ route }) {
     (reward) =>
       reward.users.includes(authStore.user.id) && reward.spot === spot._id
   );
-  console.log("rewards", rewards);
   useScrollToTop(ref);
   const translations = {
     en: {

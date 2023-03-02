@@ -30,7 +30,6 @@ function EditScreen() {
   const navigation = useNavigation();
   const cancelButton = () => {
     navigation.goBack();
-    console.log("cancel");
   };
   const translations = {
     en: {

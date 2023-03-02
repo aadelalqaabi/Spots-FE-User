@@ -13,7 +13,7 @@ class OfferStore {
       const response = await instance.get("/offer");
       this.offers = response.data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

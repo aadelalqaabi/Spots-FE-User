@@ -16,9 +16,8 @@ class TicketStore {
       const response = await instance.post(`/ticket/${spotId}`, formData);
       this.tickets.push(response.data.newTicket);
       authStore.setUser(response.data.token);
-      console.log("response.data", response.data);
     } catch (error) {
-      console.log("hello", error);
+      console.error("hello", error);
     }
   };
 
@@ -27,7 +26,7 @@ class TicketStore {
       const response = await instance.get("/ticket");
       this.tickets = response.data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -44,7 +43,7 @@ class TicketStore {
       await instance.delete(`/ticket/delete/${ticketId}`);
       this.tickets = this.tickets.filter((ticket) => ticket._id !== ticketId);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 }

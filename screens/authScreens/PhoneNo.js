@@ -51,7 +51,6 @@ export default function PhoneNo({ navigation, route }) {
     const check = checkEntry(value);
     if (check === true) {
       setUser({ ...user, [name]: value });
-      console.log("user.phone", user.phone);
       setCheckValidation(false);
       setCheckValidationColor("#e52b51");
       setShowError(false);
