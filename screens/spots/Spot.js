@@ -10,7 +10,6 @@ import * as Localization from "expo-localization";
 import organizerStore from "../../stores/organizerStore";
 import "moment/locale/ar";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
-import { BlurView } from "expo-blur";
 
 function Spot({ spot, navigation, day }) {
   const translations = {
@@ -50,11 +49,9 @@ function Spot({ spot, navigation, day }) {
         flexDirection: "row",
         alignSelf: "center",
         height: "100%",
-        width: "100%",
-        borderRadius: 20,
-        zIndex: -1,
+        width: "84%",
       }}
-      activeOpacity={0.8}
+      activeOpacity={0.6}
       onPress={() => {
         navigation.navigate("SpotDetails", { id: spot._id });
       }}
@@ -65,7 +62,7 @@ function Spot({ spot, navigation, day }) {
             alignSelf: "center",
             width: "100%",
             height: "100%",
-            borderRadius: 20,
+            borderRadius: 35,
             zIndex: -1,
           }}
           source={{ uri: `${baseURL}${spot?.image}` }}
@@ -76,7 +73,7 @@ function Spot({ spot, navigation, day }) {
             backgroundColor: "rgba(0,0,0,0.4)",
             height: "100%",
             width: "100%",
-            borderRadius: 20,
+            borderRadius: 35,
           }}
         ></View>
         <View

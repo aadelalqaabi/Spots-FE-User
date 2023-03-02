@@ -13,7 +13,7 @@ class RewardStore {
       const response = await instance.get("/reward");
       this.rewards = response.data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -32,7 +32,7 @@ class RewardStore {
         reward._id === rewardId ? res.data : reward
       );
     } catch (error) {
-      console.log("reward error: ", error);
+      console.error("reward error: ", error);
     }
   };
 }

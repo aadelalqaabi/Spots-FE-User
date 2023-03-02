@@ -14,7 +14,7 @@ class PointStore {
       const response = await instance.post(`/point/${spotId}`, newPoint);
       this.points.push(response.data);
     } catch (error) {
-      console.log("hello", error);
+      console.error("hello", error);
     }
   };
 
@@ -26,7 +26,7 @@ class PointStore {
         point._id === pointId ? res.data : point
       );
     } catch (error) {
-      console.log("hi", error);
+      console.error("hi", error);
     }
   };
 
@@ -35,7 +35,7 @@ class PointStore {
       const response = await instance.get("/point");
       this.points = response.data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

@@ -58,7 +58,7 @@ class AuthStore {
       const response = await instance.post("/user/register", formData);
       this.setUser(response.data.token);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -68,7 +68,7 @@ class AuthStore {
       const response = await instance.post("/user/login", userData);
       this.setUser(response.data.token);
     } catch (error) {
-      console.log(error);
+      console.error(error);
       i18n.locale === "en-US" || i18n.locale === "en"
         ? Alert.alert("Wrong email or password", "", [{ text: "Try Again" }])
         : Alert.alert("بريد الكتروني او كلمه سر خاطئه", "", [
@@ -91,7 +91,7 @@ class AuthStore {
       this.setUser(res.data.token);
       // console.log("res", res.data)
     } catch (error) {
-      console.log("here", error);
+      console.error("here", error);
     }
   };
 
@@ -114,17 +114,16 @@ class AuthStore {
         }
       });
     } catch (error) {
-      console.log("change", error);
+      console.error("change", error);
     }
   };
 
   forgotUser = async (userForgot) => {
     //userForgot.username = userForgot.username.toLowerCase();
     try {
-      console.log("userForgot", userForgot);
       await instance.put(`/user/forgot`, userForgot);
     } catch (error) {
-      console.log("forgot", error);
+      console.error("forgot", error);
     }
   };
 
@@ -133,7 +132,7 @@ class AuthStore {
       const res = await instance.put(`/user/spots/${spotId}`);
       this.setUser(res.data.token);
     } catch (error) {
-      console.log("here", error);
+      console.error("here", error);
     }
   };
 
@@ -142,7 +141,7 @@ class AuthStore {
       const res = await instance.put(`/user/rewards/${rewardId}`);
       for (const key in this.user) this.user[key] = res.data[key];
     } catch (error) {
-      console.log("reward error: ", error);
+      console.error("reward error: ", error);
     }
   };
 
@@ -151,7 +150,7 @@ class AuthStore {
       const res = await instance.put(`/user/remove/${spotId}`);
       this.user.spots = res.data.spots.filter((spot) => spot._id !== spotId);
     } catch (error) {
-      console.log("here", error);
+      console.error("here", error);
     }
   };
 
@@ -160,7 +159,7 @@ class AuthStore {
       const res = await instance.post(`/user/OTP`);
       this.OTP = res.data;
     } catch (error) {
-      console.log("OTP", error);
+      console.error("OTP", error);
     }
   };
 
@@ -178,7 +177,7 @@ class AuthStore {
       const res = await instance.get(`/user/emails`);
       this.userEmails = res.data;
     } catch (error) {
-      console.log("emails error", error);
+      console.error("emails error", error);
     }
   };
 
@@ -188,7 +187,7 @@ class AuthStore {
       const res = await instance.put(`/user/notification/add`, newUser);
       this.setUser(res.data.token);
     } catch (error) {
-      console.log("add token", error);
+      console.error("add token", error);
     }
   };
 
@@ -198,7 +197,7 @@ class AuthStore {
       const res = await instance.put(`/user/notification/remove`, newUser);
       this.setUser(res.data.token);
     } catch (error) {
-      console.log("remove token", error);
+      console.error("remove token", error);
     }
   };
 
@@ -208,27 +207,35 @@ class AuthStore {
       const res = await instance.put(`/user/local/change`, newUser);
       this.setUser(res.data.token);
     } catch (error) {
-      console.log("change local", error);
+      console.error("change local", error);
     }
   };
 
   unRegisterUser = async (organizerId) => {
     try {
-      console.log('Un Registerd')
       const res = await instance.put(`/user/un-register/${organizerId}`);
       this.setUser(res.data.token);
     } catch (error) {
-      console.log("un reg", error);
+      console.error("un reg", error);
     }
   };
 
   registerUser = async (organizerId) => {
     try {
-      console.log('Registered')
       const res = await instance.put(`/user/register/${organizerId}`);
       this.setUser(res.data.token);
     } catch (error) {
-      console.log("reg", error);
+      console.error("reg", error);
+    }
+  };
+  deleteUser = async () => {
+    try {
+      const res = await instance.delete(`/user/goodRiddance/${this.user.id}`);
+      if (res.data === "deleted") {
+        this.logout();
+      }
+    } catch (error) {
+      console.log("delete", error);
     }
   };
 }

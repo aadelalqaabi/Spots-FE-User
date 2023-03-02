@@ -22,7 +22,7 @@ class ReviewStore {
       // spot._id === spotId ? spot.reviews.push(response.data) : spot
       // );
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -31,7 +31,7 @@ class ReviewStore {
       const response = await instance.get("/review");
       this.reviews = response.data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

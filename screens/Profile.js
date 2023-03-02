@@ -17,7 +17,7 @@ import authStore from "../stores/authStore";
 import { observer } from "mobx-react";
 import { baseURL } from "../stores/instance";
 import { useFonts } from "expo-font";
-
+import { AntDesign } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import pointStore from "../stores/pointStore";
 import ScrollTabs from "../ScrollTabs";
@@ -25,6 +25,7 @@ import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import { Ionicons } from "@expo/vector-icons";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
+import Trophies from "./spots/Trophies";
 LogBox.ignoreAllLogs();
 
 function Profile() {
@@ -48,17 +49,14 @@ function Profile() {
         setLoading(true);
         await authStore.checkForToken();
         if (authStore.user.locale === "") {
-          console.log("inside if no locale");
           authStore.changeLocal(i18n.locale);
         } else if (
           i18n?.locale?.includes("en") &&
           authStore?.user?.locale?.includes("en")
         ) {
           authStore.changeLocal(i18n.locale);
-          console.log("changed to: ", i18n.locale);
         } else {
           authStore.changeLocal(i18n.locale);
-          console.log("changed to: ", i18n.locale);
         }
       } finally {
         setLoading(false);
@@ -207,8 +205,8 @@ function Profile() {
                   {authStore.user.image === "" ? (
                     <Image
                       style={{
-                        width: 110,
-                        height: 110,
+                        width: 115,
+                        height: 115,
                         borderRadius: 100,
                         alignItems: "center",
                         alignSelf: "center",
@@ -218,8 +216,8 @@ function Profile() {
                   ) : (
                     <Image
                       style={{
-                        width: 110,
-                        height: 110,
+                        width: 115,
+                        height: 115,
                         borderRadius: 100,
                         alignItems: "center",
                         alignSelf: "center",
@@ -229,6 +227,7 @@ function Profile() {
                       }}
                     />
                   )}
+                  <Trophies userSpots={userSpots} />
                 </View>
                 <View
                   style={{
@@ -289,7 +288,7 @@ function Profile() {
                     style={{
                       backgroundColor:
                         colorScheme === "light" ? "#d7d7d7" : "#515151",
-                      height: 35,
+                      height: 32,
                       width: "90%",
                       alignSelf: "center",
                       borderRadius: 8,

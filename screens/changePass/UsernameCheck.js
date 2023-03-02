@@ -29,13 +29,12 @@ export default function UsernameCheck() {
   const colorScheme = useColorScheme();
   const translations = {
     en: {
-      name: "Enter Your Name",
-      description:
-        "Choose a name for your account\n (Must be at least 2 characters)",
+      name: "Enter Your Email",
+      description: "Enter a valid account email\n (Must be a valid email)",
       next: "Next",
     },
     ar: {
-      name: "ادخل اسمك",
+      name: "ادخل بريدك الالكتروني",
       description: "اختر اسم ليظهر في حسابك \n(يجب ان يكون حرفين على الاقل)",
       next: "التالي",
     },

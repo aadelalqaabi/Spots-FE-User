@@ -116,7 +116,6 @@ export function SpotDetails({ route }) {
       alert(error.message);
     }
   };
-  console.log("authStore.user.tickets", authStore.user.tickets);
   const handleSpots = async (newSpot) => {
     const found = ticketStore.tickets.some(
       (ticket) =>
@@ -216,8 +215,8 @@ export function SpotDetails({ route }) {
           >
             <Image
               style={{
-                width: 45,
-                height: 45,
+                width: 38,
+                height: 38,
                 borderRadius: 50,
                 borderWidth: 1.5,
                 borderColor: "white",
@@ -230,7 +229,7 @@ export function SpotDetails({ route }) {
             />
             <Text
               style={{
-                fontSize: 22,
+                fontSize: 20,
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 fontFamily:
                   i18n.locale === "en-US" || i18n.locale === "en"
@@ -259,7 +258,7 @@ export function SpotDetails({ route }) {
             style={{
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               marginTop: -4,
-              fontSize: 32,
+              fontSize: 29,
             }}
             name="share-outline"
           ></Ionicons>
@@ -272,16 +271,11 @@ export function SpotDetails({ route }) {
         }}
         showsVerticalScrollIndicator={false}
       >
-        {spot.galleryImage0 !== "" &&
-        spot.galleryImage1 !== "" &&
-        spot.galleryImage2 !== "" &&
-        spot.galleryImage3 !== "" &&
-        spot.galleryImage4 !== "" &&
-        spot.galleryImage0 !== null &&
-        spot.galleryImage1 !== null &&
-        spot.galleryImage2 !== null &&
-        spot.galleryImage3 !== null &&
-        spot.galleryImage4 !== null ? (
+        {spot.galleryImage0 !== "" ||
+        spot.galleryImage1 !== "" ||
+        spot.galleryImage2 !== "" ||
+        spot.galleryImage3 !== "" ||
+        spot.galleryImage4 !== "" ? (
           <View
             style={{
               height: 330,
@@ -296,7 +290,7 @@ export function SpotDetails({ route }) {
               dotColor={"white"}
               dotStyle={{ opacity: 0.8 }}
               containerStyle={{
-                borderRadius: 25,
+                borderRadius: 15,
                 overflow: "hidden",
               }}
             >

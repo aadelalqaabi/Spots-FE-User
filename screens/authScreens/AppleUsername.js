@@ -41,7 +41,6 @@ export default function AppleUsername({ route }) {
   const navigation = useNavigation();
   const { itemId } = route.params;
   const [user, setUser] = useState(itemId);
-  console.log("user1", user);
   const [checkValidation, setCheckValidation] = useState(true);
   const [checkValidationColor, setCheckValidationColor] = useState("#e52b51");
   const [begining, setBegining] = useState(true);

@@ -49,26 +49,18 @@ import AppleUsername from "./screens/authScreens/AppleUsername";
 import AppleImage from "./screens/authScreens/AppleImage";
 import * as SplashScreen from "expo-splash-screen";
 import ReviewsPage from "./screens/reviews/ReviewsPage";
-import { useCallback } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import Advertisments from "./Advertisments";
+import SpottedInfo from "./screens/spots/SpottedInfo";
+import RegisteredNotifications from "./screens/notification/RegisteredNotifications";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 const prefix = Linking.createURL("dest://");
 
 function App() {
-  const [appIsReady, setAppIsReady] = useState(false);
   const [isFirstLaunch, setIsFirstLaunch] = useState(null);
-  useEffect(() => {
-    async function prepare() {
-      await SplashScreen.preventAutoHideAsync();
-      setAppIsReady(true);
-    }
-
-    prepare();
-  }, []);
   useEffect(() => {
     AsyncStorage.getItem("alreadyLaunched").then((value) => {
       if (value === null) {
@@ -82,15 +74,6 @@ function App() {
     });
   }, []);
 
-  const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
-      await SplashScreen.hideAsync();
-    }
-  }, [appIsReady]);
-
-  if (!appIsReady) {
-    return null;
-  }
   const checkUser = authStore.user;
   const config = {
     screens: {
@@ -106,7 +89,7 @@ function App() {
     return null;
   } else if (isFirstLaunch === true) {
     return (
-      <NavigationContainer onReady={onLayoutRootView}>
+      <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
@@ -133,7 +116,7 @@ function App() {
   } else {
     return (
       <NativeBaseProvider>
-        <NavigationContainer onReady={onLayoutRootView} linking={linking}>
+        <NavigationContainer linking={linking}>
           {checkUser ? (
             <RootNavigator />
           ) : (
@@ -208,6 +191,7 @@ function RootNavigator() {
       {/* <Screen name="Advertisments" component={Advertisments} /> */}
       <Screen name="SpotDetails" component={SpotDetails} />
       <Screen name="SpotttedDetails" component={SpotttedDetails} />
+      <Screen name="SpottedInfo" component={SpottedInfo} />
       <Screen name="ReviewsPage" component={ReviewsPage} />
       <Screen name="Scanner" component={Scanner} />
       <Screen name="SpottedScanner" component={SpottedScanner} />
@@ -238,6 +222,11 @@ function RootNavigator() {
       <Screen
         name="Organizer"
         component={OrganizerProfile}
+        options={{ headerShown: false }}
+      />
+      <Screen
+        name="RegisteredOrganizers"
+        component={RegisteredNotifications}
         options={{ headerShown: false }}
       />
       <Screen
@@ -284,6 +273,14 @@ function RootNavigator() {
           gestureDirection: "horizontal-inverted",
         }}
       />
+      <Screen
+        name="SpottedInfo"
+        component={SpottedInfo}
+        options={{
+          headerShown: false,
+          gestureDirection: "horizontal-inverted",
+        }}
+      />
 
       <Screen
         options={{
@@ -318,6 +315,15 @@ function RootNavigator() {
           presentation: "transparentModal",
         }}
         component={Search}
+      />
+      <Screen
+        name="RegisteredOrganizers"
+        component={RegisteredNotifications}
+        options={{
+          gestureDirection: "horizontal-inverted",
+          gestureEnabled: "true",
+          presentation: "transparentModal",
+        }}
       />
       <Screen
         name="ChangePassword"
@@ -418,7 +424,6 @@ function TabBar() {
       screenOptions={{
         tabBarStyle: {
           backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-          //margin: 5,
           borderTopWidth: 0,
         },
         headerShown: false,

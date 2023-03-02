@@ -36,7 +36,6 @@ function MySpots() {
   const i18n = new I18n(translations);
   i18n.locale = Localization.locale;
   i18n.enableFallback = true;
-  console.log("authStore.user.tickets", authStore.user.tickets);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = React.useState(false);
   const wait = (timeout) => {
@@ -129,12 +128,9 @@ function MySpots() {
                 backgroundColor={colorScheme === "dark" ? "#313131" : "#d8d8d8"}
                 foregroundColor={colorScheme === "dark" ? "#5a5a5a" : "#c2c2c2"}
               >
-                <Rect x="80" y="25" rx="15" ry="15" width="248" height="159" />
-                <Rect x="15" y="75" rx="15" ry="15" width="48" height="59" />
-                <Rect x="80" y="205" rx="15" ry="15" width="248" height="159" />
-                <Rect x="15" y="255" rx="15" ry="15" width="48" height="59" />
-                <Rect x="80" y="385" rx="15" ry="15" width="248" height="159" />
-                <Rect x="15" y="435" rx="15" ry="15" width="48" height="59" />
+                <Rect x="17" y="25" rx="15" ry="15" width="308" height="159" />
+                <Rect x="17" y="205" rx="15" ry="15" width="308" height="159" />
+                <Rect x="17" y="385" rx="15" ry="15" width="308" height="159" />
               </ContentLoader>
             ) : (
               <ContentLoader

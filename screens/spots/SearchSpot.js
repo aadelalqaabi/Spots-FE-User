@@ -1,5 +1,12 @@
 import { observer } from "mobx-react";
-import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Text,
+  Image,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
 import { I18n } from "i18n-js";
@@ -15,6 +22,7 @@ function SearchSpot({ spot, navigation }) {
   if (!fontsLoaded) {
     return <MyAwesomeSplashScreen />;
   }
+
   const translations = {
     en: {
       suggested: "Suggested Spot",

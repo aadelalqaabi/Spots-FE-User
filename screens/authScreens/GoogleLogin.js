@@ -49,7 +49,6 @@ export default function GoogleLogin() {
     const found = authStore.userEmails.some(
       (emailObj) => emailObj.email.toLowerCase() === userUrl[1].toLowerCase()
     );
-    console.log("found", found);
     if (found === false) {
       navigation.navigate("GoogleUsername", {
         itemId: user,

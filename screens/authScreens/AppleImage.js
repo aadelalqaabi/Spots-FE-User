@@ -43,7 +43,6 @@ export default function AppleImage({ navigation, route }) {
   const [toggle, setToggle] = useState(false);
   const { itemId } = route.params;
   const [user, setUser] = useState(itemId);
-  console.log("user final", user);
 
   useEffect(() => {
     (async () => {
