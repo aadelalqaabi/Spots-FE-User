@@ -24,14 +24,15 @@ import * as Localization from "expo-localization";
 export default function ChangePassword() {
   const colorScheme = useColorScheme();
   const [user, setUser] = useState({
-    email: `${authStore.user.email}`,
+    id: `${authStore.user.id}`,
     newPassword: "",
     currentPassword: "",
+    confirmedPassword: ""
   });
 
   const navigation = useNavigation();
   const [checkValidation, setCheckValidation] = useState(true);
-  const [confirmed, setConfirmed] = useState(false);
+  const [confirmed, setConfirmed] = useState(true);
   const [checkValidationColor, setCheckValidationColor] = useState("#e52b51");
   const [showError, setShowError] = useState(true);
   const [lowerCase, setLowerCase] = useState(true);
@@ -84,6 +85,11 @@ export default function ChangePassword() {
       setCheckValidation(false);
       setCheckValidationColor("#e52b51");
       setShowError(false);
+      if (user.confirmedPassword === value) {
+        setConfirmed(false);
+      } else {
+        setConfirmed(true);
+      }
     } else {
       setCheckValidation(true);
       setCheckValidationColor("#ea3e29");
@@ -100,12 +106,13 @@ export default function ChangePassword() {
     }
   };
 
-  const handleConfirm = (pass) => {
+  const handleConfirm = (name, pass) => {
     setBegining(false);
     if (user.newPassword === pass) {
-      setConfirmed(true);
-    } else {
+      setUser({ ...user, [name]: pass });
       setConfirmed(false);
+    } else {
+      setConfirmed(true);
     }
   };
 
@@ -377,7 +384,7 @@ export default function ChangePassword() {
                   editable={isCurrent}
                   secureTextEntry={secureConfirm}
                   onChangeText={(text) => {
-                    handleConfirm(text);
+                    handleConfirm("confirmedPassword", text);
                   }}
                   placeholder={
                     i18n.locale === "en-US" || i18n.locale === "en"
@@ -415,7 +422,7 @@ export default function ChangePassword() {
                   <></>
                 ) : (
                   <>
-                    {confirmed === false ? (
+                    {confirmed === true ? (
                       <Text
                         style={{
                           color: "red",
@@ -783,7 +790,14 @@ export default function ChangePassword() {
                 )}
               </View>
               <View style={{ flex: 1, justifyContent: "flex-end" }}>
-                <View style={styles.buttonx}>
+                <View style={{
+                  paddingVertical: 8,
+                  paddingHorizontal: 32,
+                  borderRadius: 10,
+                  elevation: 3,
+                  color: "#f1f1f1",
+                  backgroundColor: characterLength === false && specialCharacter === false && number === false && upperCase === false && lowerCase === false && confirmed === false && user.currentPassword !== "" ? "#e52b51" : "#ef7f96",
+                }}>
                   <Button
                     title={
                       i18n.locale === "en-US" || i18n.locale === "en"
@@ -792,6 +806,7 @@ export default function ChangePassword() {
                     }
                     color="#f1f1f1"
                     onPress={handleSubmit}
+                    disabled={characterLength === false && specialCharacter === false && number === false && upperCase === false && lowerCase === false && confirmed === false && user.currentPassword !== "" ? false : true}
                   />
                 </View>
               </View>

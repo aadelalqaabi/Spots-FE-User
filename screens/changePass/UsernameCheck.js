@@ -25,6 +25,7 @@ export default function UsernameCheck() {
   const [user, setUser] = useState({
     email: "",
     newPassword: "",
+    confirmPassword: ""
   });
   const colorScheme = useColorScheme();
   const translations = {
@@ -48,19 +49,8 @@ export default function UsernameCheck() {
     setUser({ ...user, [name]: value });
   };
   const handleSubmit = () => {
-    if (i18n.locale === "en-US" || i18n.locale === "en") {
-      Alert.alert(
-        "An OTP has been sent to the phone number associated with this email",
-        "",
-        ["ok"]
-      );
-      navigation.navigate("CheckOTP", { itemId: user });
-      authStore.getOTP();
-    } else {
-      Alert.alert("اسم المستخدم غير صالح", "", [{ text: "حاول مرة اخرى" }]);
-      authStore.getOTP();
-      navigation.navigate("CheckOTP", { itemId: user });
-    }
+    navigation.navigate("CheckOTP", { itemId: user });
+    authStore.getOTP(user.email);
   };
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
@@ -213,7 +203,7 @@ export default function UsernameCheck() {
                         ? "flex-start"
                         : "flex-end",
                   }}
-                  name="person-circle"
+                  name="mail"
                   size={30}
                   color="#e52b51"
                 />

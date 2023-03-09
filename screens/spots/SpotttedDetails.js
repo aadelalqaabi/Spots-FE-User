@@ -73,7 +73,7 @@ export default function SpotttedDetails({ route }) {
         style={{
           display: "flex",
           width: "100%",
-          justifyContent: "center",
+          justifyContent: "space-evenly",
           alignContent: "center",
           alignItems: "center",
           alignSelf: "center",
@@ -96,7 +96,7 @@ export default function SpotttedDetails({ route }) {
         >
           <Ionicons
             style={{
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: "#f1f1f1",
               fontSize: 30,
             }}
             name={
@@ -131,7 +131,7 @@ export default function SpotttedDetails({ route }) {
         >
           <Ionicons
             style={{
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: "#f1f1f1",
               fontSize: 32,
             }}
             name="information-outline"

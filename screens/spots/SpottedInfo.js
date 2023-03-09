@@ -295,6 +295,8 @@ export default function SpottedInfo({ route }) {
                 : "row-reverse",
             alignContent: "center",
             alignItems: "center",
+            marginBottom:"5%"
+          
           }}
           onPress={() => {
             if (ticket.isFree === true) {
@@ -348,11 +350,11 @@ export default function SpottedInfo({ route }) {
           <Ionicons
             style={{
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              fontSize: 22,
+              fontSize: 25,
               paddingRight:
-                i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
+                i18n.locale === "en-US" || i18n.locale === "en" ? 5 : 0,
               paddingLeft:
-                i18n.locale === "en-US" || i18n.locale === "en" ? 0 : 10,
+                i18n.locale === "en-US" || i18n.locale === "en" ? 0 : 5,
             }}
             name="trash-outline"
           ></Ionicons>
