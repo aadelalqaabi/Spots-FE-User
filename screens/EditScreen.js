@@ -26,8 +26,11 @@ function EditScreen() {
   const colorScheme = useColorScheme();
   const [image, setImage] = useState(baseURL + authStore.user.image);
   const [user, setUser] = useState();
-  const [appleEmail, setAppleEmail] = useState();
+  const [checkValidationColor, setCheckValidationColor] = useState("#e52b51");
+  const [existsError, setExistsError] = useState(false);
+  const [hideDone, setHideDone] = useState(false);
   const navigation = useNavigation();
+
   const cancelButton = () => {
     navigation.goBack();
   };
@@ -54,6 +57,9 @@ function EditScreen() {
         }
       }
     })();
+  }, []);
+  useEffect(() => {
+    authStore.getEmails();
   }, []);
 
   const pickImage = async () => {
@@ -82,9 +88,30 @@ function EditScreen() {
       setImage(result.uri);
     }
   };
-
   const handleChange = (name, value) => {
-    setUser({ ...user, [name]: value });
+    const check = checkEntry(value);
+    const checkExists = authStore.userEmails?.some(
+      (user) => user.email === value
+    );
+    if (check === true && checkExists === false) {
+      setUser({ ...user, [name]: value });
+      setCheckValidationColor("green");
+      setExistsError(false);
+      setHideDone(true);
+    } else if (check === false) {
+      setCheckValidationColor("#ea3e29");
+      setExistsError(false);
+      setHideDone(false);
+    } else {
+      setCheckValidationColor("#ea3e29");
+      setExistsError(true);
+      setHideDone(false);
+    }
+  };
+  const checkEntry = (email) => {
+    const re =
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
   };
 
   const handleSubmit = async () => {
@@ -127,13 +154,22 @@ function EditScreen() {
           />
         </View>
         <View style={styles.done}>
-          <Button
-            onPress={handleSubmit}
-            title={
-              i18n.locale === "en-US" || i18n.locale === "en" ? "Done" : "تم"
-            }
-            color={"#e52b51"}
-          />
+          {hideDone ? (
+            <Button
+              onPress={handleSubmit}
+              title={
+                i18n.locale === "en-US" || i18n.locale === "en" ? "Done" : "تم"
+              }
+              color={"#e52b51"}
+            />
+          ) : (
+            <Button
+              title={
+                i18n.locale === "en-US" || i18n.locale === "en" ? "Done" : "تم"
+              }
+              disabled
+            />
+          )}
         </View>
       </View>
       <View style={styles.main}>
@@ -195,7 +231,7 @@ function EditScreen() {
                     position: "absolute",
                     zIndex: 99,
                     color: "#f1f1f1",
-                    fontSize: 75,
+                    fontSize: 60,
                     shadowOpacity: 0.8,
                     shadowRadius: 4,
                     shadowColor: "black",
@@ -211,6 +247,7 @@ function EditScreen() {
             </View>
           )}
         </View>
+
         <Text
           style={{
             textAlign:
@@ -286,35 +323,68 @@ function EditScreen() {
                 ? "Email"
                 : "البريد الالكتروني"}
             </Text>
-            <TextInput
-              textInputStyle={{
-                alignSelf: "center",
-                width: "80%",
-                marginBottom: 20,
-                padding: 10,
-                fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
-                backgroundColor: "white",
-                shadowColor: "#000",
-                shadowOffset: {
-                  width: 0,
-                  height: 1,
-                },
-                shadowOpacity: 0.1,
-                shadowRadius: 1.41,
-                elevation: 2,
-              }}
-              label="Email"
-              onChangeText={(text) => {
-                handleChange("email", text);
-              }}
-              defaultValue={authStore.user.email}
-              placeholderTextColor={"grey"}
-              keyboardType="email-address"
-              editable={true}
-            />
+            <View style={{ width: "80%" }}>
+              <TextInput
+                textInputStyle={{
+                  alignSelf: "center",
+                  width: "100%",
+                  padding: 10,
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Ubuntu"
+                      : "Noto",
+                  backgroundColor: "white",
+                  shadowColor: "#000",
+                  shadowOffset: {
+                    width: 0,
+                    height: 1,
+                  },
+                  shadowOpacity: 0.1,
+                  shadowRadius: 1.41,
+                  elevation: 2,
+                }}
+                label="Email"
+                onChangeText={(text) => {
+                  handleChange("email", text);
+                }}
+                mainColor={checkValidationColor}
+                defaultValue={authStore.user.email}
+                placeholderTextColor={"grey"}
+                keyboardType="email-address"
+                editable={true}
+                autoCapitalize="none"
+                autoCorrect={false}
+              />
+              {i18n.locale === "en-US" || i18n.locale === "en" ? (
+                <Text
+                  style={{
+                    color: "#ea3e29",
+                    margin: 5,
+                    marginTop: 10,
+                    textAlign:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "left"
+                        : "right",
+                  }}
+                >
+                  {existsError === true ? "Email already exists" : ""}
+                </Text>
+              ) : (
+                <Text
+                  style={{
+                    color: "#ea3e29",
+                    margin: 5,
+                    marginTop: 2,
+                    textAlign:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "left"
+                        : "right",
+                  }}
+                >
+                  {existsError === true ? "البريد الالكتروني مستخدم" : ""}
+                </Text>
+              )}
+            </View>
           </>
         ) : (
           <>
@@ -340,6 +410,7 @@ function EditScreen() {
                 ? "Email"
                 : "البريد الالكتروني"}
             </Text>
+
             <TextInput
               textInputStyle={{
                 alignSelf: "center",
@@ -362,9 +433,6 @@ function EditScreen() {
                 elevation: 2,
               }}
               label="Email"
-              onChangeText={(text) => {
-                handleChange("email", text);
-              }}
               defaultValue={authStore.user.email}
               placeholderTextColor={"grey"}
               keyboardType="email-address"
@@ -382,6 +450,22 @@ const styles = StyleSheet.create({
     flex: 1,
 
     backgroundColor: "white",
+  },
+  containe2: {
+    //width: "90%",
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 1.41,
+    elevation: 2,
+    marginTop: 5,
+    marginRight: 15,
+    marginLeft: 5,
+    flex: 1,
   },
   cancel: {
     marginRight: 20,

@@ -97,7 +97,7 @@ export default function ReviewsPage({ route }) {
         >
           {i18n.locale === "en-US" || i18n.locale === "en"
             ? "Reviews"
-            : "مراجعات"}
+            : "تقييمات"}
         </Text>
       </View>
 
@@ -135,7 +135,7 @@ export default function ReviewsPage({ route }) {
           >
             {i18n.locale === "en-US" || i18n.locale === "en"
               ? "No reviews yet!"
-              : "لا مراجعات حتى الآن!"}
+              : "لا تقييمات حتى الآن!"}
           </Text>
         </View>
       )}

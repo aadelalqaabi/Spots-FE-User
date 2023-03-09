@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   FlatList,
+  Image,
 } from "react-native";
 import React, { useEffect } from "react";
 import { I18n } from "i18n-js";
@@ -33,9 +34,11 @@ export default function RegisteredNotifications() {
   const translations = {
     en: {
       NotificationList: "Organizers",
+      empty: "No organizers followed",
     },
     ar: {
       NotificationList: "المنظمون",
+      empty: "لا تتابع اي منظم",
     },
   };
 
@@ -122,24 +125,63 @@ export default function RegisteredNotifications() {
           {i18n.t("NotificationList")}
         </Text>
       </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        style={{
-          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-        }}
-      >
-        <View>
-          <FlatList
-            style={styles.spotsList}
-            contentContainerStyle={styles.spotsListContainer}
-            data={uniqueOrganizers}
-            renderItem={renderOrganizer}
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-          />
+      {uniqueOrganizers.length === 0 ? (
+        <View
+          style={{
+            display: "flex",
+            alignSelf: "center",
+            height: "90%",
+            alignItems: "center",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
+        >
+          <Image
+            style={{
+              width: 268,
+              height: 300,
+              alignSelf: "center",
+            }}
+            source={require("../../assets/emptyOrg.png")}
+          ></Image>
+          <Text
+            style={{
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              fontSize: 40,
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "UbuntuBold"
+                  : "NotoBold",
+              alignSelf: "center",
+              textAlign: "center",
+              width: 350,
+              marginTop:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+            }}
+          >
+            {i18n.t("empty")}
+          </Text>
         </View>
-      </ScrollView>
+      ) : (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          style={{
+            backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+          }}
+        >
+          <View>
+            <FlatList
+              style={styles.spotsList}
+              contentContainerStyle={styles.spotsListContainer}
+              data={uniqueOrganizers}
+              renderItem={renderOrganizer}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+            />
+          </View>
+        </ScrollView>
+      )}
     </SafeAreaView>
   );
 }

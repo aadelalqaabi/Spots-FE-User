@@ -11,6 +11,7 @@ import {
   Text,
   TouchableOpacity,
   Dimensions,
+  Image,
 } from "react-native";
 import spotStore from "../stores/spotStore";
 import categoryStore from "../stores/categoryStore";
@@ -34,9 +35,11 @@ function Explore() {
   const translations = {
     en: {
       explore: "Explore",
+      empty: "No Dests yet",
     },
     ar: {
       explore: "اكتشف",
+      empty: "لا يوجد ديست هنا",
     },
   };
   const i18n = new I18n(translations);
@@ -130,7 +133,7 @@ function Explore() {
             <Rect x="22" y="92" rx="15" ry="15" width="213" height="355" />
             <Rect x="150" y="57" rx="5" ry="5" width="60" height="8" />
             <Rect x="220" y="57" rx="5" ry="5" width="60" height="8" />
-            <Rect x="243" y="101" rx="10" ry="10" width="213" height="350" />
+            <Rect x="243" y="93" rx="10" ry="10" width="213" height="350" />
             <Rect x="15" y="0" rx="10" ry="10" width="97" height="31" />
             <Circle cx="223" cy="15" r="13" />
           </ContentLoader>
@@ -457,33 +460,36 @@ function Explore() {
                 style={{
                   display: "flex",
                   alignSelf: "center",
-                  height: "81%",
+                  height: "82%",
                   alignItems: "center",
                   flexDirection: "column",
                   justifyContent: "center",
-                  width: "91%",
                 }}
               >
+                <Image
+                  style={{
+                    width: 350,
+                    height: 128,
+                    alignSelf: "center",
+                  }}
+                  source={require("./../assets/EmptyDest.png")}
+                ></Image>
                 <Text
                   style={{
                     color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                    fontSize:
-                      i18n.locale === "en-US" || i18n.locale === "en" ? 40 : 35,
+                    fontSize: 34,
                     fontFamily:
                       i18n.locale === "en-US" || i18n.locale === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     alignSelf: "center",
-                    textAlign:
-                      i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "left"
-                        : "right",
-                    lineHeight: 60,
+                    textAlign: "center",
+                    width: 350,
+                    marginTop:
+                      i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "No Destinations here yet!"
-                    : "لا وجهات هنا حتى الآن!"}
+                  {i18n.t("empty")}
                 </Text>
               </View>
             ) : (

@@ -192,6 +192,9 @@ export default function Info({ route }) {
                   i18n.locale === "en-US" || i18n.locale === "en"
                     ? "row"
                     : "row-reverse",
+                paddingRight: 30,
+                paddingLeft:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 30,
               }}
               ref={scrollViewRef}
               onContentSizeChange={() =>
@@ -257,7 +260,6 @@ export default function Info({ route }) {
               marginTop:
                 i18n.locale === "en-US" || i18n.locale === "en" ? -10 : -20,
               lineHeight: 40,
-              textAlign: "justify",
             }}
           >
             {i18n.locale === "en-US" || i18n.locale === "en"

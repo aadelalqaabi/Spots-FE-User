@@ -148,7 +148,6 @@ export default function SpottedInfo({ route }) {
               marginTop:
                 i18n.locale === "en-US" || i18n.locale === "en" ? -10 : -20,
               lineHeight: 40,
-              textAlign: "justify",
             }}
           >
             {i18n.locale === "en-US" || i18n.locale === "en"

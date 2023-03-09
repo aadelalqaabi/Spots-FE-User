@@ -90,7 +90,10 @@ function Spotted({ ticket, navigation }) {
           <View
             style={{
               display: "flex",
-              flexDirection: "row-reverse",
+              flexDirection:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "row-reverse"
+                  : "row",
               justifyContent: "space-between",
               padding: 10,
             }}
@@ -171,7 +174,7 @@ function Spotted({ ticket, navigation }) {
               <Text
                 style={{
                   fontSize: 22,
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  color: "#f1f1f1",
                   fontFamily:
                     i18n.locale === "en-US" || i18n.locale === "en"
                       ? "Ubuntu"

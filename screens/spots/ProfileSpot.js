@@ -12,7 +12,6 @@ import { baseURL } from "../../stores/instance";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import { useFonts } from "expo-font";
-
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 function ProfileSpot({ spot }) {
@@ -300,7 +299,7 @@ const styles = StyleSheet.create({
   overlay: {
     position: "absolute",
     borderRadius: 30,
-    backgroundColor: "rgba(0, 0, 0, 0.45)",
+    backgroundColor: "rgba(0, 0, 0, 0.6)",
     width: 400,
     height: 380,
   },
