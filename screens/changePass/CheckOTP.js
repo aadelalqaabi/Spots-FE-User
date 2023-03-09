@@ -26,6 +26,7 @@ export default function CheckOTP({ navigation, route }) {
 
   const { itemId } = route.params;
   const [user, setUser] = useState(itemId);
+  const [givenOTP, setGivenOTP] = useState("")
   const [sent, setSent] = useState(true);
 
   const translations = {
@@ -62,12 +63,16 @@ export default function CheckOTP({ navigation, route }) {
   }, 360000);
 
   const handleOTP = () => {
-    authStore.getOTP();
+    authStore.getOTP(user.email);
     setSent(true);
   };
 
-  const handleSubmit = async (code) => {
-    const otpCode = parseInt(code);
+  const handleChange = (text) => {
+    setGivenOTP(text)
+  }
+
+  const handleSubmit = async () => {
+    const otpCode = parseInt(givenOTP);
     if (authStore.OTP === otpCode) {
       navigation.navigate("ForgotPassword", { itemId: user });
     } else {
@@ -198,14 +203,14 @@ export default function CheckOTP({ navigation, route }) {
                   placeholder=""
                   keyboardType="phone-pad"
                   enableIcon="true"
-                  onSubmitEditing={(text) => {
-                    handleSubmit(text);
+                  onChangeText={(text) => {
+                    handleChange(text);
                   }}
+                  onSubmitEditing={handleSubmit}
                 />
                 <TouchableOpacity
                   style={{
-                    // justifyContent: "center",
-                    marginTop: "30%",
+                    marginTop: "20%",
                     alignSelf: "center",
                     marginLeft: "5%",
                   }}
@@ -223,8 +228,15 @@ export default function CheckOTP({ navigation, route }) {
                 </TouchableOpacity>
               </View>
             </View>
+                   
+            <TouchableOpacity onPress={handleSubmit} style={styles.button}>
+              <Text
+               style={{color:"white", alignSelf:"center", fontSize:18}}
+              >{i18n.t("next")}</Text>
+            </TouchableOpacity> 
+            </View>
           </View>
-        </View>
+            
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
   );
@@ -247,12 +259,15 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   button: {
-    paddingVertical: 8,
-    paddingHorizontal: 32,
+    height: 55,
+    width: "110%",
+    display:"flex",
+    justifyContent:"center",
+    alignSelf:"center",
     borderRadius: 10,
     elevation: 3,
     backgroundColor: "#e52b51",
-  },
+    marginTop:"-25%"  },
   buttonx: {
     paddingVertical: 8,
     paddingHorizontal: 32,

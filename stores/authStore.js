@@ -3,7 +3,24 @@ import { Alert } from "react-native";
 import { instance } from "./instance";
 import decode from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { 
+  REGISTER, 
+  LOGIN, 
+  UPDATE, 
+  CHANGE_PASSWORD, 
+  FORGOT_PASSWORD, 
+  ADD_DEST,
+  REMOVE_DEST,
+  REWARD,
+  U_OTP,
+  EMAILS,
+  ADD_TOKEN,
+  REMOVE_TOKEN,
+  CHANGE_LOCAL,
+  UN_REGISTER_USER,
+  REGISTER_USER, 
+  DELETE_USER
+} from "../config/info"
 import { I18n } from "i18n-js";
 import Toast from "react-native-toast-message";
 import * as Localization from "expo-localization";
@@ -55,7 +72,7 @@ class AuthStore {
     const formData = new FormData();
     try {
       for (const key in newUser) formData.append(key, newUser[key]);
-      const response = await instance.post("/user/register", formData);
+      const response = await instance.post(REGISTER, formData);
       this.setUser(response.data.token);
     } catch (error) {
       console.error(error);
@@ -65,7 +82,7 @@ class AuthStore {
   login = async (userData) => {
     // userData.email = userData.email.toLowerCase();
     try {
-      const response = await instance.post("/user/login", userData);
+      const response = await instance.post(LOGIN, userData);
       this.setUser(response.data.token);
     } catch (error) {
       console.error(error);
@@ -87,7 +104,7 @@ class AuthStore {
     try {
       const formData = new FormData();
       for (const key in updatedUser) formData.append(key, updatedUser[key]);
-      const res = await instance.put(`/user/update`, formData);
+      const res = await instance.put(UPDATE, formData);
       this.setUser(res.data.token);
       // console.log("res", res.data)
     } catch (error) {
@@ -97,22 +114,30 @@ class AuthStore {
 
   changeUser = async (userChange) => {
     try {
-      await instance.put(`/user/change`, userChange).then((response) => {
-        if (response?.data?.isChanged === true) {
-          Toast.show({
-            type: "success",
-            text1: "Password Changed 👍",
-            text2: "try to sign back in 🤷‍♂️",
-          });
-          // this.logout()
-        } else {
-          i18n.locale === "en-US" || i18n.locale === "en"
-            ? Alert.alert("Passwords Don't Match", "", [{ text: "Try Again" }])
-            : Alert.alert("كلمات السر غير متطابقة", "", [
-                { text: "حاول مرة اخرى" },
-              ]);
-        }
-      });
+      if(userChange.currentPassword !== "" && userChange.newPassword === userChange.confirmedPassword){
+        await instance.put(CHANGE_PASSWORD, userChange).then((response) => {
+          if (response?.data?.isChanged === true) {
+            Toast.show({
+              type: "success",
+              text1: "Password Changed 👍",
+              text2: "try to sign back in 🤷‍♂️",
+            });
+            // this.logout()
+          } else {
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? Alert.alert("Passwords Don't Match", "", [{ text: "Try Again" }])
+              : Alert.alert("كلمات السر غير متطابقة", "", [
+                  { text: "حاول مرة اخرى" },
+                ]);
+          }
+        });
+      } else {
+        i18n.locale === "en-US" || i18n.locale === "en"
+              ? Alert.alert("Passwords Don't Match", "", [{ text: "Try Again" }])
+              : Alert.alert("كلمات السر غير متطابقة", "", [
+                  { text: "حاول مرة اخرى" },
+                ]);
+      }
     } catch (error) {
       console.error("change", error);
     }
@@ -121,7 +146,29 @@ class AuthStore {
   forgotUser = async (userForgot) => {
     //userForgot.username = userForgot.username.toLowerCase();
     try {
-      await instance.put(`/user/forgot`, userForgot);
+      if(userForgot.newPassword === userForgot.confirmedPassword && user.email !== "")
+        await instance.put(FORGOT_PASSWORD, userForgot).then((response) => {
+          if (response?.data?.isChanged === false) {
+            Toast.show({
+              type: "success",
+              text1: "Password Changed 👍",
+              text2: "try to sign back in 🤷‍♂️",
+            });
+          } else {
+            i18n.locale === "en-US" || i18n.locale === "en"
+              ? Alert.alert("Passwords Don't Match", "", [{ text: "Try Again" }])
+              : Alert.alert("كلمات السر غير متطابقة", "", [
+                  { text: "حاول مرة اخرى" },
+                ]);
+          }
+        });
+      else {
+        i18n.locale === "en-US" || i18n.locale === "en"
+              ? Alert.alert("Passwords Don't Match", "", [{ text: "Try Again" }])
+              : Alert.alert("كلمات السر غير متطابقة", "", [
+                  { text: "حاول مرة اخرى" },
+                ]);
+      }
     } catch (error) {
       console.error("forgot", error);
     }
@@ -129,7 +176,7 @@ class AuthStore {
 
   spotAdd = async (spotId) => {
     try {
-      const res = await instance.put(`/user/spots/${spotId}`);
+      const res = await instance.put(ADD_DEST + spotId);
       this.setUser(res.data.token);
     } catch (error) {
       console.error("here", error);
@@ -138,7 +185,7 @@ class AuthStore {
 
   rewardAdd = async (rewardId) => {
     try {
-      const res = await instance.put(`/user/rewards/${rewardId}`);
+      const res = await instance.put(REWARD + rewardId);
       for (const key in this.user) this.user[key] = res.data[key];
     } catch (error) {
       console.error("reward error: ", error);
@@ -147,17 +194,32 @@ class AuthStore {
 
   removeSpot = async (spotId) => {
     try {
-      const res = await instance.put(`/user/remove/${spotId}`);
+      const res = await instance.put(REMOVE_DEST + spotId);
       this.user.spots = res.data.spots.filter((spot) => spot._id !== spotId);
     } catch (error) {
       console.error("here", error);
     }
   };
 
-  getOTP = async () => {
+  getOTP = async (email) => {
     try {
-      const res = await instance.post(`/user/OTP`);
-      this.OTP = res.data;
+      const res = await instance.post(U_OTP+'/'+email);
+      if(res.data?.message === "No User Found") {
+        console.log('OTP', this.OTP)
+        i18n.locale === "en-US" || i18n.locale === "en"
+          ? Alert.alert(`There is no account conneted to ${email}`, "", [{ text: "Try Again" }])
+          : Alert.alert("كلمات السر غير متطابقة", "", [
+            { text: "حاول مرة اخرى" },
+        ]);
+      } else if(res.data.message === "User Found") {
+        this.OTP = res.data.OTP;
+        console.log('in', this.OTP)
+        i18n.locale === "en-US" || i18n.locale === "en"
+        ? Alert.alert(`We have sent an OTP to ${email}`, "", [{ text: "ok" }])
+        : Alert.alert("لقد أرسلنا OTP إلى عنوان البريد الإلكتروني الذي قدمته", "", [
+          { text: "" },
+        ]);
+      }
     } catch (error) {
       console.error("OTP", error);
     }
@@ -174,7 +236,7 @@ class AuthStore {
 
   getEmails = async () => {
     try {
-      const res = await instance.get(`/user/emails`);
+      const res = await instance.get(EMAILS);
       this.userEmails = res.data;
     } catch (error) {
       console.error("emails error", error);
@@ -184,7 +246,7 @@ class AuthStore {
   addToken = async (newToken) => {
     const newUser = { ...this.user, notificationToken: newToken };
     try {
-      const res = await instance.put(`/user/notification/add`, newUser);
+      const res = await instance.put(ADD_TOKEN, newUser);
       this.setUser(res.data.token);
     } catch (error) {
       console.error("add token", error);
@@ -194,7 +256,7 @@ class AuthStore {
   removeToken = async () => {
     const newUser = { ...this.user, notificationToken: "" };
     try {
-      const res = await instance.put(`/user/notification/remove`, newUser);
+      const res = await instance.put(REMOVE_TOKEN, newUser);
       this.setUser(res.data.token);
     } catch (error) {
       console.error("remove token", error);
@@ -204,7 +266,7 @@ class AuthStore {
   changeLocal = async (newLocale) => {
     const newUser = { ...this.user, locale: newLocale };
     try {
-      const res = await instance.put(`/user/local/change`, newUser);
+      const res = await instance.put(CHANGE_LOCAL, newUser);
       this.setUser(res.data.token);
     } catch (error) {
       console.error("change local", error);
@@ -213,7 +275,7 @@ class AuthStore {
 
   unRegisterUser = async (organizerId) => {
     try {
-      const res = await instance.put(`/user/un-register/${organizerId}`);
+      const res = await instance.put(UN_REGISTER_USER + organizerId);
       this.setUser(res.data.token);
     } catch (error) {
       console.error("un reg", error);
@@ -222,7 +284,7 @@ class AuthStore {
 
   registerUser = async (organizerId) => {
     try {
-      const res = await instance.put(`/user/register/${organizerId}`);
+      const res = await instance.put(REGISTER_USER + organizerId);
       this.setUser(res.data.token);
     } catch (error) {
       console.error("reg", error);
@@ -230,7 +292,7 @@ class AuthStore {
   };
   deleteUser = async () => {
     try {
-      const res = await instance.delete(`/user/goodRiddance/${this.user.id}`);
+      const res = await instance.delete(DELETE_USER + this.user.id);
       if (res.data === "deleted") {
         this.logout();
       }

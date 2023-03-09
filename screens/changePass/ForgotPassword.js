@@ -31,7 +31,7 @@ export default function ForgotPassword({ route }) {
 
   const navigation = useNavigation();
   const [checkValidation, setCheckValidation] = useState(true);
-  const [confirmed, setConfirmed] = useState(false);
+  const [confirmed, setConfirmed] = useState(true);
   const [checkValidationColor, setCheckValidationColor] = useState("#e52b51");
   const [showError, setShowError] = useState(true);
   const [lowerCase, setLowerCase] = useState(true);
@@ -44,11 +44,6 @@ export default function ForgotPassword({ route }) {
   const [begining, setBegining] = useState(true);
 
   const handleSubmit = async () => {
-    Toast.show({
-      type: "success",
-      text1: "Password Changed 👍",
-      text2: "try to sign back in 🤷‍♂️",
-    });
     navigation.navigate("SetUpAccount");
     await authStore.forgotUser(user);
   };
@@ -88,6 +83,11 @@ export default function ForgotPassword({ route }) {
       setCheckValidation(false);
       setCheckValidationColor("#e52b51");
       setShowError(false);
+      if (user.confirmedPassword === value) {
+        setConfirmed(false);
+      } else {
+        setConfirmed(true);
+      }
     } else {
       setCheckValidation(true);
       setCheckValidationColor("#ea3e29");
@@ -95,12 +95,13 @@ export default function ForgotPassword({ route }) {
     }
   };
 
-  const handleConfirm = (pass) => {
+  const handleConfirm = (name, pass) => {
     setBegining(false);
     if (user.newPassword === pass) {
-      setConfirmed(true);
-    } else {
+      setUser({ ...user, [name]: pass });
       setConfirmed(false);
+    } else {
+      setConfirmed(true);
     }
   };
 
@@ -320,7 +321,7 @@ export default function ForgotPassword({ route }) {
                   label="Password"
                   secureTextEntry={secureConfirm}
                   onChangeText={(text) => {
-                    handleConfirm(text);
+                    handleConfirm("confirmPassword", text);
                   }}
                   placeholder="Confirm Password"
                   placeholderTextColor={"grey"}
@@ -354,7 +355,7 @@ export default function ForgotPassword({ route }) {
                   <></>
                 ) : (
                   <>
-                    {confirmed === false ? (
+                    {confirmed === true ? (
                       <Text
                         style={{
                           color: "red",
@@ -726,11 +727,17 @@ export default function ForgotPassword({ route }) {
                 )}
               </View>
               <View style={{ flex: 1, justifyContent: "flex-end" }}>
-                <View style={styles.buttonx}>
+                <View style={{
+                  paddingVertical: 8,
+                  paddingHorizontal: 32,
+                  borderRadius: 10,
+                  elevation: 3,
+                  backgroundColor: characterLength === false && specialCharacter === false && number === false && upperCase === false && lowerCase === false && confirmed === false ? "#e52b51" : "gray",
+                }}>
                   <Button
                     title={"Set Password"}
                     color="white"
-                    disabled={!confirmed}
+                    disabled={characterLength === false && specialCharacter === false && number === false && upperCase === false && lowerCase === false && confirmed === false ? false : true}
                     onPress={handleSubmit}
                   />
                 </View>

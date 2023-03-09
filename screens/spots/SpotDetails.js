@@ -13,6 +13,7 @@ import {
   ScrollView,
   LayoutAnimation,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
 const { width } = Dimensions.get("window");
 import React, { useCallback, useState } from "react";
@@ -44,9 +45,16 @@ export function SpotDetails({ route }) {
   const translations = {
     en: {
       more: "More Info",
+      Loading: "Processing Request...",
+      Visit: "Visit Dest",
+      ALE: "Already in your tickets"
+      
     },
     ar: {
       more: "التفاصيل",
+      Loading: "جاري معالجة الطلب...",
+      Visit: "زيارة الوجهة",
+      ALE: "موجودة في تذاكرك"
     },
   };
   const i18n = new I18n(translations);
@@ -64,11 +72,19 @@ export function SpotDetails({ route }) {
   const toggleAlert = useCallback(() => {
     setVisible(!visible);
   }, [visible]);
+  const [alreadyExist, setAlreadyExist] = useState(false);
+  const toggleAlreadyExist = useCallback(() => {
+    setAlreadyExist(!alreadyExist);
+  }, [alreadyExist]);
   const organizer = organizerStore.getOrganizerById(spot.organizer);
   const reviewCount = spot.reviews.length;
   const navigation = useNavigation();
   const [quantity, setQuantity] = useState(0);
   const [checkSeats, setCheckSeats] = useState(quantity);
+  const [isLoading, setIsLoading] = useState(false);
+  // const toggleIsLoading = useCallback(() => {
+  //   setIsLoading(!isLoading);
+  // }, [isLoading]);
   const colorScheme = useColorScheme();
   let [fontsLoaded] = useFonts({
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
@@ -117,6 +133,7 @@ export function SpotDetails({ route }) {
     }
   };
   const handleSpots = async (newSpot) => {
+    setIsLoading(true)
     const found = ticketStore.tickets.some(
       (ticket) =>
         ticket.spot?._id === newSpot._id && ticket.user === authStore.user.id
@@ -124,13 +141,10 @@ export function SpotDetails({ route }) {
     if (!found) {
       await ticketStore.createTicket(newTicket, newSpot._id);
       await ticketStore.fetchTickets();
-      toggleAlert();
+      toggleAlert()
+      setIsLoading(false)
     } else {
-      Alert.alert(
-        i18n.locale === "en-US" || i18n.locale === "en"
-          ? "Already in your tickets"
-          : "موجودة في تذاكرك"
-      );
+      toggleAlreadyExist()
     }
   };
   const handleBook = (spot) => {
@@ -714,7 +728,7 @@ export function SpotDetails({ route }) {
               >
                 {i18n.locale === "en-US" || i18n.locale === "en"
                   ? "Reviews"
-                  : "المراجعات"}
+                  : "التقييمات"}
               </Text>
               <Text
                 style={{
@@ -847,6 +861,94 @@ export function SpotDetails({ route }) {
               </View>
             </View>
           </Modal>
+          <Modal transparent={true} visible={alreadyExist} animationType="fade">
+            <View
+              style={{
+                backgroundColor: "rgba(0,0,0,0.2)",
+                alignItems: "center",
+                justifyContent: "center",
+                flex: 1,
+              }}
+            >
+              <View
+                style={{
+                  width: "85%",
+                  backgroundColor: "white",
+                  padding: 25,
+                  paddingTop: 30,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 20,
+                  borderColor: "rgba(0, 0, 0, 0.1)",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignContent: "center",
+                  alignSelf: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    marginBottom: 10,
+                    fontFamily:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "UbuntuBold"
+                        : "NotoBold",
+                    width: "90%",
+                    textAlign: "center",
+                    fontSize: 24,
+                  }}
+                >
+                  {i18n.t("ALE")}
+                </Text>
+                <Text
+                  style={{
+                    marginBottom: 20,
+                    width: "70%",
+                    textAlign: "center",
+                    fontSize: 17,
+                    fontFamily:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Ubuntu"
+                        : "Noto",
+                    lineHeight: 30,
+                  }}
+                >
+                  {i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "To view your ticket details go to your tickets page"
+                    : "لعرض تفاصيل الوجهة اذهب لصفحة وجهاتك"}
+                </Text>
+                <TouchableOpacity
+                  style={{
+                    width: "50%",
+                    backgroundColor: "#e52b51",
+                    borderRadius: 50,
+                    height: 40,
+                    justifyContent: "center",
+                  }}
+                  onPress={() => {
+                    toggleAlreadyExist()
+                    setIsLoading(false)
+                    }}
+                >
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      color: "#f1f1f1",
+                      fontFamily:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "UbuntuBold"
+                          : "NotoBold",
+                      fontSize: 15,
+                    }}
+                  >
+                    {i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Close"
+                      : "اغلاق"}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
         </View>
       </ScrollView>
 
@@ -858,7 +960,7 @@ export function SpotDetails({ route }) {
             borderRadius: 25,
             height: 60,
             width: "90%",
-            backgroundColor: "#e52b51",
+            backgroundColor: isLoading ? "gray" : "#e52b51",
             marginTop: 20,
             marginBottom: 25,
             justifyContent: "center",
@@ -868,6 +970,7 @@ export function SpotDetails({ route }) {
                 ? "row-reverse"
                 : "row",
           }}
+          disabled={isLoading}
           onPress={() => handleSpots(spot)}
         >
           <Text
@@ -880,11 +983,13 @@ export function SpotDetails({ route }) {
               fontFamily: "Ubuntu",
             }}
           >
-            {i18n.locale === "en-US" || i18n.locale === "en"
-              ? "Visit Dest"
-              : "زيارة الوجهة"}
+            {isLoading ? i18n.t("Loading") : i18n.t("Visit")}
           </Text>
-          <Ionicons style={styles.spoticon} name="location-sharp"></Ionicons>
+          {isLoading ? (<>
+            <ActivityIndicator size={"small"} color={"white"} />
+          </>) : (<>
+            <Ionicons style={styles.spoticon} name="location-sharp"></Ionicons>
+          </>)}
         </TouchableOpacity>
       ) : (
         <>
