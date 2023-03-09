@@ -103,7 +103,7 @@ export default function MyImage({ navigation, route }) {
       <View
         style={{
           position: "absolute",
-          top: "6%",
+          top: "6.5%",
           left: "5%",
           display: "flex",
           flexDirection: "row",
@@ -115,7 +115,7 @@ export default function MyImage({ navigation, route }) {
           style={{
             backgroundColor: "#e52b51",
             width: "20%",
-            height: 10,
+            height: 8,
             borderRadius: 4,
             marginRight: 15,
           }}
@@ -124,7 +124,7 @@ export default function MyImage({ navigation, route }) {
           style={{
             backgroundColor: "#e52b51",
             width: "20%",
-            height: 10,
+            height: 8,
             borderRadius: 4,
             marginRight: 15,
           }}
@@ -133,7 +133,7 @@ export default function MyImage({ navigation, route }) {
           style={{
             backgroundColor: "#e52b51",
             width: "20%",
-            height: 10,
+            height: 8,
             borderRadius: 4,
             marginRight: 15,
           }}
@@ -142,7 +142,7 @@ export default function MyImage({ navigation, route }) {
           style={{
             backgroundColor: "#e52b51",
             width: "20%",
-            height: 10,
+            height: 8,
             borderRadius: 4,
             marginRight: 15,
           }}
@@ -164,7 +164,7 @@ export default function MyImage({ navigation, route }) {
           style={{
             position: "absolute",
             fontSize: 35,
-            marginTop: 80,
+            marginTop: 90,
             marginLeft: 20,
             paddingRight: 20,
             alignSelf:
@@ -183,7 +183,7 @@ export default function MyImage({ navigation, route }) {
         <View
           style={{
             justifyContent: "center",
-            marginTop: 130,
+            marginTop: 120,
             width: "70%",
             alignSelf: "center",
             alignItems: "center",

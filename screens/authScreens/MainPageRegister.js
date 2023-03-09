@@ -52,7 +52,6 @@ export default function MainPageRegister() {
   //const [uniqueUsername, setUniqueUsername] = useState(true);
 
   const handleChange = (name, value) => {
-
     const check = checkEntry(value);
     if (check === true) {
       setUser({ ...user, [name]: value });
@@ -81,12 +80,53 @@ export default function MainPageRegister() {
   }
   return (
     <>
-      {/* <View style={{ position: "absolute", top: "6%", left: "5%",  backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, zIndex: 1}}></View> */}
-      <View style={{ position: "absolute", top: "6%", left: "5%",display: "flex", flexDirection: "row", zIndex: 1, width: "100%" }}>
-        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
-        <View style={{ backgroundColor: colorScheme === "dark" ? "black" : "#E2DFD2", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
-        <View style={{ backgroundColor: colorScheme === "dark" ? "black" : "#E2DFD2", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
-        <View style={{ backgroundColor: colorScheme === "dark" ? "black" : "#E2DFD2", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
+      <View
+        style={{
+          position: "absolute",
+          top: "6.5%",
+          left: "5%",
+          display: "flex",
+          flexDirection: "row",
+          zIndex: 1,
+          width: "100%",
+        }}
+      >
+        <View
+          style={{
+            backgroundColor: "#e52b51",
+            width: "20%",
+            height: 8,
+            borderRadius: 4,
+            marginRight: 15,
+          }}
+        ></View>
+        <View
+          style={{
+            backgroundColor: colorScheme === "dark" ? "#8d8d8d" : "#d8d8d8",
+            width: "20%",
+            height: 8,
+            borderRadius: 4,
+            marginRight: 15,
+          }}
+        ></View>
+        <View
+          style={{
+            backgroundColor: colorScheme === "dark" ? "#8d8d8d" : "#d8d8d8",
+            width: "20%",
+            height: 8,
+            borderRadius: 4,
+            marginRight: 15,
+          }}
+        ></View>
+        <View
+          style={{
+            backgroundColor: colorScheme === "dark" ? "#8d8d8d" : "#d8d8d8",
+            width: "20%",
+            height: 8,
+            borderRadius: 4,
+            marginRight: 15,
+          }}
+        ></View>
       </View>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -103,7 +143,7 @@ export default function MainPageRegister() {
               style={{
                 position: "absolute",
                 fontSize: 35,
-                marginTop: 80,
+                marginTop: 90,
                 marginLeft: 20,
                 paddingRight: 20,
                 alignSelf:
@@ -122,7 +162,7 @@ export default function MainPageRegister() {
             <View
               style={{
                 justifyContent: "center",
-                marginTop: 130,
+                marginTop: 100,
                 width: "70%",
                 alignSelf: "center",
                 alignItems: "center",

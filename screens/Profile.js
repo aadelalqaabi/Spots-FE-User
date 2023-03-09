@@ -4,7 +4,6 @@ import {
   SafeAreaView,
   StyleSheet,
   Image,
-  Alert,
   StatusBar,
   LogBox,
   useColorScheme,
@@ -273,7 +272,7 @@ function Profile() {
                     </Text>
                     <Text
                       style={{
-                        fontSize: 23,
+                        fontSize: 21,
                         fontFamily:
                           i18n.locale === "en-US" || i18n.locale === "en"
                             ? "Ubuntu"
@@ -312,7 +311,10 @@ function Profile() {
                             ? "Ubuntu"
                             : "Noto",
                         alignSelf: "center",
-                        marginTop: -2,
+                        marginTop:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? -2
+                            : -5,
                       }}
                     >
                       {i18n.t("edit")}

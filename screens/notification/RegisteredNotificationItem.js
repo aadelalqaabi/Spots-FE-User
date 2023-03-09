@@ -89,8 +89,7 @@ export default function RegisteredNotificationItem({ organizerId }) {
           <Text
             style={{
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              // textAlign: i18n.locale === "en-US" || i18n.locale === "en"
-              // ? 'left' : 'right',
+
               fontSize: 20,
               fontFamily:
                 i18n.locale === "en-US" || i18n.locale === "en"

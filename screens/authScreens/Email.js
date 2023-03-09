@@ -8,16 +8,16 @@ import {
   TouchableWithoutFeedback,
   useColorScheme,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert } from "react-native";
 import React from "react";
 import TextInput from "react-native-text-input-interactive";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
-
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
+import authStore from "../../stores/authStore";
 
 export default function Email({ navigation, route }) {
   const colorScheme = useColorScheme();
@@ -27,6 +27,7 @@ export default function Email({ navigation, route }) {
   const [checkValidationColor, setCheckValidationColor] = useState("#e52b51");
   const [begining, setBegining] = useState(true);
   const [showError, setShowError] = useState(true);
+  const [existsError, setExistsError] = useState(false);
   const translations = {
     en: {
       name: "Enter Your Email",
@@ -46,18 +47,35 @@ export default function Email({ navigation, route }) {
   const i18n = new I18n(translations);
   i18n.locale = Localization.locale;
   i18n.enableFallback = true;
+
+  useEffect(() => {
+    authStore.getEmails();
+  }, []);
   const handleChange = (name, value) => {
     const check = checkEntry(value);
+    const checkExists = authStore.userEmails.some(
+      (user) => user.email === value
+    );
     if (check === true) {
-      setUser({ ...user, [name]: value });
-      setCheckValidation(false);
-      setCheckValidationColor("#e52b51");
-      setShowError(false);
+      if (checkExists === false) {
+        setUser({ ...user, [name]: value });
+        setCheckValidation(false);
+        setCheckValidationColor("green");
+        setShowError(false);
+        setExistsError(false);
+      } else {
+        setCheckValidation(false);
+        setCheckValidationColor("#ea3e29");
+        setShowError(true);
+        setExistsError(true);
+      }
     } else {
+      setExistsError(true);
       setCheckValidation(true);
       setCheckValidationColor("#ea3e29");
       setBegining(false);
       setShowError(true);
+      setExistsError(false);
     }
   };
   const checkEntry = (email) => {
@@ -76,15 +94,53 @@ export default function Email({ navigation, route }) {
   }
   return (
     <>
-      {/* <View style={{ position: "absolute", top: "6%", left: "5%",display: "flex", flexDirection: "row", zIndex: 1, width: "100%" }}>
-        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
-        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
-      </View> */}
-      <View style={{ position: "absolute", top: "6%", left: "5%",display: "flex", flexDirection: "row", zIndex: 1, width: "100%" }}>
-        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
-        <View style={{ backgroundColor: "#e52b51", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
-        <View style={{ backgroundColor: colorScheme === "dark" ? "black" : "#E2DFD2", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
-        <View style={{ backgroundColor: colorScheme === "dark" ? "black" : "#E2DFD2", width: "20%", height: 10, borderRadius: 4, marginRight: 15 }}></View>
+      <View
+        style={{
+          position: "absolute",
+          top: "6.5%",
+          left: "5%",
+          display: "flex",
+          flexDirection: "row",
+          zIndex: 1,
+          width: "100%",
+        }}
+      >
+        <View
+          style={{
+            backgroundColor: "#e52b51",
+            width: "20%",
+            height: 8,
+            borderRadius: 4,
+            marginRight: 15,
+          }}
+        ></View>
+        <View
+          style={{
+            backgroundColor: "#e52b51",
+            width: "20%",
+            height: 8,
+            borderRadius: 4,
+            marginRight: 15,
+          }}
+        ></View>
+        <View
+          style={{
+            backgroundColor: colorScheme === "dark" ? "#8d8d8d" : "#d8d8d8",
+            width: "20%",
+            height: 8,
+            borderRadius: 4,
+            marginRight: 15,
+          }}
+        ></View>
+        <View
+          style={{
+            backgroundColor: colorScheme === "dark" ? "#8d8d8d" : "#d8d8d8",
+            width: "20%",
+            height: 8,
+            borderRadius: 4,
+            marginRight: 15,
+          }}
+        ></View>
       </View>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -101,7 +157,7 @@ export default function Email({ navigation, route }) {
               style={{
                 position: "absolute",
                 fontSize: 35,
-                marginTop: 80,
+                marginTop: 90,
                 marginLeft: 20,
                 paddingRight: 20,
                 alignSelf:
@@ -120,7 +176,7 @@ export default function Email({ navigation, route }) {
             <View
               style={{
                 justifyContent: "center",
-                marginTop: 130,
+                marginTop: 100,
                 width: "70%",
                 alignSelf: "center",
                 alignItems: "center",
@@ -277,6 +333,36 @@ export default function Email({ navigation, route }) {
                         />
                       )}
                     </>
+                  )}
+
+                  {i18n.locale === "en-US" || i18n.locale === "en" ? (
+                    <Text
+                      style={{
+                        color: "#ea3e29",
+                        margin: 5,
+                        marginTop: 2,
+                        textAlign:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "left"
+                            : "right",
+                      }}
+                    >
+                      {existsError === true ? "Email already exists" : ""}
+                    </Text>
+                  ) : (
+                    <Text
+                      style={{
+                        color: "#ea3e29",
+                        margin: 5,
+                        marginTop: 2,
+                        textAlign:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "left"
+                            : "right",
+                      }}
+                    >
+                      {existsError === true ? "البريد الالكتروني مستخدم" : ""}
+                    </Text>
                   )}
                 </View>
                 <View

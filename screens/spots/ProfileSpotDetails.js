@@ -59,10 +59,6 @@ function ProfileSpotDetails({ route }) {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
 
-  // const wait = (timeout) => {
-  //   return new Promise((resolve) => setTimeout(resolve, timeout));
-  // };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -84,6 +80,7 @@ function ProfileSpotDetails({ route }) {
     rewardStore.fetchRewards();
     offerStore.fetchOffers();
     reviewStore.fetchReviews();
+    spotStore.fetchSpots();
     wait(2000).then(() => {
       setRefreshing(false);
     });
@@ -215,7 +212,7 @@ function ProfileSpotDetails({ route }) {
                 name="information-outline"
               ></Ionicons>
             </View>
-            {spot.announcement !== "" && (
+            {spot.announcementEn && spot.announcementAr && (
               <View
                 style={{
                   width: "100%",
@@ -245,10 +242,15 @@ function ProfileSpotDetails({ route }) {
                   bounce={false}
                   repeatSpacer={0}
                   shouldAnimateTreshold={40}
+                  isRTL={
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? false
+                      : true
+                  }
                 >
-                  <FontAwesome name="bullhorn" size={22} color="#e52b51" />
-                  {"  "}
-                  {spot.announcement}
+                  {i18n.locale === "en-US" || i18n.locale === "en"
+                    ? spot.announcementEn
+                    : spot.announcementAr}
                 </TextTicker>
               </View>
             )}
@@ -328,8 +330,8 @@ function ProfileSpotDetails({ route }) {
                   }}
                 >
                   {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Valid during spot's date only"
-                    : "صالح لمدة النقطة فقط"}
+                    ? "Valid during Dest's date only"
+                    : "صالح لمدة صلاحية هذه الوجهه فقط"}
                 </Text>
               </View>
               <TouchableOpacity
@@ -537,7 +539,7 @@ function ProfileSpotDetails({ route }) {
               >
                 {i18n.locale === "en-US" || i18n.locale === "en"
                   ? "Reviews"
-                  : "المراجعات"}
+                  : "التقييمات"}
               </Text>
               <TouchableOpacity onPress={toggleModal}>
                 <Text
@@ -553,7 +555,7 @@ function ProfileSpotDetails({ route }) {
                 >
                   {i18n.locale === "en-US" || i18n.locale === "en"
                     ? "Add Review"
-                    : "اضف مراجعة"}
+                    : "اضف تقييم"}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -603,7 +605,7 @@ function ProfileSpotDetails({ route }) {
                     >
                       {i18n.locale === "en-US" || i18n.locale === "en"
                         ? "Add Your Review"
-                        : "اضف مراجعتك"}
+                        : "اضف تقييمك"}
                     </Text>
                     <TouchableOpacity
                       style={{
@@ -741,7 +743,7 @@ function ProfileSpotDetails({ route }) {
               >
                 {i18n.locale === "en-US" || i18n.locale === "en"
                   ? " No Reviews Yet"
-                  : "لا يوجد مراجعات حتى الآن"}
+                  : "لا يوجد تقييمات حتى الآن"}
               </Text>
             )}
           </ScrollView>

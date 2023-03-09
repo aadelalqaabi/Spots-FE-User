@@ -6,16 +6,14 @@ import {
   Modal,
   SafeAreaView,
   ActivityIndicator,
+  ScrollView,
 } from "react-native";
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import { I18n } from "i18n-js";
-import * as Permissions from "expo-permissions";
 import * as Notifications from "expo-notifications";
 import * as Device from "expo-device";
 import * as Localization from "expo-localization";
 import { Ionicons } from "@expo/vector-icons";
-import { useFonts } from "expo-font";
-import { Svg, Circle, Animate } from "react-native-svg";
 import { useNavigation } from "@react-navigation/native";
 import authStore from "../stores/authStore";
 import { Alert } from "react-native";
@@ -49,6 +47,9 @@ function Settings() {
       DeleteAccount: "Delete Account",
       Loading: "Processing Request...",
       Visit: "Visit Dest",
+      info: "Information",
+      Contact: "Contact us",
+      terms: "Privacy Policy",
     },
     ar: {
       Settings: "الاعدادات",
@@ -61,18 +62,14 @@ function Settings() {
       DisNotification: "ايقاف الاشعارات",
       NotificationList: "عرض اشتراكات المنضمين",
       DeleteAccount: "حذف الحساب",
-      Loading: "جاري معالجة الطلب...",
-      Visit: "زيارة الوجهة",
+      info: "معلومات",
+      Contact: "تواصل معنا",
+      terms: "سياسة الخصوصية",
     },
   };
   const i18n = new I18n(translations);
   i18n.locale = Localization.locale;
   i18n.enableFallback = true;
-
-  const [isLoading, setIsLoading] = useState(false);
-  const toggleIsLoading = useCallback(() => {
-    setIsLoading(!isLoading);
-  }, [isLoading]);
 
   const [visibleRemove, setVisibleRemove] = useState(false);
   const toggleAlertRemoveNoti = useCallback(() => {
@@ -270,445 +267,518 @@ function Settings() {
         {/* Settings */}
       </View>
       {/* Notifications */}
-      <Text
-        style={{
-          alignSelf:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "flex-start"
-              : "flex-end",
-          margin: i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 20,
-          marginBottom:
-            i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
-          fontSize: 25,
-          fontFamily:
-            i18n.locale === "en-US" || i18n.locale === "en" ? "Ubuntu" : "Noto",
-          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-        }}
-      >
-        {i18n.t("NotificationTitle")}
-      </Text>
-      {/* Notifications */}
-      {/* Push Notifications */}
-      <TouchableOpacity
-        style={{
-          backgroundColor: "#e8e8e8",
-          height: 60,
-          width: "90%",
-          alignSelf: "center",
-          borderRadius: 10,
-          display: "flex",
-          flexDirection:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "row"
-              : "row-reverse",
-          alignContent: "center",
-          alignItems: "center",
-          marginTop: 20,
-
-          justifyContent: "space-between",
-        }}
-        onPress={() => {
-          if (authStore.user.notificationToken !== "") {
-            toggleAlertRemoveNoti();
-          } else if (authStore.user.notificationToken === "") {
-            toggleAlertAddNoti();
-          } else {
-            toggleAlertSomethingWentWrong();
-          }
-        }}
-      >
+      <ScrollView showsVerticalScrollIndicator={false}>
         <Text
           style={{
-            color: "#1b1b1b",
-            fontSize: 18,
+            alignSelf:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "flex-start"
+                : "flex-end",
+            marginTop: i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 0,
+            margin: i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 25,
+            marginBottom:
+              i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -10,
+            fontSize: 25,
             fontFamily:
               i18n.locale === "en-US" || i18n.locale === "en"
                 ? "Ubuntu"
                 : "Noto",
-            margin: 10,
-            marginRight: 15,
-            marginLeft: 15,
-            opacity: 0.8,
+            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
+          {i18n.t("NotificationTitle")}
+        </Text>
+        {/* Notifications */}
+        {/* Push Notifications */}
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#e8e8e8",
+            height: 60,
+            width: "90%",
+            alignSelf: "center",
+            borderRadius: 10,
+            display: "flex",
+            flexDirection:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "row"
+                : "row-reverse",
+            alignContent: "center",
+            alignItems: "center",
+            marginTop: 15,
+            justifyContent: "space-between",
+          }}
+          onPress={() => {
+            if (authStore.user.notificationToken !== "") {
+              toggleAlertRemoveNoti();
+            } else if (authStore.user.notificationToken === "") {
+              toggleAlertAddNoti();
+            } else {
+              toggleAlertSomethingWentWrong();
+            }
+          }}
+        >
+          <Text
+            style={{
+              color: "#1b1b1b",
+              fontSize: 18,
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
+              margin: 10,
+              marginRight: 15,
+              marginLeft: 15,
+              opacity: 0.8,
+            }}
+          >
+            {authStore.user.notificationToken === "" ? (
+              <>{i18n.t("Notification")}</>
+            ) : (
+              <>{i18n.t("DisNotification")}</>
+            )}
+          </Text>
           {authStore.user.notificationToken === "" ? (
-            <>{i18n.t("Notification")}</>
+            <>
+              <Ionicons
+                style={{
+                  color: "#1b1b1b",
+                  fontSize: 22,
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Ubuntu"
+                      : "Noto",
+                  margin: 18,
+                  opacity: 0.8,
+                }}
+                name={
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "notifications"
+                    : "notifications"
+                }
+              ></Ionicons>
+            </>
           ) : (
-            <>{i18n.t("DisNotification")}</>
+            <>
+              <Ionicons
+                style={{
+                  color: "#1b1b1b",
+                  fontSize: 22,
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Ubuntu"
+                      : "Noto",
+                  margin: 19,
+                  opacity: 0.8,
+                }}
+                name={
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "notifications-off"
+                    : "notifications-off"
+                }
+              ></Ionicons>
+            </>
           )}
-        </Text>
-        {authStore.user.notificationToken === "" ? (
-          <>
-            <Ionicons
-              style={{
-                color: "#1b1b1b",
-                fontSize: 22,
-                fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
-                margin: 18,
-                opacity: 0.8,
-              }}
-              name={
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "notifications"
-                  : "notifications"
-              }
-            ></Ionicons>
-          </>
-        ) : (
-          <>
-            <Ionicons
-              style={{
-                color: "#1b1b1b",
-                fontSize: 22,
-                fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
-                margin: 19,
-                opacity: 0.8,
-              }}
-              name={
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "notifications-off"
-                  : "notifications-off"
-              }
-            ></Ionicons>
-          </>
-        )}
-      </TouchableOpacity>
-      {/* Push Notifications */}
-      {/* Notification List */}
-      <TouchableOpacity
-        style={{
-          backgroundColor: "#e8e8e8",
-          height: 60,
-          width: "90%",
-          alignSelf: "center",
-          borderRadius: 10,
-          display: "flex",
-          flexDirection:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "row"
-              : "row-reverse",
-          alignContent: "center",
-          alignItems: "center",
-          marginTop: 20,
+        </TouchableOpacity>
+        {/* Push Notifications */}
+        {/* Notification List */}
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#e8e8e8",
+            height: 60,
+            width: "90%",
+            alignSelf: "center",
+            borderRadius: 10,
+            display: "flex",
+            flexDirection:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "row"
+                : "row-reverse",
+            alignContent: "center",
+            alignItems: "center",
+            marginTop: 10,
 
-          justifyContent: "space-between",
-        }}
-        onPress={() => {
-          navigation.navigate("RegisteredOrganizers");
-        }}
-      >
-        <Text
-          style={{
-            color: "#1b1b1b",
-            fontSize: 18,
-            fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
-            margin: 10,
-            marginRight: 15,
-            marginLeft: 15,
-            opacity: 0.8,
+            justifyContent: "space-between",
+          }}
+          onPress={() => {
+            navigation.navigate("RegisteredOrganizers");
           }}
         >
-          {i18n.t("NotificationList")}
-        </Text>
-        <Ionicons
+          <Text
+            style={{
+              color: "#1b1b1b",
+              fontSize: 18,
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
+              margin: 10,
+              marginRight: 15,
+              marginLeft: 15,
+              opacity: 0.8,
+            }}
+          >
+            {i18n.t("NotificationList")}
+          </Text>
+          <Ionicons
+            style={{
+              color: "#1b1b1b",
+              fontSize: 18,
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
+              margin: 22,
+              opacity: 0.8,
+            }}
+            name={
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "chevron-forward-outline"
+                : "chevron-back-outline"
+            }
+          ></Ionicons>
+        </TouchableOpacity>
+        {/* Notification List */}
+        {/* Account */}
+        <Text
           style={{
-            color: "#1b1b1b",
-            fontSize: 18,
+            alignSelf:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "flex-start"
+                : "flex-end",
+            margin: i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 25,
+            marginBottom:
+              i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -10,
+            fontSize: 25,
             fontFamily:
               i18n.locale === "en-US" || i18n.locale === "en"
                 ? "Ubuntu"
                 : "Noto",
-            margin: 22,
-            opacity: 0.8,
+            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
-          name={
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "chevron-forward-outline"
-              : "chevron-back-outline"
-          }
-        ></Ionicons>
-      </TouchableOpacity>
-      {/* Notification List */}
-      {/* Account */}
-      <Text
-        style={{
-          alignSelf:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "flex-start"
-              : "flex-end",
-          margin: i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 20,
-          marginBottom:
-            i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
-          fontSize: 25,
-          fontFamily:
-            i18n.locale === "en-US" || i18n.locale === "en" ? "Ubuntu" : "Noto",
-          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-        }}
-      >
-        {i18n.t("Account")}
-      </Text>
-      {/* Account */}
-      {/* Change Password */}
-      <TouchableOpacity
-        style={{
-          backgroundColor: "#e8e8e8",
-          height: 60,
-          width: "90%",
-          alignSelf: "center",
-          borderRadius: 10,
-          display: "flex",
-          flexDirection:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "row"
-              : "row-reverse",
-          alignContent: "center",
-          alignItems: "center",
-          marginTop: 20,
+        >
+          {i18n.t("Account")}
+        </Text>
+        {/* Account */}
+        {/* Change Password */}
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#e8e8e8",
+            height: 60,
+            width: "90%",
+            alignSelf: "center",
+            borderRadius: 10,
+            display: "flex",
+            flexDirection:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "row"
+                : "row-reverse",
+            alignContent: "center",
+            alignItems: "center",
+            marginTop: 15,
 
-          justifyContent: "space-between",
-        }}
-        onPress={() => navigation.navigate("ChangePassword")}
-      >
-        <Text
-          style={{
-            color: "#1b1b1b",
-            fontSize: 18,
-            fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
-            margin: 10,
-            marginRight: 15,
-            marginLeft: 15,
-            opacity: 0.8,
+            justifyContent: "space-between",
           }}
+          onPress={() => navigation.navigate("ChangePassword")}
         >
-          {i18n.t("Change")}
-        </Text>
-        <Ionicons
-          style={{
-            color: "#1b1b1b",
-            fontSize: 18,
-            fontFamily:
+          <Text
+            style={{
+              color: "#1b1b1b",
+              fontSize: 18,
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
+              margin: 10,
+              marginRight: 15,
+              marginLeft: 15,
+              opacity: 0.8,
+            }}
+          >
+            {i18n.t("Change")}
+          </Text>
+          <Ionicons
+            style={{
+              color: "#1b1b1b",
+              fontSize: 18,
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
+              margin: 22,
+              opacity: 0.8,
+            }}
+            name={
               i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
-            margin: 22,
-            opacity: 0.8,
+                ? "chevron-forward-outline"
+                : "chevron-back-outline"
+            }
+          ></Ionicons>
+        </TouchableOpacity>
+        {/* Change Password */}
+        {/* Logout */}
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#e8e8e8",
+            height: 60,
+            width: "90%",
+            alignSelf: "center",
+            borderRadius: 10,
+            display: "flex",
+            flexDirection:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "row"
+                : "row-reverse",
+            alignContent: "center",
+            alignItems: "center",
+            marginTop: 10,
+            marginBottom: 10,
+            justifyContent: "space-between",
           }}
-          name={
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "chevron-forward-outline"
-              : "chevron-back-outline"
+          onPress={() =>
+            Alert.alert(
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Do You Want to Logout?"
+                : "هل ترغب بالخروج؟",
+              "",
+              [
+                {
+                  text:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Cancel"
+                      : "الغاء",
+                  onPress: () => console.log("cancel pressed"),
+                  style: "cancel",
+                },
+                {
+                  text:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "OK"
+                      : "تسجيل الخروج",
+                  onPress: () => authStore.logout(),
+                },
+              ]
+            )
           }
-        ></Ionicons>
-      </TouchableOpacity>
-      {/* Change Password */}
-      {/* Logout */}
-      <TouchableOpacity
-        style={{
-          backgroundColor: "#e8e8e8",
-          height: 60,
-          width: "90%",
-          alignSelf: "center",
-          borderRadius: 10,
-          display: "flex",
-          flexDirection:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "row"
-              : "row-reverse",
-          alignContent: "center",
-          alignItems: "center",
-          marginTop: 20,
-          marginBottom: 20,
-          justifyContent: "space-between",
-        }}
-        onPress={() =>
-          Alert.alert(
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "Do You Want to Logout?"
-              : "هل ترغب بالخروج؟",
-            "",
-            [
-              {
-                text:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Cancel"
-                    : "الغاء",
-                onPress: () => console.log("cancel pressed"),
-                style: "cancel",
-              },
-              {
-                text:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "OK"
-                    : "تسجيل الخروج",
-                onPress: () => authStore.logout(),
-              },
-            ]
-          )
-        }
-      >
+        >
+          <Text
+            style={{
+              color: "#1b1b1b",
+              fontSize: 18,
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
+              margin: 10,
+              marginRight: 15,
+              marginLeft: 15,
+              opacity: 0.8,
+            }}
+          >
+            {i18n.t("log")}
+          </Text>
+          <Ionicons
+            style={{
+              color: "#1b1b1b",
+              fontSize: 18,
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
+              margin: 22,
+              marginBottom: 0,
+              marginTop: 0,
+              opacity: 0.8,
+            }}
+            name={"power"}
+          ></Ionicons>
+        </TouchableOpacity>
+        {/* Logout */}
+        {/* Delete Account */}
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#e8e8e8",
+            height: 60,
+            width: "90%",
+            alignSelf: "center",
+            borderRadius: 10,
+            display: "flex",
+            flexDirection:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "row"
+                : "row-reverse",
+            alignContent: "center",
+            alignItems: "center",
+            marginBottom: 20,
+            justifyContent: "space-between",
+          }}
+          onPress={() => toggleAlertDeleteClicked()}
+        >
+          <Text
+            style={{
+              color: "#1b1b1b",
+              fontSize: 18,
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
+              margin: 10,
+              marginRight: 15,
+              marginLeft: 15,
+              opacity: 0.8,
+            }}
+          >
+            {i18n.t("DeleteAccount")}
+          </Text>
+          <Ionicons
+            style={{
+              color: "#1b1b1b",
+              fontSize: 22,
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
+              margin: 18,
+              opacity: 0.8,
+            }}
+            name={"trash"}
+          ></Ionicons>
+        </TouchableOpacity>
         <Text
           style={{
-            color: "#1b1b1b",
-            fontSize: 18,
+            alignSelf:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "flex-start"
+                : "flex-end",
+            margin: i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 25,
+            marginBottom:
+              i18n.locale === "en-US" || i18n.locale === "en" ? 5 : -5,
+            marginTop: i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
+            fontSize: 25,
             fontFamily:
               i18n.locale === "en-US" || i18n.locale === "en"
                 ? "Ubuntu"
                 : "Noto",
-            margin: 10,
-            marginRight: 15,
-            marginLeft: 15,
-            opacity: 0.8,
+            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
-          {i18n.t("log")}
+          {i18n.t("info")}
         </Text>
-        <Ionicons
+        <TouchableOpacity
           style={{
-            color: "#1b1b1b",
-            fontSize: 18,
-            fontFamily:
+            backgroundColor: "#e8e8e8",
+            height: 60,
+            width: "90%",
+            alignSelf: "center",
+            borderRadius: 10,
+            display: "flex",
+            flexDirection:
               i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
-            margin: 22,
-            opacity: 0.8,
+                ? "row"
+                : "row-reverse",
+            alignContent: "center",
+            alignItems: "center",
+            marginTop: 10,
+
+            justifyContent: "space-between",
           }}
-          name={
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "chevron-forward-outline"
-              : "chevron-back-outline"
-          }
-        ></Ionicons>
-      </TouchableOpacity>
-      {/* Logout */}
-      {/* Delete Account */}
-      <TouchableOpacity
-        style={{
-          backgroundColor: "#e8e8e8",
-          height: 60,
-          width: "90%",
-          alignSelf: "center",
-          borderRadius: 10,
-          display: "flex",
-          flexDirection:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "row"
-              : "row-reverse",
-          alignContent: "center",
-          alignItems: "center",
-          marginBottom: 20,
-          justifyContent: "space-between",
-        }}
-        onPress={() => toggleAlertDeleteClicked()}
-      >
-        <Text
-          style={{
-            color: "#1b1b1b",
-            fontSize: 18,
-            fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
-            margin: 10,
-            marginRight: 15,
-            marginLeft: 15,
-            opacity: 0.8,
+          onPress={() => {
+            navigation.navigate("ContactUs");
           }}
         >
-          {i18n.t("DeleteAccount")}
-        </Text>
-        <Ionicons
-          style={{
-            color: "#1b1b1b",
-            fontSize: 22,
-            fontFamily:
+          <Text
+            style={{
+              color: "#1b1b1b",
+              fontSize: 18,
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
+              margin: 10,
+              marginRight: 15,
+              marginLeft: 15,
+              opacity: 0.8,
+            }}
+          >
+            {i18n.t("Contact")}
+          </Text>
+          <Ionicons
+            style={{
+              color: "#1b1b1b",
+              fontSize: 18,
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
+              margin: 22,
+              opacity: 0.8,
+            }}
+            name={
               i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
-            margin: 18,
-            opacity: 0.8,
+                ? "chevron-forward-outline"
+                : "chevron-back-outline"
+            }
+          ></Ionicons>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#e8e8e8",
+            height: 60,
+            width: "90%",
+            alignSelf: "center",
+            borderRadius: 10,
+            display: "flex",
+            flexDirection:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "row"
+                : "row-reverse",
+            alignContent: "center",
+            alignItems: "center",
+            marginTop: 10,
+
+            justifyContent: "space-between",
           }}
-          name={"trash"}
-        ></Ionicons>
-      </TouchableOpacity>
-      {/* Delete Account */}
-      {/* Disable Modal */}
-      {/* is Loading */}
-      <TouchableOpacity
-        style={{
-          backgroundColor: !isLoading ? "#e52b51" : "gray",
-          height: 60,
-          width: "90%",
-          alignSelf: "center",
-          borderRadius: 10,
-          display: "flex",
-          flexDirection:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "row"
-              : "row-reverse",
-          alignContent: "center",
-          alignItems: "center",
-          marginTop: 20,
-          justifyContent: "center",
-        }}
-        // disabled={isLoading}
-        onPress={() => {
-          toggleIsLoading();
-        }}
-      >
-        {isLoading && <ActivityIndicator size={"small"} color={"white"} />}
-        {isLoading ? (
-          <>
-            <Text
-              style={{
-                color: "white",
-                fontSize: 18,
-                fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
-                margin: 10,
-                marginRight: 15,
-                marginLeft: 15,
-                opacity: 0.8,
-              }}
-            >
-              {i18n.t("Loading")}
-            </Text>
-          </>
-        ) : (
-          <>
-            <Text
-              style={{
-                color: "white",
-                fontSize: 18,
-                fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
-                margin: 10,
-                marginRight: 15,
-                marginLeft: 15,
-                opacity: 0.8,
-              }}
-            >
-              {i18n.t("Visit")}
-            </Text>
-          </>
-        )}
-      </TouchableOpacity>
+          onPress={() => {
+            navigation.navigate("PrivacyPolicy");
+          }}
+        >
+          <Text
+            style={{
+              color: "#1b1b1b",
+              fontSize: 18,
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
+              margin: 10,
+              marginRight: 15,
+              marginLeft: 15,
+              opacity: 0.8,
+            }}
+          >
+            {i18n.t("terms")}
+          </Text>
+          <Ionicons
+            style={{
+              color: "#1b1b1b",
+              fontSize: 18,
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
+              margin: 22,
+              opacity: 0.8,
+            }}
+            name={
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "chevron-forward-outline"
+                : "chevron-back-outline"
+            }
+          ></Ionicons>
+        </TouchableOpacity>
+
+        {/* Delete Account */}
+        {/* Disable Modal */}
+      </ScrollView>
       {/* is Loading */}
       <Modal
         transparent={true}
@@ -742,7 +812,7 @@ function Settings() {
           >
             <Text
               style={{
-                marginBottom: 30,
+                marginBottom: 20,
                 fontFamily:
                   i18n.locale === "en-US" || i18n.locale === "en"
                     ? "Ubuntu"
@@ -753,7 +823,7 @@ function Settings() {
               }}
             >
               {i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Do You want to turn off Notifications?"
+                ? "Do you want to turn off Notifications?"
                 : "هل تريد إيقاف تفعيل الاشعارات؟"}
             </Text>
             <View
@@ -783,11 +853,11 @@ function Settings() {
                       i18n.locale === "en-US" || i18n.locale === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
-                    fontSize: 15,
+                    fontSize: 18,
                   }}
                 >
                   {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "yes"
+                    ? "Yes"
                     : "نعم"}
                 </Text>
               </TouchableOpacity>
@@ -810,11 +880,11 @@ function Settings() {
                       i18n.locale === "en-US" || i18n.locale === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
-                    fontSize: 15,
+                    fontSize: 18,
                   }}
                 >
                   {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "no"
+                    ? "No"
                     : "لا"}
                 </Text>
               </TouchableOpacity>
@@ -857,7 +927,7 @@ function Settings() {
           >
             <Text
               style={{
-                marginBottom: 30,
+                marginBottom: 20,
                 fontFamily:
                   i18n.locale === "en-US" || i18n.locale === "en"
                     ? "Ubuntu"
@@ -868,7 +938,7 @@ function Settings() {
               }}
             >
               {i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Do You want to turn on Notifications?"
+                ? "Do you want to turn on Notifications?"
                 : "هل تريد تفعيل الاشعارات؟"}
             </Text>
             <View
@@ -898,11 +968,11 @@ function Settings() {
                       i18n.locale === "en-US" || i18n.locale === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
-                    fontSize: 15,
+                    fontSize: 18,
                   }}
                 >
                   {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "yes"
+                    ? "Yes"
                     : "نعم"}
                 </Text>
               </TouchableOpacity>
@@ -925,11 +995,11 @@ function Settings() {
                       i18n.locale === "en-US" || i18n.locale === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
-                    fontSize: 15,
+                    fontSize: 18,
                   }}
                 >
                   {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "no"
+                    ? "No"
                     : "لا"}
                 </Text>
               </TouchableOpacity>
@@ -1067,7 +1137,7 @@ function Settings() {
           >
             <Text
               style={{
-                marginBottom: 30,
+                marginBottom: 20,
                 fontFamily:
                   i18n.locale === "en-US" || i18n.locale === "en"
                     ? "Ubuntu"
@@ -1083,7 +1153,7 @@ function Settings() {
             </Text>
             <TouchableOpacity
               style={{
-                width: "50%",
+                width: "30%",
                 backgroundColor: "#e52b51",
                 borderRadius: 50,
                 height: 40,
@@ -1099,11 +1169,11 @@ function Settings() {
                     i18n.locale === "en-US" || i18n.locale === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
-                  fontSize: 15,
+                  fontSize: 18,
                 }}
               >
                 {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "ok"
+                  ? "Ok"
                   : "حسنا"}
               </Text>
             </TouchableOpacity>
@@ -1145,7 +1215,7 @@ function Settings() {
           >
             <Text
               style={{
-                marginBottom: 30,
+                marginBottom: 20,
                 fontFamily:
                   i18n.locale === "en-US" || i18n.locale === "en"
                     ? "Ubuntu"
@@ -1161,7 +1231,7 @@ function Settings() {
             </Text>
             <TouchableOpacity
               style={{
-                width: "50%",
+                width: "30%",
                 backgroundColor: "#e52b51",
                 borderRadius: 50,
                 height: 40,
@@ -1177,11 +1247,11 @@ function Settings() {
                     i18n.locale === "en-US" || i18n.locale === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
-                  fontSize: 15,
+                  fontSize: 18,
                 }}
               >
                 {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "ok"
+                  ? "Ok"
                   : "حسنا"}
               </Text>
             </TouchableOpacity>
@@ -1233,7 +1303,7 @@ function Settings() {
               }}
             >
               {i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Are You Sure?"
+                ? "Are you sure?"
                 : "هل أنت متأكد؟"}
             </Text>
             <Text
@@ -1244,7 +1314,7 @@ function Settings() {
                     ? "90%"
                     : "70%",
                 textAlign: "center",
-                fontSize: 17,
+                fontSize: 18,
                 fontFamily:
                   i18n.locale === "en-US" || i18n.locale === "en"
                     ? "Ubuntu"

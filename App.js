@@ -47,13 +47,13 @@ import ChangePassword from "./screens/changePass/ChangePassword";
 import EndedSpot from "./screens/spots/EndedSpot";
 import AppleUsername from "./screens/authScreens/AppleUsername";
 import AppleImage from "./screens/authScreens/AppleImage";
-import * as SplashScreen from "expo-splash-screen";
 import ReviewsPage from "./screens/reviews/ReviewsPage";
 import { useEffect } from "react";
 import { useState } from "react";
-import Advertisments from "./Advertisments";
 import SpottedInfo from "./screens/spots/SpottedInfo";
 import RegisteredNotifications from "./screens/notification/RegisteredNotifications";
+import ContactUs from "./screens/ContactUs";
+import PrivacyPolicy from "./screens/PrivacyPolicy";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -75,6 +75,7 @@ function App() {
   }, []);
 
   const checkUser = authStore.user;
+
   const config = {
     screens: {
       SpotDetails: { path: "SpotDetails/:id", parse: { id: String } },
@@ -195,6 +196,7 @@ function RootNavigator() {
       <Screen name="ReviewsPage" component={ReviewsPage} />
       <Screen name="Scanner" component={Scanner} />
       <Screen name="SpottedScanner" component={SpottedScanner} />
+      <Screen name="PrivacyPolicy" component={PrivacyPolicy} />
       <Screen
         name="Search"
         options={{
@@ -213,6 +215,7 @@ function RootNavigator() {
       <Screen name="ProfileSpotDetails" component={ProfileSpotDetails} />
 
       <Screen name="Settings" component={Settings} />
+      <Screen name="ContactUs" component={ContactUs} />
 
       <Screen
         name="Edit"
@@ -317,6 +320,16 @@ function RootNavigator() {
         component={Search}
       />
       <Screen
+        name="ContactUs"
+        options={{
+          gestureDirection: "horizontal-inverted",
+          gestureEnabled: "true",
+          presentation: "transparentModal",
+        }}
+        component={ContactUs}
+      />
+
+      <Screen
         name="RegisteredOrganizers"
         component={RegisteredNotifications}
         options={{
@@ -403,6 +416,15 @@ function RootNavigator() {
         }}
       />
       <Screen
+        name="PrivacyPolicy"
+        component={PrivacyPolicy}
+        options={{
+          headerShown: false,
+          gestureDirection: "horizontal-inverted",
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
+      <Screen
         name="Organizer"
         component={OrganizerProfile}
         options={{
@@ -437,7 +459,7 @@ function TabBar() {
           tabBarIcon: ({ color, focused, tintColor }) => (
             <Ionicons
               name={focused ? "compass" : "compass-outline"}
-              size={40}
+              size={37}
               color={color}
               style={{ position: "absolute", paddingTop: "5%" }}
             ></Ionicons>
@@ -455,7 +477,7 @@ function TabBar() {
           tabBarIcon: ({ color, focused, tintColor }) => (
             <Ionicons
               name={focused ? "location" : "location-outline"}
-              size={40}
+              size={37}
               color={color}
               style={{
                 position: "absolute",
@@ -478,7 +500,7 @@ function TabBar() {
           tabBarIcon: ({ color, focused, tintColor }) => (
             <Ionicons
               name={focused ? "person-circle" : "person-circle-outline"}
-              size={40}
+              size={37}
               color={color}
               style={{ position: "absolute", paddingTop: "5%" }}
             />

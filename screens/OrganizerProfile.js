@@ -17,7 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Fontisto, Ionicons } from "@expo/vector-icons";
 import { useState, useCallback } from "react";
 import { useFonts } from "expo-font";
-
+import spotStore from "../stores/spotStore";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
@@ -27,7 +27,9 @@ function OrganizerProfile({ route }) {
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
   const organizer = route.params.organizer;
-  const spots = organizer.spots.filter((spot) => spot.isPublished === true);
+  const spots = spotStore.spots
+    ?.filter((spot) => spot.organizer == organizer._id)
+    .filter((spot) => spot.isPublished === true);
   const [notifications, setNotifications] = useState(() => {
     try {
       return authStore?.user?.organizers?.includes(organizer?._id)
@@ -76,7 +78,7 @@ function OrganizerProfile({ route }) {
   const translations = {
     en: {
       more: "More Info",
-      dests: "dests",
+      dests: "Dests",
       notiOn: "Notifications On",
       notiOff: "Notifications Off",
     },
@@ -215,13 +217,7 @@ function OrganizerProfile({ route }) {
             marginBottom: 10,
           }}
         >
-          <View
-            style={
-              {
-                // marginLeft: "10%"
-              }
-            }
-          >
+          <View>
             {organizer?.image === "" ? (
               <Image
                 style={{
@@ -288,7 +284,7 @@ function OrganizerProfile({ route }) {
               </Text>
               <Text
                 style={{
-                  fontSize: 23,
+                  fontSize: 21,
                   fontFamily:
                     i18n.locale === "en-US" || i18n.locale === "en"
                       ? "Ubuntu"

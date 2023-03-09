@@ -3,11 +3,26 @@ import Stars from "./Stars";
 import { baseURL } from "../../stores/instance";
 import moment from "moment";
 import React from "react";
+import { I18n } from "i18n-js";
+import * as Localization from "expo-localization";
+import "moment/locale/ar";
 
 function ReviewItem({ review }) {
-  let date = moment(review?.date).format("LL");
+  let dateEn = moment(review?.date).locale("en").format("LL");
+  let dateAr = moment(review?.date).locale("ar").format("LL");
   const colorScheme = useColorScheme();
   const reviewImage = review?.user?.image;
+  const translations = {
+    en: {
+      more: "More Info",
+    },
+    ar: {
+      more: "التفاصيل",
+    },
+  };
+  const i18n = new I18n(translations);
+  i18n.locale = Localization.locale;
+  i18n.enableFallback = true;
   return (
     <View>
       <View
@@ -39,7 +54,6 @@ function ReviewItem({ review }) {
               style={{
                 fontSize: 16,
                 margin: 0,
-                //marginBottom: 4,
                 color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
               }}
             >
@@ -53,7 +67,9 @@ function ReviewItem({ review }) {
                 color: "grey",
               }}
             >
-              {date}
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? dateEn
+                : dateAr}
             </Text>
           </View>
         </View>

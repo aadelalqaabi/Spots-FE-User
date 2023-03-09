@@ -161,7 +161,7 @@ export default function EndedSpot({ route }) {
         >
           {i18n.locale === "en-US" || i18n.locale === "en"
             ? "Reviews"
-            : "مراجعات"}
+            : "تقييمات"}
         </Text>
         <View style={{ marginTop: 20 }}>
           {spot.reviews.length > 0 ? (

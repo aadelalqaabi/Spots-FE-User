@@ -5,13 +5,11 @@ import {
   Text,
   View,
   TouchableOpacity,
-  TouchableWithoutFeedback,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
 import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
-import { Ionicons } from "@expo/vector-icons";
 import Modal from "react-native-modal";
 import pointStore from "../../stores/pointStore";
 import authStore from "../../stores/authStore";
@@ -46,9 +44,15 @@ function RewardItem({ reward, onRefresh }) {
   );
 
   useEffect(() => {
-    authStore.checkForToken();
-    pointStore.fetchPoints();
-    rewardStore.fetchRewards();
+    const fetchData = async () => {
+      try {
+        await pointStore.fetchPoints();
+        await rewardStore.fetchRewards();
+      } catch (error) {
+        console.error("Error fetching data", error);
+      }
+    };
+    fetchData();
   }, []);
 
   let [fontsLoaded] = useFonts({
@@ -71,8 +75,11 @@ function RewardItem({ reward, onRefresh }) {
   }
 
   const handleClaim = async () => {
-    pointStore.updatePoint(myPoints.amount - reward.points, myPoints._id);
+    await pointStore.updatePoint(myPoints.amount - reward.points, myPoints._id);
     await rewardStore.userAdd(reward._id);
+    await pointStore.fetchPoints();
+    await rewardStore.fetchRewards();
+    await spotStore.fetchSpots();
     toggleModal();
   };
 
@@ -175,26 +182,6 @@ function RewardItem({ reward, onRefresh }) {
                 display: "flex",
               }}
             >
-              <TouchableOpacity
-                style={{
-                  zIndex: 99,
-                  position: "absolute",
-                  top: 0,
-                  right: 0,
-                  margin: 20,
-                  marginTop: 15,
-                }}
-                onPress={toggleModal}
-              >
-                <Ionicons
-                  style={{
-                    color: "black",
-                    opacity: 1,
-                    fontSize: 35,
-                  }}
-                  name="close-outline"
-                ></Ionicons>
-              </TouchableOpacity>
               <Text
                 style={{
                   fontFamily:
@@ -203,8 +190,9 @@ function RewardItem({ reward, onRefresh }) {
                       : "Noto",
                   fontSize: 30,
                   alignSelf: "center",
-                  // margin:   i18n.locale === "en-US" ||  i18n.locale === "en"  ? 35 : 10,
-                  // marginTop:   i18n.locale === "en-US" ||  i18n.locale === "en"  ? 10 : 35,
+                  textAlign: "center",
+                  margin:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
                 }}
               >
                 {i18n.locale === "en-US" || i18n.locale === "en"
@@ -219,7 +207,6 @@ function RewardItem({ reward, onRefresh }) {
                       ? "row"
                       : "row-reverse",
                   alignSelf: "center",
-                  marginTop: -10,
                 }}
               >
                 <View>
@@ -232,7 +219,7 @@ function RewardItem({ reward, onRefresh }) {
                           ? "flex-start"
                           : "flex-end",
                       margin: 35,
-                      // marginTop: 2,
+                      marginTop: 15,
                       marginBottom: 0,
                     }}
                   >
@@ -270,7 +257,7 @@ function RewardItem({ reward, onRefresh }) {
                           ? "flex-start"
                           : "flex-end",
                       margin: 35,
-                      //marginTop: 2,
+                      marginTop: 15,
                       marginBottom: 0,
                     }}
                   >
@@ -321,55 +308,100 @@ function RewardItem({ reward, onRefresh }) {
                   }}
                 >
                   {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "You Need"
-                    : "تحتاج"}{" "}
-                  {
-                    <Text style={styles.pointsNotEnoughNum}>
-                      {reward.points - myPoints?.amount}
-                    </Text>
-                  }{" "}
-                  {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "more points to claim this reward"
-                    : "نقطة اكثر للحصول على هذه المكافأة"}
+                    ? `You Need ${
+                        reward.points - myPoints?.amount
+                      } more points to claim`
+                    : `تحتاج ${
+                        reward.points - myPoints?.amount
+                      } نقطة اكثر للتحصيل`}
                 </Text>
               ) : (
-                <Text style={styles.claimNow}>
+                <Text
+                  style={{
+                    fontFamily: "Ubuntu",
+                    fontSize: 20,
+                    alignSelf: "center",
+                    margin: 20,
+                    color: "#009900",
+                    lineHeight: 30,
+                  }}
+                >
                   {i18n.locale === "en-US" || i18n.locale === "en"
                     ? "You can claim this reward now!"
                     : "تستطيع الحصول على هذه الجائزة!"}
                 </Text>
               )}
               {myPoints?.amount >= reward.points ? (
-                <TouchableOpacity style={styles.button} onPress={handleClaim}>
-                  <Text
+                <>
+                  <TouchableOpacity style={styles.button} onPress={handleClaim}>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 20,
+                        fontFamily: "Ubuntu",
+                        width: "60%",
+                        textAlign: "center",
+                      }}
+                    >
+                      {i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Claim"
+                        : "الحصول الآن"}
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
                     style={{
-                      color: "white",
-                      fontSize: 20,
-                      fontFamily: "Ubuntu",
-                      width: "60%",
-                      textAlign: "center",
+                      marginTop: 10,
                     }}
+                    onPress={toggleModal}
                   >
-                    {i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Claim"
-                      : "الحصول الآن"}
-                  </Text>
-                </TouchableOpacity>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontFamily: "Ubuntu",
+                        color: "#e52b51",
+                      }}
+                    >
+                      {i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Close"
+                        : "اغلاق"}
+                    </Text>
+                  </TouchableOpacity>
+                </>
               ) : (
-                <View style={styles.disbutton}>
-                  <Text
+                <>
+                  <View style={styles.disbutton}>
+                    <Text
+                      style={{
+                        color: "white",
+                        fontSize: 20,
+                        fontFamily: "Ubuntu",
+                        textAlign: "center",
+                      }}
+                    >
+                      {i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Claim"
+                        : "الحصول الآن"}
+                    </Text>
+                  </View>
+                  <TouchableOpacity
                     style={{
-                      color: "white",
-                      fontSize: 20,
-                      fontFamily: "Ubuntu",
-                      textAlign: "center",
+                      marginTop: 10,
                     }}
+                    onPress={toggleModal}
                   >
-                    {i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Claim"
-                      : "الحصول الآن"}
-                  </Text>
-                </View>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontFamily: "Ubuntu",
+                        color: "#e52b51",
+                      }}
+                    >
+                      {i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Close"
+                        : "اغلاق"}
+                    </Text>
+                  </TouchableOpacity>
+                </>
               )}
             </View>
           ) : (
@@ -385,43 +417,26 @@ function RewardItem({ reward, onRefresh }) {
                 style={{
                   backgroundColor: "white",
                   borderRadius: 40,
-                  height: 360,
+                  height: 240,
                   width: 400,
                   display: "flex",
+                  flexDirection: "column",
+                  alignContent: "center",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: 40,
+                  paddingTop:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 40 : 30,
                 }}
               >
-                <TouchableOpacity
-                  style={{
-                    zIndex: 99,
-                    position: "absolute",
-                    top: 0,
-                    right: 0,
-                    margin: 20,
-                    marginTop: 15,
-                  }}
-                  onPress={toggleModal}
-                >
-                  <Ionicons
-                    style={{
-                      color: "black",
-                      opacity: 1,
-                      fontSize: 35,
-                    }}
-                    name="close-outline"
-                  ></Ionicons>
-                </TouchableOpacity>
                 <Text
                   style={{
                     fontFamily:
                       i18n.locale === "en-US" || i18n.locale === "en"
                         ? "Ubuntu"
                         : "Noto",
-                    fontSize: 30,
+                    fontSize: 25,
                     alignSelf: "center",
-                    margin:
-                      i18n.locale === "en-US" || i18n.locale === "en" ? 35 : 10,
-                    marginTop:
-                      i18n.locale === "en-US" || i18n.locale === "en" ? 45 : 35,
                   }}
                 >
                   {i18n.locale === "en-US" || i18n.locale === "en"
@@ -432,27 +447,33 @@ function RewardItem({ reward, onRefresh }) {
                   style={{
                     fontFamily:
                       i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "Ubuntu"
-                        : "Noto",
-                    fontSize: 28,
+                        ? "UbuntuBold"
+                        : "NotoBold",
+                    fontSize: 40,
                     alignSelf: "center",
-                    margin:
-                      i18n.locale === "en-US" || i18n.locale === "en" ? 35 : 10,
-                    marginTop:
-                      i18n.locale === "en-US" || i18n.locale === "en" ? 35 : 25,
-                    textAlign:
-                      i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "left"
-                        : "right",
-                    width: "80%",
-                    lineHeight:
-                      i18n.locale === "en-US" || i18n.locale === "en" ? 40 : 50,
+                    textAlign: "center",
                   }}
                 >
                   {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "You already claimed this reward, it cannot be claimed multiple times."
-                    : "لقد حصلت على هذه الجائزة من قبل، لا يمكنك الحصول عليها اكثر من مرة."}
+                    ? "Already claimed"
+                    : "تم التحصيل"}
                 </Text>
+                <TouchableOpacity
+                  style={{ marginTop: 10 }}
+                  onPress={toggleModal}
+                >
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontFamily: "Ubuntu",
+                      color: "#e52b51",
+                    }}
+                  >
+                    {i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Close"
+                      : "اغلاق"}
+                  </Text>
+                </TouchableOpacity>
               </View>
             </View>
           )}
@@ -570,7 +591,7 @@ const styles = StyleSheet.create({
   },
   pointsNotEnoughNum: {
     fontFamily: "Ubuntu",
-    fontSize: 25,
+    fontSize: 20,
     alignSelf: "center",
     margin: 35,
     marginTop: 30,
