@@ -7,9 +7,10 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   useColorScheme,
+  Modal,
+  TouchableOpacity,
 } from "react-native";
-import { useEffect, useState } from "react";
-import { Alert } from "react-native";
+import { useCallback, useEffect, useState } from "react";
 import React from "react";
 import TextInput from "react-native-text-input-interactive";
 import { Ionicons } from "@expo/vector-icons";
@@ -48,12 +49,17 @@ export default function Email({ navigation, route }) {
   i18n.locale = Localization.locale;
   i18n.enableFallback = true;
 
+  const [showInvalidEmail, setShowInvalidEmail] = useState(false);
+  const toggleAlertShowInvalidEmail = useCallback(() => {
+    setShowInvalidEmail(!showInvalidEmail);
+  }, [showInvalidEmail]);
+
   useEffect(() => {
     authStore.getEmails();
   }, []);
   const handleChange = (name, value) => {
     const check = checkEntry(value);
-    const checkExists = authStore.userEmails.some(
+    const checkExists = authStore?.userEmails?.some(
       (user) => user.email === value
     );
     if (check === true) {
@@ -272,13 +278,7 @@ export default function Email({ navigation, route }) {
                     onSubmitEditing={() => {
                       checkValidation === false
                         ? navigation.navigate("Password", { itemId: user })
-                        : i18n.locale === "en-US" || i18n.locale === "en"
-                        ? Alert.alert("Invalid Email Adress", "", [
-                            { text: "Try Again" },
-                          ])
-                        : Alert.alert("البريد الإلكتروني غير صالح", "", [
-                            { text: "حاول مرة اخرى" },
-                          ]);
+                        : toggleAlertShowInvalidEmail()
                     }}
                   />
                   {begining === true ? (
@@ -401,6 +401,101 @@ export default function Email({ navigation, route }) {
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
+
+      {/* Invalid Email */}
+      <Modal
+        transparent={true}
+        visible={showInvalidEmail}
+        animationIn="slideInLeft"
+        animationOut="slideOutRight"
+      >
+        <View
+          style={{
+            backgroundColor: "rgba(0,0,0,0.2)",
+            alignItems: "center",
+            justifyContent: "center",
+            flex: 1,
+          }}
+        >
+          <View
+            style={{
+              width: "85%",
+              backgroundColor: "white",
+              padding: 25,
+              paddingTop: 30,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 20,
+              borderColor: "rgba(0, 0, 0, 0.1)",
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "center",
+              alignSelf: "center",
+            }}
+          >
+            <Text
+              style={{
+                marginBottom: 10,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
+                width: "90%",
+                textAlign: "center",
+                fontSize: 24,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Invalid Email Adress"
+                : "البريد الإلكتروني غير صالح"}
+            </Text>
+            <Text
+              style={{
+                marginBottom: 20,
+                width: "70%",
+                textAlign: "center",
+                fontSize: 17,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                lineHeight: 30,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "please try again"
+                : "يرجى المحاولة مرة أخرى"}
+            </Text>
+            <TouchableOpacity
+              style={{
+                width: "50%",
+                backgroundColor: "#e52b51",
+                borderRadius: 50,
+                height: 40,
+                justifyContent: "center",
+              }}
+              onPress={() => toggleAlertShowInvalidEmail()}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  color: "#f1f1f1",
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "UbuntuBold"
+                      : "NotoBold",
+                  fontSize: 15,
+                }}
+              >
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "try again"
+                  : "حاول مرة اخرى"}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      {/* Invalid Email */}
     </>
   );
 }

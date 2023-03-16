@@ -107,6 +107,21 @@ function Settings() {
     setDeleteMade(!deleteMade);
   }, [deleteMade]);
 
+  const [notiFailed, setNotiFailed] = useState(false);
+  const toggleAlertNotiFailed = useCallback(() => {
+    setNotiFailed(!notiFailed);
+  }, [notiFailed]);
+
+  const [noDevice, setNoDevice] = useState(false);
+  const toggleAlertNoDevice = useCallback(() => {
+    setNoDevice(!noDevice);
+  }, [noDevice]);
+
+  const [logoutEnable, setLogoutEnable] = useState(false);
+  const toggleAlertLogoutEnable = useCallback(() => {
+    setLogoutEnable(!logoutEnable);
+  }, [logoutEnable]);
+
   // Notifications.removeNotificationSubscription(notificationListener.current);
   // Notifications.removeNotificationSubscription(responseListener.current);
 
@@ -121,13 +136,7 @@ function Settings() {
         finalStatus = status;
       }
       if (finalStatus !== "granted") {
-        i18n.locale === "en-US" || i18n.locale === "en"
-          ? Alert.alert("Enabling Notifcation Failed", "Plrease try again", [
-              { text: "ok" },
-            ])
-          : Alert.alert("فشل تفعيل الاشعارات", "حاول مره اخرى", [
-              { text: "حسنا" },
-            ]);
+        toggleAlertNotiFailed()
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
@@ -140,7 +149,7 @@ function Settings() {
         }
       }
     } else {
-      alert("Must use physical device for Push Notifications");
+      toggleAlertNoDevice();
     }
 
     if (Platform.OS === "android") {
@@ -534,31 +543,7 @@ function Settings() {
             marginBottom: 10,
             justifyContent: "space-between",
           }}
-          onPress={() =>
-            Alert.alert(
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Do You Want to Logout?"
-                : "هل ترغب بالخروج؟",
-              "",
-              [
-                {
-                  text:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Cancel"
-                      : "الغاء",
-                  onPress: () => console.log("cancel pressed"),
-                  style: "cancel",
-                },
-                {
-                  text:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "OK"
-                      : "تسجيل الخروج",
-                  onPress: () => authStore.logout(),
-                },
-              ]
-            )
-          }
+          onPress={() => toggleAlertLogoutEnable()}
         >
           <Text
             style={{
@@ -643,6 +628,7 @@ function Settings() {
             name={"trash"}
           ></Ionicons>
         </TouchableOpacity>
+        {/* Delete Account */}
         <Text
           style={{
             alignSelf:
@@ -775,11 +761,8 @@ function Settings() {
             }
           ></Ionicons>
         </TouchableOpacity>
-
-        {/* Delete Account */}
-        {/* Disable Modal */}
       </ScrollView>
-      {/* is Loading */}
+      {/* Disable Modal */}
       <Modal
         transparent={true}
         visible={visibleRemove}
@@ -1259,6 +1242,7 @@ function Settings() {
         </View>
       </Modal>
       {/* Noti Disabled Modal */}
+
       {/* Are you sure Modal */}
       <Modal
         transparent={true}
@@ -1393,6 +1377,7 @@ function Settings() {
         </View>
       </Modal>
       {/* Are you sure Modal */}
+
       {/* Noti Enabled Modal */}
       <Modal
         transparent={true}
@@ -1470,6 +1455,311 @@ function Settings() {
         </View>
       </Modal>
       {/* Noti Enabled Modal */}
+
+      {/* Notification Enable Failure */}
+      <Modal
+        transparent={true}
+        visible={notiFailed}
+        animationIn="slideInLeft"
+        animationOut="slideOutRight"
+      >
+        <View
+          style={{
+            backgroundColor: "rgba(0,0,0,0.2)",
+            alignItems: "center",
+            justifyContent: "center",
+            flex: 1,
+          }}
+        >
+          <View
+            style={{
+              width: "85%",
+              backgroundColor: "white",
+              padding: 25,
+              paddingTop: 30,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 20,
+              borderColor: "rgba(0, 0, 0, 0.1)",
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "center",
+              alignSelf: "center",
+            }}
+          >
+            <Text
+              style={{
+                marginBottom: 10,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
+                width: "90%",
+                textAlign: "center",
+                fontSize: 24,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Enabling Notifcation Failed!"
+                : "فشل تفعيل الاشعارات"}
+            </Text>
+            <Text
+              style={{
+                marginBottom: 20,
+                width: "70%",
+                textAlign: "center",
+                fontSize: 17,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                lineHeight: 30,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "please try again"
+                : "يرجى المحاولة مرة أخرى"}
+            </Text>
+            <TouchableOpacity
+              style={{
+                width: "50%",
+                backgroundColor: "#e52b51",
+                borderRadius: 50,
+                height: 40,
+                justifyContent: "center",
+              }}
+              onPress={() => toggleAlertNotiFailed()}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  color: "#f1f1f1",
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "UbuntuBold"
+                      : "NotoBold",
+                  fontSize: 15,
+                }}
+              >
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "ok"
+                  : "حسنا"}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      {/* Notification Enable Failure */}
+
+      {/* No Physical Device */}
+      <Modal
+        transparent={true}
+        visible={noDevice}
+        animationIn="slideInLeft"
+        animationOut="slideOutRight"
+      >
+        <View
+          style={{
+            backgroundColor: "rgba(0,0,0,0.2)",
+            alignItems: "center",
+            justifyContent: "center",
+            flex: 1,
+          }}
+        >
+          <View
+            style={{
+              width: "85%",
+              backgroundColor: "white",
+              padding: 25,
+              paddingTop: 30,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 20,
+              borderColor: "rgba(0, 0, 0, 0.1)",
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "center",
+              alignSelf: "center",
+            }}
+          >
+            <Text
+              style={{
+                marginBottom: 10,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
+                width: "90%",
+                textAlign: "center",
+                fontSize: 24,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Must use physical device for Push Notifications"
+                : "يجب استخدام جهاز مادي لتفعيل لإشعارات"}
+            </Text>
+            <Text
+              style={{
+                marginBottom: 20,
+                width: "70%",
+                textAlign: "center",
+                fontSize: 17,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                lineHeight: 30,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "please try again"
+                : "يرجى المحاولة مرة أخرى"}
+            </Text>
+            <TouchableOpacity
+              style={{
+                width: "50%",
+                backgroundColor: "#e52b51",
+                borderRadius: 50,
+                height: 40,
+                justifyContent: "center",
+              }}
+              onPress={() => toggleAlertNoDevice()}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  color: "#f1f1f1",
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "UbuntuBold"
+                      : "NotoBold",
+                  fontSize: 15,
+                }}
+              >
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "ok"
+                  : "حسنا"}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      {/* No Physical Device */}
+
+      {/* Logout Modal */}
+      <Modal
+        transparent={true}
+        visible={logoutEnable}
+        animationIn="slideInLeft"
+        animationOut="slideOutRight"
+      >
+        <View
+          style={{
+            backgroundColor: "rgba(0,0,0,0.2)",
+            alignItems: "center",
+            justifyContent: "center",
+            flex: 1,
+          }}
+        >
+          <View
+            style={{
+              width: "85%",
+              backgroundColor: "white",
+              padding: 25,
+              paddingTop: 30,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 20,
+              borderColor: "rgba(0, 0, 0, 0.1)",
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "center",
+              alignSelf: "center",
+            }}
+          >
+            <Text
+              style={{
+                marginBottom: 20,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                width: "90%",
+                textAlign: "center",
+                fontSize: 24,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Do You Want to Logout?"
+                : "هل ترغب بالخروج؟"}
+            </Text>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  width: "25%",
+                  backgroundColor: "#e52b51",
+                  borderRadius: 50,
+                  height: 40,
+                  justifyContent: "center",
+                }}
+                onPress={() =>
+                  authStore.logout()
+                }
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    color: "#f1f1f1",
+                    fontFamily:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "UbuntuBold"
+                        : "NotoBold",
+                    fontSize: 18,
+                  }}
+                >
+                  {i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ok"
+                    : "تسجيل الخروج"}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  width: "25%",
+                  backgroundColor: "#e52b51",
+                  borderRadius: 50,
+                  height: 40,
+                  marginLeft: 50,
+                  justifyContent: "center",
+                }}
+                onPress={() => toggleAlertLogoutEnable()}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    color: "#f1f1f1",
+                    fontFamily:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "UbuntuBold"
+                        : "NotoBold",
+                    fontSize: 18,
+                  }}
+                >
+                  {i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Cancel"
+                    : "إلغاء"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      {/* Logout Modal */}
     </SafeAreaView>
   );
 }

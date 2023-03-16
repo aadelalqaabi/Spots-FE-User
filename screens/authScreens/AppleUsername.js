@@ -7,8 +7,10 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   useColorScheme,
+  Modal,
+  TouchableOpacity,
 } from "react-native";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Alert } from "react-native";
 import React from "react";
 import TextInput from "react-native-text-input-interactive";
@@ -46,6 +48,11 @@ export default function AppleUsername({ route }) {
   const [begining, setBegining] = useState(true);
   const [showError, setShowError] = useState(true);
 
+  const [showInvalidName, setShowInvalidName] = useState(false);
+  const toggleAlertShowInvalidName = useCallback(() => {
+    setShowInvalidName(!showInvalidName);
+  }, [showInvalidName]);
+
   const handleChange = (name, value) => {
     const check = checkEntry(value);
     if (check === true) {
@@ -74,251 +81,344 @@ export default function AppleUsername({ route }) {
     return <MyAwesomeSplashScreen />;
   }
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View
-          style={{
-            width: "100%",
-            height: "100%",
-            backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-          }}
-        >
-          <Ionicons
-            style={{
-              position: "absolute",
-              fontSize: 32,
-              marginTop: 80,
-              marginLeft: 20,
-              paddingRight: 20,
-              alignSelf:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "flex-start"
-                  : "flex-end",
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-            }}
-            name={
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "chevron-back-outline"
-                : "chevron-forward-outline"
-            }
-            onPress={() => navigation.goBack()}
-          ></Ionicons>
+    <>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View
             style={{
+              width: "100%",
+              height: "100%",
+              backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+            }}
+          >
+            <Ionicons
+              style={{
+                position: "absolute",
+                fontSize: 32,
+                marginTop: 80,
+                marginLeft: 20,
+                paddingRight: 20,
+                alignSelf:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "flex-start"
+                    : "flex-end",
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              }}
+              name={
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "chevron-back-outline"
+                  : "chevron-forward-outline"
+              }
+              onPress={() => navigation.goBack()}
+            ></Ionicons>
+            <View
+              style={{
+                justifyContent: "center",
+                marginTop: 130,
+                width: "70%",
+                alignSelf: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "UbuntuBold"
+                      : "NotoBold",
+                  fontSize: 29,
+                  margin: 20,
+                  marginTop: 0,
+                  marginBottom:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+                  width: "100%",
+                  textAlign: "center",
+                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                }}
+              >
+                {i18n.t("name")}
+              </Text>
+              <Text
+                style={{
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Ubuntu"
+                      : "Noto",
+                  fontSize:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 18,
+                  margin: 20,
+                  marginTop: 0,
+                  marginBottom:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+                  width: "100%",
+                  textAlign: "center",
+                  color: "#64666b",
+                  lineHeight: 23,
+                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  opacity: 0.8,
+                  paddingTop: 3,
+                }}
+              >
+                {i18n.t("description")}
+              </Text>
+
+              <View
+                style={{
+                  width: "110%",
+                  alignSelf: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  height: "73%",
+                }}
+              >
+                <View style={styles.container}>
+                  <TextInput
+                    textInputStyle={{
+                      alignSelf: "center",
+                      width: "103%",
+                      marginBottom: 10,
+                      padding: 14,
+                      paddingLeft: 50,
+                      paddingRight: 50,
+                      fontFamily:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "Ubuntu"
+                          : "Noto",
+                      textAlign:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "left"
+                          : "right",
+                      backgroundColor: "white",
+                      shadowColor: "#000",
+                      shadowOffset: {
+                        width: 0,
+                        height: 1,
+                      },
+                      shadowOpacity: 0.1,
+                      shadowRadius: 1.41,
+                      elevation: 2,
+                    }}
+                    mainColor={checkValidationColor}
+                    label="Name"
+                    onChangeText={(text) => {
+                      handleChange("name", text);
+                    }}
+                    placeholder=""
+                    keyboardType="ascii-capable"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    enableIcon="true"
+                    onSubmitEditing={() => {
+                      checkValidation === false
+                        ? navigation.navigate("AppleImage", { itemId: user })
+                        : toggleAlertShowInvalidName()
+                    }}
+                  />
+                  {begining === true ? (
+                    <Ionicons
+                      style={{
+                        zIndex: 99,
+                        position: "absolute",
+                        margin: 12,
+                        fontSize: 25,
+                        alignSelf:
+                          i18n.locale === "en-US" || i18n.locale === "en"
+                            ? "flex-start"
+                            : "flex-end",
+                      }}
+                      name="person-circle"
+                      size={30}
+                      color="#e52b51"
+                    />
+                  ) : (
+                    <>
+                      {showError === true ? (
+                        <Ionicons
+                          style={{
+                            zIndex: 99,
+                            position: "absolute",
+                            margin: 12,
+                            fontSize: 25,
+                            alignSelf:
+                              i18n.locale === "en-US" || i18n.locale === "en"
+                                ? "flex-start"
+                                : "flex-end",
+                          }}
+                          name="close-outline"
+                          size={18}
+                          color="#ea3e29"
+                        />
+                      ) : (
+                        <Ionicons
+                          style={{
+                            zIndex: 99,
+                            position: "absolute",
+                            margin: 12,
+                            fontSize: 25,
+                            alignSelf:
+                              i18n.locale === "en-US" || i18n.locale === "en"
+                                ? "flex-start"
+                                : "flex-end",
+                          }}
+                          name="checkmark"
+                          size={16}
+                          color="#5fcf40"
+                        />
+                      )}
+                    </>
+                  )}
+                </View>
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: "flex-end",
+                    marginBottom: 40,
+                  }}
+                >
+                  {checkValidation === true ? (
+                    <View
+                      style={{
+                        paddingVertical: 8,
+                        paddingHorizontal: 32,
+                        borderRadius: 10,
+                        elevation: 3,
+                        backgroundColor: "#ef7f96",
+                      }}
+                    >
+                      <Button
+                        title={i18n.t("next")}
+                        color="white"
+                        disabled={checkValidation}
+                        onPress={() => {
+                          navigation.navigate("AppleImage", { itemId: user });
+                        }}
+                      />
+                    </View>
+                  ) : (
+                    <View
+                      style={{
+                        paddingVertical: 8,
+                        paddingHorizontal: 32,
+                        borderRadius: 10,
+                        elevation: 3,
+                        backgroundColor: "#e52b51",
+                      }}
+                    >
+                      <Button
+                        title={i18n.t("next")}
+                        color="white"
+                        disabled={checkValidation}
+                        onPress={() => {
+                          navigation.navigate("AppleImage", { itemId: user });
+                        }}
+                      />
+                    </View>
+                  )}
+                </View>
+              </View>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+
+      {/* Invalid Name */}
+      <Modal
+        transparent={true}
+        visible={showInvalidName}
+        animationIn="slideInLeft"
+        animationOut="slideOutRight"
+      >
+        <View
+          style={{
+            backgroundColor: "rgba(0,0,0,0.2)",
+            alignItems: "center",
+            justifyContent: "center",
+            flex: 1,
+          }}
+        >
+          <View
+            style={{
+              width: "85%",
+              backgroundColor: "white",
+              padding: 25,
+              paddingTop: 30,
               justifyContent: "center",
-              marginTop: 130,
-              width: "70%",
-              alignSelf: "center",
               alignItems: "center",
+              borderRadius: 20,
+              borderColor: "rgba(0, 0, 0, 0.1)",
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "center",
+              alignSelf: "center",
             }}
           >
             <Text
               style={{
+                marginBottom: 10,
                 fontFamily:
                   i18n.locale === "en-US" || i18n.locale === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
-                fontSize: 29,
-                margin: 20,
-                marginTop: 0,
-                marginBottom:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
-                width: "100%",
+                width: "90%",
                 textAlign: "center",
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                fontSize: 24,
               }}
             >
-              {i18n.t("name")}
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Invalid Name"
+                : "اسمك غير صالح"}
             </Text>
             <Text
               style={{
+                marginBottom: 20,
+                width: "70%",
+                textAlign: "center",
+                fontSize: 17,
                 fontFamily:
                   i18n.locale === "en-US" || i18n.locale === "en"
                     ? "Ubuntu"
                     : "Noto",
-                fontSize:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 18,
-                margin: 20,
-                marginTop: 0,
-                marginBottom:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
-                width: "100%",
-                textAlign: "center",
-                color: "#64666b",
-                lineHeight: 23,
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                opacity: 0.8,
-                paddingTop: 3,
+                lineHeight: 30,
               }}
             >
-              {i18n.t("description")}
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "please try again"
+                : "يرجى المحاولة مرة أخرى"}
             </Text>
-
-            <View
+            <TouchableOpacity
               style={{
-                width: "110%",
-                alignSelf: "center",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                height: "73%",
+                width: "50%",
+                backgroundColor: "#e52b51",
+                borderRadius: 50,
+                height: 40,
+                justifyContent: "center",
               }}
+              onPress={() => toggleAlertShowInvalidName()}
             >
-              <View style={styles.container}>
-                <TextInput
-                  textInputStyle={{
-                    alignSelf: "center",
-                    width: "103%",
-                    marginBottom: 10,
-                    padding: 14,
-                    paddingLeft: 50,
-                    paddingRight: 50,
-                    fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "Ubuntu"
-                        : "Noto",
-                    textAlign:
-                      i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "left"
-                        : "right",
-                    backgroundColor: "white",
-                    shadowColor: "#000",
-                    shadowOffset: {
-                      width: 0,
-                      height: 1,
-                    },
-                    shadowOpacity: 0.1,
-                    shadowRadius: 1.41,
-                    elevation: 2,
-                  }}
-                  mainColor={checkValidationColor}
-                  label="Name"
-                  onChangeText={(text) => {
-                    handleChange("name", text);
-                  }}
-                  placeholder=""
-                  keyboardType="ascii-capable"
-                  autoCapitalize="none"
-                  autoCorrect={false}
-                  enableIcon="true"
-                  onSubmitEditing={() => {
-                    checkValidation === false
-                      ? navigation.navigate("AppleImage", { itemId: user })
-                      : i18n.locale === "en-US" || i18n.locale === "en"
-                      ? Alert.alert("Invalid Name", "", ["Try Again"])
-                      : Alert.alert("اسم غير صالح", "", [
-                          { text: "حاول مرة اخرى" },
-                        ]);
-                  }}
-                />
-                {begining === true ? (
-                  <Ionicons
-                    style={{
-                      zIndex: 99,
-                      position: "absolute",
-                      margin: 12,
-                      fontSize: 25,
-                      alignSelf:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "flex-start"
-                          : "flex-end",
-                    }}
-                    name="person-circle"
-                    size={30}
-                    color="#e52b51"
-                  />
-                ) : (
-                  <>
-                    {showError === true ? (
-                      <Ionicons
-                        style={{
-                          zIndex: 99,
-                          position: "absolute",
-                          margin: 12,
-                          fontSize: 25,
-                          alignSelf:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? "flex-start"
-                              : "flex-end",
-                        }}
-                        name="close-outline"
-                        size={18}
-                        color="#ea3e29"
-                      />
-                    ) : (
-                      <Ionicons
-                        style={{
-                          zIndex: 99,
-                          position: "absolute",
-                          margin: 12,
-                          fontSize: 25,
-                          alignSelf:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? "flex-start"
-                              : "flex-end",
-                        }}
-                        name="checkmark"
-                        size={16}
-                        color="#5fcf40"
-                      />
-                    )}
-                  </>
-                )}
-              </View>
-              <View
+              <Text
                 style={{
-                  flex: 1,
-                  justifyContent: "flex-end",
-                  marginBottom: 40,
+                  textAlign: "center",
+                  color: "#f1f1f1",
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "UbuntuBold"
+                      : "NotoBold",
+                  fontSize: 15,
                 }}
               >
-                {checkValidation === true ? (
-                  <View
-                    style={{
-                      paddingVertical: 8,
-                      paddingHorizontal: 32,
-                      borderRadius: 10,
-                      elevation: 3,
-                      backgroundColor: "#ef7f96",
-                    }}
-                  >
-                    <Button
-                      title={i18n.t("next")}
-                      color="white"
-                      disabled={checkValidation}
-                      onPress={() => {
-                        navigation.navigate("AppleImage", { itemId: user });
-                      }}
-                    />
-                  </View>
-                ) : (
-                  <View
-                    style={{
-                      paddingVertical: 8,
-                      paddingHorizontal: 32,
-                      borderRadius: 10,
-                      elevation: 3,
-                      backgroundColor: "#e52b51",
-                    }}
-                  >
-                    <Button
-                      title={i18n.t("next")}
-                      color="white"
-                      disabled={checkValidation}
-                      onPress={() => {
-                        navigation.navigate("AppleImage", { itemId: user });
-                      }}
-                    />
-                  </View>
-                )}
-              </View>
-            </View>
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "try again"
+                  : "حاول مرة اخرى"}
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+      </Modal>
+      {/* Invalid Name */}
+    </>
   );
 }
 

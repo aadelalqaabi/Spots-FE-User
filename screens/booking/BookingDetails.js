@@ -6,8 +6,9 @@ import {
   TouchableOpacity,
   Alert,
   useColorScheme,
+  Modal,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
 import { useFonts } from "expo-font";

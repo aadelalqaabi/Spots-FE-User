@@ -7,8 +7,10 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   useColorScheme,
+  Modal,
+  TouchableOpacity,
 } from "react-native";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Alert } from "react-native";
 import React from "react";
 import TextInput from "react-native-text-input-interactive";
@@ -50,6 +52,11 @@ export default function MainPageRegister() {
   const [begining, setBegining] = useState(true);
   const [showError, setShowError] = useState(true);
   //const [uniqueUsername, setUniqueUsername] = useState(true);
+
+  const [showInvalidName, setShowInvalidName] = useState(false);
+  const toggleAlertShowInvalidName = useCallback(() => {
+    setShowInvalidName(!showInvalidName);
+  }, [showInvalidName]);
 
   const handleChange = (name, value) => {
     const check = checkEntry(value);
@@ -260,11 +267,7 @@ export default function MainPageRegister() {
                     onSubmitEditing={() => {
                       checkValidation === false
                         ? navigation.navigate("Email", { itemId: user })
-                        : i18n.locale === "en-US" || i18n.locale === "en"
-                        ? Alert.alert("Invalid Name", "", ["Try Again"])
-                        : Alert.alert("اسمك غير صالح", "", [
-                            { text: "حاول مرة اخرى" },
-                          ]);
+                        : toggleAlertShowInvalidName()
                     }}
                   />
                   {begining === true ? (
@@ -373,6 +376,101 @@ export default function MainPageRegister() {
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
+
+      {/* Invalid Name */}
+      <Modal
+        transparent={true}
+        visible={showInvalidName}
+        animationIn="slideInLeft"
+        animationOut="slideOutRight"
+      >
+        <View
+          style={{
+            backgroundColor: "rgba(0,0,0,0.2)",
+            alignItems: "center",
+            justifyContent: "center",
+            flex: 1,
+          }}
+        >
+          <View
+            style={{
+              width: "85%",
+              backgroundColor: "white",
+              padding: 25,
+              paddingTop: 30,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 20,
+              borderColor: "rgba(0, 0, 0, 0.1)",
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "center",
+              alignSelf: "center",
+            }}
+          >
+            <Text
+              style={{
+                marginBottom: 10,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
+                width: "90%",
+                textAlign: "center",
+                fontSize: 24,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Invalid Name"
+                : "اسمك غير صالح"}
+            </Text>
+            <Text
+              style={{
+                marginBottom: 20,
+                width: "70%",
+                textAlign: "center",
+                fontSize: 17,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                lineHeight: 30,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "please try again"
+                : "يرجى المحاولة مرة أخرى"}
+            </Text>
+            <TouchableOpacity
+              style={{
+                width: "50%",
+                backgroundColor: "#e52b51",
+                borderRadius: 50,
+                height: 40,
+                justifyContent: "center",
+              }}
+              onPress={() => toggleAlertShowInvalidName()}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  color: "#f1f1f1",
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "UbuntuBold"
+                      : "NotoBold",
+                  fontSize: 15,
+                }}
+              >
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "try again"
+                  : "حاول مرة اخرى"}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      {/* Invalid Name */}
     </>
   );
 }
