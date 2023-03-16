@@ -3,12 +3,12 @@ import { Alert } from "react-native";
 import { instance } from "./instance";
 import decode from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { 
-  REGISTER, 
-  LOGIN, 
-  UPDATE, 
-  CHANGE_PASSWORD, 
-  FORGOT_PASSWORD, 
+import {
+  REGISTER,
+  LOGIN,
+  UPDATE,
+  CHANGE_PASSWORD,
+  FORGOT_PASSWORD,
   ADD_DEST,
   REMOVE_DEST,
   REWARD,
@@ -18,9 +18,9 @@ import {
   REMOVE_TOKEN,
   CHANGE_LOCAL,
   UN_REGISTER_USER,
-  REGISTER_USER, 
-  DELETE_USER
-} from "../config/info"
+  REGISTER_USER,
+  DELETE_USER,
+} from "./config/info";
 import { I18n } from "i18n-js";
 import Toast from "react-native-toast-message";
 import * as Localization from "expo-localization";
@@ -114,7 +114,10 @@ class AuthStore {
 
   changeUser = async (userChange) => {
     try {
-      if(userChange.currentPassword !== "" && userChange.newPassword === userChange.confirmedPassword){
+      if (
+        userChange.currentPassword !== "" &&
+        userChange.newPassword === userChange.confirmedPassword
+      ) {
         await instance.put(CHANGE_PASSWORD, userChange).then((response) => {
           if (response?.data?.isChanged === true) {
             Toast.show({
@@ -125,7 +128,9 @@ class AuthStore {
             // this.logout()
           } else {
             i18n.locale === "en-US" || i18n.locale === "en"
-              ? Alert.alert("Passwords Don't Match", "", [{ text: "Try Again" }])
+              ? Alert.alert("Passwords Don't Match", "", [
+                  { text: "Try Again" },
+                ])
               : Alert.alert("كلمات السر غير متطابقة", "", [
                   { text: "حاول مرة اخرى" },
                 ]);
@@ -133,10 +138,10 @@ class AuthStore {
         });
       } else {
         i18n.locale === "en-US" || i18n.locale === "en"
-              ? Alert.alert("Passwords Don't Match", "", [{ text: "Try Again" }])
-              : Alert.alert("كلمات السر غير متطابقة", "", [
-                  { text: "حاول مرة اخرى" },
-                ]);
+          ? Alert.alert("Passwords Don't Match", "", [{ text: "Try Again" }])
+          : Alert.alert("كلمات السر غير متطابقة", "", [
+              { text: "حاول مرة اخرى" },
+            ]);
       }
     } catch (error) {
       console.error("change", error);
@@ -146,7 +151,10 @@ class AuthStore {
   forgotUser = async (userForgot) => {
     //userForgot.username = userForgot.username.toLowerCase();
     try {
-      if(userForgot.newPassword === userForgot.confirmedPassword && user.email !== "")
+      if (
+        userForgot.newPassword === userForgot.confirmedPassword &&
+        user.email !== ""
+      )
         await instance.put(FORGOT_PASSWORD, userForgot).then((response) => {
           if (response?.data?.isChanged === false) {
             Toast.show({
@@ -156,7 +164,9 @@ class AuthStore {
             });
           } else {
             i18n.locale === "en-US" || i18n.locale === "en"
-              ? Alert.alert("Passwords Don't Match", "", [{ text: "Try Again" }])
+              ? Alert.alert("Passwords Don't Match", "", [
+                  { text: "Try Again" },
+                ])
               : Alert.alert("كلمات السر غير متطابقة", "", [
                   { text: "حاول مرة اخرى" },
                 ]);
@@ -164,10 +174,10 @@ class AuthStore {
         });
       else {
         i18n.locale === "en-US" || i18n.locale === "en"
-              ? Alert.alert("Passwords Don't Match", "", [{ text: "Try Again" }])
-              : Alert.alert("كلمات السر غير متطابقة", "", [
-                  { text: "حاول مرة اخرى" },
-                ]);
+          ? Alert.alert("Passwords Don't Match", "", [{ text: "Try Again" }])
+          : Alert.alert("كلمات السر غير متطابقة", "", [
+              { text: "حاول مرة اخرى" },
+            ]);
       }
     } catch (error) {
       console.error("forgot", error);
@@ -203,22 +213,26 @@ class AuthStore {
 
   getOTP = async (email) => {
     try {
-      const res = await instance.post(U_OTP+'/'+email);
-      if(res.data?.message === "No User Found") {
-        console.log('OTP', this.OTP)
+      const res = await instance.post(U_OTP + "/" + email);
+      if (res.data?.message === "No User Found") {
+        console.log("OTP", this.OTP);
         i18n.locale === "en-US" || i18n.locale === "en"
-          ? Alert.alert(`There is no account conneted to ${email}`, "", [{ text: "Try Again" }])
+          ? Alert.alert(`There is no account conneted to ${email}`, "", [
+              { text: "Try Again" },
+            ])
           : Alert.alert("كلمات السر غير متطابقة", "", [
-            { text: "حاول مرة اخرى" },
-        ]);
-      } else if(res.data.message === "User Found") {
+              { text: "حاول مرة اخرى" },
+            ]);
+      } else if (res.data.message === "User Found") {
         this.OTP = res.data.OTP;
-        console.log('in', this.OTP)
+        console.log("in", this.OTP);
         i18n.locale === "en-US" || i18n.locale === "en"
-        ? Alert.alert(`We have sent an OTP to ${email}`, "", [{ text: "ok" }])
-        : Alert.alert("لقد أرسلنا OTP إلى عنوان البريد الإلكتروني الذي قدمته", "", [
-          { text: "" },
-        ]);
+          ? Alert.alert(`We have sent an OTP to ${email}`, "", [{ text: "ok" }])
+          : Alert.alert(
+              "لقد أرسلنا OTP إلى عنوان البريد الإلكتروني الذي قدمته",
+              "",
+              [{ text: "" }]
+            );
       }
     } catch (error) {
       console.error("OTP", error);

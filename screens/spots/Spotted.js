@@ -5,11 +5,8 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
-  Alert,
   useColorScheme,
   ImageBackground,
-  TouchableWithoutFeedback,
-  TouchableHighlight,
 } from "react-native";
 import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
@@ -51,6 +48,10 @@ function Spotted({ ticket, navigation }) {
   let monthAr = moment(spot?.startDate).locale("ar").format("MMM");
   let dayAr = moment(spot?.startDate).locale("ar").format("DD");
 
+  let monthendEn = moment(spot?.endDate).locale("en").format("MMM");
+  let dayendEn = moment(spot?.endDate).locale("en").format("DD");
+  let monthendAr = moment(spot?.endDate).locale("ar").format("MMM");
+  let dayendAr = moment(spot?.endDate).locale("ar").format("DD");
   return (
     <TouchableOpacity
       onPress={() => {
@@ -100,47 +101,125 @@ function Spotted({ ticket, navigation }) {
           >
             <View
               style={{
-                width: 60,
+                width: spot?.isMultiple ? 80 : 60,
                 height: 70,
                 backgroundColor: "#f1f1f1",
                 alignContent: "center",
                 justifyContent: "center",
                 alignItems: "center",
-                borderRadius: 20,
+                borderRadius: 15,
+                alignContent: "center",
+                justifyContent: "center",
+                alignItems: "center",
+                shadowOpacity: 0.1,
+                shadowRadius: 10,
+                shadowColor: "#004365",
+                shadowOffset: {
+                  height: 10,
+                  width: 0,
+                },
               }}
             >
-              <Text
+              <View
                 style={{
-                  fontFamily:
+                  display: "flex",
+                  flexDirection:
                     i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "UbuntuBold"
-                      : "NotoBold",
-                  fontSize: 23,
-                  color: "#0a0a0b",
-                  marginTop:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -5,
+                      ? "row"
+                      : "row-reverse",
+                  alignContent: "center",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? dayEn
-                  : dayAr}
-              </Text>
-              <Text
+                <Text
+                  style={{
+                    fontFamily:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "UbuntuBold"
+                        : "NotoBold",
+                    fontSize: 23,
+                    color: "#0a0a0b",
+                    marginTop:
+                      i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -5,
+                  }}
+                >
+                  {i18n.locale === "en-US" || i18n.locale === "en"
+                    ? dayEn
+                    : dayAr}
+                </Text>
+                {spot?.isMultiple && (
+                  <Text
+                    style={{
+                      fontFamily:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "UbuntuBold"
+                          : "NotoBold",
+                      fontSize: 23,
+                      color: "#0a0a0b",
+                      marginTop:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? 0
+                          : -5,
+                    }}
+                  >
+                    {i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "-" + dayendEn
+                      : dayendAr + "-"}
+                  </Text>
+                )}
+              </View>
+              <View
                 style={{
-                  fontFamily:
+                  display: "flex",
+                  flexDirection:
                     i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
-                  fontSize: 17,
-                  color: "grey",
-                  marginTop:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -20,
+                      ? "row"
+                      : "row-reverse",
+                  alignContent: "center",
+                  justifyContent: "center",
+                  alignItems: "center",
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? monthEn
-                  : monthAr}
-              </Text>
+                <Text
+                  style={{
+                    fontFamily:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Ubuntu"
+                        : "Noto",
+                    fontSize: 17,
+                    color: "grey",
+                    marginTop:
+                      i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -20,
+                  }}
+                >
+                  {i18n.locale === "en-US" || i18n.locale === "en"
+                    ? monthEn
+                    : monthAr}
+                </Text>
+                {spot?.isMultiple && monthendEn !== monthEn && (
+                  <Text
+                    style={{
+                      fontFamily:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "Ubuntu"
+                          : "Noto",
+                      fontSize: 15,
+                      color: "grey",
+                      marginTop:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? 0
+                          : -20,
+                      alignSelf: "center",
+                    }}
+                  >
+                    -
+                    {i18n.locale === "en-US" || i18n.locale === "en"
+                      ? monthendEn
+                      : monthendAr}
+                  </Text>
+                )}
+              </View>
             </View>
             <TouchableOpacity
               onPress={() =>

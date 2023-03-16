@@ -83,7 +83,6 @@ function MySpots() {
   function renderTicket({ item: ticket }) {
     return <Spotted ticket={ticket} navigation={navigation} />;
   }
-
   return (
     <SafeAreaView
       style={{
