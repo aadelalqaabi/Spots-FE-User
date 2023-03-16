@@ -3,12 +3,12 @@ import { Alert } from "react-native";
 import { instance } from "./instance";
 import decode from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { 
-  REGISTER, 
-  LOGIN, 
-  UPDATE, 
-  CHANGE_PASSWORD, 
-  FORGOT_PASSWORD, 
+import {
+  REGISTER,
+  LOGIN,
+  UPDATE,
+  CHANGE_PASSWORD,
+  FORGOT_PASSWORD,
   ADD_DEST,
   REMOVE_DEST,
   REWARD,
@@ -18,9 +18,9 @@ import {
   REMOVE_TOKEN,
   CHANGE_LOCAL,
   UN_REGISTER_USER,
-  REGISTER_USER, 
-  DELETE_USER
-} from "../config/info"
+  REGISTER_USER,
+  DELETE_USER,
+} from "./config/info";
 import { I18n } from "i18n-js";
 import Toast from "react-native-toast-message";
 import * as Localization from "expo-localization";
@@ -112,7 +112,10 @@ class AuthStore {
   changeUser = async (userChange) => {
     let status = ""
     try {
-      if(userChange.currentPassword !== "" && userChange.newPassword === userChange.confirmedPassword){
+      if (
+        userChange.currentPassword !== "" &&
+        userChange.newPassword === userChange.confirmedPassword
+      ) {
         await instance.put(CHANGE_PASSWORD, userChange).then((response) => {
           if (response?.data?.isChanged === true) {
             Toast.show({
@@ -139,6 +142,7 @@ class AuthStore {
     let status = ""
     try {
       if(userForgot.newPassword === userForgot.confirmPassword && userForgot.email !== "") {
+
         await instance.put(FORGOT_PASSWORD, userForgot).then((response) => {
           if (response?.data?.isChanged === true) {
             Toast.show({

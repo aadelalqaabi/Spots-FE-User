@@ -54,6 +54,8 @@ import SpottedInfo from "./screens/spots/SpottedInfo";
 import RegisteredNotifications from "./screens/notification/RegisteredNotifications";
 import ContactUs from "./screens/ContactUs";
 import PrivacyPolicy from "./screens/PrivacyPolicy";
+import OffersTerms from "./screens/offers/OffersTerms";
+import RewardsTerms from "./screens/rewards/RewardsTerms";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -213,6 +215,8 @@ function RootNavigator() {
       <Screen name="Confirmation" component={Confirmation} />
 
       <Screen name="ProfileSpotDetails" component={ProfileSpotDetails} />
+      <Screen name="RewardsTerms" component={RewardsTerms} />
+      <Screen name="OffersTerms" component={OffersTerms} />
 
       <Screen name="Settings" component={Settings} />
       <Screen name="ContactUs" component={ContactUs} />

@@ -37,24 +37,22 @@ export function SpotDetails({ route }) {
   const spot = spotStore.getSpotsById(route.params.id);
   let dateEn = moment(spot?.startDate).locale("en").format("LL");
   let dateAr = moment(spot?.startDate).locale("ar").format("LL");
-  let monthEn = moment(spot?.startDate).locale("en").format("MMMM");
-  let monthAr = moment(spot?.startDate).locale("ar").format("MMMM");
-  let yearEn = moment(spot?.startDate).locale("en").format("YYYY");
-  let yearAr = moment(spot?.startDate).locale("ar").format("YYYY");
+
+  let dateendEn = moment(spot?.endDate).locale("en").format("LL");
+  let dateendAr = moment(spot?.endDate).locale("ar").format("LL");
 
   const translations = {
     en: {
       more: "More Info",
       Loading: "Processing Request...",
       Visit: "Visit Dest",
-      ALE: "Already in your tickets"
-      
+      ALE: "Already in your tickets",
     },
     ar: {
       more: "التفاصيل",
       Loading: "جاري معالجة الطلب...",
       Visit: "زيارة الوجهة",
-      ALE: "موجودة في تذاكرك"
+      ALE: "موجودة في تذاكرك",
     },
   };
   const i18n = new I18n(translations);
@@ -67,6 +65,8 @@ export function SpotDetails({ route }) {
     locale: i18n.locale,
     startDateAr: dateAr,
     startDateEn: dateEn,
+    endDateAr: dateendAr,
+    endDateEn: dateendEn,
   });
   const [visible, setVisible] = useState(false);
   const toggleAlert = useCallback(() => {
@@ -82,6 +82,8 @@ export function SpotDetails({ route }) {
   const [quantity, setQuantity] = useState(0);
   const [checkSeats, setCheckSeats] = useState(quantity);
   const [isLoading, setIsLoading] = useState(false);
+  const [isImageLoading, setIsImageLoading] = useState(true);
+
   // const toggleIsLoading = useCallback(() => {
   //   setIsLoading(!isLoading);
   // }, [isLoading]);
@@ -133,7 +135,7 @@ export function SpotDetails({ route }) {
     }
   };
   const handleSpots = async (newSpot) => {
-    setIsLoading(true)
+    setIsLoading(true);
     const found = ticketStore.tickets.some(
       (ticket) =>
         ticket.spot?._id === newSpot._id && ticket.user === authStore.user.id
@@ -141,10 +143,10 @@ export function SpotDetails({ route }) {
     if (!found) {
       await ticketStore.createTicket(newTicket, newSpot._id);
       await ticketStore.fetchTickets();
-      toggleAlert()
-      setIsLoading(false)
+      toggleAlert();
+      setIsLoading(false);
     } else {
-      toggleAlreadyExist()
+      toggleAlreadyExist();
     }
   };
   const handleBook = (spot) => {
@@ -229,12 +231,9 @@ export function SpotDetails({ route }) {
           >
             <Image
               style={{
-                width: 38,
-                height: 38,
+                width: 40,
+                height: 40,
                 borderRadius: 50,
-                borderWidth: 1.5,
-                borderColor: "white",
-                backgroundColor: "white",
                 resizeMode: "cover",
                 marginRight: 10,
                 marginLeft: 10,
@@ -255,6 +254,7 @@ export function SpotDetails({ route }) {
                     ? "left"
                     : "right",
                 textTransform: "capitalize",
+                width: "70%",
               }}
             >
               {i18n.locale === "en-US" || i18n.locale === "en"
@@ -293,7 +293,6 @@ export function SpotDetails({ route }) {
           <View
             style={{
               height: 330,
-              margin: 10,
             }}
           >
             <Swiper
@@ -303,10 +302,6 @@ export function SpotDetails({ route }) {
               activeDotStyle={{ opacity: 0.8 }}
               dotColor={"white"}
               dotStyle={{ opacity: 0.8 }}
-              containerStyle={{
-                borderRadius: 15,
-                overflow: "hidden",
-              }}
             >
               {spot.galleryImage0 && (
                 <View style={styles.slide}>
@@ -316,7 +311,15 @@ export function SpotDetails({ route }) {
                       width: "100%",
                     }}
                     source={{ uri: `${baseURL}${spot.galleryImage0}` }}
-                  ></Image>
+                    loadingIndicatorSource={require("../../assets/Loading.gif")}
+                    onLoad={() => setIsImageLoading(false)}
+                  />
+                  {isImageLoading === true && (
+                    <Image
+                      style={{ width: 80, height: 80, position: "absolute" }}
+                      source={require("../../assets/Loading.gif")}
+                    />
+                  )}
                 </View>
               )}
               {spot.galleryImage1 && (
@@ -327,7 +330,15 @@ export function SpotDetails({ route }) {
                       width: "100%",
                     }}
                     source={{ uri: `${baseURL}${spot.galleryImage1}` }}
-                  ></Image>
+                    onLoad={() => setIsImageLoading(false)}
+                    loadingIndicatorSource={require("../../assets/Loading.gif")}
+                  />
+                  {isImageLoading === true && (
+                    <Image
+                      style={{ width: 80, height: 80, position: "absolute" }}
+                      source={require("../../assets/Loading.gif")}
+                    />
+                  )}
                 </View>
               )}
               {spot.galleryImage2 && (
@@ -338,7 +349,15 @@ export function SpotDetails({ route }) {
                       width: "100%",
                     }}
                     source={{ uri: `${baseURL}${spot.galleryImage2}` }}
-                  ></Image>
+                    onLoad={() => setIsImageLoading(false)}
+                    loadingIndicatorSource={require("../../assets/Loading.gif")}
+                  />
+                  {isImageLoading === true && (
+                    <Image
+                      style={{ width: 80, height: 80, position: "absolute" }}
+                      source={require("../../assets/Loading.gif")}
+                    />
+                  )}
                 </View>
               )}
               {spot.galleryImage3 && (
@@ -349,7 +368,15 @@ export function SpotDetails({ route }) {
                       width: "100%",
                     }}
                     source={{ uri: `${baseURL}${spot.galleryImage3}` }}
-                  ></Image>
+                    onLoad={() => setIsImageLoading(false)}
+                    loadingIndicatorSource={require("../../assets/Loading.gif")}
+                  />
+                  {isImageLoading === true && (
+                    <Image
+                      style={{ width: 80, height: 80, position: "absolute" }}
+                      source={require("../../assets/Loading.gif")}
+                    />
+                  )}
                 </View>
               )}
               {spot.galleryImage4 && (
@@ -360,7 +387,15 @@ export function SpotDetails({ route }) {
                       width: "100%",
                     }}
                     source={{ uri: `${baseURL}${spot.galleryImage4}` }}
-                  ></Image>
+                    onLoad={() => setIsImageLoading(false)}
+                    loadingIndicatorSource={require("../../assets/Loading.gif")}
+                  />
+                  {isImageLoading === true && (
+                    <Image
+                      style={{ width: 80, height: 80, position: "absolute" }}
+                      source={require("../../assets/Loading.gif")}
+                    />
+                  )}
                 </View>
               )}
             </Swiper>
@@ -458,7 +493,22 @@ export function SpotDetails({ route }) {
               }}
               name="calendar-outline"
             ></Ionicons>
-            {spot.numOfDays === 1 ? (
+
+            <Text
+              style={{
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
+                fontSize: 20,
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? dateEn
+                : dateAr}
+            </Text>
+            {spot.isMultiple && (
               <Text
                 style={{
                   fontFamily:
@@ -469,25 +519,11 @@ export function SpotDetails({ route }) {
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 }}
               >
+                {" "}
+                -{" "}
                 {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? dateEn
-                  : dateAr}
-              </Text>
-            ) : (
-              <Text
-                style={{
-                  fontFamily: "UbuntuBold",
-                  fontSize: 20,
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                }}
-              >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? monthEn
-                  : monthAr}
-                ,{" "}
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? yearEn
-                  : yearAr}
+                  ? dateendEn
+                  : dateendAr}
               </Text>
             )}
           </View>
@@ -926,9 +962,9 @@ export function SpotDetails({ route }) {
                     justifyContent: "center",
                   }}
                   onPress={() => {
-                    toggleAlreadyExist()
-                    setIsLoading(false)
-                    }}
+                    toggleAlreadyExist();
+                    setIsLoading(false);
+                  }}
                 >
                   <Text
                     style={{
@@ -985,11 +1021,18 @@ export function SpotDetails({ route }) {
           >
             {isLoading ? i18n.t("Loading") : i18n.t("Visit")}
           </Text>
-          {isLoading ? (<>
-            <ActivityIndicator size={"small"} color={"white"} />
-          </>) : (<>
-            <Ionicons style={styles.spoticon} name="location-sharp"></Ionicons>
-          </>)}
+          {isLoading ? (
+            <>
+              <ActivityIndicator size={"small"} color={"white"} />
+            </>
+          ) : (
+            <>
+              <Ionicons
+                style={styles.spoticon}
+                name="location-sharp"
+              ></Ionicons>
+            </>
+          )}
         </TouchableOpacity>
       ) : (
         <>

@@ -41,11 +41,17 @@ export default function ScrollTabs({ userSpots }) {
   today.setHours(3, 0, 0, 0);
   const activeSpots = userSpots.filter(
     // Active spots
-    (spot) => new Date(spot?.startDate) >= today && spot.isPublished === true
+    (spot) =>
+      (new Date(spot?.startDate) >= today ||
+        new Date(spot?.endDate) >= today) &&
+      spot.isPublished === true
   );
   const finishedSpots = userSpots.filter(
     // Finshed spots
-    (spot) => new Date(spot?.startDate) < today && spot.isPublished === true
+    (spot) =>
+      new Date(spot?.startDate) < today &&
+      new Date(spot?.endDate) < today &&
+      spot.isPublished === true
   );
   const sortedActiveSpots = activeSpots.sort(
     // Sorted Active spots

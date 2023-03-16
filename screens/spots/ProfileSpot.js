@@ -13,6 +13,7 @@ import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import { useFonts } from "expo-font";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
+import { Ionicons } from "@expo/vector-icons";
 
 function ProfileSpot({ spot }) {
   const navigation = useNavigation();
@@ -89,7 +90,7 @@ function ProfileSpot({ spot }) {
               justifyContent: "space-between",
               alignSelf: "center",
               marginTop: "2%",
-              width: "82%",
+              width: spot.endTime ? "94%" : "84%",
             }}
           >
             <View
@@ -118,14 +119,6 @@ function ProfileSpot({ spot }) {
                 style={{
                   fontSize: 22,
                   color: "#e52b51",
-                  shadowColor: "#1b1b1b",
-                  shadowOffset: {
-                    width: 0,
-                    height: 2,
-                  },
-                  shadowOpacity: 1,
-                  shadowRadius: 2.62,
-                  elevation: 4,
                   fontFamily:
                     i18n.locale === "en-US" || i18n.locale === "en"
                       ? "Ubuntu"
@@ -138,27 +131,62 @@ function ProfileSpot({ spot }) {
                   : "نشط"}
               </Text>
             </View>
-            <Text
+            <View
               style={{
-                fontSize: 24,
-                color: "#fffffc",
-                shadowColor: "#1b1b1b",
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
-                },
-                shadowOpacity: 1,
-                shadowRadius: 2.62,
-                elevation: 4,
-                fontFamily:
+                display: "flex",
+                flexDirection:
                   i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "UbuntuBold"
-                    : "Noto",
-                textAlign: "center",
+                    ? "row"
+                    : "row-reverse",
+                alignContent: "center",
+                alignItems: "center",
               }}
             >
-              {spot.startTime}
-            </Text>
+              <Ionicons
+                style={{
+                  color: "#e52b51",
+                  fontSize: 25,
+                  marginRight: 5,
+                  marginLeft: 5,
+                }}
+                name="time"
+              ></Ionicons>
+              <Text
+                style={{
+                  fontSize: 24,
+                  color: "#fffffc",
+                  fontFamily: "UbuntuBold",
+                  textAlign: "center",
+                }}
+              >
+                {spot.startTime}
+              </Text>
+              {spot.endTime &&
+                (i18n.locale === "en-US" || i18n.locale === "en" ? (
+                  <Text
+                    style={{
+                      fontSize: 24,
+                      color: "#fffffc",
+                      fontFamily: "UbuntuBold",
+                      textAlign: "center",
+                    }}
+                  >
+                    {" "}
+                    - {spot.endTime}
+                  </Text>
+                ) : (
+                  <Text
+                    style={{
+                      fontSize: 24,
+                      color: "#fffffc",
+                      fontFamily: "UbuntuBold",
+                      textAlign: "center",
+                    }}
+                  >
+                    {spot.endTime} -{" "}
+                  </Text>
+                ))}
+            </View>
           </View>
           <Text
             style={{
