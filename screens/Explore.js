@@ -66,6 +66,7 @@ function Explore() {
     };
     fetchData();
   }, []);
+
   const categories = categoryStore.getCategories();
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
@@ -78,22 +79,38 @@ function Explore() {
   }
   const today = new Date();
   today.setHours(3, 0, 0, 0);
+
   const spotsByDate = spotStore.spots.filter(
-    (spot) => new Date(spot?.startDate) >= today && spot.isPublished === true
+    (spot) =>
+      (new Date(spot?.startDate) >= today ||
+        new Date(spot?.endDate) >= today) &&
+      spot.isPublished === true
   );
+
   const sortedSpots = spotsByDate
     .sort((objA, objB) => parseInt(objA.startTime) - parseInt(objB.startTime))
     .sort((objA, objB) => new Date(objA.startDate) - new Date(objB.startDate));
+
   const spots = sortedSpots
-    .filter((spot) =>
-      day !== null
-        ? new Date(spot.startDate).getDate() === new Date(day).getDate()
-        : spot
-    )
+    .filter((spot) => {
+      if (day !== null) {
+        if (spot.isMultiple) {
+          const startDate = new Date(spot?.startDate);
+          const endDate = new Date(spot?.endDate);
+          const selectedDate = new Date(day);
+          return selectedDate >= startDate && selectedDate <= endDate;
+        } else {
+          return new Date(spot.startDate).getDate() === new Date(day).getDate();
+        }
+      } else {
+        return spot;
+      }
+    })
     .filter((spot) => (!category ? spot : spot.category === category?._id))
     .filter((category) =>
       category?.name?.toLowerCase().includes(query.toLowerCase())
     );
+
   function renderSpot({ item: spot }) {
     return <Spot spot={spot} navigation={navigation} day={day} />;
   }
@@ -291,10 +308,13 @@ function Explore() {
               horizontal={true}
               style={{
                 display: "flex",
-                borderRadius: 10,
                 marginTop:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -30,
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -40,
                 marginBottom: "5%",
+                marginLeft:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 0,
+                marginRight:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 0 : 20,
               }}
               contentContainerStyle={{
                 display: "flex",
@@ -317,21 +337,6 @@ function Explore() {
               }
             >
               <TouchableOpacity
-                style={
-                  selectedCategory === -1
-                    ? {
-                        width: 80,
-                        borderRadius: 50,
-                        zIndex: -1,
-                        color: "#e52b51",
-                        padding: 5,
-                      }
-                    : {
-                        width: 80,
-                        zIndex: -1,
-                        padding: 5,
-                      }
-                }
                 onPress={() => {
                   setCategory();
                   handleCategory(-1);
@@ -349,7 +354,7 @@ function Explore() {
                               ? "Ubuntu"
                               : "Noto",
                           color: "#e52b51",
-                          padding: 5,
+                          margin: 12,
                         }
                       : {
                           color:
@@ -361,7 +366,7 @@ function Explore() {
                             i18n.locale === "en-US" || i18n.locale === "en"
                               ? "Ubuntu"
                               : "Noto",
-                          padding: 5,
+                          margin: 12,
                         }
                   }
                 >
@@ -373,22 +378,6 @@ function Explore() {
               {categories.map((category) => (
                 <TouchableOpacity
                   key={categories.indexOf(category)}
-                  style={
-                    selectedCategory === categories.indexOf(category)
-                      ? {
-                          width: 108,
-                          borderRadius: 50,
-                          zIndex: 99,
-                          color: "#e52b51",
-                          padding: 5,
-                        }
-                      : {
-                          width: 108,
-                          zIndex: 99,
-                          display: "flex",
-                          padding: 5,
-                        }
-                  }
                   onPress={() => {
                     setCategory(category);
                     handleCategory(categories.indexOf(category));
@@ -401,7 +390,6 @@ function Explore() {
                             color:
                               colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                             flexWrap: "wrap",
-
                             fontSize: 22,
                             alignSelf: "center",
                             fontFamily:
@@ -409,7 +397,7 @@ function Explore() {
                                 ? "Ubuntu"
                                 : "Noto",
                             color: "#e52b51",
-                            zIndex: 99,
+                            margin: 12,
                           }
                         : {
                             color:
@@ -422,35 +410,13 @@ function Explore() {
                               i18n.locale === "en-US" || i18n.locale === "en"
                                 ? "Ubuntu"
                                 : "Noto",
-                            zIndex: 99,
+                            margin: 12,
                           }
                     }
                   >
-                    {(i18n.locale === "ar-US" || i18n.locale === "ar") &&
-                    category?.name === "Food"
-                      ? "طعام"
-                      : (i18n.locale === "ar-US" || i18n.locale === "ar") &&
-                        category?.name === "Music"
-                      ? "موسيقى"
-                      : (i18n.locale === "ar-US" || i18n.locale === "ar") &&
-                        category?.name === "Sports"
-                      ? "رياضة"
-                      : (i18n.locale === "ar-US" || i18n.locale === "ar") &&
-                        category?.name === "Health"
-                      ? "صحة"
-                      : (i18n.locale === "ar-US" || i18n.locale === "ar") &&
-                        category?.name === "Education"
-                      ? "تعليم"
-                      : (i18n.locale === "ar-US" || i18n.locale === "ar") &&
-                        category?.name === "Fashion"
-                      ? "موضة"
-                      : (i18n.locale === "ar-US" || i18n.locale === "ar") &&
-                        category?.name === "Carnival"
-                      ? "كرنفال"
-                      : (i18n.locale === "ar-US" || i18n.locale === "ar") &&
-                        category?.name === "Other"
-                      ? "اخرى"
-                      : category?.name}
+                    {i18n.locale === "en-US" || i18n.locale === "en"
+                      ? category.name
+                      : category.nameAr}
                   </Text>
                 </TouchableOpacity>
               ))}

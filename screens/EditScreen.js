@@ -88,7 +88,8 @@ function EditScreen() {
       setImage(result.uri);
     }
   };
-  const handleChange = (name, value) => {
+  const handleChangeEmail = (name, value) => {
+    setHideDone(true);
     const check = checkEntry(value);
     const checkExists = authStore.userEmails?.some(
       (user) => user.email === value
@@ -107,6 +108,10 @@ function EditScreen() {
       setExistsError(true);
       setHideDone(false);
     }
+  };
+  const handleChangeName = (name, value) => {
+    setHideDone(true);
+    setUser({ ...user, [name]: value });
   };
   const checkEntry = (email) => {
     const re =
@@ -292,7 +297,7 @@ function EditScreen() {
           }}
           label="Name"
           onChangeText={(text) => {
-            handleChange("name", text);
+            handleChangeName("name", text);
           }}
           defaultValue={authStore.user.name}
           placeholderTextColor={"grey"}
@@ -345,7 +350,7 @@ function EditScreen() {
                 }}
                 label="Email"
                 onChangeText={(text) => {
-                  handleChange("email", text);
+                  handleChangeEmail("email", text);
                 }}
                 mainColor={checkValidationColor}
                 defaultValue={authStore.user.email}

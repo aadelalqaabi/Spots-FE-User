@@ -133,6 +133,7 @@ export default function Info({ route }) {
                   ? "UbuntuBold"
                   : "NotoBold",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              marginBottom: 5,
             }}
           >
             {users}
@@ -145,8 +146,6 @@ export default function Info({ route }) {
                   ? "Ubuntu"
                   : "Noto",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              position: "absolute",
-              paddingTop: 130,
             }}
           >
             {i18n.locale === "en-US" || i18n.locale === "en"

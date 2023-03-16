@@ -186,6 +186,7 @@ function OrganizerProfile({ route }) {
                 ? "Ubuntu"
                 : "Noto",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            width: "70%",
           }}
         >
           {i18n.locale === "en-US" || i18n.locale === "en"

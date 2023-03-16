@@ -42,6 +42,11 @@ function Spot({ spot, navigation, day }) {
   let dayEn = moment(spot?.startDate).locale("en").format("DD");
   let monthAr = moment(spot?.startDate).locale("ar").format("MMM");
   let dayAr = moment(spot?.startDate).locale("ar").format("DD");
+
+  let monthendEn = moment(spot?.endDate).locale("en").format("MMM");
+  let dayendEn = moment(spot?.endDate).locale("en").format("DD");
+  let monthendAr = moment(spot?.endDate).locale("ar").format("MMM");
+  let dayendAr = moment(spot?.endDate).locale("ar").format("DD");
   return (
     <TouchableOpacity
       style={{
@@ -183,9 +188,9 @@ function Spot({ spot, navigation, day }) {
             <View
               style={{
                 margin: 10,
-                width: 60,
+                width: spot?.isMultiple ? 80 : 60,
                 height: 70,
-                backgroundColor: "white",
+                backgroundColor: "#f1f1f1",
                 borderRadius: 15,
                 alignContent: "center",
                 justifyContent: "center",
@@ -200,38 +205,99 @@ function Spot({ spot, navigation, day }) {
                 marginLeft: 12,
               }}
             >
-              <Text
+              <View
                 style={{
-                  fontFamily:
+                  display: "flex",
+                  flexDirection:
                     i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "UbuntuBold"
-                      : "NotoBold",
-                  fontSize: 23,
-                  color: "#0a0a0b",
-                  marginTop:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -5,
+                      ? "row"
+                      : "row-reverse",
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? dayEn
-                  : dayAr}
-              </Text>
-              <Text
+                <Text
+                  style={{
+                    fontFamily:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "UbuntuBold"
+                        : "NotoBold",
+                    fontSize: 23,
+                    color: "#0a0a0b",
+                    marginTop:
+                      i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -5,
+                  }}
+                >
+                  {i18n.locale === "en-US" || i18n.locale === "en"
+                    ? dayEn
+                    : dayAr}
+                </Text>
+                {spot?.isMultiple && (
+                  <Text
+                    style={{
+                      fontFamily:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "UbuntuBold"
+                          : "NotoBold",
+                      fontSize: 23,
+                      color: "#0a0a0b",
+                      marginTop:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? 0
+                          : -5,
+                    }}
+                  >
+                    {i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "-" + dayendEn
+                      : dayendAr + "-"}
+                  </Text>
+                )}
+              </View>
+              <View
                 style={{
-                  fontFamily:
+                  display: "flex",
+                  flexDirection:
                     i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
-                  fontSize: 17,
-                  color: "grey",
-                  marginTop:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -20,
+                      ? "row"
+                      : "row-reverse",
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? monthEn
-                  : monthAr}
-              </Text>
+                <Text
+                  style={{
+                    fontFamily:
+                      i18n.locale === "en-US" || i18n.locale === "en"
+                        ? "Ubuntu"
+                        : "Noto",
+                    fontSize: 15,
+                    color: "grey",
+                    marginTop:
+                      i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -20,
+                  }}
+                >
+                  {i18n.locale === "en-US" || i18n.locale === "en"
+                    ? monthEn
+                    : monthAr}
+                </Text>
+                {spot?.isMultiple && monthendEn !== monthEn && (
+                  <Text
+                    style={{
+                      fontFamily:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "Ubuntu"
+                          : "Noto",
+                      fontSize: 15,
+                      color: "grey",
+                      marginTop:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? 0
+                          : -20,
+                    }}
+                  >
+                    -
+                    {i18n.locale === "en-US" || i18n.locale === "en"
+                      ? monthendEn
+                      : monthendAr}
+                  </Text>
+                )}
+              </View>
             </View>
           ) : (
             <View
@@ -337,7 +403,6 @@ function Spot({ spot, navigation, day }) {
                     ? "Ubuntu"
                     : "Noto",
 
-                //paddingBottom: 10,
                 alignSelf:
                   i18n.locale === "en-US" || i18n.locale === "en"
                     ? "flex-start"
