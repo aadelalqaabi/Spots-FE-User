@@ -7,8 +7,10 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   useColorScheme,
+  Modal,
+  TouchableOpacity,
 } from "react-native";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Alert } from "react-native";
 import React from "react";
 import TextInput from "react-native-text-input-interactive";
@@ -59,6 +61,11 @@ export default function Password({ navigation, route }) {
   const i18n = new I18n(translations);
   i18n.locale = Localization.locale;
   i18n.enableFallback = true;
+
+  const [showInvalidPassword, setShowInvalidPassword] = useState(false);
+  const toggleAlertShowInvalidPassword = useCallback(() => {
+    setShowInvalidPassword(!showInvalidPassword);
+  }, [showInvalidPassword]);
 
   const handleChange = (name, value) => {
     const check = checkEntry(value);
@@ -293,13 +300,7 @@ export default function Password({ navigation, route }) {
                     onSubmitEditing={() => {
                       checkValidation === false
                         ? navigation.navigate("MyImage", { itemId: user })
-                        : i18n.locale === "en-US" || i18n.locale === "en"
-                        ? Alert.alert("Invalid Password", "", [
-                            { text: "Try Again" },
-                          ])
-                        : Alert.alert("كلمة سر غير صالحة", "", [
-                            { text: "حاول مرة اخرى" },
-                          ]);
+                        : toggleAlertShowInvalidPassword()
                     }}
                   />
                   <Ionicons
@@ -702,6 +703,101 @@ export default function Password({ navigation, route }) {
           </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
+
+      {/* Invalid Password */}
+      <Modal
+        transparent={true}
+        visible={showInvalidPassword}
+        animationIn="slideInLeft"
+        animationOut="slideOutRight"
+      >
+        <View
+          style={{
+            backgroundColor: "rgba(0,0,0,0.2)",
+            alignItems: "center",
+            justifyContent: "center",
+            flex: 1,
+          }}
+        >
+          <View
+            style={{
+              width: "85%",
+              backgroundColor: "white",
+              padding: 25,
+              paddingTop: 30,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 20,
+              borderColor: "rgba(0, 0, 0, 0.1)",
+              display: "flex",
+              flexDirection: "column",
+              alignContent: "center",
+              alignSelf: "center",
+            }}
+          >
+            <Text
+              style={{
+                marginBottom: 10,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
+                width: "90%",
+                textAlign: "center",
+                fontSize: 24,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Invalid Password"
+                : "كلمة سر غير صالحة"}
+            </Text>
+            <Text
+              style={{
+                marginBottom: 20,
+                width: "70%",
+                textAlign: "center",
+                fontSize: 17,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                lineHeight: 30,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? "please try again"
+                : "يرجى المحاولة مرة أخرى"}
+            </Text>
+            <TouchableOpacity
+              style={{
+                width: "50%",
+                backgroundColor: "#e52b51",
+                borderRadius: 50,
+                height: 40,
+                justifyContent: "center",
+              }}
+              onPress={() => toggleAlertShowInvalidPassword()}
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  color: "#f1f1f1",
+                  fontFamily:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "UbuntuBold"
+                      : "NotoBold",
+                  fontSize: 15,
+                }}
+              >
+                {i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "try again"
+                  : "حاول مرة اخرى"}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+      {/* Invalid Password */}
     </>
   );
 }
