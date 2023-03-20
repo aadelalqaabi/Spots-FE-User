@@ -10,6 +10,7 @@ import * as Localization from "expo-localization";
 import organizerStore from "../../stores/organizerStore";
 import "moment/locale/ar";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
+import { useState } from "react";
 
 function Spot({ spot, navigation, day }) {
   const translations = {
@@ -28,6 +29,7 @@ function Spot({ spot, navigation, day }) {
     minHeight: 180,
     maxHeight: 900,
   });
+  const [isImageLoading, setIsImageLoading] = useState(true);
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
@@ -71,7 +73,33 @@ function Spot({ spot, navigation, day }) {
             zIndex: -1,
           }}
           source={{ uri: `${baseURL}${spot?.image}` }}
+          onLoad={() => setIsImageLoading(false)}
+          loadingIndicatorSource={require("../../assets/Loading.gif")}
         />
+        {isImageLoading === true && (
+          <View
+            style={{
+              width: "100%",
+              height: "100%",
+              position: "absolute",
+              zIndex: 99,
+              display: "flex",
+              alignContent: "center",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Image
+              style={{
+                width: 100,
+                height: 100,
+                alignSelf: "center",
+              }}
+              source={require("../../assets/Loading.gif")}
+            />
+          </View>
+        )}
+
         <View
           style={{
             position: "absolute",

@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   useColorScheme,
   SafeAreaView,
+  Image,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import spotStore from "../../stores/spotStore";
@@ -33,6 +34,8 @@ import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 import Info from "./Info";
+import Swiper from "react-native-swiper";
+import { baseURL } from "../../stores/instance";
 LogBox.ignoreAllLogs();
 
 function ProfileSpotDetails({ route }) {
@@ -57,6 +60,7 @@ function ProfileSpotDetails({ route }) {
   i18n.enableFallback = true;
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
+  const [isImageLoading, setIsImageLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -181,7 +185,7 @@ function ProfileSpotDetails({ route }) {
             </TouchableOpacity>
             <Text
               style={{
-                fontSize: 26,
+                fontSize: 24,
                 alignSelf: "center",
                 textAlign: "center",
                 fontFamily:
@@ -217,25 +221,17 @@ function ProfileSpotDetails({ route }) {
               style={{
                 width: "100%",
                 alignSelf: "center",
-                margin: 10,
-                marginBottom: 0,
+                backgroundColor:
+                  colorScheme === "light" ? "#FCFCFC" : "#141414",
               }}
             >
               <TextTicker
                 style={{
                   fontSize: 20,
-                  fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "UbuntuBold"
-                      : "NotoBold",
                   padding: 15,
                   width: "100%",
+                  fontWeight: "600",
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                  borderRadius: 500,
-                  marginBottom:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -10,
-                  marginTop:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -10,
                 }}
                 scroll
                 duration={10000}
@@ -251,6 +247,124 @@ function ProfileSpotDetails({ route }) {
                   : spot.announcementAr}
               </TextTicker>
             </View>
+          )}
+          {spot.adImage0 !== "" ||
+          spot.adImage1 !== "" ||
+          spot.adImage2 !== "" ||
+          spot.adImage3 !== "" ||
+          spot.adImage4 !== "" ? (
+            <View
+              style={{
+                height: 250,
+                marginBottom: 10,
+              }}
+            >
+              <Swiper
+                height={240}
+                showsButtons={false}
+                activeDotStyle={{ opacity: 0 }}
+                dotStyle={{ opacity: 0 }}
+                autoplay
+              >
+                {spot.adImage0 && (
+                  <View style={styles.slide}>
+                    <Image
+                      style={{
+                        flex: 1,
+                        width: "100%",
+                      }}
+                      source={{ uri: `${baseURL}${spot.adImage0}` }}
+                      loadingIndicatorSource={require("../../assets/Loading.gif")}
+                      onLoad={() => setIsImageLoading(false)}
+                    />
+                    {isImageLoading === true && (
+                      <Image
+                        style={{ width: 80, height: 80, position: "absolute" }}
+                        source={require("../../assets/Loading.gif")}
+                      />
+                    )}
+                  </View>
+                )}
+                {spot.adImage1 && (
+                  <View style={styles.slide}>
+                    <Image
+                      style={{
+                        flex: 1,
+                        width: "100%",
+                      }}
+                      source={{ uri: `${baseURL}${spot.adImage1}` }}
+                      onLoad={() => setIsImageLoading(false)}
+                      loadingIndicatorSource={require("../../assets/Loading.gif")}
+                    />
+                    {isImageLoading === true && (
+                      <Image
+                        style={{ width: 80, height: 80, position: "absolute" }}
+                        source={require("../../assets/Loading.gif")}
+                      />
+                    )}
+                  </View>
+                )}
+                {spot.adImage2 && (
+                  <View style={styles.slide}>
+                    <Image
+                      style={{
+                        flex: 1,
+                        width: "100%",
+                      }}
+                      source={{ uri: `${baseURL}${spot.adImage2}` }}
+                      onLoad={() => setIsImageLoading(false)}
+                      loadingIndicatorSource={require("../../assets/Loading.gif")}
+                    />
+                    {isImageLoading === true && (
+                      <Image
+                        style={{ width: 80, height: 80, position: "absolute" }}
+                        source={require("../../assets/Loading.gif")}
+                      />
+                    )}
+                  </View>
+                )}
+                {spot.adImage3 && (
+                  <View style={styles.slide}>
+                    <Image
+                      style={{
+                        flex: 1,
+                        width: "100%",
+                      }}
+                      source={{ uri: `${baseURL}${spot.adImage3}` }}
+                      onLoad={() => setIsImageLoading(false)}
+                      loadingIndicatorSource={require("../../assets/Loading.gif")}
+                    />
+                    {isImageLoading === true && (
+                      <Image
+                        style={{ width: 80, height: 80, position: "absolute" }}
+                        source={require("../../assets/Loading.gif")}
+                      />
+                    )}
+                  </View>
+                )}
+                {spot.adImage4 && (
+                  <View style={styles.slide}>
+                    <Image
+                      style={{
+                        flex: 1,
+                        width: "100%",
+                      }}
+                      source={{ uri: `${baseURL}${spot.adImage4}` }}
+                      onLoad={() => setIsImageLoading(false)}
+                      loadingIndicatorSource={require("../../assets/Loading.gif")}
+                    />
+                    {isImageLoading === true && (
+                      <Image
+                        style={{ width: 80, height: 80, position: "absolute" }}
+                        source={require("../../assets/Loading.gif")}
+                      />
+                    )}
+                  </View>
+                )}
+              </Swiper>
+            </View>
+          ) : (
+            <></>
           )}
           {rewards.length > 0 && (
             <>
@@ -983,5 +1097,10 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginLeft: 28,
     alignSelf: "flex-start",
+  },
+  slide: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

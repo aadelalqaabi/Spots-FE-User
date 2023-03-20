@@ -14,7 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 import { baseURL } from "../../stores/instance";
 import spotStore from "../../stores/spotStore";
-import React from "react";
+import React, { useState } from "react";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import "moment/locale/ar";
@@ -25,6 +25,8 @@ import ticketStore from "../../stores/ticketStore";
 export default function SpotttedDetails({ route }) {
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
+  const [isImageLoading, setIsImageLoading] = useState(true);
+
   const translations = {
     en: {
       details: "Booking Details",
@@ -192,7 +194,33 @@ export default function SpotttedDetails({ route }) {
             source={{
               uri: baseURL + spot?.image,
             }}
+            onLoad={() => setIsImageLoading(false)}
+            loadingIndicatorSource={require("../../assets/Loading.gif")}
           />
+          {isImageLoading === true && (
+            <View
+              style={{
+                width: "100%",
+                height: "56%",
+                alignSelf: "center",
+                position: "absolute",
+                zIndex: 99,
+                display: "flex",
+                alignContent: "center",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Image
+                style={{
+                  width: 70,
+                  height: 70,
+                  alignSelf: "center",
+                }}
+                source={require("../../assets/Loading.gif")}
+              />
+            </View>
+          )}
           <View
             style={{
               width: "100%",
