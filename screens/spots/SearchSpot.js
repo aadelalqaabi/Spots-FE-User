@@ -12,6 +12,7 @@ import { useFonts } from "expo-font";
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
+import { useState } from "react";
 
 function SearchSpot({ spot, navigation }) {
   let [fontsLoaded] = useFonts({
@@ -19,6 +20,8 @@ function SearchSpot({ spot, navigation }) {
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
+  const [isImageLoading, setIsImageLoading] = useState(true);
+
   if (!fontsLoaded) {
     return <MyAwesomeSplashScreen />;
   }
@@ -48,22 +51,44 @@ function SearchSpot({ spot, navigation }) {
         <Image
           style={styles.thumb}
           source={{ uri: `${baseURL}${spot?.image}` }}
+          onLoad={() => setIsImageLoading(false)}
+          loadingIndicatorSource={require("../../assets/Loading.gif")}
         />
+        {isImageLoading === true && (
+          <View
+            style={{
+              height: 180,
+              alignSelf: "center",
+              width: "100%",
+              position: "absolute",
+              zIndex: 99,
+              display: "flex",
+              alignContent: "center",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Image
+              style={{
+                width: 70,
+                height: 70,
+                alignSelf: "center",
+              }}
+              source={require("../../assets/Loading.gif")}
+            />
+          </View>
+        )}
+
         <View style={styles.overlay}></View>
         <View style={styles.infoContainer}>
           <Text
             style={{
               fontSize: 28,
               color: "#fffffc",
-              shadowOpacity: 1,
-              shadowRadius: 4,
-              shadowColor: "black",
-              shadowOffset: {
-                height: 1,
-                width: 1,
-              },
               fontFamily:
-                i18n === ("en-US" || "en") ? "UbuntuBold" : "NotoBold",
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "UbuntuBold"
+                  : "NotoBold",
               textAlign: "center",
             }}
           >
@@ -127,7 +152,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     height: "100%",
-    backgroundColor: "rgba(0, 0, 0, 0.3)",
+    backgroundColor: "rgba(0, 0, 0, 0.45)",
     // borderRadius: 20,
   },
   name: {

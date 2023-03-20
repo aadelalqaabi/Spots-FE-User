@@ -17,11 +17,14 @@ import * as Localization from "expo-localization";
 import "moment/locale/ar";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 import organizerStore from "../../stores/organizerStore";
+import { useState } from "react";
 
 function Spotted({ ticket, navigation }) {
   const spot = spotStore.getSpotsById(ticket.spot._id);
   const organizer = organizerStore.getOrganizerById(spot?.organizer);
   const colorScheme = useColorScheme();
+  const [isImageLoading, setIsImageLoading] = useState(true);
+
   const translations = {
     en: {
       suggested: "Suggested Spot",
@@ -43,6 +46,7 @@ function Spotted({ ticket, navigation }) {
   if (!fontsLoaded) {
     return <MyAwesomeSplashScreen />;
   }
+
   let monthEn = moment(spot?.startDate).locale("en").format("MMM");
   let dayEn = moment(spot?.startDate).locale("en").format("DD");
   let monthAr = moment(spot?.startDate).locale("ar").format("MMM");
@@ -79,6 +83,8 @@ function Spotted({ ticket, navigation }) {
           backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
         }}
         source={{ uri: `${baseURL}${spot?.image}` }}
+        onLoad={() => setIsImageLoading(false)}
+        loadingIndicatorSource={require("../../assets/Loading.gif")}
       >
         <View style={styles.overlay}></View>
         <View
@@ -307,6 +313,29 @@ function Spotted({ ticket, navigation }) {
           </Text>
         </View>
       </ImageBackground>
+      {isImageLoading === true && (
+        <View
+          style={{
+            width: "100%",
+            height: "100%",
+            position: "absolute",
+            zIndex: 99,
+            display: "flex",
+            alignContent: "center",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Image
+            style={{
+              width: 100,
+              height: 100,
+              alignSelf: "center",
+            }}
+            source={require("../../assets/Loading.gif")}
+          />
+        </View>
+      )}
     </TouchableOpacity>
   );
 }

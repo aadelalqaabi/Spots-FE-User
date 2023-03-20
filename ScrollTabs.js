@@ -12,13 +12,14 @@ import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import ProfileSpot from "./screens/spots/ProfileSpot";
 import FinishedSpot from "./screens/spots/FinishedSpot";
 import { useFonts } from "expo-font";
-
 import { I18n } from "i18n-js";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "./MyAwesomeSplashScreen";
 
 export default function ScrollTabs({ userSpots }) {
   const colorScheme = useColorScheme();
+  const [isImageLoading, setIsImageLoading] = React.useState(true);
+
   const translations = {
     en: {
       active: "Active",
@@ -90,7 +91,28 @@ export default function ScrollTabs({ userSpots }) {
               marginTop: "-30%",
             }}
             source={require("./assets/Active.png")}
+            onLoad={() => setIsImageLoading(false)}
+            loadingIndicatorSource={require("./assets/Loading.gif")}
           ></Image>
+          {isImageLoading === true && (
+            <View
+              style={{
+                width: 300,
+                height: 237,
+                position: "absolute",
+                zIndex: 99,
+              }}
+            >
+              <Image
+                style={{
+                  width: 100,
+                  height: 100,
+                  alignSelf: "center",
+                }}
+                source={require("./assets/Loading.gif")}
+              />
+            </View>
+          )}
           <Text
             style={{
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
@@ -147,7 +169,28 @@ export default function ScrollTabs({ userSpots }) {
               marginTop: "-28%",
             }}
             source={require("./assets/finished.png")}
+            onLoad={() => setIsImageLoading(false)}
+            loadingIndicatorSource={require("./assets/Loading.gif")}
           ></Image>
+          {isImageLoading === true && (
+            <View
+              style={{
+                width: 300,
+                height: 237,
+                position: "absolute",
+                zIndex: 99,
+              }}
+            >
+              <Image
+                style={{
+                  width: 100,
+                  height: 100,
+                  alignSelf: "center",
+                }}
+                source={require("./assets/Loading.gif")}
+              />
+            </View>
+          )}
           <Text
             style={{
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",

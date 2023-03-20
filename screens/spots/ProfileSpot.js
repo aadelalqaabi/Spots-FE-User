@@ -14,9 +14,12 @@ import * as Localization from "expo-localization";
 import { useFonts } from "expo-font";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 import { Ionicons } from "@expo/vector-icons";
+import { useState } from "react";
 
 function ProfileSpot({ spot }) {
   const navigation = useNavigation();
+  const [isImageLoading, setIsImageLoading] = useState(true);
+
   let users = 0;
   spot.users.forEach((user) => users++);
   const translations = {
@@ -51,6 +54,30 @@ function ProfileSpot({ spot }) {
         navigation.navigate("ProfileSpotDetails", { id: spot._id });
       }}
     >
+      {isImageLoading === true && (
+        <View
+          style={{
+            width: 400,
+            height: 400,
+            position: "absolute",
+            zIndex: 99,
+            display: "flex",
+            alignContent: "center",
+            alignItems: "center",
+            justifyContent: "center",
+            alignSelf: "center",
+          }}
+        >
+          <Image
+            style={{
+              width: 100,
+              height: 100,
+              alignSelf: "center",
+            }}
+            source={require("../../assets/Loading.gif")}
+          />
+        </View>
+      )}
       <ImageBackground
         style={{
           display: "flex",
@@ -70,6 +97,8 @@ function ProfileSpot({ spot }) {
           padding: 30,
         }}
         source={{ uri: `${baseURL}${spot?.image}` }}
+        onLoad={() => setIsImageLoading(false)}
+        loadingIndicatorSource={require("../../assets/Loading.gif")}
       >
         <View style={styles.overlay}></View>
         <View
