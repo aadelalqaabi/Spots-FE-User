@@ -20,7 +20,7 @@ import {
   UN_REGISTER_USER,
   REGISTER_USER,
   DELETE_USER,
-} from "./config/info";
+} from "../config/info";
 import { I18n } from "i18n-js";
 import Toast from "react-native-toast-message";
 import * as Localization from "expo-localization";

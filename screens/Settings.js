@@ -50,6 +50,7 @@ function Settings() {
       info: "Information",
       Contact: "Contact us",
       terms: "Privacy Policy",
+      Report: "Report A Problem",
     },
     ar: {
       Settings: "الاعدادات",
@@ -65,6 +66,7 @@ function Settings() {
       info: "معلومات",
       Contact: "تواصل معنا",
       terms: "سياسة الخصوصية",
+      Report: "الإبلاغ عن مشكلة",
     },
   };
   const i18n = new I18n(translations);
@@ -275,8 +277,8 @@ function Settings() {
         </Text>
         {/* Settings */}
       </View>
-      {/* Notifications */}
       <ScrollView showsVerticalScrollIndicator={false}>
+        {/* Notifications */}
         <Text
           style={{
             alignSelf:
@@ -629,6 +631,7 @@ function Settings() {
           ></Ionicons>
         </TouchableOpacity>
         {/* Delete Account */}
+        {/* Information */}
         <Text
           style={{
             alignSelf:
@@ -649,6 +652,8 @@ function Settings() {
         >
           {i18n.t("info")}
         </Text>
+        {/* Information */}
+        {/* Contact Us */}
         <TouchableOpacity
           style={{
             backgroundColor: "#e8e8e8",
@@ -705,6 +710,8 @@ function Settings() {
             }
           ></Ionicons>
         </TouchableOpacity>
+        {/* Contact Us */}
+        {/* Privacy Policy */}
         <TouchableOpacity
           style={{
             backgroundColor: "#e8e8e8",
@@ -761,6 +768,65 @@ function Settings() {
             }
           ></Ionicons>
         </TouchableOpacity>
+        {/* Privacy Policy */}
+        {/* Report a Problem */}
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#e8e8e8",
+            height: 60,
+            width: "90%",
+            alignSelf: "center",
+            borderRadius: 10,
+            display: "flex",
+            flexDirection:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "row"
+                : "row-reverse",
+            alignContent: "center",
+            alignItems: "center",
+            marginTop: 10,
+
+            justifyContent: "space-between",
+          }}
+          onPress={() => {
+            navigation.navigate("Report")
+          }}
+        >
+          <Text
+            style={{
+              color: "#1b1b1b",
+              fontSize: 18,
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
+              margin: 10,
+              marginRight: 15,
+              marginLeft: 15,
+              opacity: 0.8,
+            }}
+          >
+            {i18n.t("Report")}
+          </Text>
+          <Ionicons
+            style={{
+              color: "#1b1b1b",
+              fontSize: 18,
+              fontFamily:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "Ubuntu"
+                  : "Noto",
+              margin: 22,
+              opacity: 0.8,
+            }}
+            name={
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "chevron-forward-outline"
+                : "chevron-back-outline"
+            }
+          ></Ionicons>
+        </TouchableOpacity>
+        {/* Report a Problem */}
       </ScrollView>
       {/* Disable Modal */}
       <Modal
@@ -1760,6 +1826,7 @@ function Settings() {
         </View>
       </Modal>
       {/* Logout Modal */}
+
     </SafeAreaView>
   );
 }
