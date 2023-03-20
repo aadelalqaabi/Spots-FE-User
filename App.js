@@ -56,6 +56,7 @@ import ContactUs from "./screens/ContactUs";
 import PrivacyPolicy from "./screens/PrivacyPolicy";
 import OffersTerms from "./screens/offers/OffersTerms";
 import RewardsTerms from "./screens/rewards/RewardsTerms";
+import Report from "./screens/Report";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -199,6 +200,7 @@ function RootNavigator() {
       <Screen name="Scanner" component={Scanner} />
       <Screen name="SpottedScanner" component={SpottedScanner} />
       <Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+      <Screen name="Report" component={Report} />
       <Screen
         name="Search"
         options={{
@@ -421,6 +423,15 @@ function RootNavigator() {
       />
       <Screen
         name="PrivacyPolicy"
+        component={PrivacyPolicy}
+        options={{
+          headerShown: false,
+          gestureDirection: "horizontal-inverted",
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+        }}
+      />
+      <Screen
+        name="Report"
         component={PrivacyPolicy}
         options={{
           headerShown: false,
