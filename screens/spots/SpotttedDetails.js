@@ -2,17 +2,15 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   TouchableOpacity,
   Linking,
   useColorScheme,
   SafeAreaView,
-  Alert,
+  Image,
 } from "react-native";
 import moment from "moment";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
-import { baseURL } from "../../stores/instance";
 import spotStore from "../../stores/spotStore";
 import React, { useState } from "react";
 import { I18n } from "i18n-js";
@@ -20,17 +18,17 @@ import * as Localization from "expo-localization";
 import "moment/locale/ar";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 import { useNavigation } from "@react-navigation/native";
-import ticketStore from "../../stores/ticketStore";
+import { baseURL } from "../../stores/instance";
+import organizerStore from "../../stores/organizerStore";
 
 export default function SpotttedDetails({ route }) {
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
-  const [isImageLoading, setIsImageLoading] = useState(true);
-
   const translations = {
     en: {
       details: "Booking Details",
       date: "Date",
+      end: "To",
       time: "Time",
       entry: "Entry",
       location: "Location",
@@ -39,6 +37,7 @@ export default function SpotttedDetails({ route }) {
     ar: {
       details: "تفاصيل الحجز",
       date: "التاريخ",
+      end: "الى",
       time: "الوقت",
       entry: "الدخول",
       location: "الموقع",
@@ -60,33 +59,34 @@ export default function SpotttedDetails({ route }) {
   if (!fontsLoaded) {
     return <MyAwesomeSplashScreen />;
   }
-  let dateEn = moment(spot?.startDate).locale("en").format("DD MMM");
-  let dateAr = moment(spot?.startDate).locale("ar").format("MMM DD");
+  let dateEn = moment(spot?.startDate).locale("en").format("LL");
+  let dateAr = moment(spot?.startDate).locale("ar").format("LL");
+
+  let dateendEn = moment(spot?.endDate).locale("en").format("LL");
+  let dateendAr = moment(spot?.endDate).locale("ar").format("LL");
+
+  const organizer = organizerStore.getOrganizerById(spot.organizer);
+
   return (
     <SafeAreaView
       style={{
         backgroundColor: "#e52b51",
         flex: 1,
-        justifyContent: "center",
-        alignContent: "center",
       }}
     >
       <View
         style={{
           display: "flex",
           width: "100%",
-          justifyContent: "space-evenly",
+          justifyContent: "space-between",
           alignContent: "center",
           alignItems: "center",
-          alignSelf: "center",
+          alignSelf: "flex-start",
           flexDirection:
             i18n.locale === "en-US" || i18n.locale === "en"
               ? "row"
               : "row-reverse",
-          marginTop:
-            i18n.locale === "en-US" || i18n.locale === "en" ? "10%" : "2%",
-          marginBottom:
-            i18n.locale === "en-US" || i18n.locale === "en" ? "6%" : "6%",
+          marginTop: i18n.locale === "en-US" || i18n.locale === "en" ? 15 : 0,
         }}
       >
         <TouchableOpacity
@@ -115,7 +115,7 @@ export default function SpotttedDetails({ route }) {
                 ? "Ubuntu"
                 : "Noto",
             letterSpacing: 1,
-            fontSize: 35,
+            fontSize: 30,
             zIndex: 99,
             color: "#f1f1f1",
           }}
@@ -140,106 +140,21 @@ export default function SpotttedDetails({ route }) {
           ></Ionicons>
         </TouchableOpacity>
       </View>
-
       <View
         style={{
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.23,
-          shadowRadius: 2.62,
-          elevation: 4,
-          backgroundColor: colorScheme === "light" ? "#f1f1f1" : "#1b1b1b",
-          borderRadius: 50,
-          margin: 15,
-          marginTop: i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 10,
-          height: "85%",
           display: "flex",
           flexDirection: "column",
+          justifyContent: "space-between",
+          height:
+            i18n.locale === "en-US" || i18n.locale === "en" ? "93%" : "90%",
         }}
       >
-        <View
-          style={{
-            backgroundColor: "#e52b51",
-            position: "absolute",
-            width: 90,
-            height: 90,
-            alignSelf: "center",
-            borderRadius: 100,
-            marginTop: -50,
-          }}
-        ></View>
-        <View
-          style={{
-            width: "100%",
-            height: "100%",
-            position: "absolute",
-            borderTopRightRadius: 50,
-            borderTopLeftRadius: 50,
-            zIndex: -1,
-          }}
-        >
-          <Image
-            style={{
-              width: "100%",
-              height: "56%",
-              borderTopRightRadius: 50,
-              borderTopLeftRadius: 50,
-              alignItems: "center",
-              alignSelf: "center",
-              zIndex: -1,
-            }}
-            source={{
-              uri: baseURL + spot?.image,
-            }}
-            onLoad={() => setIsImageLoading(false)}
-            loadingIndicatorSource={require("../../assets/Loading.gif")}
-          />
-          {isImageLoading === true && (
-            <View
-              style={{
-                width: "100%",
-                height: "56%",
-                alignSelf: "center",
-                position: "absolute",
-                zIndex: 99,
-                display: "flex",
-                alignContent: "center",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Image
-                style={{
-                  width: 70,
-                  height: 70,
-                  alignSelf: "center",
-                }}
-                source={require("../../assets/Loading.gif")}
-              />
-            </View>
-          )}
-          <View
-            style={{
-              width: "100%",
-              position: "absolute",
-              alignSelf: "center",
-              backgroundColor: "black",
-              height: "56%",
-              opacity: 0.3,
-              borderTopRightRadius: 50,
-              borderTopLeftRadius: 50,
-            }}
-          ></View>
+        <View>
           <Text
             style={{
               color: "white",
-              position: "absolute",
-              fontSize: 28,
-              marginLeft: 30,
-              paddingRight: 30,
+              fontSize:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 45 : 40,
               textAlign:
                 i18n.locale === "en-US" || i18n.locale === "en"
                   ? "left"
@@ -248,381 +163,391 @@ export default function SpotttedDetails({ route }) {
                 i18n.locale === "en-US" || i18n.locale === "en"
                   ? "UbuntuBold"
                   : "NotoBold",
-              alignSelf:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "flex-start"
-                  : "flex-end",
-              marginTop:
-                i18n.locale === "en-US" || i18n.locale === "en" ? "89%" : "86%",
-              shadowColor: "#1b1b1b",
-              shadowOffset: {
-                width: 0,
-                height: 2,
-              },
-              shadowOpacity: 1,
-              shadowRadius: 2.62,
-              elevation: 4,
+              alignSelf: "center",
+              width: "90%",
+              margin: i18n.locale === "en-US" || i18n.locale === "en" ? 40 : 20,
             }}
           >
             {i18n.locale === "en-US" || i18n.locale === "en"
               ? spot.name
               : spot.nameAr}
           </Text>
-        </View>
-        <View
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignContent: "center",
-            justifyContent: "center",
-            alignSelf: "center",
-            position: "absolute",
-            margin: "7%",
-            marginTop: "113%",
-          }}
-        >
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Organizer", {
+                organizer: organizer,
+              })
+            }
+            style={{
+              display: "flex",
+              flexDirection:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "row"
+                  : "row-reverse",
+              alignContent: "center",
+              alignItems: "center",
+              marginTop:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 5 : 0,
+              margin: 20,
+            }}
+          >
+            <Image
+              style={{
+                width: 50,
+                height: 50,
+                borderRadius: 50,
+                resizeMode: "cover",
+                marginRight:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
+                marginLeft:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 0 : 10,
+              }}
+              source={{ uri: `${baseURL}${organizer.image}` }}
+            />
+            <Text
+              style={{
+                fontSize: 22,
+                color: "#f1f1f1",
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "Ubuntu"
+                    : "Noto",
+                alignSelf: "center",
+                textAlign:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "left"
+                    : "right",
+                textTransform: "capitalize",
+                width: "65%",
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? organizer?.displayNameEn
+                : organizer?.displayNameAr}
+            </Text>
+          </TouchableOpacity>
           <View
             style={{
               display: "flex",
-              flexDirection: "row",
-              alignContent: "center",
-              alignSelf: "center",
-              alignItems: "center",
-              marginBottom: 10,
+              flexDirection: "column",
+              margin: 20,
+              marginTop:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 5 : 0,
+              alignSelf:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "flex-start"
+                  : "flex-end",
             }}
           >
+            <Text
+              style={{
+                alignSelf:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "flex-start"
+                    : "flex-end",
+                fontSize: 20,
+                color: "#f1f1f1",
+              }}
+            >
+              {i18n.t("date")}
+            </Text>
+            <Text
+              style={{
+                fontSize:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 35 : 30,
+                color: "#f1f1f1",
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
+                alignSelf:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "flex-start"
+                    : "flex-end",
+                marginTop:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -5,
+              }}
+            >
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? dateEn
+                : dateAr}
+            </Text>
+          </View>
+          {spot.isMultiple && (
             <View
               style={{
                 display: "flex",
                 flexDirection: "column",
-                alignContent: "center",
-                alignSelf: "center",
-                margin: 10,
-                marginTop: 0,
-                borderRightWidth: 1.5,
-                borderColor: "#e0e3e7",
-                paddingRight: 20,
+                margin: 20,
+                marginTop:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 5 : -5,
               }}
             >
               <Text
                 style={{
-                  fontFamily:
+                  alignSelf:
                     i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
-                  marginTop:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : -5,
-                  marginBottom:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : -5,
+                      ? "flex-start"
+                      : "flex-end",
                   fontSize: 20,
-                  color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
-                  marginLeft: 0,
-                  marginRight: 0,
-                  alignSelf: "center",
-                  opacity: 0.5,
+                  color: "#f1f1f1",
                 }}
               >
-                {i18n.t("date")}
+                {i18n.t("end")}
               </Text>
               <Text
                 style={{
+                  fontSize:
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 35 : 30,
+                  color: "#f1f1f1",
                   fontFamily:
                     i18n.locale === "en-US" || i18n.locale === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
+                  alignSelf:
+                    i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "flex-start"
+                      : "flex-end",
                   marginTop:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -10,
-                  marginBottom:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -10,
-                  fontSize: 22,
-                  color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
-                  alignSelf: "center",
+                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -5,
                 }}
               >
                 {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? dateEn
-                  : dateAr}
+                  ? dateendEn
+                  : dateendAr}
               </Text>
             </View>
-            <View
+          )}
+
+          <View
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              margin: 20,
+              marginTop:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 5 : -5,
+              alignSelf:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "flex-start"
+                  : "flex-end",
+            }}
+          >
+            <Text
               style={{
-                display: "flex",
-                flexDirection: "column",
-                alignContent: "center",
-                margin: 10,
-                marginTop: 0,
-                paddingRight: 20,
-                borderRightWidth: 1.5,
-                borderColor: "#e0e3e7",
-                alignSelf: "center",
+                alignSelf:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "flex-start"
+                    : "flex-end",
+                fontSize: 20,
+                color: "#f1f1f1",
               }}
             >
-              <Text
-                style={{
-                  fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
-                  marginTop:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : -5,
-                  marginBottom:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : -5,
-                  fontSize: 20,
-                  color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
-                  marginLeft: 0,
-                  marginRight: 0,
-                  alignSelf: "center",
-                  opacity: 0.5,
-                }}
-              >
-                {i18n.t("time")}
-              </Text>
-              <Text
-                style={{
-                  alignSelf:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "flex-start"
-                      : "flex-end",
-                  fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "UbuntuBold"
-                      : "NotoBold",
-                  marginTop:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -10,
-                  marginBottom:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -10,
-                  fontSize: 22,
-                  color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
-                }}
-              >
-                {spot.startTime}
-              </Text>
-            </View>
-            <View
+              {i18n.t("time")}
+            </Text>
+            <Text
               style={{
-                display: "flex",
-                flexDirection: "column",
-                alignContent: "center",
-                margin: 10,
-                marginTop: 0,
-                alignSelf: "center",
+                fontSize:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 35 : 30,
+                color: "#f1f1f1",
+                fontFamily: "UbuntuBold",
+                alignSelf:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "flex-start"
+                    : "flex-end",
               }}
             >
-              <Text
-                style={{
-                  fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
-                  marginTop:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : -5,
-                  marginBottom:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : -5,
-                  fontSize: 20,
-                  margin: 10,
-                  marginLeft: 0,
-                  marginRight: 0,
-                  color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
-                  alignSelf: "center",
-                  opacity: 0.5,
-                }}
-              >
-                {i18n.t("entry")}
-              </Text>
-              <Text
-                style={{
-                  alignSelf:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "flex-start"
-                      : "flex-end",
-                  fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "UbuntuBold"
-                      : "NotoBold",
-                  marginTop:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -10,
-                  marginBottom:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -10,
-                  fontSize: 22,
-                  color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
-                }}
-              >
-                {ticket.isFree === false ? (
-                  <>
-                    <Text
-                      style={{
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "UbuntuBold"
-                            : "NotoBold",
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 0
-                            : -10,
-                        marginBottom:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 0
-                            : -10,
-                        fontSize: 22,
-                        color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
-                        alignSelf:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "flex-start"
-                            : "flex-end",
-                      }}
-                    >
-                      {i18n.locale === "en-US" || i18n.locale === "en"
-                        ? ticket.amount + " tickets"
-                        : ticket.amount + " تذاكر"}
-                    </Text>
-                  </>
-                ) : (
-                  <>
-                    <Text
-                      style={{
-                        fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "UbuntuBold"
-                            : "NotoBold",
-                        marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 0
-                            : -10,
-                        marginBottom:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 0
-                            : -10,
-                        fontSize: 22,
-                        color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
-                        alignSelf:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? "flex-start"
-                            : "flex-end",
-                      }}
-                    >
-                      {i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "Free"
-                        : "مجاني"}
-                    </Text>
-                  </>
-                )}
-              </Text>
-            </View>
+              {i18n.locale === "en-US" || i18n.locale === "en"
+                ? spot.endTime
+                  ? `${spot.startTime} - ${spot.endTime}`
+                  : spot.startTime
+                : spot.endTime
+                ? `${spot.endTime} - ${spot.startTime}`
+                : spot.startTime}
+            </Text>
           </View>
           <View
             style={{
-              alignSelf: "flex-end",
-              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              margin: 20,
+              marginTop:
+                i18n.locale === "en-US" || i18n.locale === "en" ? 5 : -5,
+              alignSelf:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "flex-start"
+                  : "flex-end",
             }}
           >
-            <TouchableOpacity
+            <Text
               style={{
-                backgroundColor: "white",
-                width: "70%",
-                height: 55,
-                margin: 50,
-                marginBottom: 0,
-                marginTop: 15,
-                borderRadius: 50,
-                alignSelf: "center",
-                display: "flex",
-                alignContent: "center",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection:
+                alignSelf:
                   i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "row"
-                    : "row-reverse",
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
-                },
-                shadowOpacity: 0.23,
-                shadowRadius: 2.62,
-                elevation: 4,
+                    ? "flex-start"
+                    : "flex-end",
+                fontSize: 20,
+                color: "#f1f1f1",
               }}
-              onPress={() => Linking.openURL(spot.location)}
             >
-              <Ionicons
-                style={{
-                  fontSize: 28,
-                  zIndex: 99,
-                  color: "#e52b51",
-                }}
-                name="location-outline"
-              ></Ionicons>
-              <Text
-                style={{
-                  color: "#e52b51",
-                  fontSize: 18,
-                  fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "UbuntuBold"
-                      : "NotoBold",
-                  marginLeft: 10,
-                  marginRight: 10,
-                }}
-              >
-                {i18n.t("location")}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
+              {i18n.t("entry")}
+            </Text>
+            <Text
               style={{
-                width: "102%",
-                height: 80,
-                borderRadius: 50,
-                backgroundColor: "#e52b51",
-                margin: 50,
-                marginBottom: -30,
-                marginTop: "5%",
-                alignSelf: "center",
-                display: "flex",
-                alignContent: "center",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection:
+                fontSize:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 35 : 30,
+                color: "#f1f1f1",
+                fontFamily:
                   i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "row"
-                    : "row-reverse",
-                shadowOffset: {
-                  width: 0,
-                  height: 2,
-                },
-                shadowOpacity: 0.23,
-                shadowRadius: 2.62,
-                elevation: 4,
+                    ? "UbuntuBold"
+                    : "NotoBold",
+                alignSelf:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "flex-start"
+                    : "flex-end",
+                marginTop:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -5,
               }}
-              onPress={() =>
-                navigation.navigate("SpottedScanner", {
-                  spot: spot,
-                  ticket: ticket,
-                })
-              }
             >
-              <Ionicons
-                style={{
-                  fontSize: 30,
-                  zIndex: 99,
-                  color: "#f1f1f1",
-                }}
-                name="scan"
-              ></Ionicons>
-              <Text
-                style={{
-                  color: "#f1f1f1",
-                  fontSize: 22,
-                  fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "UbuntuBold"
-                      : "NotoBold",
-                  marginLeft: 10,
-                  marginRight: 10,
-                }}
-              >
-                {i18n.t("scan")}
-              </Text>
-            </TouchableOpacity>
+              {ticket.isFree === false ? (
+                <>
+                  <Text
+                    style={{
+                      fontSize:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? 35
+                          : 30,
+                      color: "#f1f1f1",
+                      fontFamily:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "UbuntuBold"
+                          : "NotoBold",
+                      alignSelf:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "flex-start"
+                          : "flex-end",
+                    }}
+                  >
+                    {i18n.locale === "en-US" || i18n.locale === "en"
+                      ? ticket.amount + " tickets"
+                      : ticket.amount + " تذاكر"}
+                  </Text>
+                </>
+              ) : (
+                <>
+                  <Text
+                    style={{
+                      fontSize:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? 35
+                          : 30,
+                      color: "#f1f1f1",
+                      fontFamily:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "UbuntuBold"
+                          : "NotoBold",
+                      alignSelf:
+                        i18n.locale === "en-US" || i18n.locale === "en"
+                          ? "flex-start"
+                          : "flex-end",
+                    }}
+                  >
+                    {i18n.locale === "en-US" || i18n.locale === "en"
+                      ? "Free"
+                      : "مجاني"}
+                  </Text>
+                </>
+              )}
+            </Text>
           </View>
+        </View>
+        <View>
+          <TouchableOpacity
+            style={{
+              backgroundColor: "#f1f1f1",
+              width: "50%",
+              height: 60,
+              borderRadius: 20,
+              alignSelf: "center",
+              display: "flex",
+              alignContent: "center",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "row"
+                  : "row-reverse",
+              marginBottom: 15,
+            }}
+            onPress={() => Linking.openURL(spot.location)}
+          >
+            <Ionicons
+              style={{
+                fontSize: 30,
+                zIndex: 99,
+                color: "#e52b51",
+              }}
+              name="location-outline"
+            ></Ionicons>
+            <Text
+              style={{
+                color: "#e52b51",
+                fontSize: 20,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
+                marginLeft: 10,
+                marginRight: 10,
+              }}
+            >
+              {i18n.t("location")}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              width: "90%",
+              height: 80,
+              borderRadius: 30,
+              backgroundColor: "#f1f1f1",
+              alignSelf: "center",
+              display: "flex",
+              alignContent: "center",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection:
+                i18n.locale === "en-US" || i18n.locale === "en"
+                  ? "row"
+                  : "row-reverse",
+            }}
+            onPress={() =>
+              navigation.navigate("SpottedScanner", {
+                spot: spot,
+                ticket: ticket,
+              })
+            }
+          >
+            <Ionicons
+              style={{
+                fontSize: 30,
+                zIndex: 99,
+                color: "#e52b51",
+              }}
+              name="scan"
+            ></Ionicons>
+            <Text
+              style={{
+                color: "#e52b51",
+                fontSize: 22,
+                fontFamily:
+                  i18n.locale === "en-US" || i18n.locale === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
+                marginLeft: 10,
+                marginRight: 10,
+              }}
+            >
+              {i18n.t("scan")}
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>

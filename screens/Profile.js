@@ -172,7 +172,7 @@ function Profile() {
                 </TouchableOpacity>
                 <Text
                   style={{
-                    fontSize: 25,
+                    fontSize: 23,
                     fontFamily:
                       i18n.locale === "en-US" || i18n.locale === "en"
                         ? "UbuntuBold"

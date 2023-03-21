@@ -92,7 +92,7 @@ function ProfileSpot({ spot }) {
           marginRight: 0,
           overflow: "hidden",
           alignSelf: "center",
-          width: 400,
+          width: 380,
           height: 380,
           padding: 30,
         }}

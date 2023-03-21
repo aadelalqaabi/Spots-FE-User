@@ -91,6 +91,7 @@ export default function MyImage({ navigation, route }) {
           type: img_type,
         },
       });
+      console.log("user", user);
       setImage(result.uri);
     }
     setToggle(true);
