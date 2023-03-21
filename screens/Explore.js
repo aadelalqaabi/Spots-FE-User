@@ -172,8 +172,9 @@ function Explore() {
             <View
               style={{
                 margin: 30,
-                marginTop: 15,
-                marginBottom: "2%",
+                marginTop: 0,
+                paddingTop: 15,
+                marginBottom: 0,
                 display: "flex",
                 flexDirection:
                   i18n.locale === "en-US" || i18n.locale === "en"
@@ -279,7 +280,7 @@ function Explore() {
                         marginTop:
                           i18n.locale === "en-US" || i18n.locale === "en"
                             ? 0
-                            : -15,
+                            : -20,
                       }}
                     >
                       {dayStringHolder}
@@ -308,13 +309,13 @@ function Explore() {
               horizontal={true}
               style={{
                 display: "flex",
-                marginTop:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -40,
-                marginBottom: "5%",
                 marginLeft:
                   i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 0,
                 marginRight:
                   i18n.locale === "en-US" || i18n.locale === "en" ? 0 : 20,
+                minHeight: "15%",
+                marginTop:
+                  i18n.locale === "en-US" || i18n.locale === "en" ? 0 : "-5%",
               }}
               contentContainerStyle={{
                 display: "flex",
@@ -354,7 +355,8 @@ function Explore() {
                               ? "Ubuntu"
                               : "Noto",
                           color: "#e52b51",
-                          margin: 12,
+                          marginLeft: 12,
+                          marginRight: 12,
                         }
                       : {
                           color:
@@ -366,7 +368,8 @@ function Explore() {
                             i18n.locale === "en-US" || i18n.locale === "en"
                               ? "Ubuntu"
                               : "Noto",
-                          margin: 12,
+                          marginLeft: 12,
+                          marginRight: 12,
                         }
                   }
                 >
@@ -397,20 +400,21 @@ function Explore() {
                                 ? "Ubuntu"
                                 : "Noto",
                             color: "#e52b51",
-                            margin: 12,
+                            marginLeft: 12,
+                            marginRight: 12,
                           }
                         : {
                             color:
                               colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                             flexWrap: "wrap",
-
                             fontSize: 22,
                             alignSelf: "center",
                             fontFamily:
                               i18n.locale === "en-US" || i18n.locale === "en"
                                 ? "Ubuntu"
                                 : "Noto",
-                            margin: 12,
+                            marginLeft: 12,
+                            marginRight: 12,
                           }
                     }
                   >

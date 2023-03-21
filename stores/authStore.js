@@ -20,7 +20,7 @@ import {
   UN_REGISTER_USER,
   REGISTER_USER,
   DELETE_USER,
-} from "../config/info";
+} from "./config/info";
 import { I18n } from "i18n-js";
 import Toast from "react-native-toast-message";
 import * as Localization from "expo-localization";
@@ -84,10 +84,10 @@ class AuthStore {
     try {
       const response = await instance.post(LOGIN, userData);
       this.setUser(response.data.token);
-      return "logged in"
+      return "logged in";
     } catch (error) {
       console.error(error);
-      return "not logged in"
+      return "not logged in";
     }
   };
 
@@ -110,7 +110,7 @@ class AuthStore {
   };
 
   changeUser = async (userChange) => {
-    let status = ""
+    let status = "";
     try {
       if (
         userChange.currentPassword !== "" &&
@@ -124,10 +124,11 @@ class AuthStore {
               text2: "try to sign back in 🤷‍♂️",
             });
           } else {
-            status = "Passwords Don't Match"
-        }});
+            status = "Passwords Don't Match";
+          }
+        });
       } else {
-        status = "Passwords Don't Match"
+        status = "Passwords Don't Match";
       }
       return status;
     } catch (error) {
@@ -137,12 +138,17 @@ class AuthStore {
 
   forgotUser = async (userForgot) => {
     userForgot.email = userForgot.email.toLowerCase();
-    console.log('userForgot', userForgot)
-    console.log('userForgot', userForgot.newPassword === userForgot.confirmedPassword)
-    let status = ""
+    console.log("userForgot", userForgot);
+    console.log(
+      "userForgot",
+      userForgot.newPassword === userForgot.confirmedPassword
+    );
+    let status = "";
     try {
-      if(userForgot.newPassword === userForgot.confirmPassword && userForgot.email !== "") {
-
+      if (
+        userForgot.newPassword === userForgot.confirmPassword &&
+        userForgot.email !== ""
+      ) {
         await instance.put(FORGOT_PASSWORD, userForgot).then((response) => {
           if (response?.data?.isChanged === true) {
             Toast.show({
@@ -151,10 +157,11 @@ class AuthStore {
               text2: "try to sign back in 🤷‍♂️",
             });
           } else {
-            status = "Passwords Don't Match"
-        }});
+            status = "Passwords Don't Match";
+          }
+        });
       } else {
-        status = "Passwords Don't Match"
+        status = "Passwords Don't Match";
       }
       return status;
     } catch (error) {
@@ -192,16 +199,16 @@ class AuthStore {
   };
 
   getOTP = async (email) => {
-    let status = ""
+    let status = "";
     try {
-      const res = await instance.post(U_OTP+'/'+email.toLowerCase());
-      if(res.data?.message === "No User Found") {
-        console.log('OTP', this.OTP)
-        status = "No User Found"
-      } else if(res.data.message === "User Found") {
+      const res = await instance.post(U_OTP + "/" + email.toLowerCase());
+      if (res.data?.message === "No User Found") {
+        console.log("OTP", this.OTP);
+        status = "No User Found";
+      } else if (res.data.message === "User Found") {
         this.OTP = res.data.OTP;
-        console.log('in', this.OTP)
-        status = "User Found"
+        console.log("in", this.OTP);
+        status = "User Found";
       }
       return status;
     } catch (error) {

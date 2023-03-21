@@ -254,7 +254,7 @@ export function SpotDetails({ route }) {
                     ? "left"
                     : "right",
                 textTransform: "capitalize",
-                width: "70%",
+                width: "60%",
               }}
             >
               {i18n.locale === "en-US" || i18n.locale === "en"
