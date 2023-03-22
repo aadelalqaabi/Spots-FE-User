@@ -1790,7 +1790,7 @@ function Settings() {
                   }}
                 >
                   {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ok"
+                    ? "yes"
                     : "تسجيل الخروج"}
                 </Text>
               </TouchableOpacity>
@@ -1817,7 +1817,7 @@ function Settings() {
                   }}
                 >
                   {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Cancel"
+                    ? "no"
                     : "إلغاء"}
                 </Text>
               </TouchableOpacity>

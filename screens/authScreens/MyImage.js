@@ -44,6 +44,7 @@ export default function MyImage({ navigation, route }) {
   const [toggle, setToggle] = useState(false);
   const { itemId } = route.params;
   const [user, setUser] = useState(itemId);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -97,8 +98,38 @@ export default function MyImage({ navigation, route }) {
     setToggle(true);
   };
   const handleSubmit = () => {
-    authStore.register(user);
+    setIsLoading(true)
+    try {
+      authStore.register(user);
+    } catch (error) {
+      setIsLoading(false)
+    }
   };
+
+  if(isLoading) return(
+    <View
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        height: "100%",
+        alignSelf: "center",
+        alignContent: "center",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+      }}
+    >
+      <Image
+        style={{
+          width: 250,
+          height: 262,
+          alignSelf: "center",
+        }}
+        source={require("../../assets/Loading.gif")}
+      ></Image>
+    </View>
+  )
   return (
     <>
       <View
