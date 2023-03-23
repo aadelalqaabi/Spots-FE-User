@@ -7,6 +7,8 @@ import {
   useColorScheme,
   SafeAreaView,
   Image,
+  ImageBackground,
+  StatusBar,
 } from "react-native";
 import moment from "moment";
 import { Ionicons } from "@expo/vector-icons";
@@ -68,12 +70,25 @@ export default function SpotttedDetails({ route }) {
   const organizer = organizerStore.getOrganizerById(spot.organizer);
 
   return (
-    <SafeAreaView
+    <ImageBackground
+      source={{ uri: `${baseURL}${spot.image}` }}
       style={{
-        backgroundColor: "#e52b51",
         flex: 1,
+        paddingTop:
+          i18n.locale === "en-US" || i18n.locale === "en" ? "12%" : "8%",
       }}
     >
+      <View
+        style={{
+          flex: 1,
+          height: "200%",
+          width: "100%",
+          backgroundColor: "black",
+          position: "absolute",
+          opacity: 0.7,
+        }}
+      ></View>
+      <StatusBar barStyle={"light-content"} />
       <View
         style={{
           display: "flex",
@@ -86,7 +101,6 @@ export default function SpotttedDetails({ route }) {
             i18n.locale === "en-US" || i18n.locale === "en"
               ? "row"
               : "row-reverse",
-          marginTop: i18n.locale === "en-US" || i18n.locale === "en" ? 15 : 0,
         }}
       >
         <TouchableOpacity
@@ -128,7 +142,10 @@ export default function SpotttedDetails({ route }) {
             paddingRight: 20,
           }}
           onPress={() => {
-            navigation.navigate("SpottedInfo", { spot: spot, ticket: ticket });
+            navigation.navigate("SpottedInfo", {
+              spot: spot,
+              ticket: ticket,
+            });
           }}
         >
           <Ionicons
@@ -463,8 +480,8 @@ export default function SpotttedDetails({ route }) {
           <TouchableOpacity
             style={{
               backgroundColor: "#f1f1f1",
-              width: "50%",
-              height: 60,
+              width: "60%",
+              height: 65,
               borderRadius: 20,
               alignSelf: "center",
               display: "flex",
@@ -507,7 +524,7 @@ export default function SpotttedDetails({ route }) {
               width: "90%",
               height: 80,
               borderRadius: 30,
-              backgroundColor: "#f1f1f1",
+              backgroundColor: "#e52b51",
               alignSelf: "center",
               display: "flex",
               alignContent: "center",
@@ -529,13 +546,13 @@ export default function SpotttedDetails({ route }) {
               style={{
                 fontSize: 30,
                 zIndex: 99,
-                color: "#e52b51",
+                color: "#f1f1f1",
               }}
               name="scan"
             ></Ionicons>
             <Text
               style={{
-                color: "#e52b51",
+                color: "#f1f1f1",
                 fontSize: 22,
                 fontFamily:
                   i18n.locale === "en-US" || i18n.locale === "en"
@@ -550,7 +567,7 @@ export default function SpotttedDetails({ route }) {
           </TouchableOpacity>
         </View>
       </View>
-    </SafeAreaView>
+    </ImageBackground>
   );
 }
 

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { PRODUCTION, TEST } from "./config/info";
 const baseURL = "https://destkw.com/api"; //process.env.NODE_ENV === "production" ? PRODUCTION : TEST;
 const instance = axios.create({
   baseURL: baseURL,

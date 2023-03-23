@@ -222,7 +222,7 @@ function ProfileSpotDetails({ route }) {
                 width: "100%",
                 alignSelf: "center",
                 backgroundColor:
-                  colorScheme === "light" ? "#FCFCFC" : "#141414",
+                  colorScheme === "light" ? "#eaeaea" : "#202020",
               }}
             >
               <TextTicker
@@ -256,7 +256,7 @@ function ProfileSpotDetails({ route }) {
             <View
               style={{
                 height: 250,
-                marginBottom: 10,
+                marginBottom: -5,
               }}
             >
               <Swiper
