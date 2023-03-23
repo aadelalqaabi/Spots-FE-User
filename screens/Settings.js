@@ -827,6 +827,20 @@ function Settings() {
           ></Ionicons>
         </TouchableOpacity>
         {/* Report a Problem */}
+        <Text
+          style={{
+            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            fontSize: 18,
+            fontFamily:
+              i18n.locale === "en-US" || i18n.locale === "en"
+                ? "Ubuntu"
+                : "Noto",
+            alignSelf: "center",
+            marginTop: 30,
+          }}
+        >
+          Version 1.0.4
+        </Text>
       </ScrollView>
       {/* Disable Modal */}
       <Modal
@@ -1745,7 +1759,7 @@ function Settings() {
           >
             <Text
               style={{
-                marginBottom: 20,
+                marginBottom: 30,
                 fontFamily:
                   i18n.locale === "en-US" || i18n.locale === "en"
                     ? "Ubuntu"
@@ -1790,7 +1804,7 @@ function Settings() {
                   }}
                 >
                   {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "yes"
+                    ? "Yes"
                     : "تسجيل الخروج"}
                 </Text>
               </TouchableOpacity>
@@ -1817,7 +1831,7 @@ function Settings() {
                   }}
                 >
                   {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "no"
+                    ? "No"
                     : "إلغاء"}
                 </Text>
               </TouchableOpacity>

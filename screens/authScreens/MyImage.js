@@ -122,8 +122,8 @@ export default function MyImage({ navigation, route }) {
     >
       <Image
         style={{
-          width: 250,
-          height: 262,
+          width: 90,
+          height: 102,
           alignSelf: "center",
         }}
         source={require("../../assets/Loading.gif")}

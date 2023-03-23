@@ -433,7 +433,7 @@ export function SpotDetails({ route }) {
                   : "flex-end",
               margin: 20,
               marginTop:
-                i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
+                i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
               marginBottom:
                 i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 5,
             }}
