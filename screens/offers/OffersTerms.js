@@ -8,7 +8,8 @@ import {
   View,
 } from "react-native";
 import React from "react";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import { observer } from "mobx-react";
 import { Ionicons } from "@expo/vector-icons";
@@ -23,9 +24,16 @@ export default function OffersTerms({ route }) {
       explore: "اكتشف",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   const colorScheme = useColorScheme();
   return (
     <SafeAreaView style={{ marginBottom: 50 }}>
@@ -33,9 +41,7 @@ export default function OffersTerms({ route }) {
         style={{
           display: "flex",
           flexDirection:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "row"
-              : "row-reverse",
+            i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
           alignContent: "center",
           alignItems: "center",
           justifyContent: "cnter",
@@ -57,7 +63,7 @@ export default function OffersTerms({ route }) {
               width: "100%",
             }}
             name={
-              i18n.locale === "en-US" || i18n.locale === "en"
+              i18n.language.split("-")[0] === "en"
                 ? "chevron-back-outline"
                 : "chevron-forward-outline"
             }
@@ -69,14 +75,12 @@ export default function OffersTerms({ route }) {
             alignSelf: "center",
             textAlign: "center",
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
+              i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
             width: "70%",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
-          {i18n.locale === "en-US" || i18n.locale === "en"
+          {i18n.language.split("-")[0] === "en"
             ? "Terms and Conditions"
             : "الشروط والاحكام"}
         </Text>
@@ -85,19 +89,14 @@ export default function OffersTerms({ route }) {
         <Text
           style={{
             fontSize: 22,
-            textAlign:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "left"
-                : "right",
+            textAlign: i18n.language.split("-")[0] === "en" ? "left" : "right",
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
+              i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             margin: 30,
           }}
         >
-          {i18n.locale === "en-US" || i18n.locale === "en"
+          {i18n.language.split("-")[0] === "en"
             ? spot.termsAndConditionsOffersEn
             : spot.termsAndConditionsOfferssAr}
         </Text>

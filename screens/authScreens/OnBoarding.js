@@ -9,7 +9,8 @@ import React from "react";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
@@ -38,9 +39,16 @@ export default function OnBoarding() {
       login: "تسجيل الدخول",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   const navigation = useNavigation();
   return (
     <View
@@ -59,17 +67,16 @@ export default function OnBoarding() {
         style={{
           fontSize: 54,
           fontFamily:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "UbuntuBold"
-              : "NotoBold",
+            i18n.language.split("-")[0] === "en" ? "UbuntuBold" : "NotoBold",
           width: "75%",
           marginTop: 200,
-          textAlign:
-            i18n.locale === "en-US" || i18n.locale === "en" ? "left" : "right",
+          textAlign: i18n.language.split("-")[0] === "en" ? "left" : "right",
           color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
         }}
       >
-        {i18n.t("out")}
+        {i18n.language.split("-")[0] === "en"
+          ? "Your destiny awaits"
+          : "وحهتك تنتظرك"}
       </Text>
       <View
         style={{
@@ -90,9 +97,7 @@ export default function OnBoarding() {
             backgroundColor: "#e52b51",
             justifyContent: "space-between",
             flexDirection:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "row"
-                : "row-reverse",
+              i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
             padding: 10,
           }}
           onPress={() => navigation.navigate("SetUpAccount")}
@@ -105,17 +110,15 @@ export default function OnBoarding() {
               marginLeft: 10,
               marginRight: 10,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
             }}
           >
-            {i18n.t("start")}
+            {i18n.language.split("-")[0] === "en" ? "Get started" : "ابدأ"}
           </Text>
           <Ionicons
             style={styles.icon}
             name={
-              i18n.locale === "en-US" || i18n.locale === "en"
+              i18n.language.split("-")[0] === "en"
                 ? "chevron-forward-outline"
                 : "chevron-back-outline"
             }

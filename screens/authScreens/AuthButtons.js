@@ -3,7 +3,8 @@ import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { useFonts } from "expo-font";
 import * as Localization from "expo-localization";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import GoogleLogin from "./GoogleLogin";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 import AppleLogin from "./AppleLogin";
@@ -25,9 +26,16 @@ export default function AuthButtons() {
       desc: "اعرض قائمة من الوجهات لزيارتها يوميا مع العديد من العروض والجوائز التي تنتظرك",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
@@ -69,38 +77,36 @@ export default function AuthButtons() {
         ></Image>
         <Text
           style={{
-            fontSize: i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 20,
+            fontSize: i18n.language.split("-")[0] === "en" ? 30 : 20,
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "UbuntuBold"
-                : "NotoBold",
+              i18n.language.split("-")[0] === "en" ? "UbuntuBold" : "NotoBold",
             textAlign: "center",
             color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
             margin: 20,
-            marginBottom:
-              i18n.locale === "en-US" || i18n.locale === "en" ? 15 : 5,
+            marginBottom: i18n.language.split("-")[0] === "en" ? 15 : 5,
           }}
         >
-          {i18n.t("title")}
+          {i18n.language.split("-")[0] === "en"
+            ? "Login or register"
+            : "سجل دخولك او انشأ حساب جديد"}
         </Text>
         <Text
           style={{
-            fontSize: i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 16,
+            fontSize: i18n.language.split("-")[0] === "en" ? 16 : 16,
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
+              i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
             textAlign: "center",
             color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
             opacity: 0.7,
             margin: 20,
             marginTop: 0,
-            marginBottom:
-              i18n.locale === "en-US" || i18n.locale === "en" ? 15 : 5,
+            marginBottom: i18n.language.split("-")[0] === "en" ? 15 : 5,
             lineHeight: 25,
           }}
         >
-          {i18n.t("desc")}
+          {i18n.language.split("-")[0] === "en"
+            ? "View a list of destinations to visit everyday with many offers and rewards waiting for you"
+            : "اعرض قائمة من الوجهات لزيارتها يوميا مع العديد من العروض والجوائز التي تنتظرك"}
         </Text>
         <EmailLogin />
         {/* <GoogleLogin />*/}

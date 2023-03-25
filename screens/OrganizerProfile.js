@@ -18,7 +18,8 @@ import { Fontisto, Ionicons } from "@expo/vector-icons";
 import { useState, useCallback } from "react";
 import { useFonts } from "expo-font";
 import spotStore from "../stores/spotStore";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
 import authStore from "../stores/authStore";
@@ -89,9 +90,16 @@ function OrganizerProfile({ route }) {
       notiOff: "الاشعارات غير مفعلة",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   function renderSpot({ item: spot }) {
     return <OrganizerSpot spot={spot} navigation={navigation} />;
   }
@@ -155,9 +163,7 @@ function OrganizerProfile({ route }) {
           style={{
             zIndex: 99,
             alignSelf:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "flex-start"
-                : "flex-end",
+              i18n.language.split("-")[0] === "en" ? "flex-start" : "flex-end",
             position: "absolute",
             marginLeft: 20,
             paddingRight: 20,
@@ -170,7 +176,7 @@ function OrganizerProfile({ route }) {
               fontSize: 32,
             }}
             name={
-              i18n.locale === "en-US" || i18n.locale === "en"
+              i18n.language.split("-")[0] === "en"
                 ? "chevron-back-outline"
                 : "chevron-forward-outline"
             }
@@ -182,14 +188,12 @@ function OrganizerProfile({ route }) {
             alignSelf: "center",
             fontSize: 28,
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
+              i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             width: "70%",
           }}
         >
-          {i18n.locale === "en-US" || i18n.locale === "en"
+          {i18n.language.split("-")[0] === "en"
             ? organizer.displayNameEn
             : organizer.displayNameAr}
         </Text>
@@ -209,9 +213,7 @@ function OrganizerProfile({ route }) {
             alignContent: "center",
             alignItems: "center",
             flexDirection:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "row"
-                : "row-reverse",
+              i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
 
             height: 140,
             width: "100%",
@@ -261,13 +263,10 @@ function OrganizerProfile({ route }) {
                 alignSelf: "center",
                 display: "flex",
                 flexDirection:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "row"
-                    : "row-reverse",
+                  i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
                 alignContent: "center",
                 justifyContent: "flex-start",
-                marginBottom:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 6 : 3,
+                marginBottom: i18n.language.split("-")[0] === "en" ? 6 : 3,
               }}
             >
               <Text
@@ -275,10 +274,8 @@ function OrganizerProfile({ route }) {
                   fontSize: 32,
                   fontFamily: "Ubuntu",
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                  paddingLeft:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : 8,
-                  paddingRight:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 8 : 0,
+                  paddingLeft: i18n.language.split("-")[0] === "en" ? 0 : 8,
+                  paddingRight: i18n.language.split("-")[0] === "en" ? 8 : 0,
                 }}
               >
                 {organizer?.spots?.length}
@@ -287,13 +284,11 @@ function OrganizerProfile({ route }) {
                 style={{
                   fontSize: 21,
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 }}
               >
-                {i18n.t("dests")}
+                {i18n.language.split("-")[0] === "en" ? "Dest" : "ديست"}
               </Text>
             </View>
             <TouchableOpacity
@@ -305,9 +300,7 @@ function OrganizerProfile({ route }) {
                 borderRadius: 8,
                 display: "flex",
                 flexDirection:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "row"
-                    : "row-reverse",
+                  i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
                 alignContent: "center",
                 alignItems: "center",
                 justifyContent: "center",
@@ -318,7 +311,7 @@ function OrganizerProfile({ route }) {
                 style={{
                   display: "flex",
                   flexDirection:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "row"
                       : "row-reverse",
                   justifyContent: "center",
@@ -338,7 +331,7 @@ function OrganizerProfile({ route }) {
                     fontSize: 21,
                   }}
                   name={
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? notifications
                       : notifications
                   }
@@ -353,18 +346,20 @@ function OrganizerProfile({ route }) {
                         : "#f1f1f1"
                       : "#f1f1f1",
                   fontSize: 19,
-                  marginLeft:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 8 : 0,
-                  marginRight:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 0 : 8,
+                  marginLeft: i18n.language.split("-")[0] === "en" ? 8 : 0,
+                  marginRight: i18n.language.split("-")[0] === "en" ? 0 : 8,
                   marginTop: -2,
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 }}
               >
-                {isNotification === true ? i18n.t("notiOn") : i18n.t("notiOff")}
+                {isNotification === true
+                  ? i18n.language.split("-")[0] === "en"
+                    ? "Notifications on"
+                    : "الاشعارات مفعلة"
+                  : i18n.language.split("-")[0] === "en"
+                  ? "Notifications off"
+                  : "الاشعارات غير مفعلة"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -434,15 +429,13 @@ function OrganizerProfile({ route }) {
               style={{
                 marginBottom: 30,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 width: "90%",
                 textAlign: "center",
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "You Must Enable Notifications First!!"
                 : "!! يجب عليك تفعيل الإخطارات أولاً"}
             </Text>
@@ -461,15 +454,13 @@ function OrganizerProfile({ route }) {
                   textAlign: "center",
                   color: "#f1f1f1",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 15,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "ok"
-                  : "حسنا"}
+                {i18n.language.split("-")[0] === "en" ? "ok" : "حسنا"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -511,15 +502,13 @@ function OrganizerProfile({ route }) {
               style={{
                 marginBottom: 30,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 width: "90%",
                 textAlign: "center",
                 fontSize: 20,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "You'll Recieve a Notification Once this Organizer Posts a New Dest!!"
                 : "!! ستتلقى إشعارًا بمجرد قيام المنظم بنشر وجهة جديدة"}
             </Text>
@@ -538,15 +527,13 @@ function OrganizerProfile({ route }) {
                   textAlign: "center",
                   color: "#f1f1f1",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 15,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "ok"
-                  : "حسنا"}
+                {i18n.language.split("-")[0] === "en" ? "ok" : "حسنا"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -588,15 +575,13 @@ function OrganizerProfile({ route }) {
               style={{
                 marginBottom: 30,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 width: "90%",
                 textAlign: "center",
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "You'll Stop Recieving Notifications from this Organizer"
                 : "ستتوقف عن تلقي إشعارات من هذا المنظم"}
             </Text>
@@ -615,15 +600,13 @@ function OrganizerProfile({ route }) {
                   textAlign: "center",
                   color: "#f1f1f1",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 15,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "ok"
-                  : "حسنا"}
+                {i18n.language.split("-")[0] === "en" ? "ok" : "حسنا"}
               </Text>
             </TouchableOpacity>
           </View>

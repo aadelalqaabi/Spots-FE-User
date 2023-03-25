@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import { View, TouchableOpacity, Linking, Text, Image } from "react-native";
 import authStore from "../../stores/authStore";
 import { baseURL } from "../../stores/instance";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 
 export default function GoogleLogin() {
@@ -21,9 +22,15 @@ export default function GoogleLogin() {
       login: " دخول",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 
   useEffect(() => {
     Linking.addEventListener("url", (url) => handleOpenURL(url.url));
@@ -66,8 +73,7 @@ export default function GoogleLogin() {
   return (
     <TouchableOpacity
       style={{
-        paddingVertical:
-          i18n.locale === "en-US" || i18n.locale === "en" ? 12 : 8,
+        paddingVertical: i18n.language.split("-")[0] === "en" ? 12 : 8,
         borderRadius: 10,
         elevation: 3,
         backgroundColor: "#ffffff",
@@ -75,9 +81,7 @@ export default function GoogleLogin() {
         width: "90%",
         display: "flex",
         flexDirection:
-          i18n.locale === "en-US" || i18n.locale === "en"
-            ? "row"
-            : "row-reverse",
+          i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
         alignItems: "center",
         alignSelf: "center",
         justifyContent: "flex-start",
@@ -104,8 +108,7 @@ export default function GoogleLogin() {
       ></Image>
       <Text
         style={{
-          paddingVertical:
-            i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 5,
+          paddingVertical: i18n.language.split("-")[0] === "en" ? 10 : 5,
           borderRadius: 15,
           elevation: 3,
           color: "#1b1b1b",
@@ -114,12 +117,12 @@ export default function GoogleLogin() {
           fontWeight: "800",
           alignSelf: "flex-start",
           fontFamily:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "UbuntuBold"
-              : "NotoBold",
+            i18n.language.split("-")[0] === "en" ? "UbuntuBold" : "NotoBold",
         }}
       >
-        {i18n.t("google")}
+        {i18n.language.split("-")[0] === "en"
+          ? "Continue with Google"
+          : "اكمل مع قوقل"}
       </Text>
     </TouchableOpacity>
   );

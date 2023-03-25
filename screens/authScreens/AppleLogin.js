@@ -3,7 +3,8 @@ import * as AppleAuthentication from "expo-apple-authentication";
 import React from "react";
 import { useColorScheme } from "react-native";
 import authStore from "../../stores/authStore";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import jwtDecode from "jwt-decode";
 import { useFonts } from "expo-font";
@@ -23,9 +24,15 @@ export default function AppleLogin() {
       login: " دخول",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),

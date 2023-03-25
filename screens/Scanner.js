@@ -11,7 +11,8 @@ import { BarCodeScanner } from "expo-barcode-scanner";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import pointStore from "../stores/pointStore";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 
 export default function Scanner({ route }) {
@@ -33,9 +34,16 @@ export default function Scanner({ route }) {
       explore: "اكتشف",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   useEffect(() => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -73,12 +81,10 @@ export default function Scanner({ route }) {
           marginRight: 25,
           fontSize: 35,
           alignSelf:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "flex-start"
-              : "flex-end",
+            i18n.language.split("-")[0] === "en" ? "flex-start" : "flex-end",
         }}
         name={
-          i18n.locale === "en-US" || i18n.locale === "en"
+          i18n.language.split("-")[0] === "en"
             ? "chevron-back-outline"
             : "chevron-forward-outline"
         }
@@ -121,7 +127,7 @@ export default function Scanner({ route }) {
               style={{
                 marginBottom: 10,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 width: "90%",
@@ -129,25 +135,22 @@ export default function Scanner({ route }) {
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Points Added!"
                 : "تم اضافة النقاط!"}
             </Text>
             <Text
               style={{
-                marginBottom:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 20,
+                marginBottom: i18n.language.split("-")[0] === "en" ? 10 : 20,
                 width: "70%",
                 textAlign: "center",
                 fontSize: 17,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 lineHeight: 30,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? `You just added ${num} to your total points`
                 : `اضفت للتو ${num} الى كامل نقاطك`}
             </Text>
@@ -169,15 +172,13 @@ export default function Scanner({ route }) {
                   textAlign: "center",
                   color: "white",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 15,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Close"
-                  : "اغلاق"}
+                {i18n.language.split("-")[0] === "en" ? "Close" : "اغلاق"}
               </Text>
             </TouchableOpacity>
           </View>

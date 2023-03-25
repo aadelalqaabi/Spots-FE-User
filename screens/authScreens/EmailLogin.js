@@ -10,7 +10,8 @@ import React from "react";
 import { useFonts } from "expo-font";
 import Login from "./Login";
 import * as Localization from "expo-localization";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -33,9 +34,14 @@ export default function EmailLogin() {
       login: " دخول",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 
   return (
     <TouchableOpacity
@@ -48,9 +54,7 @@ export default function EmailLogin() {
         width: "90%",
         display: "flex",
         flexDirection:
-          i18n.locale === "en-US" || i18n.locale === "en"
-            ? "row"
-            : "row-reverse",
+          i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
         alignItems: "center",
         alignSelf: "center",
         justifyContent: "flex-start",
@@ -85,7 +89,9 @@ export default function EmailLogin() {
           alignSelf: "center",
         }}
       >
-        {i18n.t("google")}
+        {i18n.language.split("-")[0] === "en"
+          ? "Continue with email"
+          : "اكمل مع البريد الاكتروني"}
       </Text>
     </TouchableOpacity>
   );

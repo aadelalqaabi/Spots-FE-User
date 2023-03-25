@@ -17,7 +17,8 @@ import TextInput from "react-native-text-input-interactive";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
@@ -58,9 +59,14 @@ export default function Password({ navigation, route }) {
       eight: "٨ احرف على الاقل",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 
   const [showInvalidPassword, setShowInvalidPassword] = useState(false);
   const toggleAlertShowInvalidPassword = useCallback(() => {
@@ -200,13 +206,13 @@ export default function Password({ navigation, route }) {
                 marginLeft: 20,
                 paddingRight: 20,
                 alignSelf:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "flex-start"
                     : "flex-end",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
               name={
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "chevron-back-outline"
                   : "chevron-forward-outline"
               }
@@ -224,33 +230,31 @@ export default function Password({ navigation, route }) {
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 27,
                   margin: 20,
                   marginTop: 0,
-                  marginBottom:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+                  marginBottom: i18n.language.split("-")[0] === "en" ? 20 : 10,
                   width: "100%",
                   textAlign: "center",
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 }}
               >
-                {i18n.t("name")}
+                {i18n.language.split("-")[0] === "en"
+                  ? "Enter Password"
+                  : "ادخل رقم سري"}
+                ;
               </Text>
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
-                  fontSize:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 18,
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
+                  fontSize: i18n.language.split("-")[0] === "en" ? 16 : 18,
                   margin: 20,
                   marginTop: 0,
-                  marginBottom:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+                  marginBottom: i18n.language.split("-")[0] === "en" ? 20 : 10,
                   width: "100%",
                   textAlign: "center",
                   lineHeight: 23,
@@ -259,7 +263,9 @@ export default function Password({ navigation, route }) {
                   paddingTop: 3,
                 }}
               >
-                {i18n.t("description")}
+                {i18n.language.split("-")[0] === "en"
+                  ? "Choose a new password for your account\n (Must pass the tests below)"
+                  : "اختر رقم سري لحسابك \n(يجب ان ينجح في الاختبارات في الاسفل)"}
               </Text>
 
               <View
@@ -300,7 +306,7 @@ export default function Password({ navigation, route }) {
                     onSubmitEditing={() => {
                       checkValidation === false
                         ? navigation.navigate("MyImage", { itemId: user })
-                        : toggleAlertShowInvalidPassword()
+                        : toggleAlertShowInvalidPassword();
                     }}
                   />
                   <Ionicons
@@ -320,7 +326,7 @@ export default function Password({ navigation, route }) {
                     <View
                       style={{
                         flexDirection:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "row"
                             : "row-reverse",
                         paddingBottom: 5,
@@ -330,11 +336,9 @@ export default function Password({ navigation, route }) {
                       <Text
                         style={{
                           marginTop:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? 3
-                              : -3,
+                            i18n.language.split("-")[0] === "en" ? 3 : -3,
                           fontFamily:
-                            i18n.locale === "en-US" || i18n.locale === "en"
+                            i18n.language.split("-")[0] === "en"
                               ? "Ubuntu"
                               : "Noto",
                           marginLeft: 10,
@@ -345,14 +349,16 @@ export default function Password({ navigation, route }) {
                           opacity: 0.8,
                         }}
                       >
-                        {i18n.t("lower")}
+                        {i18n.language.split("-")[0] === "en"
+                          ? "At least 1 lowercase character"
+                          : "١ حرف صغير على الاقل"}
                       </Text>
                     </View>
                   ) : (
                     <View
                       style={{
                         flexDirection:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "row"
                             : "row-reverse",
                         paddingBottom: 5,
@@ -366,11 +372,9 @@ export default function Password({ navigation, route }) {
                       <Text
                         style={{
                           marginTop:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? 3
-                              : -3,
+                            i18n.language.split("-")[0] === "en" ? 3 : -3,
                           fontFamily:
-                            i18n.locale === "en-US" || i18n.locale === "en"
+                            i18n.language.split("-")[0] === "en"
                               ? "Ubuntu"
                               : "Noto",
                           marginLeft: 10,
@@ -382,7 +386,9 @@ export default function Password({ navigation, route }) {
                           opacity: 0.8,
                         }}
                       >
-                        {i18n.t("lower")}
+                        {i18n.language.split("-")[0] === "en"
+                          ? "At least 1 lowercase character"
+                          : "١ حرف صغير على الاقل"}
                       </Text>
                     </View>
                   )}
@@ -390,7 +396,7 @@ export default function Password({ navigation, route }) {
                     <View
                       style={{
                         flexDirection:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "row"
                             : "row-reverse",
                         paddingBottom: 5,
@@ -400,11 +406,9 @@ export default function Password({ navigation, route }) {
                       <Text
                         style={{
                           marginTop:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? 3
-                              : -3,
+                            i18n.language.split("-")[0] === "en" ? 3 : -3,
                           fontFamily:
-                            i18n.locale === "en-US" || i18n.locale === "en"
+                            i18n.language.split("-")[0] === "en"
                               ? "Ubuntu"
                               : "Noto",
                           marginLeft: 10,
@@ -415,14 +419,16 @@ export default function Password({ navigation, route }) {
                           opacity: 0.8,
                         }}
                       >
-                        {i18n.t("upper")}
+                        {i18n.language.split("-")[0] === "en"
+                          ? "At least 1 uppercase character"
+                          : "١ حرف كبير على الاقل"}
                       </Text>
                     </View>
                   ) : (
                     <View
                       style={{
                         flexDirection:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "row"
                             : "row-reverse",
                         paddingBottom: 5,
@@ -436,11 +442,9 @@ export default function Password({ navigation, route }) {
                       <Text
                         style={{
                           marginTop:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? 3
-                              : -3,
+                            i18n.language.split("-")[0] === "en" ? 3 : -3,
                           fontFamily:
-                            i18n.locale === "en-US" || i18n.locale === "en"
+                            i18n.language.split("-")[0] === "en"
                               ? "Ubuntu"
                               : "Noto",
                           marginLeft: 10,
@@ -452,7 +456,9 @@ export default function Password({ navigation, route }) {
                           opacity: 0.8,
                         }}
                       >
-                        {i18n.t("upper")}
+                        {i18n.language.split("-")[0] === "en"
+                          ? "At least 1 uppercase character"
+                          : "١ حرف كبير على الاقل"}
                       </Text>
                     </View>
                   )}
@@ -460,7 +466,7 @@ export default function Password({ navigation, route }) {
                     <View
                       style={{
                         flexDirection:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "row"
                             : "row-reverse",
                         paddingBottom: 5,
@@ -470,11 +476,9 @@ export default function Password({ navigation, route }) {
                       <Text
                         style={{
                           marginTop:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? 3
-                              : -3,
+                            i18n.language.split("-")[0] === "en" ? 3 : -3,
                           fontFamily:
-                            i18n.locale === "en-US" || i18n.locale === "en"
+                            i18n.language.split("-")[0] === "en"
                               ? "Ubuntu"
                               : "Noto",
                           marginLeft: 10,
@@ -485,14 +489,16 @@ export default function Password({ navigation, route }) {
                           opacity: 0.8,
                         }}
                       >
-                        {i18n.t("number")}
+                        {i18n.language.split("-")[0] === "en"
+                          ? "At least 1 number"
+                          : "١ رقم على الاقل"}
                       </Text>
                     </View>
                   ) : (
                     <View
                       style={{
                         flexDirection:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "row"
                             : "row-reverse",
                         paddingBottom: 5,
@@ -506,11 +512,9 @@ export default function Password({ navigation, route }) {
                       <Text
                         style={{
                           marginTop:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? 3
-                              : -3,
+                            i18n.language.split("-")[0] === "en" ? 3 : -3,
                           fontFamily:
-                            i18n.locale === "en-US" || i18n.locale === "en"
+                            i18n.language.split("-")[0] === "en"
                               ? "Ubuntu"
                               : "Noto",
                           marginLeft: 10,
@@ -522,7 +526,9 @@ export default function Password({ navigation, route }) {
                           opacity: 0.8,
                         }}
                       >
-                        {i18n.t("number")}
+                        {i18n.language.split("-")[0] === "en"
+                          ? "At least 1 number"
+                          : "١ رقم على الاقل"}
                       </Text>
                     </View>
                   )}
@@ -530,7 +536,7 @@ export default function Password({ navigation, route }) {
                     <View
                       style={{
                         flexDirection:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "row"
                             : "row-reverse",
                         paddingBottom: 5,
@@ -540,11 +546,9 @@ export default function Password({ navigation, route }) {
                       <Text
                         style={{
                           marginTop:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? 3
-                              : -3,
+                            i18n.language.split("-")[0] === "en" ? 3 : -3,
                           fontFamily:
-                            i18n.locale === "en-US" || i18n.locale === "en"
+                            i18n.language.split("-")[0] === "en"
                               ? "Ubuntu"
                               : "Noto",
                           marginLeft: 10,
@@ -555,14 +559,16 @@ export default function Password({ navigation, route }) {
                           opacity: 0.8,
                         }}
                       >
-                        {i18n.t("special")}
+                        {i18n.language.split("-")[0] === "en"
+                          ? "At least 1 special character (!@#$%^&*=)"
+                          : "١ رمز على الاقل (!@#$%^&*=)"}
                       </Text>
                     </View>
                   ) : (
                     <View
                       style={{
                         flexDirection:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "row"
                             : "row-reverse",
                         paddingBottom: 5,
@@ -576,11 +582,9 @@ export default function Password({ navigation, route }) {
                       <Text
                         style={{
                           marginTop:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? 3
-                              : -3,
+                            i18n.language.split("-")[0] === "en" ? 3 : -3,
                           fontFamily:
-                            i18n.locale === "en-US" || i18n.locale === "en"
+                            i18n.language.split("-")[0] === "en"
                               ? "Ubuntu"
                               : "Noto",
                           marginLeft: 10,
@@ -592,7 +596,9 @@ export default function Password({ navigation, route }) {
                           opacity: 0.8,
                         }}
                       >
-                        {i18n.t("special")}
+                        {i18n.language.split("-")[0] === "en"
+                          ? "At least 1 special character (!@#$%^&*=)"
+                          : "١ رمز على الاقل (!@#$%^&*=)"}
                       </Text>
                     </View>
                   )}
@@ -600,7 +606,7 @@ export default function Password({ navigation, route }) {
                     <View
                       style={{
                         flexDirection:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "row"
                             : "row-reverse",
                         paddingBottom: 5,
@@ -610,11 +616,9 @@ export default function Password({ navigation, route }) {
                       <Text
                         style={{
                           marginTop:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? 3
-                              : -3,
+                            i18n.language.split("-")[0] === "en" ? 3 : -3,
                           fontFamily:
-                            i18n.locale === "en-US" || i18n.locale === "en"
+                            i18n.language.split("-")[0] === "en"
                               ? "Ubuntu"
                               : "Noto",
                           marginLeft: 10,
@@ -625,14 +629,16 @@ export default function Password({ navigation, route }) {
                           opacity: 0.8,
                         }}
                       >
-                        {i18n.t("eight")}
+                        {i18n.language.split("-")[0] === "en"
+                          ? "At least 8 characters"
+                          : "٨ احرف على الاقل"}
                       </Text>
                     </View>
                   ) : (
                     <View
                       style={{
                         flexDirection:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "row"
                             : "row-reverse",
                         paddingBottom: 5,
@@ -646,11 +652,9 @@ export default function Password({ navigation, route }) {
                       <Text
                         style={{
                           marginTop:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? 3
-                              : -3,
+                            i18n.language.split("-")[0] === "en" ? 3 : -3,
                           fontFamily:
-                            i18n.locale === "en-US" || i18n.locale === "en"
+                            i18n.language.split("-")[0] === "en"
                               ? "Ubuntu"
                               : "Noto",
                           marginLeft: 10,
@@ -662,7 +666,9 @@ export default function Password({ navigation, route }) {
                           opacity: 0.8,
                         }}
                       >
-                        {i18n.t("eight")}
+                        {i18n.language.split("-")[0] === "en"
+                          ? "At least 8 characters"
+                          : "٨ احرف على الاقل"}
                       </Text>
                     </View>
                   )}
@@ -677,7 +683,11 @@ export default function Password({ navigation, route }) {
                   {checkValidation === true ? (
                     <View style={styles.buttonx}>
                       <Button
-                        title={i18n.t("next")}
+                        title={
+                          i18n.language.split("-")[0] === "en"
+                            ? "Next"
+                            : "التالي"
+                        }
                         color="white"
                         disabled={checkValidation}
                         onPress={() => {
@@ -688,7 +698,11 @@ export default function Password({ navigation, route }) {
                   ) : (
                     <View style={styles.button}>
                       <Button
-                        title={i18n.t("next")}
+                        title={
+                          i18n.language.split("-")[0] === "en"
+                            ? "Next"
+                            : "التالي"
+                        }
                         color="white"
                         disabled={checkValidation}
                         onPress={() => {
@@ -739,7 +753,7 @@ export default function Password({ navigation, route }) {
               style={{
                 marginBottom: 10,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 width: "90%",
@@ -747,7 +761,7 @@ export default function Password({ navigation, route }) {
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Invalid Password"
                 : "كلمة سر غير صالحة"}
             </Text>
@@ -758,13 +772,11 @@ export default function Password({ navigation, route }) {
                 textAlign: "center",
                 fontSize: 17,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 lineHeight: 30,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "please try again"
                 : "يرجى المحاولة مرة أخرى"}
             </Text>
@@ -783,13 +795,13 @@ export default function Password({ navigation, route }) {
                   textAlign: "center",
                   color: "#f1f1f1",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 15,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
+                {i18n.language.split("-")[0] === "en"
                   ? "try again"
                   : "حاول مرة اخرى"}
               </Text>

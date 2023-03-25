@@ -13,7 +13,8 @@ import * as ImagePicker from "expo-image-picker";
 import { useFonts } from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import * as Localization from "expo-localization";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 export default function AppleImage({ navigation, route }) {
@@ -21,24 +22,21 @@ export default function AppleImage({ navigation, route }) {
   const translations = {
     en: {
       image: "Choose Profile Image",
-      description: "Add profile image so your friends know your reviews",
-      pick: "Pick Image",
-      skip: "Skip",
-      done: "Done",
-      choose: "Choose another image",
     },
     ar: {
       image: "اختر صورة لحسابك",
-      description: "اختر صورة لحسابك، ليرى اصدقائك تقاييمك",
-      pick: "اختر صورة",
-      skip: "تخطى",
-      done: "تم",
-      choose: "اختر صورة اخرى",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   const [image, setImage] = useState(null);
   const [toggle, setToggle] = useState(false);
   const { itemId } = route.params;
@@ -96,38 +94,39 @@ export default function AppleImage({ navigation, route }) {
     setToggle(true);
   };
   const handleSubmit = () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       authStore.register(user);
     } catch (error) {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
 
-  if(isLoading) return(
-    <View
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        width: "100%",
-        height: "100%",
-        alignSelf: "center",
-        alignContent: "center",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-      }}
-    >
-      <Image
+  if (isLoading)
+    return (
+      <View
         style={{
-          width: 90,
-          height: 102,
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          height: "100%",
           alignSelf: "center",
+          alignContent: "center",
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
         }}
-        source={require("../../assets/Loading.gif")}
-      ></Image>
-    </View>
-  )
+      >
+        <Image
+          style={{
+            width: 90,
+            height: 102,
+            alignSelf: "center",
+          }}
+          source={require("../../assets/Loading.gif")}
+        ></Image>
+      </View>
+    );
   return (
     <View
       style={{
@@ -149,13 +148,11 @@ export default function AppleImage({ navigation, route }) {
           marginLeft: 20,
           paddingRight: 20,
           alignSelf:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "flex-start"
-              : "flex-end",
+            i18n.language.split("-")[0] === "en" ? "flex-start" : "flex-end",
           color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}
         name={
-          i18n.locale === "en-US" || i18n.locale === "en"
+          i18n.language.split("-")[0] === "en"
             ? "chevron-back-outline"
             : "chevron-forward-outline"
         }
@@ -173,12 +170,9 @@ export default function AppleImage({ navigation, route }) {
         <Text
           style={{
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "UbuntuBold"
-                : "NotoBold",
-            fontSize: i18n.locale === "en-US" || i18n.locale === "en" ? 28 : 30,
-            marginBottom:
-              i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+              i18n.language.split("-")[0] === "en" ? "UbuntuBold" : "NotoBold",
+            fontSize: i18n.language.split("-")[0] === "en" ? 28 : 30,
+            marginBottom: i18n.language.split("-")[0] === "en" ? 20 : 10,
             margin: 20,
             marginTop: 0,
             width: "100%",
@@ -186,20 +180,19 @@ export default function AppleImage({ navigation, route }) {
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
-          {i18n.t("image")}
+          {i18n.language.split("-")[0] === "en"
+            ? "Choose profile image"
+            : "اختر صورة حسابك"}
         </Text>
         <Text
           style={{
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
-            fontSize: i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 18,
+              i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
+            fontSize: i18n.language.split("-")[0] === "en" ? 16 : 18,
             paddingTop: 3,
             margin: 20,
             marginTop: 0,
-            marginBottom:
-              i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+            marginBottom: i18n.language.split("-")[0] === "en" ? 20 : 10,
             width: "100%",
             textAlign: "center",
             color: "#64666b",
@@ -208,7 +201,9 @@ export default function AppleImage({ navigation, route }) {
             opacity: 0.8,
           }}
         >
-          {i18n.t("description")}
+          {i18n.language.split("-")[0] === "en"
+            ? "Add profile image so your friends know your reviews"
+            : "اختر صورة لحسابك، ليرى اصدقائك تقاييمك"}
         </Text>
         <View
           style={{
@@ -265,7 +260,11 @@ export default function AppleImage({ navigation, route }) {
               >
                 <Button
                   color="#e52b51"
-                  title={i18n.t("choose")}
+                  title={
+                    i18n.language.split("-")[0] === "en"
+                      ? "Choose another image"
+                      : "اختر صورةاخرى"
+                  }
                   onPress={pickImage}
                 />
               </View>
@@ -281,7 +280,11 @@ export default function AppleImage({ navigation, route }) {
             <View style={styles.button}>
               <Button
                 onPress={pickImage}
-                title={i18n.t("pick")}
+                title={
+                  i18n.language.split("-")[0] === "en"
+                    ? "Pick image"
+                    : "اختر صورة"
+                }
                 color="white"
               />
             </View>
@@ -299,7 +302,7 @@ export default function AppleImage({ navigation, route }) {
               }}
             >
               <Button
-                title={i18n.t("done")}
+                title={i18n.language.split("-")[0] === "en" ? "Done" : "تم"}
                 color="white"
                 onPress={handleSubmit}
               />
@@ -308,7 +311,7 @@ export default function AppleImage({ navigation, route }) {
           {!toggle && (
             <View>
               <Button
-                title={i18n.t("skip")}
+                title={i18n.language.split("-")[0] === "en" ? "Skip" : "تخطى"}
                 color="#e52b51"
                 onPress={handleSubmit}
               />

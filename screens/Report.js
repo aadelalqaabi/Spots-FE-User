@@ -14,7 +14,8 @@ import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import * as Localization from "expo-localization";
 import { Ionicons } from "@expo/vector-icons";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import { useFonts } from "expo-font";
 import TextInput from "react-native-text-input-interactive";
 import Toast from "react-native-toast-message";
@@ -41,9 +42,16 @@ export default function Report() {
       Mssg: "Message",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../assets/fonts/Ubuntu.ttf"),
@@ -62,7 +70,7 @@ export default function Report() {
     Toast.show({
       type: "success",
       text1:
-        i18n.locale === "en-US" || i18n.locale === "en"
+        i18n.language.split("-")[0] === "en"
           ? "Problem Reported 👍"
           : "👍 تم الابلاغ عن المشكلة",
       position: "bottom",
@@ -100,7 +108,7 @@ export default function Report() {
               style={{
                 zIndex: 99,
                 alignSelf:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "flex-start"
                     : "flex-end",
                 position: "absolute",
@@ -115,7 +123,7 @@ export default function Report() {
                   fontSize: 32,
                 }}
                 name={
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "chevron-back-outline"
                     : "chevron-forward-outline"
                 }
@@ -127,13 +135,13 @@ export default function Report() {
                 alignSelf: "center",
                 fontSize: 28,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
             >
-              {i18n.t("Report")}
+              {i18n.language.split("-")[0] === "en"
+                ? "Report a problem"
+                : "ابلاغ عن مشكلة"}
             </Text>
           </View>
           <View
@@ -155,9 +163,7 @@ export default function Report() {
                   marginBottom: 20,
                   padding: 14,
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                   backgroundColor: "white",
                   shadowColor: "#000",
                   shadowOffset: {
@@ -168,9 +174,7 @@ export default function Report() {
                   shadowRadius: 1.41,
                   elevation: 2,
                   textAlign:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "left"
-                      : "right",
+                    i18n.language.split("-")[0] === "en" ? "left" : "right",
                 }}
                 mainColor={"blue"}
                 label="Password"
@@ -178,9 +182,7 @@ export default function Report() {
                   handleChange("title", text);
                 }}
                 placeholder={
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Title"
-                    : "العنوان"
+                  i18n.language.split("-")[0] === "en" ? "Title" : "العنوان"
                 }
                 placeholderTextColor={"grey"}
                 keyboardType="web-search"
@@ -194,9 +196,7 @@ export default function Report() {
                   padding: 10,
                   paddingTop: 15,
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                   backgroundColor: "white",
                   shadowColor: "#000",
                   shadowOffset: {
@@ -207,9 +207,7 @@ export default function Report() {
                   shadowRadius: 1.41,
                   elevation: 2,
                   textAlign:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "left"
-                      : "right",
+                    i18n.language.split("-")[0] === "en" ? "left" : "right",
                 }}
                 multiline
                 label="Password"
@@ -217,9 +215,7 @@ export default function Report() {
                   handleChange("mssg", text);
                 }}
                 placeholder={
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Message"
-                    : "الرسالة"
+                  i18n.language.split("-")[0] === "en" ? "Message" : "الرسالة"
                 }
                 placeholderTextColor={"grey"}
               />
@@ -237,7 +233,7 @@ export default function Report() {
                 <Button
                   color="white"
                   title={
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "Report Problem"
                       : "أبلغ عن المشكلة"
                   }

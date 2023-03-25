@@ -13,7 +13,8 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { useFonts } from "expo-font";
 import moment from "moment";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import "moment/locale/ar";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
@@ -34,9 +35,16 @@ export default function BookingDetails({ navigation, route }) {
       payment: "اذهب الى الدفع",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
@@ -55,7 +63,7 @@ export default function BookingDetails({ navigation, route }) {
       setQuantity(quantity + 1);
       setCheckSeats(quantity + 1);
     } else {
-      i18n.locale === "en-US" || i18n.locale === "en"
+      i18n.language.split("-")[0] === "en"
         ? Alert.alert("You exceeded the available amount of seats", "", ["ok"])
         : Alert.alert("لقد تجاوزت عدد المقاعد المتوفرة", "", [
             { text: "حَسَنًا" },
@@ -108,21 +116,18 @@ export default function BookingDetails({ navigation, route }) {
           <Text
             style={{
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "UbuntuBold"
                   : "NotoBold",
               alignSelf: "center",
               fontSize: 30,
               textAlign: "center",
               marginTop: 10,
-              marginBottom:
-                i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+              marginBottom: i18n.language.split("-")[0] === "en" ? 20 : 10,
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
           >
-            {i18n.locale === "en-US" || i18n.locale === "en"
-              ? spot.name
-              : spot.nameAr}
+            {i18n.language.split("-")[0] === "en" ? spot.name : spot.nameAr}
           </Text>
           <View
             style={{
@@ -132,7 +137,7 @@ export default function BookingDetails({ navigation, route }) {
               alignItems: "center",
               justifyContent: "space-evenly",
               alignSelf:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "flex-start"
                   : "flex-end",
             }}
@@ -141,9 +146,7 @@ export default function BookingDetails({ navigation, route }) {
               style={{
                 display: "flex",
                 flexDirection:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "row"
-                    : "row-reverse",
+                  i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
                 alignContent: "center",
                 alignItems: "center",
                 alignSelf: "flex-start",
@@ -167,22 +170,18 @@ export default function BookingDetails({ navigation, route }) {
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? date
-                  : dateAr}
+                {i18n.language.split("-")[0] === "en" ? date : dateAr}
               </Text>
             </View>
             <View
               style={{
                 display: "flex",
                 flexDirection:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "row"
-                    : "row-reverse",
+                  i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
                 alignContent: "center",
                 alignItems: "center",
                 alignSelf:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "flex-start"
                     : "flex-end",
                 marginBottom: 10,
@@ -213,17 +212,14 @@ export default function BookingDetails({ navigation, route }) {
             style={{
               display: "flex",
               flexDirection:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "row"
-                  : "row-reverse",
+                i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
               alignContent: "center",
               alignItems: "center",
               alignSelf:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "flex-start"
                   : "flex-end",
-              marginBottom:
-                i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
+              marginBottom: i18n.language.split("-")[0] === "en" ? 10 : 0,
             }}
           >
             <Ionicons
@@ -242,7 +238,7 @@ export default function BookingDetails({ navigation, route }) {
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? spot.price * quantity + " KD"
                 : spot.price * quantity + " دك"}
             </Text>
@@ -302,20 +298,17 @@ export default function BookingDetails({ navigation, route }) {
             fontSize: 25,
             margin: 30,
             marginTop: 25,
-            marginBottom:
-              i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
+            marginBottom: i18n.language.split("-")[0] === "en" ? 10 : 0,
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "UbuntuBold"
-                : "NotoBold",
+              i18n.language.split("-")[0] === "en" ? "UbuntuBold" : "NotoBold",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             alignSelf:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "flex-start"
-                : "flex-end",
+              i18n.language.split("-")[0] === "en" ? "flex-start" : "flex-end",
           }}
         >
-          {i18n.t("detail")}
+          {i18n.language.split("-")[0] === "en"
+            ? "Dest Details"
+            : "تفاصيل الديست"}
         </Text>
         <Text
           style={{
@@ -324,20 +317,13 @@ export default function BookingDetails({ navigation, route }) {
             marginTop: 5,
             marginBottom: 10,
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
+              i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
             lineHeight: 25,
-            textAlign:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "left"
-                : "right",
+            textAlign: i18n.language.split("-")[0] === "en" ? "left" : "right",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
-          {i18n.locale === "en-US" || i18n.locale === "en"
-            ? spot.details
-            : spot.detailsAr}
+          {i18n.language.split("-")[0] === "en" ? spot.details : spot.detailsAr}
         </Text>
       </ScrollView>
       <TouchableOpacity
@@ -377,12 +363,12 @@ export default function BookingDetails({ navigation, route }) {
             alignSelf: "center",
             marginLeft: 10,
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "UbuntuBold"
-                : "NotoBold",
+              i18n.language.split("-")[0] === "en" ? "UbuntuBold" : "NotoBold",
           }}
         >
-          {i18n.t("payment")}
+          {i18n.language.split("-")[0] === "en"
+            ? "Proceed to payment"
+            : "اذهب الى الدفع"}
         </Text>
       </TouchableOpacity>
     </View>

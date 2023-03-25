@@ -7,13 +7,14 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
-  Modal
+  Modal,
 } from "react-native";
 import { useCallback, useState } from "react";
 import authStore from "../../stores/authStore";
 import React from "react";
 import { useFonts } from "expo-font";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import TextInput from "react-native-text-input-interactive";
 import { Ionicons } from "@expo/vector-icons";
@@ -40,9 +41,15 @@ export default function Login() {
       title: "تسجيل دخول",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 
   const [user, setUser] = useState({
     email: "",
@@ -60,9 +67,9 @@ export default function Login() {
 
   const handleSubmit = async (event) => {
     const status = await authStore.login(user);
-    console.log('status', status)
-    if(status === "not logged in") {
-      toggleAlertShowInvalidInfo()
+    console.log("status", status);
+    if (status === "not logged in") {
+      toggleAlertShowInvalidInfo();
     }
   };
   let [fontsLoaded] = useFonts({
@@ -99,7 +106,7 @@ export default function Login() {
                 marginLeft: -10,
                 paddingRight: -10,
                 alignSelf:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "flex-start"
                     : "flex-end",
               }}
@@ -111,7 +118,7 @@ export default function Login() {
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 }}
                 name={
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "chevron-back-outline"
                     : "chevron-forward-outline"
                 }
@@ -119,24 +126,20 @@ export default function Login() {
             </TouchableOpacity>
             <Text
               style={{
-                fontSize:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 40 : 30,
+                fontSize: i18n.language.split("-")[0] === "en" ? 40 : 30,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 textAlign:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "left"
-                    : "right",
+                  i18n.language.split("-")[0] === "en" ? "left" : "right",
                 color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
                 margin: 0,
                 marginTop: 20,
-                marginBottom:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 25,
+                marginBottom: i18n.language.split("-")[0] === "en" ? 30 : 25,
               }}
             >
-              {i18n.t("title")}
+              {i18n.language.split("-")[0] === "en" ? "Login" : "تسجيل دخول"}
             </Text>
             <View style={{ display: "flex", width: "100%" }}>
               <TextInput
@@ -146,13 +149,9 @@ export default function Login() {
                   marginBottom: 20,
                   padding: 10,
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                   textAlign:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "left"
-                      : "right",
+                    i18n.language.split("-")[0] === "en" ? "left" : "right",
                   backgroundColor: "white",
                   shadowColor: "#000",
                   shadowOffset: {
@@ -169,7 +168,7 @@ export default function Login() {
                   handleChange("email", text);
                 }}
                 placeholder={
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "Email"
                     : "البريد الالكتروني"
                 }
@@ -183,13 +182,9 @@ export default function Login() {
                   marginBottom: 30,
                   padding: 10,
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                   textAlign:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "left"
-                      : "right",
+                    i18n.language.split("-")[0] === "en" ? "left" : "right",
                   backgroundColor: "white",
                   shadowColor: "#000",
                   shadowOffset: {
@@ -206,7 +201,7 @@ export default function Login() {
                   handleChange("password", text);
                 }}
                 placeholder={
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "Password"
                     : "كلمة السر"
                 }
@@ -223,17 +218,17 @@ export default function Login() {
                     color: "#e52b51",
                     marginTop: -16,
                     alignSelf:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "flex-start"
                         : "flex-end",
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 15,
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
+                  {i18n.language.split("-")[0] === "en"
                     ? " Forgot password?"
                     : "نسيت كلمة السر؟"}
                 </Text>
@@ -243,10 +238,9 @@ export default function Login() {
                   zIndex: 99,
                   position: "absolute",
                   margin: 82,
-                  marginLeft:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 82 : 20,
+                  marginLeft: i18n.language.split("-")[0] === "en" ? 82 : 20,
                   alignSelf:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "flex-end"
                       : "flex-start",
                 }}
@@ -275,7 +269,7 @@ export default function Login() {
                 <Text
                   style={{
                     paddingVertical:
-                      i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 5,
+                      i18n.language.split("-")[0] === "en" ? 10 : 5,
                     borderRadius: 15,
                     elevation: 3,
                     color: "#f1f1f1",
@@ -283,12 +277,14 @@ export default function Login() {
                     fontWeight: "800",
                     alignSelf: "center",
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                   }}
                 >
-                  {i18n.t("login")}
+                  {i18n.language.split("-")[0] === "en"
+                    ? "Login"
+                    : "تسجيل الدخول"}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -299,9 +295,7 @@ export default function Login() {
                 alignContent: "center",
                 alignItems: "center",
                 flexDirection:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "row"
-                    : "row-reverse",
+                  i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
                 marginTop: 20,
               }}
             >
@@ -309,16 +303,16 @@ export default function Login() {
                 style={{
                   color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                   fontSize: 18,
                   paddingRight: 8,
                   paddingLeft: 8,
                   opacity: 0.8,
                 }}
               >
-                {i18n.t("new")}
+                {i18n.language.split("-")[0] === "en"
+                  ? "New here?"
+                  : "جديد هنا؟"}
               </Text>
               <TouchableOpacity
                 onPress={() => {
@@ -330,13 +324,15 @@ export default function Login() {
                   style={{
                     color: "#e52b51",
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 20,
                   }}
                 >
-                  {i18n.t("register")}
+                  {i18n.language.split("-")[0] === "en"
+                    ? "Register now"
+                    : "سجل الآن"}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -379,15 +375,15 @@ export default function Login() {
               style={{
                 marginBottom: 10,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 width: "90%",
                 textAlign: "center",
-                fontSize: i18n.locale === "en-US" || i18n.locale === "en" ? 24 : 20,
+                fontSize: i18n.language.split("-")[0] === "en" ? 24 : 20,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Wrong login info"
                 : "معلومات تسجيل الدخول خاطئة"}
             </Text>
@@ -398,13 +394,11 @@ export default function Login() {
                 textAlign: "center",
                 fontSize: 17,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 lineHeight: 30,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Wrong email or password"
                 : "بريد الكتروني او كلمه سر خاطئه"}
             </Text>
@@ -423,13 +417,13 @@ export default function Login() {
                   textAlign: "center",
                   color: "#f1f1f1",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 15,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
+                {i18n.language.split("-")[0] === "en"
                   ? "try again"
                   : "حاول مرة اخرى"}
               </Text>

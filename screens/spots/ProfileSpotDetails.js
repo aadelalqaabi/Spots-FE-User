@@ -30,7 +30,8 @@ import pointStore from "../../stores/pointStore";
 import authStore from "../../stores/authStore";
 import Modal from "react-native-modal";
 import { observer } from "mobx-react";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 import Info from "./Info";
@@ -55,9 +56,16 @@ function ProfileSpotDetails({ route }) {
       explore: "اكتشف",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = React.useState(false);
   const [isImageLoading, setIsImageLoading] = useState(true);
@@ -154,9 +162,7 @@ function ProfileSpotDetails({ route }) {
             style={{
               display: "flex",
               flexDirection:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "row"
-                  : "row-reverse",
+                i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
               alignContent: "center",
               alignItems: "center",
               justifyContent: "space-evenly",
@@ -177,7 +183,7 @@ function ProfileSpotDetails({ route }) {
                   margin: 15,
                 }}
                 name={
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "chevron-back-outline"
                     : "chevron-forward-outline"
                 }
@@ -189,16 +195,12 @@ function ProfileSpotDetails({ route }) {
                 alignSelf: "center",
                 textAlign: "center",
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 width: "70%",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
-                ? spot.name
-                : spot.nameAr}
+              {i18n.language.split("-")[0] === "en" ? spot.name : spot.nameAr}
             </Text>
             <TouchableOpacity
               onPress={() => {
@@ -238,11 +240,9 @@ function ProfileSpotDetails({ route }) {
                 bounce={false}
                 repeatSpacer={0}
                 shouldAnimateTreshold={40}
-                isRTL={
-                  i18n.locale === "en-US" || i18n.locale === "en" ? false : true
-                }
+                isRTL={i18n.language.split("-")[0] === "en" ? false : true}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
+                {i18n.language.split("-")[0] === "en"
                   ? spot.announcementEn
                   : spot.announcementAr}
               </TextTicker>
@@ -374,7 +374,7 @@ function ProfileSpotDetails({ route }) {
                   marginBottom: 10,
                   display: "flex",
                   flexDirection:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "row"
                       : "row-reverse",
                   alignItems: "center",
@@ -386,50 +386,36 @@ function ProfileSpotDetails({ route }) {
                   <Text
                     style={{
                       fontFamily:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "Ubuntu"
                           : "Noto",
                       fontSize: 20,
                       color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                       opacity: 0.8,
                       textAlign:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "left"
-                          : "right",
+                        i18n.language.split("-")[0] === "en" ? "left" : "right",
                       marginBottom:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? 0
-                          : -10,
-                      marginTop:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? 0
-                          : -10,
+                        i18n.language.split("-")[0] === "en" ? 0 : -10,
+                      marginTop: i18n.language.split("-")[0] === "en" ? 0 : -10,
                     }}
                   >
-                    {i18n.locale === "en-US" || i18n.locale === "en"
+                    {i18n.language.split("-")[0] === "en"
                       ? "My Points"
                       : "نقاطي"}
                   </Text>
                   <Text
                     style={{
                       fontFamily:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "UbuntuBold"
                           : "NotoBold",
                       fontSize: 40,
                       color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                       textAlign:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "left"
-                          : "right",
+                        i18n.language.split("-")[0] === "en" ? "left" : "right",
                       marginBottom:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? 20
-                          : 0,
-                      marginTop:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? 15
-                          : 0,
+                        i18n.language.split("-")[0] === "en" ? 20 : 0,
+                      marginTop: i18n.language.split("-")[0] === "en" ? 15 : 0,
                     }}
                   >
                     {point?.amount}
@@ -437,23 +423,18 @@ function ProfileSpotDetails({ route }) {
                   <Text
                     style={{
                       fontFamily:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "Ubuntu"
                           : "Noto",
                       fontSize: 15,
                       color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                       opacity: 0.8,
                       textAlign:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "left"
-                          : "right",
-                      marginTop:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? 0
-                          : -10,
+                        i18n.language.split("-")[0] === "en" ? "left" : "right",
+                      marginTop: i18n.language.split("-")[0] === "en" ? 0 : -10,
                     }}
                   >
-                    {i18n.locale === "en-US" || i18n.locale === "en"
+                    {i18n.language.split("-")[0] === "en"
                       ? "Valid during Dest's date only"
                       : "صالح لمدة صلاحية هذه الوجهه فقط"}
                   </Text>
@@ -475,7 +456,7 @@ function ProfileSpotDetails({ route }) {
                     justifyContent: "center",
                     alignItems: "center",
                     flexDirection:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "row"
                         : "row-reverse",
                     shadowOpacity: 0.2,
@@ -504,17 +485,12 @@ function ProfileSpotDetails({ route }) {
                       color: "#e52b51",
                       fontSize: 17,
                       fontFamily: "Ubuntu",
-                      marginLeft:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? 10
-                          : 0,
+                      marginLeft: i18n.language.split("-")[0] === "en" ? 10 : 0,
                       marginRight:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? 0
-                          : 10,
+                        i18n.language.split("-")[0] === "en" ? 0 : 10,
                     }}
                   >
-                    {i18n.locale === "en-US" || i18n.locale === "en"
+                    {i18n.language.split("-")[0] === "en"
                       ? "Scan QR"
                       : "امسح Qr"}
                   </Text>
@@ -524,7 +500,7 @@ function ProfileSpotDetails({ route }) {
                 style={{
                   display: "flex",
                   flexDirection:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "row"
                       : "row-reverse",
                   alignContent: "center",
@@ -539,14 +515,14 @@ function ProfileSpotDetails({ route }) {
                 <Text
                   style={{
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 20,
                     color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
+                  {i18n.language.split("-")[0] === "en"
                     ? "Rewards"
                     : "المكافآت"}
                 </Text>
@@ -574,17 +550,16 @@ function ProfileSpotDetails({ route }) {
                 contentContainerStyle={{
                   backgroundColor: "transparent",
                   paddingRight: 30,
-                  paddingLeft:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 30,
+                  paddingLeft: i18n.language.split("-")[0] === "en" ? 10 : 30,
                   display: "flex",
                   flexDirection:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "row"
                       : "row-reverse",
                 }}
                 ref={scrollViewRef}
                 onContentSizeChange={() =>
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? scrollViewRef.current.scrollTo({
                         x: 0,
                         y: 0,
@@ -607,7 +582,7 @@ function ProfileSpotDetails({ route }) {
                 style={{
                   display: "flex",
                   flexDirection:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "row"
                       : "row-reverse",
                   alignContent: "center",
@@ -622,16 +597,14 @@ function ProfileSpotDetails({ route }) {
                 <Text
                   style={{
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 20,
                     color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Offers"
-                    : "العروض"}
+                  {i18n.language.split("-")[0] === "en" ? "Offers" : "العروض"}
                 </Text>
                 <TouchableOpacity
                   onPress={() =>
@@ -656,17 +629,16 @@ function ProfileSpotDetails({ route }) {
                 contentContainerStyle={{
                   backgroundColor: "transparent",
                   paddingRight: 30,
-                  paddingLeft:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 30,
+                  paddingLeft: i18n.language.split("-")[0] === "en" ? 10 : 30,
                   display: "flex",
                   flexDirection:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "row"
                       : "row-reverse",
                 }}
                 ref={scrollViewRef2}
                 onContentSizeChange={() =>
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? scrollViewRef2.current.scrollTo({
                         x: 0,
                         y: 0,
@@ -689,9 +661,7 @@ function ProfileSpotDetails({ route }) {
             style={{
               display: "flex",
               flexDirection:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "row"
-                  : "row-reverse",
+                i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
               alignContent: "center",
               alignItems: "center",
               margin: 30,
@@ -702,16 +672,14 @@ function ProfileSpotDetails({ route }) {
             <Text
               style={{
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 fontSize: 20,
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Reviews"
-                : "التقييمات"}
+              {i18n.language.split("-")[0] === "en" ? "Reviews" : "التقييمات"}
             </Text>
             <TouchableOpacity onPress={toggleModal}>
               <Text
@@ -725,7 +693,7 @@ function ProfileSpotDetails({ route }) {
                   borderRadius: 10,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
+                {i18n.language.split("-")[0] === "en"
                   ? "Add Review"
                   : "اضف تقييم"}
               </Text>
@@ -764,18 +732,16 @@ function ProfileSpotDetails({ route }) {
                       alignSelf: "center",
                       margin: 30,
                       marginBottom:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? 10
-                          : -10,
+                        i18n.language.split("-")[0] === "en" ? 10 : -10,
                       marginTop: 0,
                       fontSize: 28,
                       fontFamily:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "Ubuntu"
                           : "Noto",
                     }}
                   >
-                    {i18n.locale === "en-US" || i18n.locale === "en"
+                    {i18n.language.split("-")[0] === "en"
                       ? "Add Your Review"
                       : "اضف تقييمك"}
                   </Text>
@@ -819,7 +785,7 @@ function ProfileSpotDetails({ route }) {
                   <Text
                     style={{
                       fontFamily:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "Ubuntu"
                           : "Noto",
                       fontSize: 20,
@@ -827,12 +793,12 @@ function ProfileSpotDetails({ route }) {
                       marginRight: 28,
                       margin: -16,
                       alignSelf:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "flex-start"
                           : "flex-end",
                     }}
                   >
-                    {i18n.locale === "en-US" || i18n.locale === "en"
+                    {i18n.language.split("-")[0] === "en"
                       ? "Enter Description"
                       : "اكتب الوصف"}
                   </Text>
@@ -861,7 +827,7 @@ function ProfileSpotDetails({ route }) {
                       width: "86%",
                       height: 50,
                       alignSelf:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "flex-end"
                           : "flex-start",
                       marginRight: 25,
@@ -878,16 +844,14 @@ function ProfileSpotDetails({ route }) {
                         color: "white",
                         fontSize: 20,
                         marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 0
-                            : -2,
+                          i18n.language.split("-")[0] === "en" ? 0 : -2,
                         fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "Ubuntu"
                             : "Noto",
                       }}
                     >
-                      {i18n.locale === "en-US" || i18n.locale === "en"
+                      {i18n.language.split("-")[0] === "en"
                         ? "Submit"
                         : "ارسال"}
                     </Text>
@@ -903,9 +867,7 @@ function ProfileSpotDetails({ route }) {
             <Text
               style={{
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 fontSize: 20,
                 marginTop: 20,
                 marginBottom: 80,
@@ -913,7 +875,7 @@ function ProfileSpotDetails({ route }) {
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? " No Reviews Yet"
                 : "لا يوجد تقييمات حتى الآن"}
             </Text>

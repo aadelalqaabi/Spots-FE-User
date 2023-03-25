@@ -4,7 +4,8 @@ import { observer } from "mobx-react";
 import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
 
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
@@ -18,9 +19,16 @@ function OfferItem({ offer }) {
       explore: "اكتشف",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   let [fontsLoaded] = useFonts({
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
@@ -50,18 +58,12 @@ function OfferItem({ offer }) {
             fontSize: 22,
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "UbuntuBold"
-                : "NotoBold",
+              i18n.language.split("-")[0] === "en" ? "UbuntuBold" : "NotoBold",
             alignSelf:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "flex-start"
-                : "flex-end",
+              i18n.language.split("-")[0] === "en" ? "flex-start" : "flex-end",
           }}
         >
-          {i18n.locale === "en-US" || i18n.locale === "en"
-            ? offer?.title
-            : offer.titleAr}
+          {i18n.language.split("-")[0] === "en" ? offer?.title : offer.titleAr}
         </Text>
       </View>
       <View style={styles.descriptionContainer}>
@@ -71,23 +73,15 @@ function OfferItem({ offer }) {
             marginRight: -20,
             fontSize: 18,
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-            fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Cabin"
-                : "Noto",
+            fontFamily: i18n.language.split("-")[0] === "en" ? "Cabin" : "Noto",
             alignSelf:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "flex-start"
-                : "flex-end",
+              i18n.language.split("-")[0] === "en" ? "flex-start" : "flex-end",
             width: 300,
             lineHeight: 25,
-            textAlign:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "left"
-                : "right",
+            textAlign: i18n.language.split("-")[0] === "en" ? "left" : "right",
           }}
         >
-          {i18n.locale === "en-US" || i18n.locale === "en"
+          {i18n.language.split("-")[0] === "en"
             ? offer?.description
             : offer?.descriptionAr}
         </Text>

@@ -1,9 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useCallback,useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import authStore from "../../stores/authStore";
-import { observer } from "mobx-react";
-import Toast from "react-native-toast-message";
-import { StatusBar } from "expo-status-bar";
 import {
   View,
   Button,
@@ -18,12 +15,11 @@ import {
   Modal,
   TouchableOpacity,
 } from "react-native";
-import { Alert } from "react-native";
 import TextInput from "react-native-text-input-interactive";
 import { Ionicons } from "@expo/vector-icons";
-import { useFonts } from "expo-font";
 
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 
 export default function ForgotPassword({ route }) {
@@ -56,15 +52,22 @@ export default function ForgotPassword({ route }) {
   }, [showNotEqualPassword]);
 
   const handleSubmit = async () => {
-    if(characterLength === false && specialCharacter === false && number === false && upperCase === false && lowerCase === false && confirmed === false) {
+    if (
+      characterLength === false &&
+      specialCharacter === false &&
+      number === false &&
+      upperCase === false &&
+      lowerCase === false &&
+      confirmed === false
+    ) {
       const status = await authStore.forgotUser(user);
-      if(status === "Passwords Don't Match") {
-        toggleAlertShowNotEqualPassword()
+      if (status === "Passwords Don't Match") {
+        toggleAlertShowNotEqualPassword();
       } else {
         navigation.navigate("SetUpAccount");
       }
     } else {
-      toggleAlertShowInvalidPassword()
+      toggleAlertShowInvalidPassword();
     }
   };
 
@@ -92,9 +95,15 @@ export default function ForgotPassword({ route }) {
       eight: "٨ احرف على الاقل",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 
   const handleChange = (name, value) => {
     const check = checkEntry(value);
@@ -198,13 +207,13 @@ export default function ForgotPassword({ route }) {
                 marginLeft: 20,
                 paddingRight: 20,
                 alignSelf:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "flex-start"
                     : "flex-end",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
               name={
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "chevron-back-outline"
                   : "chevron-forward-outline"
               }
@@ -222,33 +231,30 @@ export default function ForgotPassword({ route }) {
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 30,
                   margin: 20,
                   marginTop: 0,
-                  marginBottom:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+                  marginBottom: i18n.language.split("-")[0] === "en" ? 20 : 10,
                   width: "100%",
                   textAlign: "center",
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 }}
               >
-                {i18n.t("name")}
+                {i18n.language.split("-")[0] === "en"
+                  ? "Enter new password"
+                  : "ادخل رقم سري جديد"}
               </Text>
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
-                  fontSize:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 18,
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
+                  fontSize: i18n.language.split("-")[0] === "en" ? 16 : 18,
                   margin: 20,
                   marginTop: 0,
-                  marginBottom:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+                  marginBottom: i18n.language.split("-")[0] === "en" ? 20 : 10,
                   width: "100%",
                   textAlign: "center",
                   lineHeight: 23,
@@ -257,7 +263,9 @@ export default function ForgotPassword({ route }) {
                   paddingTop: 3,
                 }}
               >
-                {i18n.t("description")}
+                {i18n.language.split("-")[0] === "en"
+                  ? "Choose a new password for your account\n (Must pass the tests below)"
+                  : "اختر رقم سري لحسابك \n(يجب ان ينجح في الاختبارات في الاسفل)"}
               </Text>
 
               <View
@@ -278,7 +286,7 @@ export default function ForgotPassword({ route }) {
                       marginBottom: 20,
                       padding: 14,
                       fontFamily:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "Ubuntu"
                           : "Noto",
                       backgroundColor: "white",
@@ -301,7 +309,7 @@ export default function ForgotPassword({ route }) {
                     placeholderTextColor={"grey"}
                     keyboardType="web-search"
                     onSubmitEditing={() => {
-                      handleSubmit()
+                      handleSubmit();
                     }}
                   />
                   {/* && checkValidation === true */}
@@ -325,7 +333,7 @@ export default function ForgotPassword({ route }) {
                       marginBottom: 20,
                       padding: 14,
                       fontFamily:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "Ubuntu"
                           : "Noto",
                       backgroundColor: "white",
@@ -348,7 +356,7 @@ export default function ForgotPassword({ route }) {
                     placeholderTextColor={"grey"}
                     keyboardType="web-search"
                     onSubmitEditing={() => {
-                      handleSubmit()
+                      handleSubmit();
                     }}
                   />
                   <Ionicons
@@ -402,7 +410,7 @@ export default function ForgotPassword({ route }) {
                     <View
                       style={{
                         flexDirection:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "row"
                             : "row-reverse",
                         paddingBottom: 15,
@@ -412,28 +420,29 @@ export default function ForgotPassword({ route }) {
                       <Text
                         style={{
                           marginTop:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? 3
-                              : -3,
+                            i18n.language.split("-")[0] === "en" ? 3 : -3,
                           fontFamily:
-                            i18n.locale === "en-US" || i18n.locale === "en"
+                            i18n.language.split("-")[0] === "en"
                               ? "Ubuntu"
                               : "Noto",
                           marginLeft: 10,
                           marginRight: 10,
                           fontSize: 15,
-                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          color:
+                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                           opacity: 0.8,
                         }}
                       >
-                        {i18n.t("lower")}
+                        {i18n.language.split("-")[0] === "en"
+                          ? "At least 1 lowercase character"
+                          : "١ حرف صغير على الاقل"}
                       </Text>
                     </View>
                   ) : (
                     <View
                       style={{
                         flexDirection:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "row"
                             : "row-reverse",
                         paddingBottom: 15,
@@ -447,22 +456,23 @@ export default function ForgotPassword({ route }) {
                       <Text
                         style={{
                           marginTop:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? 3
-                              : -3,
+                            i18n.language.split("-")[0] === "en" ? 3 : -3,
                           fontFamily:
-                            i18n.locale === "en-US" || i18n.locale === "en"
+                            i18n.language.split("-")[0] === "en"
                               ? "Ubuntu"
                               : "Noto",
                           marginLeft: 10,
                           marginRight: 10,
                           color: "#525252",
                           fontSize: 15,
-                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          color:
+                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                           opacity: 0.8,
                         }}
                       >
-                        {i18n.t("lower")}
+                        {i18n.language.split("-")[0] === "en"
+                          ? "At least 1 lowercase character"
+                          : "١ حرف صغير على الاقل"}
                       </Text>
                     </View>
                   )}
@@ -470,7 +480,7 @@ export default function ForgotPassword({ route }) {
                     <View
                       style={{
                         flexDirection:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "row"
                             : "row-reverse",
                         paddingBottom: 15,
@@ -480,28 +490,29 @@ export default function ForgotPassword({ route }) {
                       <Text
                         style={{
                           marginTop:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? 3
-                              : -3,
+                            i18n.language.split("-")[0] === "en" ? 3 : -3,
                           fontFamily:
-                            i18n.locale === "en-US" || i18n.locale === "en"
+                            i18n.language.split("-")[0] === "en"
                               ? "Ubuntu"
                               : "Noto",
                           marginLeft: 10,
                           marginRight: 10,
                           fontSize: 15,
-                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          color:
+                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                           opacity: 0.8,
                         }}
                       >
-                        {i18n.t("upper")}
+                        {i18n.language.split("-")[0] === "en"
+                          ? "At least 1 uppercase character"
+                          : "١ حرف كبير على الاقل"}
                       </Text>
                     </View>
                   ) : (
                     <View
                       style={{
                         flexDirection:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "row"
                             : "row-reverse",
                         paddingBottom: 15,
@@ -515,22 +526,23 @@ export default function ForgotPassword({ route }) {
                       <Text
                         style={{
                           marginTop:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? 3
-                              : -3,
+                            i18n.language.split("-")[0] === "en" ? 3 : -3,
                           fontFamily:
-                            i18n.locale === "en-US" || i18n.locale === "en"
+                            i18n.language.split("-")[0] === "en"
                               ? "Ubuntu"
                               : "Noto",
                           marginLeft: 10,
                           marginRight: 10,
                           color: "#525252",
                           fontSize: 15,
-                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          color:
+                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                           opacity: 0.8,
                         }}
                       >
-                        {i18n.t("upper")}
+                        {i18n.language.split("-")[0] === "en"
+                          ? "At least 1 uppercase character"
+                          : "١ حرف كبير على الاقل"}
                       </Text>
                     </View>
                   )}
@@ -538,7 +550,7 @@ export default function ForgotPassword({ route }) {
                     <View
                       style={{
                         flexDirection:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "row"
                             : "row-reverse",
                         paddingBottom: 15,
@@ -548,28 +560,29 @@ export default function ForgotPassword({ route }) {
                       <Text
                         style={{
                           marginTop:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? 3
-                              : -3,
+                            i18n.language.split("-")[0] === "en" ? 3 : -3,
                           fontFamily:
-                            i18n.locale === "en-US" || i18n.locale === "en"
+                            i18n.language.split("-")[0] === "en"
                               ? "Ubuntu"
                               : "Noto",
                           marginLeft: 10,
                           marginRight: 10,
                           fontSize: 15,
-                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          color:
+                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                           opacity: 0.8,
                         }}
                       >
-                        {i18n.t("number")}
+                        {i18n.language.split("-")[0] === "en"
+                          ? "At least 1 number"
+                          : "١ رقم على الاقل"}
                       </Text>
                     </View>
                   ) : (
                     <View
                       style={{
                         flexDirection:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "row"
                             : "row-reverse",
                         paddingBottom: 15,
@@ -583,22 +596,23 @@ export default function ForgotPassword({ route }) {
                       <Text
                         style={{
                           marginTop:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? 3
-                              : -3,
+                            i18n.language.split("-")[0] === "en" ? 3 : -3,
                           fontFamily:
-                            i18n.locale === "en-US" || i18n.locale === "en"
+                            i18n.language.split("-")[0] === "en"
                               ? "Ubuntu"
                               : "Noto",
                           marginLeft: 10,
                           marginRight: 10,
                           color: "#525252",
                           fontSize: 15,
-                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          color:
+                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                           opacity: 0.8,
                         }}
                       >
-                        {i18n.t("number")}
+                        {i18n.language.split("-")[0] === "en"
+                          ? "At least 1 number"
+                          : "١ رقم على الاقل"}
                       </Text>
                     </View>
                   )}
@@ -606,7 +620,7 @@ export default function ForgotPassword({ route }) {
                     <View
                       style={{
                         flexDirection:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "row"
                             : "row-reverse",
                         paddingBottom: 15,
@@ -616,28 +630,29 @@ export default function ForgotPassword({ route }) {
                       <Text
                         style={{
                           marginTop:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? 3
-                              : -3,
+                            i18n.language.split("-")[0] === "en" ? 3 : -3,
                           fontFamily:
-                            i18n.locale === "en-US" || i18n.locale === "en"
+                            i18n.language.split("-")[0] === "en"
                               ? "Ubuntu"
                               : "Noto",
                           marginLeft: 10,
                           marginRight: 10,
                           fontSize: 15,
-                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          color:
+                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                           opacity: 0.8,
                         }}
                       >
-                        {i18n.t("special")}
+                        {i18n.language.split("-")[0] === "en"
+                          ? "At least 1 special character (!@#$%^&*=)"
+                          : "١ رمز على الاقل (!@#$%^&*=)"}
                       </Text>
                     </View>
                   ) : (
                     <View
                       style={{
                         flexDirection:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "row"
                             : "row-reverse",
                         paddingBottom: 15,
@@ -651,22 +666,23 @@ export default function ForgotPassword({ route }) {
                       <Text
                         style={{
                           marginTop:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? 3
-                              : -3,
+                            i18n.language.split("-")[0] === "en" ? 3 : -3,
                           fontFamily:
-                            i18n.locale === "en-US" || i18n.locale === "en"
+                            i18n.language.split("-")[0] === "en"
                               ? "Ubuntu"
                               : "Noto",
                           marginLeft: 10,
                           marginRight: 10,
                           color: "#525252",
                           fontSize: 15,
-                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          color:
+                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                           opacity: 0.8,
                         }}
                       >
-                        {i18n.t("special")}
+                        {i18n.language.split("-")[0] === "en"
+                          ? "At least 1 special character (!@#$%^&*=)"
+                          : "١ رمز على الاقل (!@#$%^&*=)"}
                       </Text>
                     </View>
                   )}
@@ -674,7 +690,7 @@ export default function ForgotPassword({ route }) {
                     <View
                       style={{
                         flexDirection:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "row"
                             : "row-reverse",
                         paddingBottom: 15,
@@ -684,28 +700,29 @@ export default function ForgotPassword({ route }) {
                       <Text
                         style={{
                           marginTop:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? 3
-                              : -3,
+                            i18n.language.split("-")[0] === "en" ? 3 : -3,
                           fontFamily:
-                            i18n.locale === "en-US" || i18n.locale === "en"
+                            i18n.language.split("-")[0] === "en"
                               ? "Ubuntu"
                               : "Noto",
                           marginLeft: 10,
                           marginRight: 10,
                           fontSize: 15,
-                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          color:
+                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                           opacity: 0.8,
                         }}
                       >
-                        {i18n.t("eight")}
+                        {i18n.language.split("-")[0] === "en"
+                          ? "At least 8 characters"
+                          : "٨ احرف على الاقل"}
                       </Text>
                     </View>
                   ) : (
                     <View
                       style={{
                         flexDirection:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "row"
                             : "row-reverse",
                         paddingBottom: 15,
@@ -719,38 +736,58 @@ export default function ForgotPassword({ route }) {
                       <Text
                         style={{
                           marginTop:
-                            i18n.locale === "en-US" || i18n.locale === "en"
-                              ? 3
-                              : -3,
+                            i18n.language.split("-")[0] === "en" ? 3 : -3,
                           fontFamily:
-                            i18n.locale === "en-US" || i18n.locale === "en"
+                            i18n.language.split("-")[0] === "en"
                               ? "Ubuntu"
                               : "Noto",
                           marginLeft: 10,
                           marginRight: 10,
                           color: "#525252",
                           fontSize: 15,
-                          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                          color:
+                            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                           opacity: 0.8,
                         }}
                       >
-                        {i18n.t("eight")}
+                        {i18n.language.split("-")[0] === "en"
+                          ? "At least 8 characters"
+                          : "٨ احرف على الاقل"}
                       </Text>
                     </View>
                   )}
                 </View>
                 <View style={{ flex: 1, justifyContent: "flex-end" }}>
-                  <View style={{
-                    paddingVertical: 8,
-                    paddingHorizontal: 32,
-                    borderRadius: 10,
-                    elevation: 3,
-                    backgroundColor: characterLength === false && specialCharacter === false && number === false && upperCase === false && lowerCase === false && confirmed === false ? "#e52b51" : "gray",
-                  }}>
+                  <View
+                    style={{
+                      paddingVertical: 8,
+                      paddingHorizontal: 32,
+                      borderRadius: 10,
+                      elevation: 3,
+                      backgroundColor:
+                        characterLength === false &&
+                        specialCharacter === false &&
+                        number === false &&
+                        upperCase === false &&
+                        lowerCase === false &&
+                        confirmed === false
+                          ? "#e52b51"
+                          : "gray",
+                    }}
+                  >
                     <Button
                       title={"Set Password"}
                       color="white"
-                      disabled={characterLength === false && specialCharacter === false && number === false && upperCase === false && lowerCase === false && confirmed === false ? false : true}
+                      disabled={
+                        characterLength === false &&
+                        specialCharacter === false &&
+                        number === false &&
+                        upperCase === false &&
+                        lowerCase === false &&
+                        confirmed === false
+                          ? false
+                          : true
+                      }
                       onPress={handleSubmit}
                     />
                   </View>
@@ -796,7 +833,7 @@ export default function ForgotPassword({ route }) {
               style={{
                 marginBottom: 10,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 width: "90%",
@@ -804,7 +841,7 @@ export default function ForgotPassword({ route }) {
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Invalid Password"
                 : "كلمة سر غير صالحة"}
             </Text>
@@ -815,13 +852,11 @@ export default function ForgotPassword({ route }) {
                 textAlign: "center",
                 fontSize: 17,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 lineHeight: 30,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "please try again"
                 : "يرجى المحاولة مرة أخرى"}
             </Text>
@@ -840,13 +875,13 @@ export default function ForgotPassword({ route }) {
                   textAlign: "center",
                   color: "#f1f1f1",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 15,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
+                {i18n.language.split("-")[0] === "en"
                   ? "try again"
                   : "حاول مرة اخرى"}
               </Text>
@@ -891,7 +926,7 @@ export default function ForgotPassword({ route }) {
               style={{
                 marginBottom: 10,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 width: "90%",
@@ -899,7 +934,7 @@ export default function ForgotPassword({ route }) {
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Passwords Don't Match"
                 : "كلمات السر غير متطابقة"}
             </Text>
@@ -910,13 +945,11 @@ export default function ForgotPassword({ route }) {
                 textAlign: "center",
                 fontSize: 17,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 lineHeight: 30,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "please try again"
                 : "يرجى المحاولة مرة أخرى"}
             </Text>
@@ -935,13 +968,13 @@ export default function ForgotPassword({ route }) {
                   textAlign: "center",
                   color: "#f1f1f1",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 15,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
+                {i18n.language.split("-")[0] === "en"
                   ? "try again"
                   : "حاول مرة اخرى"}
               </Text>

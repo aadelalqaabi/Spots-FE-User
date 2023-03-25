@@ -9,7 +9,8 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useEffect, useState, useRef, useCallback } from "react";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Notifications from "expo-notifications";
 import * as Device from "expo-device";
 import * as Localization from "expo-localization";
@@ -36,42 +37,20 @@ function Settings() {
   const translations = {
     en: {
       Settings: "Settings",
-      edit: "Edit Profile",
-      Account: "Account",
-      NotificationTitle: "Notifications",
-      log: "Log out",
-      Change: "Change Password",
-      Notification: "Enable Notifications",
-      DisNotification: "Disable Notifications",
-      NotificationList: "View Registered Organizers",
-      DeleteAccount: "Delete Account",
-      Loading: "Processing Request...",
-      Visit: "Visit Dest",
-      info: "Information",
-      Contact: "Contact us",
-      terms: "Privacy Policy",
-      Report: "Report A Problem",
     },
     ar: {
       Settings: "الاعدادات",
-      edit: "تعديل الحساب",
-      Account: "الحساب",
-      NotificationTitle: "الاشعارات",
-      log: "تسجيل الخروج",
-      Change: "تغير كلمة السر",
-      Notification: "تفعيل الاشعارات",
-      DisNotification: "ايقاف الاشعارات",
-      NotificationList: "عرض اشتراكات المنضمين",
-      DeleteAccount: "حذف الحساب",
-      info: "معلومات",
-      Contact: "تواصل معنا",
-      terms: "سياسة الخصوصية",
-      Report: "الإبلاغ عن مشكلة",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 
   const [visibleRemove, setVisibleRemove] = useState(false);
   const toggleAlertRemoveNoti = useCallback(() => {
@@ -138,7 +117,7 @@ function Settings() {
         finalStatus = status;
       }
       if (finalStatus !== "granted") {
-        toggleAlertNotiFailed()
+        toggleAlertNotiFailed();
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
@@ -239,9 +218,7 @@ function Settings() {
           style={{
             zIndex: 99,
             alignSelf:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "flex-start"
-                : "flex-end",
+              i18n.language.split("-")[0] === "en" ? "flex-start" : "flex-end",
             position: "absolute",
             marginLeft: 20,
             paddingRight: 20,
@@ -254,7 +231,7 @@ function Settings() {
               fontSize: 32,
             }}
             name={
-              i18n.locale === "en-US" || i18n.locale === "en"
+              i18n.language.split("-")[0] === "en"
                 ? "chevron-back-outline"
                 : "chevron-forward-outline"
             }
@@ -267,13 +244,11 @@ function Settings() {
             alignSelf: "center",
             fontSize: 28,
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
+              i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
-          {i18n.t("Settings")}
+          {i18n.language.split("-")[0] === "en" ? "Settings" : "الاعدادات"}
         </Text>
         {/* Settings */}
       </View>
@@ -282,22 +257,17 @@ function Settings() {
         <Text
           style={{
             alignSelf:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "flex-start"
-                : "flex-end",
-            marginTop: i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 0,
-            margin: i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 25,
-            marginBottom:
-              i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -10,
+              i18n.language.split("-")[0] === "en" ? "flex-start" : "flex-end",
+            marginTop: i18n.language.split("-")[0] === "en" ? 20 : 0,
+            margin: i18n.language.split("-")[0] === "en" ? 30 : 25,
+            marginBottom: i18n.language.split("-")[0] === "en" ? 0 : -10,
             fontSize: 25,
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
+              i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
-          {i18n.t("NotificationTitle")}
+          {i18n.language.split("-")[0] === "en" ? "Notifications" : "الاشعارات"}
         </Text>
         {/* Notifications */}
         {/* Push Notifications */}
@@ -310,9 +280,7 @@ function Settings() {
             borderRadius: 10,
             display: "flex",
             flexDirection:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "row"
-                : "row-reverse",
+              i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
             alignContent: "center",
             alignItems: "center",
             marginTop: 15,
@@ -333,9 +301,7 @@ function Settings() {
               color: "#1b1b1b",
               fontSize: 18,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               margin: 10,
               marginRight: 15,
               marginLeft: 15,
@@ -343,9 +309,17 @@ function Settings() {
             }}
           >
             {authStore.user.notificationToken === "" ? (
-              <>{i18n.t("Notification")}</>
+              <>
+                {i18n.language.split("-")[0] === "en"
+                  ? "Enable notifications"
+                  : "تفعيل الاشعارات"}
+              </>
             ) : (
-              <>{i18n.t("DisNotification")}</>
+              <>
+                {i18n.language.split("-")[0] === "en"
+                  ? "Disable notifications"
+                  : "تعطيل الاشعارات"}
+              </>
             )}
           </Text>
           {authStore.user.notificationToken === "" ? (
@@ -355,14 +329,12 @@ function Settings() {
                   color: "#1b1b1b",
                   fontSize: 22,
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                   margin: 18,
                   opacity: 0.8,
                 }}
                 name={
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "notifications"
                     : "notifications"
                 }
@@ -375,14 +347,12 @@ function Settings() {
                   color: "#1b1b1b",
                   fontSize: 22,
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                   margin: 19,
                   opacity: 0.8,
                 }}
                 name={
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "notifications-off"
                     : "notifications-off"
                 }
@@ -401,9 +371,7 @@ function Settings() {
             borderRadius: 10,
             display: "flex",
             flexDirection:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "row"
-                : "row-reverse",
+              i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
             alignContent: "center",
             alignItems: "center",
             marginTop: 10,
@@ -419,30 +387,28 @@ function Settings() {
               color: "#1b1b1b",
               fontSize: 18,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               margin: 10,
               marginRight: 15,
               marginLeft: 15,
               opacity: 0.8,
             }}
           >
-            {i18n.t("NotificationList")}
+            {i18n.language.split("-")[0] === "en"
+              ? "View Registered Organizers"
+              : "عرض اشتاراكات المنظمين"}
           </Text>
           <Ionicons
             style={{
               color: "#1b1b1b",
               fontSize: 18,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               margin: 22,
               opacity: 0.8,
             }}
             name={
-              i18n.locale === "en-US" || i18n.locale === "en"
+              i18n.language.split("-")[0] === "en"
                 ? "chevron-forward-outline"
                 : "chevron-back-outline"
             }
@@ -453,21 +419,16 @@ function Settings() {
         <Text
           style={{
             alignSelf:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "flex-start"
-                : "flex-end",
-            margin: i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 25,
-            marginBottom:
-              i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -10,
+              i18n.language.split("-")[0] === "en" ? "flex-start" : "flex-end",
+            margin: i18n.language.split("-")[0] === "en" ? 30 : 25,
+            marginBottom: i18n.language.split("-")[0] === "en" ? 0 : -10,
             fontSize: 25,
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
+              i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
-          {i18n.t("Account")}
+          {i18n.language.split("-")[0] === "en" ? "Account" : "الحساب"}
         </Text>
         {/* Account */}
         {/* Change Password */}
@@ -480,9 +441,7 @@ function Settings() {
             borderRadius: 10,
             display: "flex",
             flexDirection:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "row"
-                : "row-reverse",
+              i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
             alignContent: "center",
             alignItems: "center",
             marginTop: 15,
@@ -496,30 +455,28 @@ function Settings() {
               color: "#1b1b1b",
               fontSize: 18,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               margin: 10,
               marginRight: 15,
               marginLeft: 15,
               opacity: 0.8,
             }}
           >
-            {i18n.t("Change")}
+            {i18n.language.split("-")[0] === "en"
+              ? "Change password"
+              : "تغيير كلمة السر"}
           </Text>
           <Ionicons
             style={{
               color: "#1b1b1b",
               fontSize: 18,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               margin: 22,
               opacity: 0.8,
             }}
             name={
-              i18n.locale === "en-US" || i18n.locale === "en"
+              i18n.language.split("-")[0] === "en"
                 ? "chevron-forward-outline"
                 : "chevron-back-outline"
             }
@@ -536,9 +493,7 @@ function Settings() {
             borderRadius: 10,
             display: "flex",
             flexDirection:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "row"
-                : "row-reverse",
+              i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
             alignContent: "center",
             alignItems: "center",
             marginTop: 10,
@@ -552,25 +507,21 @@ function Settings() {
               color: "#1b1b1b",
               fontSize: 18,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               margin: 10,
               marginRight: 15,
               marginLeft: 15,
               opacity: 0.8,
             }}
           >
-            {i18n.t("log")}
+            {i18n.language.split("-")[0] === "en" ? "Logout" : "تسجيل الخروج"}
           </Text>
           <Ionicons
             style={{
               color: "#1b1b1b",
               fontSize: 18,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               margin: 22,
               marginBottom: 0,
               marginTop: 0,
@@ -590,9 +541,7 @@ function Settings() {
             borderRadius: 10,
             display: "flex",
             flexDirection:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "row"
-                : "row-reverse",
+              i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
             alignContent: "center",
             alignItems: "center",
             marginBottom: 20,
@@ -605,25 +554,23 @@ function Settings() {
               color: "#1b1b1b",
               fontSize: 18,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               margin: 10,
               marginRight: 15,
               marginLeft: 15,
               opacity: 0.8,
             }}
           >
-            {i18n.t("DeleteAccount")}
+            {i18n.language.split("-")[0] === "en"
+              ? "Delete account"
+              : "حذف الحساب"}
           </Text>
           <Ionicons
             style={{
               color: "#1b1b1b",
               fontSize: 22,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               margin: 18,
               opacity: 0.8,
             }}
@@ -635,22 +582,17 @@ function Settings() {
         <Text
           style={{
             alignSelf:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "flex-start"
-                : "flex-end",
-            margin: i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 25,
-            marginBottom:
-              i18n.locale === "en-US" || i18n.locale === "en" ? 5 : -5,
-            marginTop: i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
+              i18n.language.split("-")[0] === "en" ? "flex-start" : "flex-end",
+            margin: i18n.language.split("-")[0] === "en" ? 30 : 25,
+            marginBottom: i18n.language.split("-")[0] === "en" ? 5 : -5,
+            marginTop: i18n.language.split("-")[0] === "en" ? 10 : 0,
             fontSize: 25,
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
+              i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
-          {i18n.t("info")}
+          {i18n.language.split("-")[0] === "en" ? "Information" : "معلومات"}
         </Text>
         {/* Information */}
         {/* Contact Us */}
@@ -663,9 +605,7 @@ function Settings() {
             borderRadius: 10,
             display: "flex",
             flexDirection:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "row"
-                : "row-reverse",
+              i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
             alignContent: "center",
             alignItems: "center",
             marginTop: 10,
@@ -681,30 +621,26 @@ function Settings() {
               color: "#1b1b1b",
               fontSize: 18,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               margin: 10,
               marginRight: 15,
               marginLeft: 15,
               opacity: 0.8,
             }}
           >
-            {i18n.t("Contact")}
+            {i18n.language.split("-")[0] === "en" ? "Contact Us" : "تواصل معنا"}
           </Text>
           <Ionicons
             style={{
               color: "#1b1b1b",
               fontSize: 18,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               margin: 22,
               opacity: 0.8,
             }}
             name={
-              i18n.locale === "en-US" || i18n.locale === "en"
+              i18n.language.split("-")[0] === "en"
                 ? "chevron-forward-outline"
                 : "chevron-back-outline"
             }
@@ -721,9 +657,7 @@ function Settings() {
             borderRadius: 10,
             display: "flex",
             flexDirection:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "row"
-                : "row-reverse",
+              i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
             alignContent: "center",
             alignItems: "center",
             marginTop: 10,
@@ -739,30 +673,28 @@ function Settings() {
               color: "#1b1b1b",
               fontSize: 18,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               margin: 10,
               marginRight: 15,
               marginLeft: 15,
               opacity: 0.8,
             }}
           >
-            {i18n.t("terms")}
+            {i18n.language.split("-")[0] === "en"
+              ? "Privacy Policy"
+              : "سياسة الخصوصية"}
           </Text>
           <Ionicons
             style={{
               color: "#1b1b1b",
               fontSize: 18,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               margin: 22,
               opacity: 0.8,
             }}
             name={
-              i18n.locale === "en-US" || i18n.locale === "en"
+              i18n.language.split("-")[0] === "en"
                 ? "chevron-forward-outline"
                 : "chevron-back-outline"
             }
@@ -779,9 +711,7 @@ function Settings() {
             borderRadius: 10,
             display: "flex",
             flexDirection:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "row"
-                : "row-reverse",
+              i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
             alignContent: "center",
             alignItems: "center",
             marginTop: 10,
@@ -789,7 +719,7 @@ function Settings() {
             justifyContent: "space-between",
           }}
           onPress={() => {
-            navigation.navigate("Report")
+            navigation.navigate("Report");
           }}
         >
           <Text
@@ -797,30 +727,28 @@ function Settings() {
               color: "#1b1b1b",
               fontSize: 18,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               margin: 10,
               marginRight: 15,
               marginLeft: 15,
               opacity: 0.8,
             }}
           >
-            {i18n.t("Report")}
+            {i18n.language.split("-")[0] === "en"
+              ? "Report a problem"
+              : "ابلاغ عن مشكلة"}
           </Text>
           <Ionicons
             style={{
               color: "#1b1b1b",
               fontSize: 18,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               margin: 22,
               opacity: 0.8,
             }}
             name={
-              i18n.locale === "en-US" || i18n.locale === "en"
+              i18n.language.split("-")[0] === "en"
                 ? "chevron-forward-outline"
                 : "chevron-back-outline"
             }
@@ -832,14 +760,12 @@ function Settings() {
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             fontSize: 18,
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
+              i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
             alignSelf: "center",
             marginTop: 30,
           }}
         >
-          Version 1.0.4
+          Version 1.0.5
         </Text>
       </ScrollView>
       {/* Disable Modal */}
@@ -877,15 +803,13 @@ function Settings() {
               style={{
                 marginBottom: 20,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 width: "90%",
                 textAlign: "center",
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Do you want to turn off Notifications?"
                 : "هل تريد إيقاف تفعيل الاشعارات؟"}
             </Text>
@@ -913,15 +837,13 @@ function Settings() {
                     textAlign: "center",
                     color: "#f1f1f1",
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 18,
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Yes"
-                    : "نعم"}
+                  {i18n.language.split("-")[0] === "en" ? "Yes" : "نعم"}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -940,15 +862,13 @@ function Settings() {
                     textAlign: "center",
                     color: "#f1f1f1",
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 18,
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "No"
-                    : "لا"}
+                  {i18n.language.split("-")[0] === "en" ? "No" : "لا"}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -992,15 +912,13 @@ function Settings() {
               style={{
                 marginBottom: 20,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 width: "90%",
                 textAlign: "center",
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Do you want to turn on Notifications?"
                 : "هل تريد تفعيل الاشعارات؟"}
             </Text>
@@ -1028,15 +946,13 @@ function Settings() {
                     textAlign: "center",
                     color: "#f1f1f1",
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 18,
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Yes"
-                    : "نعم"}
+                  {i18n.language.split("-")[0] === "en" ? "Yes" : "نعم"}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -1055,15 +971,13 @@ function Settings() {
                     textAlign: "center",
                     color: "#f1f1f1",
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 18,
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "No"
-                    : "لا"}
+                  {i18n.language.split("-")[0] === "en" ? "No" : "لا"}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -1107,7 +1021,7 @@ function Settings() {
               style={{
                 marginBottom: 10,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 width: "90%",
@@ -1115,7 +1029,7 @@ function Settings() {
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Something went wrong!"
                 : "حدث خطأ ما"}
             </Text>
@@ -1126,13 +1040,11 @@ function Settings() {
                 textAlign: "center",
                 fontSize: 17,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 lineHeight: 30,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "please try again"
                 : "يرجى المحاولة مرة أخرى"}
             </Text>
@@ -1151,15 +1063,13 @@ function Settings() {
                   textAlign: "center",
                   color: "#f1f1f1",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 15,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "ok"
-                  : "حسنا"}
+                {i18n.language.split("-")[0] === "en" ? "ok" : "حسنا"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -1202,15 +1112,13 @@ function Settings() {
               style={{
                 marginBottom: 20,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 width: "90%",
                 textAlign: "center",
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Notifcations Enabled"
                 : "تم تفعيل الاشعارات"}
             </Text>
@@ -1229,15 +1137,13 @@ function Settings() {
                   textAlign: "center",
                   color: "#f1f1f1",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 18,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ok"
-                  : "حسنا"}
+                {i18n.language.split("-")[0] === "en" ? "Ok" : "حسنا"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -1280,15 +1186,13 @@ function Settings() {
               style={{
                 marginBottom: 20,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 width: "90%",
                 textAlign: "center",
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Notifcations Disabled"
                 : "تم ايقاف الاشعارات"}
             </Text>
@@ -1307,15 +1211,13 @@ function Settings() {
                   textAlign: "center",
                   color: "#f1f1f1",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 18,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ok"
-                  : "حسنا"}
+                {i18n.language.split("-")[0] === "en" ? "Ok" : "حسنا"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -1358,7 +1260,7 @@ function Settings() {
               style={{
                 marginBottom: 10,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 width: "90%",
@@ -1366,27 +1268,22 @@ function Settings() {
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Are you sure?"
                 : "هل أنت متأكد؟"}
             </Text>
             <Text
               style={{
                 marginBottom: 20,
-                width:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "90%"
-                    : "70%",
+                width: i18n.language.split("-")[0] === "en" ? "90%" : "70%",
                 textAlign: "center",
                 fontSize: 18,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 lineHeight: 30,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Your account will be deleted along with its information forever!"
                 : "سيتم حذف حسابك مع المعلومات الخاصة به إلى الأبد!"}
             </Text>
@@ -1414,15 +1311,13 @@ function Settings() {
                     textAlign: "center",
                     color: "#f1f1f1",
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 18,
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Yes"
-                    : "نعم"}
+                  {i18n.language.split("-")[0] === "en" ? "Yes" : "نعم"}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -1441,15 +1336,13 @@ function Settings() {
                     textAlign: "center",
                     color: "#f1f1f1",
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 18,
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "No"
-                    : "لا"}
+                  {i18n.language.split("-")[0] === "en" ? "No" : "لا"}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -1493,15 +1386,13 @@ function Settings() {
               style={{
                 marginBottom: 30,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 width: "90%",
                 textAlign: "center",
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Account Deleted"
                 : "تم حذف الحساب"}
             </Text>
@@ -1520,15 +1411,13 @@ function Settings() {
                   textAlign: "center",
                   color: "#f1f1f1",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 15,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "ok"
-                  : "حسنا"}
+                {i18n.language.split("-")[0] === "en" ? "ok" : "حسنا"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -1571,7 +1460,7 @@ function Settings() {
               style={{
                 marginBottom: 10,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 width: "90%",
@@ -1579,7 +1468,7 @@ function Settings() {
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Enabling Notifcation Failed!"
                 : "فشل تفعيل الاشعارات"}
             </Text>
@@ -1590,13 +1479,11 @@ function Settings() {
                 textAlign: "center",
                 fontSize: 17,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 lineHeight: 30,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "please try again"
                 : "يرجى المحاولة مرة أخرى"}
             </Text>
@@ -1615,15 +1502,13 @@ function Settings() {
                   textAlign: "center",
                   color: "#f1f1f1",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 15,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "ok"
-                  : "حسنا"}
+                {i18n.language.split("-")[0] === "en" ? "ok" : "حسنا"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -1666,7 +1551,7 @@ function Settings() {
               style={{
                 marginBottom: 10,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 width: "90%",
@@ -1674,7 +1559,7 @@ function Settings() {
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Must use physical device for Push Notifications"
                 : "يجب استخدام جهاز مادي لتفعيل لإشعارات"}
             </Text>
@@ -1685,13 +1570,11 @@ function Settings() {
                 textAlign: "center",
                 fontSize: 17,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 lineHeight: 30,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "please try again"
                 : "يرجى المحاولة مرة أخرى"}
             </Text>
@@ -1710,15 +1593,13 @@ function Settings() {
                   textAlign: "center",
                   color: "#f1f1f1",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 15,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "ok"
-                  : "حسنا"}
+                {i18n.language.split("-")[0] === "en" ? "ok" : "حسنا"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -1761,15 +1642,13 @@ function Settings() {
               style={{
                 marginBottom: 30,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 width: "90%",
                 textAlign: "center",
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Do You Want to Logout?"
                 : "هل ترغب بالخروج؟"}
             </Text>
@@ -1788,22 +1667,20 @@ function Settings() {
                   height: 40,
                   justifyContent: "center",
                 }}
-                onPress={() =>
-                  authStore.logout()
-                }
+                onPress={() => authStore.logout()}
               >
                 <Text
                   style={{
                     textAlign: "center",
                     color: "#f1f1f1",
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 18,
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
+                  {i18n.language.split("-")[0] === "en"
                     ? "Yes"
                     : "تسجيل الخروج"}
                 </Text>
@@ -1824,15 +1701,13 @@ function Settings() {
                     textAlign: "center",
                     color: "#f1f1f1",
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 18,
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "No"
-                    : "إلغاء"}
+                  {i18n.language.split("-")[0] === "en" ? "No" : "إلغاء"}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -1840,7 +1715,6 @@ function Settings() {
         </View>
       </Modal>
       {/* Logout Modal */}
-
     </SafeAreaView>
   );
 }

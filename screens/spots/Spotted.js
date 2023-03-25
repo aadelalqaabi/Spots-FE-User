@@ -12,7 +12,8 @@ import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
 import moment from "moment";
 import spotStore from "../../stores/spotStore";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import "moment/locale/ar";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
@@ -34,9 +35,16 @@ function Spotted({ ticket, navigation }) {
       suggested: "وجهة مقترحة",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
@@ -98,9 +106,7 @@ function Spotted({ ticket, navigation }) {
             style={{
               display: "flex",
               flexDirection:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "row-reverse"
-                  : "row",
+                i18n.language.split("-")[0] === "en" ? "row-reverse" : "row",
               justifyContent: "space-between",
               padding: 10,
             }}
@@ -130,7 +136,7 @@ function Spotted({ ticket, navigation }) {
                 style={{
                   display: "flex",
                   flexDirection:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "row"
                       : "row-reverse",
                   alignContent: "center",
@@ -141,35 +147,29 @@ function Spotted({ ticket, navigation }) {
                 <Text
                   style={{
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 23,
                     color: "#0a0a0b",
-                    marginTop:
-                      i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -5,
+                    marginTop: i18n.language.split("-")[0] === "en" ? 0 : -5,
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? dayEn
-                    : dayAr}
+                  {i18n.language.split("-")[0] === "en" ? dayEn : dayAr}
                 </Text>
                 {spot?.isMultiple && (
                   <Text
                     style={{
                       fontFamily:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "UbuntuBold"
                           : "NotoBold",
                       fontSize: 23,
                       color: "#0a0a0b",
-                      marginTop:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? 0
-                          : -5,
+                      marginTop: i18n.language.split("-")[0] === "en" ? 0 : -5,
                     }}
                   >
-                    {i18n.locale === "en-US" || i18n.locale === "en"
+                    {i18n.language.split("-")[0] === "en"
                       ? "-" + dayendEn
                       : dayendAr + "-"}
                   </Text>
@@ -179,7 +179,7 @@ function Spotted({ ticket, navigation }) {
                 style={{
                   display: "flex",
                   flexDirection:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "row"
                       : "row-reverse",
                   alignContent: "center",
@@ -190,37 +190,29 @@ function Spotted({ ticket, navigation }) {
                 <Text
                   style={{
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "Ubuntu"
-                        : "Noto",
+                      i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                     fontSize: 17,
                     color: "grey",
-                    marginTop:
-                      i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -20,
+                    marginTop: i18n.language.split("-")[0] === "en" ? 0 : -20,
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? monthEn
-                    : monthAr}
+                  {i18n.language.split("-")[0] === "en" ? monthEn : monthAr}
                 </Text>
                 {spot?.isMultiple && monthendEn !== monthEn && (
                   <Text
                     style={{
                       fontFamily:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "Ubuntu"
                           : "Noto",
                       fontSize: 15,
                       color: "grey",
-                      marginTop:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? 0
-                          : -20,
+                      marginTop: i18n.language.split("-")[0] === "en" ? 0 : -20,
                       alignSelf: "center",
                     }}
                   >
                     -
-                    {i18n.locale === "en-US" || i18n.locale === "en"
+                    {i18n.language.split("-")[0] === "en"
                       ? monthendEn
                       : monthendAr}
                   </Text>
@@ -236,9 +228,7 @@ function Spotted({ ticket, navigation }) {
               style={{
                 display: "flex",
                 flexDirection:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "row"
-                    : "row-reverse",
+                  i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
                 alignContent: "center",
                 alignItems: "center",
               }}
@@ -261,14 +251,10 @@ function Spotted({ ticket, navigation }) {
                   fontSize: 22,
                   color: "#f1f1f1",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                   alignSelf: "center",
                   textAlign:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "left"
-                      : "right",
+                    i18n.language.split("-")[0] === "en" ? "left" : "right",
                   textTransform: "capitalize",
                   shadowColor: "#000",
                   shadowOffset: {
@@ -280,7 +266,7 @@ function Spotted({ ticket, navigation }) {
                   elevation: 18,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
+                {i18n.language.split("-")[0] === "en"
                   ? organizer?.displayNameEn
                   : organizer?.displayNameAr}
               </Text>
@@ -291,7 +277,7 @@ function Spotted({ ticket, navigation }) {
               fontSize: 35,
               color: "#fffffc",
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "UbuntuBold"
                   : "NotoBold",
               textAlign: "center",
@@ -307,9 +293,7 @@ function Spotted({ ticket, navigation }) {
               elevation: 18,
             }}
           >
-            {i18n.locale === "en-US" || i18n.locale === "en"
-              ? spot.name
-              : spot.nameAr}
+            {i18n.language.split("-")[0] === "en" ? spot.name : spot.nameAr}
           </Text>
         </View>
       </ImageBackground>

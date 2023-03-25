@@ -14,7 +14,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 import PhoneInput from "react-native-phone-number-input";
 
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
@@ -44,9 +45,16 @@ export default function PhoneNo({ navigation, route }) {
       phone: "رقم الهاتف",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   const handleChange = (name, value) => {
     const check = checkEntry(value);
     if (check === true) {
@@ -96,13 +104,13 @@ export default function PhoneNo({ navigation, route }) {
               marginLeft: 20,
               paddingRight: 20,
               alignSelf:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "flex-start"
                   : "flex-end",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
             name={
-              i18n.locale === "en-US" || i18n.locale === "en"
+              i18n.language.split("-")[0] === "en"
                 ? "chevron-back-outline"
                 : "chevron-forward-outline"
             }
@@ -120,30 +128,27 @@ export default function PhoneNo({ navigation, route }) {
             <Text
               style={{
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
-                fontSize:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 35,
+                fontSize: i18n.language.split("-")[0] === "en" ? 30 : 35,
                 margin: 20,
-                marginBottom:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+                marginBottom: i18n.language.split("-")[0] === "en" ? 20 : 10,
                 marginTop: 0,
                 width: "100%",
                 textAlign: "center",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
             >
-              {i18n.t("name")}
+              {i18n.language.split("-")[0] === "en"
+                ? "Enter Your Number"
+                : "ادخل رقمك"}
             </Text>
             <Text
               style={{
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
-                fontSize:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 18,
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
+                fontSize: i18n.language.split("-")[0] === "en" ? 16 : 18,
                 margin: 20,
                 paddingTop: 3,
                 marginTop: 0,
@@ -154,7 +159,9 @@ export default function PhoneNo({ navigation, route }) {
                 opacity: 0.8,
               }}
             >
-              {i18n.t("description")}
+              {i18n.language.split("-")[0] === "en"
+                ? "Choose a name for your account\n (Must be at least 2 characters)"
+                : "اضف رقمك للتسجيل في حسابك لاحقا \n(يجب ان يكون ٨ ارقام على الاقل)"}
             </Text>
             <View
               style={{
@@ -187,22 +194,20 @@ export default function PhoneNo({ navigation, route }) {
                   }}
                   textInputStyle={{
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "Ubuntu"
-                        : "Noto",
+                      i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                     textAlign:
-                      i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "left"
-                        : "right",
-                    marginTop:
-                      i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -6,
-                    marginBottom:
-                      i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -6,
+                      i18n.language.split("-")[0] === "en" ? "left" : "right",
+                    marginTop: i18n.language.split("-")[0] === "en" ? 0 : -6,
+                    marginBottom: i18n.language.split("-")[0] === "en" ? 0 : -6,
                   }}
                   defaultValue={user.phoneNumber}
                   defaultCode="KW"
                   layout="first"
-                  placeholder={i18n.t("phone")}
+                  placeholder={
+                    i18n.language.split("-")[0] === "en"
+                      ? "Phone number"
+                      : "رقم الهاتف"
+                  }
                   onChangeFormattedText={(text) => {
                     handleChange("phone", text);
                   }}
@@ -215,7 +220,9 @@ export default function PhoneNo({ navigation, route }) {
                 {checkValidation === true ? (
                   <View style={styles.buttonx}>
                     <Button
-                      title={i18n.t("next")}
+                      title={
+                        i18n.language.split("-")[0] === "en" ? "Next" : "التالي"
+                      }
                       color="white"
                       disabled={checkValidation}
                       onPress={() => {
@@ -226,7 +233,9 @@ export default function PhoneNo({ navigation, route }) {
                 ) : (
                   <View style={styles.button}>
                     <Button
-                      title={i18n.t("next")}
+                      title={
+                        i18n.language.split("-")[0] === "en" ? "Next" : "التالي"
+                      }
                       color="white"
                       disabled={checkValidation}
                       onPress={() => {

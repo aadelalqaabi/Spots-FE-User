@@ -12,7 +12,8 @@ import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import ProfileSpot from "./screens/spots/ProfileSpot";
 import FinishedSpot from "./screens/spots/FinishedSpot";
 import { useFonts } from "expo-font";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "./MyAwesomeSplashScreen";
 
@@ -34,9 +35,16 @@ export default function ScrollTabs({ userSpots }) {
       emptyE: "لا وجهات منتهية حتى الآن",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   const layout = useWindowDimensions();
   const today = new Date();
   today.setHours(3, 0, 0, 0);
@@ -116,17 +124,18 @@ export default function ScrollTabs({ userSpots }) {
           <Text
             style={{
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              fontSize:
-                i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 25,
+              fontSize: i18n.language.split("-")[0] === "en" ? 30 : 25,
               padding: 35,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "UbuntuBold"
                   : "NotoBold",
               textAlign: "center",
             }}
           >
-            {i18n.t("empty")}
+            {i18n.language.split("-")[0] === "en"
+              ? "No active dests yet"
+              : "لا وجهات نشطة حتى الآن"}
           </Text>
         </View>
       ) : (
@@ -194,17 +203,18 @@ export default function ScrollTabs({ userSpots }) {
           <Text
             style={{
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              fontSize:
-                i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 25,
+              fontSize: i18n.language.split("-")[0] === "en" ? 30 : 25,
               padding: 35,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "UbuntuBold"
                   : "NotoBold",
               textAlign: "center",
             }}
           >
-            {i18n.t("emptyE")}
+            {i18n.language.split("-")[0] === "en"
+              ? "No finishes dests yet"
+              : "لا وجهات منتهية حتى الآن"}
           </Text>
         </View>
       ) : (
@@ -230,8 +240,14 @@ export default function ScrollTabs({ userSpots }) {
   });
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: "first", title: i18n.t("active") },
-    { key: "second", title: i18n.t("finished") },
+    {
+      key: "first",
+      title: i18n.language.split("-")[0] === "en" ? "Active" : "نشط",
+    },
+    {
+      key: "second",
+      title: i18n.language.split("-")[0] === "en" ? "Finished" : "منتهي",
+    },
   ]);
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("./assets/fonts/Ubuntu-Bold.ttf"),
@@ -256,9 +272,7 @@ export default function ScrollTabs({ userSpots }) {
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                   fontSize: 22,
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                   margin: -10,

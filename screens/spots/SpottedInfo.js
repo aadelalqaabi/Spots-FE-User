@@ -8,10 +8,11 @@ import {
   TouchableOpacity,
   Linking,
   Alert,
-  Modal
+  Modal,
 } from "react-native";
 import React, { useCallback, useState } from "react";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
@@ -35,9 +36,15 @@ export default function SpottedInfo({ route }) {
       explore: "اكتشف",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 
   const [showDeleteMssg, setShowDeleteMssg] = useState(false);
   const toggleAlertShowDeleteMssg = useCallback(() => {
@@ -65,9 +72,7 @@ export default function SpottedInfo({ route }) {
             style={{
               display: "flex",
               flexDirection:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "row"
-                  : "row-reverse",
+                i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
               alignContent: "center",
               alignItems: "center",
               justifyContent: "cnter",
@@ -89,7 +94,7 @@ export default function SpottedInfo({ route }) {
                   width: "100%",
                 }}
                 name={
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "chevron-back-outline"
                     : "chevron-forward-outline"
                 }
@@ -101,16 +106,12 @@ export default function SpottedInfo({ route }) {
                 alignSelf: "center",
                 textAlign: "center",
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 width: "70%",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Information"
-                : "معلومات"}
+              {i18n.language.split("-")[0] === "en" ? "Information" : "معلومات"}
             </Text>
           </View>
           <View style={{ marginTop: 0 }}>
@@ -118,21 +119,20 @@ export default function SpottedInfo({ route }) {
               style={{
                 fontSize: 20,
                 alignSelf:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "flex-start"
                     : "flex-end",
                 textAlign: "center",
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 margin: 20,
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                marginTop:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
+                marginTop: i18n.language.split("-")[0] === "en" ? 10 : 0,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Dest Details"
                 : "تفاصيل الوجهة"}
             </Text>
@@ -140,25 +140,20 @@ export default function SpottedInfo({ route }) {
               style={{
                 fontSize: 20,
                 alignSelf:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "flex-start"
                     : "flex-end",
                 textAlign:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "left"
-                    : "right",
+                  i18n.language.split("-")[0] === "en" ? "left" : "right",
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Cabin"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Cabin" : "Noto",
                 margin: 20,
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                marginTop:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? -10 : -20,
+                marginTop: i18n.language.split("-")[0] === "en" ? -10 : -20,
                 lineHeight: 40,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? spot.details
                 : spot.detailsAr}
             </Text>
@@ -168,21 +163,20 @@ export default function SpottedInfo({ route }) {
               style={{
                 fontSize: 20,
                 alignSelf:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "flex-start"
                     : "flex-end",
                 textAlign: "center",
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 margin: 20,
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                marginTop:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
+                marginTop: i18n.language.split("-")[0] === "en" ? 10 : 0,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Contact Info"
                 : "ملعومات الاتصال"}
             </Text>
@@ -190,9 +184,7 @@ export default function SpottedInfo({ route }) {
               style={{
                 display: "flex",
                 flexDirection:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "row"
-                    : "row-reverse",
+                  i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
                 alignContent: "center",
                 alignItems: "center",
                 margin: 15,
@@ -208,8 +200,7 @@ export default function SpottedInfo({ route }) {
                   fontSize: 32,
                   transform: [
                     {
-                      scaleX:
-                        i18n.locale === "en-US" || i18n.locale === "en" ? 1 : -1,
+                      scaleX: i18n.language.split("-")[0] === "en" ? 1 : -1,
                     },
                   ],
                 }}
@@ -225,13 +216,10 @@ export default function SpottedInfo({ route }) {
                   onPress={() => Linking.openURL(`tel:${organizer.phone}`)}
                   style={{
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "Ubuntu"
-                        : "Noto",
+                      i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                     fontSize: 20,
                     color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                    marginBottom:
-                      i18n.locale === "en-US" || i18n.locale === "en" ? 5 : -5,
+                    marginBottom: i18n.language.split("-")[0] === "en" ? 5 : -5,
                   }}
                 >
                   {organizer.phone}
@@ -242,9 +230,7 @@ export default function SpottedInfo({ route }) {
               style={{
                 display: "flex",
                 flexDirection:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "row"
-                    : "row-reverse",
+                  i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
                 alignContent: "center",
                 alignItems: "center",
                 margin: 15,
@@ -260,8 +246,7 @@ export default function SpottedInfo({ route }) {
                   fontSize: 32,
                   transform: [
                     {
-                      scaleX:
-                        i18n.locale === "en-US" || i18n.locale === "en" ? 1 : -1,
+                      scaleX: i18n.language.split("-")[0] === "en" ? 1 : -1,
                     },
                   ],
                 }}
@@ -277,13 +262,10 @@ export default function SpottedInfo({ route }) {
                   onPress={() => Linking.openURL(`mailto:${organizer.email}`)}
                   style={{
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "Ubuntu"
-                        : "Noto",
+                      i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                     fontSize: 20,
                     color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                    marginBottom:
-                      i18n.locale === "en-US" || i18n.locale === "en" ? 5 : -5,
+                    marginBottom: i18n.language.split("-")[0] === "en" ? 5 : -5,
                   }}
                 >
                   {organizer.email}
@@ -298,31 +280,26 @@ export default function SpottedInfo({ route }) {
               marginTop: 15,
               display: "flex",
               flexDirection:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "row"
-                  : "row-reverse",
+                i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
               alignContent: "center",
               alignItems: "center",
-              marginBottom:"5%"
-            
+              marginBottom: "5%",
             }}
             onPress={() => {
               if (ticket.isFree === true) {
                 toggleAlertShowDeleteMssg();
               } else {
                 Alert.alert(
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "This is a paid Dest"
                     : "هذه نقطة مدفوعة",
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "Contact us to cancel your booking"
                     : "تواصل معنا لالغاء الحجز",
                   [
                     {
                       text:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "OK"
-                          : "حسنا",
+                        i18n.language.split("-")[0] === "en" ? "OK" : "حسنا",
                       onPress: () => {},
                     },
                   ]
@@ -334,10 +311,8 @@ export default function SpottedInfo({ route }) {
               style={{
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 fontSize: 25,
-                paddingRight:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 5 : 0,
-                paddingLeft:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 0 : 5,
+                paddingRight: i18n.language.split("-")[0] === "en" ? 5 : 0,
+                paddingLeft: i18n.language.split("-")[0] === "en" ? 0 : 5,
               }}
               name="trash-outline"
             ></Ionicons>
@@ -346,12 +321,10 @@ export default function SpottedInfo({ route }) {
                 fontSize: 20,
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Delete Dest"
                 : "حذف الوجهه"}
             </Text>
@@ -394,15 +367,13 @@ export default function SpottedInfo({ route }) {
               style={{
                 marginBottom: 20,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 width: "90%",
                 textAlign: "center",
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Do You Want to Delete this Dest?"
                 : "هل تريد حذف هذه النقطة؟"}
             </Text>
@@ -422,7 +393,9 @@ export default function SpottedInfo({ route }) {
                   justifyContent: "center",
                 }}
                 onPress={() =>
-                  ticketStore.deleteTicket(ticket._id).then(navigation.navigate("MySpots"))
+                  ticketStore
+                    .deleteTicket(ticket._id)
+                    .then(navigation.navigate("MySpots"))
                 }
               >
                 <Text
@@ -430,15 +403,13 @@ export default function SpottedInfo({ route }) {
                     textAlign: "center",
                     color: "#f1f1f1",
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 18,
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ok"
-                    : "تسجيل الخروج"}
+                  {i18n.language.split("-")[0] === "en" ? "Ok" : "تسجيل الخروج"}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
@@ -457,15 +428,13 @@ export default function SpottedInfo({ route }) {
                     textAlign: "center",
                     color: "#f1f1f1",
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 18,
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Cancel"
-                    : "إلغاء"}
+                  {i18n.language.split("-")[0] === "en" ? "Cancel" : "إلغاء"}
                 </Text>
               </TouchableOpacity>
             </View>

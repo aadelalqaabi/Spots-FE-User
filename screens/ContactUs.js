@@ -11,7 +11,8 @@ import {
 import React from "react";
 import * as Localization from "expo-localization";
 import { Ionicons } from "@expo/vector-icons";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
 import { useFonts } from "expo-font";
@@ -27,9 +28,16 @@ export default function ContactUs() {
       Contact: "تواصل معنا",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../assets/fonts/Ubuntu.ttf"),
@@ -65,9 +73,7 @@ export default function ContactUs() {
           style={{
             zIndex: 99,
             alignSelf:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "flex-start"
-                : "flex-end",
+              i18n.language.split("-")[0] === "en" ? "flex-start" : "flex-end",
             position: "absolute",
             marginLeft: 20,
             paddingRight: 20,
@@ -80,7 +86,7 @@ export default function ContactUs() {
               fontSize: 32,
             }}
             name={
-              i18n.locale === "en-US" || i18n.locale === "en"
+              i18n.language.split("-")[0] === "en"
                 ? "chevron-back-outline"
                 : "chevron-forward-outline"
             }
@@ -92,13 +98,11 @@ export default function ContactUs() {
             alignSelf: "center",
             fontSize: 28,
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
+              i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
-          {i18n.t("Contact")}
+          {i18n.language.split("-")[0] === "en" ? "Contact Us" : "تواصل معنا"}
         </Text>
       </View>
       <View
@@ -203,15 +207,13 @@ export default function ContactUs() {
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             fontSize: 20,
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
+              i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
             textAlign: "center",
             margin: 20,
             marginTop: 5,
           }}
         >
-          {i18n.locale === "en-US" || i18n.locale === "en"
+          {i18n.language.split("-")[0] === "en"
             ? "We would be delighted to hear from you"
             : "سنكون سعداء أن نسمع منك"}
         </Text>
