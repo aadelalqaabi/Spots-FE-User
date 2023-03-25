@@ -15,7 +15,8 @@ import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 import TextInput from "react-native-text-input-interactive";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import OTPInputView from "@twotalltotems/react-native-otp-input";
 import authStore from "../../stores/authStore";
@@ -30,7 +31,7 @@ export default function CheckOTP({ navigation, route }) {
 
   const { itemId, toggleAlertShowAccMssg } = route.params;
   const [user, setUser] = useState(itemId);
-  const [givenOTP, setGivenOTP] = useState("")
+  const [givenOTP, setGivenOTP] = useState("");
   const [sent, setSent] = useState(true);
 
   const [otpCheck, setOtpCheck] = useState(false);
@@ -64,9 +65,15 @@ export default function CheckOTP({ navigation, route }) {
       resend: "اعادة ارسالة رمز التأكيد",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
@@ -83,27 +90,27 @@ export default function CheckOTP({ navigation, route }) {
 
   const handleOTP = async () => {
     const status = await authStore.getOTP(user.email);
-    if(status === "No User Found") {
-      toggleAlertShowNoAccMssg()
-    } else if(status === "User Found") {
-      toggleAlertShowAccMssg2()
+    if (status === "No User Found") {
+      toggleAlertShowNoAccMssg();
+    } else if (status === "User Found") {
+      toggleAlertShowAccMssg2();
     }
     setSent(true);
   };
 
   const handleChange = (text) => {
-    setGivenOTP(text)
-  }
+    setGivenOTP(text);
+  };
 
   const handleSubmit = async () => {
     const otpCode = parseInt(givenOTP);
-    console.log('fiauthStore.OTPrst', authStore.OTP)
-    console.log('otpCode', otpCode)
+    console.log("fiauthStore.OTPrst", authStore.OTP);
+    console.log("otpCode", otpCode);
     if (authStore.OTP === otpCode) {
       navigation.navigate("ForgotPassword", { itemId: user });
     } else {
-      console.log('fifi')
-      toggleAlertOtpCheck()
+      console.log("fifi");
+      toggleAlertOtpCheck();
     }
   };
 
@@ -128,13 +135,13 @@ export default function CheckOTP({ navigation, route }) {
                 marginLeft: 20,
                 paddingRight: 20,
                 alignSelf:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "flex-start"
                     : "flex-end",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
               name={
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "chevron-back-outline"
                   : "chevron-forward-outline"
               }
@@ -152,30 +159,27 @@ export default function CheckOTP({ navigation, route }) {
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
-                  fontSize:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 35,
+                  fontSize: i18n.language.split("-")[0] === "en" ? 30 : 35,
                   margin: 20,
-                  marginBottom:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+                  marginBottom: i18n.language.split("-")[0] === "en" ? 20 : 10,
                   marginTop: 0,
                   width: "100%",
                   textAlign: "center",
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 }}
               >
-                {i18n.t("name")}
+                {i18n.language.split("-")[0] === "en"
+                  ? "Enter OTP code"
+                  : "ادخل رمز التأكيد"}
               </Text>
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
-                  fontSize:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 18,
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
+                  fontSize: i18n.language.split("-")[0] === "en" ? 16 : 18,
                   margin: 20,
                   paddingTop: 3,
                   marginTop: 0,
@@ -186,7 +190,9 @@ export default function CheckOTP({ navigation, route }) {
                   opacity: 0.8,
                 }}
               >
-                {i18n.t("description")}
+                {i18n.language.split("-")[0] === "en"
+                  ? "Enter the OTP code sent to your phone number"
+                  : "اذا كان بريدك الالكتروني صحيح، سيصلك رمز تأكيد عليه"}
               </Text>
               <View
                 style={{
@@ -207,13 +213,11 @@ export default function CheckOTP({ navigation, route }) {
                       marginBottom: 10,
                       padding: 14,
                       fontFamily:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "Ubuntu"
                           : "Noto",
                       textAlign:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "left"
-                          : "right",
+                        i18n.language.split("-")[0] === "en" ? "left" : "right",
                       backgroundColor: "white",
                       shadowColor: "#000",
                       shadowOffset: {
@@ -248,20 +252,23 @@ export default function CheckOTP({ navigation, route }) {
                         textAlign: "center",
                       }}
                     >
-                      {i18n.t("resend")}
+                      {i18n.language.split("-")[0] === "en"
+                        ? "Resend OTP"
+                        : "اعادة ارسال رمز التأكيد"}
                     </Text>
                   </TouchableOpacity>
                 </View>
               </View>
-                    
+
               <TouchableOpacity onPress={handleSubmit} style={styles.button}>
                 <Text
-                style={{color:"white", alignSelf:"center", fontSize:18}}
-                >{i18n.t("next")}</Text>
-              </TouchableOpacity> 
-              </View>
+                  style={{ color: "white", alignSelf: "center", fontSize: 18 }}
+                >
+                  {i18n.language.split("-")[0] === "en" ? "Next" : "التالي"}
+                </Text>
+              </TouchableOpacity>
             </View>
-              
+          </View>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
 
@@ -300,7 +307,7 @@ export default function CheckOTP({ navigation, route }) {
               style={{
                 marginBottom: 10,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 width: "90%",
@@ -308,9 +315,7 @@ export default function CheckOTP({ navigation, route }) {
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Wrong OTP"
-                : "رمز خاطئ"}
+              {i18n.language.split("-")[0] === "en" ? "Wrong OTP" : "رمز خاطئ"}
             </Text>
             <Text
               style={{
@@ -319,13 +324,11 @@ export default function CheckOTP({ navigation, route }) {
                 textAlign: "center",
                 fontSize: 17,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 lineHeight: 30,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "please try again"
                 : "يرجى المحاولة مرة أخرى"}
             </Text>
@@ -344,13 +347,13 @@ export default function CheckOTP({ navigation, route }) {
                   textAlign: "center",
                   color: "#f1f1f1",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 15,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
+                {i18n.language.split("-")[0] === "en"
                   ? "try again"
                   : "حاول مرة اخرى"}
               </Text>
@@ -395,7 +398,7 @@ export default function CheckOTP({ navigation, route }) {
               style={{
                 marginBottom: 10,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 width: "90%",
@@ -403,7 +406,7 @@ export default function CheckOTP({ navigation, route }) {
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "No Account Found"
                 : "لم يتم العثور على حساب"}
             </Text>
@@ -414,13 +417,11 @@ export default function CheckOTP({ navigation, route }) {
                 textAlign: "center",
                 fontSize: 17,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 lineHeight: 30,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? `There is no account conneted to ${user.email.toLowerCase()}`
                 : "تحقق من صلاحية البريد الإلكتروني الذي ادخلته"}
             </Text>
@@ -439,13 +440,13 @@ export default function CheckOTP({ navigation, route }) {
                   textAlign: "center",
                   color: "#f1f1f1",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 15,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
+                {i18n.language.split("-")[0] === "en"
                   ? "try again"
                   : "حاول مرة اخرى"}
               </Text>
@@ -490,7 +491,7 @@ export default function CheckOTP({ navigation, route }) {
               style={{
                 marginBottom: 10,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 width: "90%",
@@ -498,7 +499,7 @@ export default function CheckOTP({ navigation, route }) {
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "OTP sent"
                 : "تم ارسال الرمز"}
             </Text>
@@ -509,13 +510,11 @@ export default function CheckOTP({ navigation, route }) {
                 textAlign: "center",
                 fontSize: 17,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 lineHeight: 30,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? `We have sent an OTP to ${user.email.toLowerCase()}`
                 : "لقد أرسلنا الرمز إلى عنوان البريد الإلكتروني الذي قدمته"}
             </Text>
@@ -534,15 +533,13 @@ export default function CheckOTP({ navigation, route }) {
                   textAlign: "center",
                   color: "#f1f1f1",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 15,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ok"
-                  : "حسناً"}
+                {i18n.language.split("-")[0] === "en" ? "Ok" : "حسناً"}
               </Text>
             </TouchableOpacity>
           </View>
@@ -572,13 +569,14 @@ const styles = StyleSheet.create({
   button: {
     height: 55,
     width: "110%",
-    display:"flex",
-    justifyContent:"center",
-    alignSelf:"center",
+    display: "flex",
+    justifyContent: "center",
+    alignSelf: "center",
     borderRadius: 10,
     elevation: 3,
     backgroundColor: "#e52b51",
-    marginTop:"-25%"  },
+    marginTop: "-25%",
+  },
   buttonx: {
     paddingVertical: 8,
     paddingHorizontal: 32,

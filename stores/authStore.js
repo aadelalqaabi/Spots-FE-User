@@ -21,7 +21,8 @@ import {
   REGISTER_USER,
   DELETE_USER,
 } from "../config/info";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import Toast from "react-native-toast-message";
 import * as Localization from "expo-localization";
 
@@ -38,9 +39,15 @@ const translations = {
     next: "التالي",
   },
 };
-const i18n = new I18n(translations);
-i18n.locale = Localization.locale;
-i18n.enableFallback = true;
+i18n.use(initReactI18next).init({
+  resources: translations,
+  lng: Localization.locale,
+  fallbackLng: true,
+  interpolation: {
+    escapeValue: false,
+  },
+});
+
 class AuthStore {
   constructor() {
     makeAutoObservable(this);

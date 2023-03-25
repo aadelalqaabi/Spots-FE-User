@@ -16,7 +16,8 @@ import PhoneNo from "./screens/authScreens/PhoneNo";
 import MyImage from "./screens/authScreens/MyImage";
 import * as Linking from "expo-linking";
 import { Text, useColorScheme, View } from "react-native";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import {
   createStackNavigator,
@@ -177,10 +178,17 @@ function RootNavigator() {
       explore: "اكتشف",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
-  return i18n.locale === "en-US" || i18n.locale === "en" ? (
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
+  return i18n.language.split("-")[0] === "en" ? (
     <Navigator
       initialRouteName="Explore"
       screenOptions={{

@@ -3,7 +3,8 @@ import Stars from "./Stars";
 import { baseURL } from "../../stores/instance";
 import moment from "moment";
 import React from "react";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import "moment/locale/ar";
 
@@ -20,9 +21,16 @@ function ReviewItem({ review }) {
       more: "التفاصيل",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   return (
     <View>
       <View
@@ -67,9 +75,7 @@ function ReviewItem({ review }) {
                 color: "grey",
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
-                ? dateEn
-                : dateAr}
+              {i18n.language.split("-")[0] === "en" ? dateEn : dateAr}
             </Text>
           </View>
         </View>

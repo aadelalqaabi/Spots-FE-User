@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 
 import { useFonts } from "expo-font";
@@ -32,9 +33,16 @@ export default function EndedSpot({ route }) {
       explore: "اكتشف",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   let [fontsLoaded] = useFonts({
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
     UbuntuLight: require("../../assets/fonts/Ubuntu-Light.ttf"),
@@ -55,9 +63,7 @@ export default function EndedSpot({ route }) {
           style={{
             display: "flex",
             flexDirection:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "row"
-                : "row-reverse",
+              i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
             alignContent: "center",
             alignItems: "center",
             justifyContent: "cnter",
@@ -79,7 +85,7 @@ export default function EndedSpot({ route }) {
                 width: "100%",
               }}
               name={
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "chevron-back-outline"
                   : "chevron-forward-outline"
               }
@@ -91,16 +97,12 @@ export default function EndedSpot({ route }) {
               alignSelf: "center",
               textAlign: "center",
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               width: "70%",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
           >
-            {i18n.locale === "en-US" || i18n.locale === "en"
-              ? spot.name
-              : spot.nameAr}
+            {i18n.language.split("-")[0] === "en" ? spot.name : spot.nameAr}
           </Text>
         </View>
         <View
@@ -117,7 +119,7 @@ export default function EndedSpot({ route }) {
             style={{
               fontSize: 50,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "UbuntuBold"
                   : "NotoBold",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
@@ -129,15 +131,13 @@ export default function EndedSpot({ route }) {
             style={{
               fontSize: 18,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               position: "absolute",
               paddingTop: 130,
             }}
           >
-            {i18n.locale === "en-US" || i18n.locale === "en"
+            {i18n.language.split("-")[0] === "en"
               ? "Users Visited"
               : "مستخدمين زارونا"}
           </Text>
@@ -146,22 +146,16 @@ export default function EndedSpot({ route }) {
           style={{
             fontSize: 20,
             alignSelf:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "flex-start"
-                : "flex-end",
+              i18n.language.split("-")[0] === "en" ? "flex-start" : "flex-end",
             textAlign: "center",
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "UbuntuBold"
-                : "NotoBold",
+              i18n.language.split("-")[0] === "en" ? "UbuntuBold" : "NotoBold",
             margin: 20,
             marginBottom: 10,
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
-          {i18n.locale === "en-US" || i18n.locale === "en"
-            ? "Reviews"
-            : "تقييمات"}
+          {i18n.language.split("-")[0] === "en" ? "Reviews" : "تقييمات"}
         </Text>
         <View style={{ marginTop: 20 }}>
           {spot.reviews.length > 0 ? (
@@ -181,9 +175,7 @@ export default function EndedSpot({ route }) {
                   color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
                   fontSize: 30,
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 }}
               >
                 No Reviews Here

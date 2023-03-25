@@ -17,7 +17,8 @@ import { observer } from "mobx-react";
 import { baseURL } from "../stores/instance";
 import Toast from "react-native-toast-message";
 import { StatusBar } from "expo-status-bar";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import TextInput from "react-native-text-input-interactive";
 import { Ionicons } from "@expo/vector-icons";
@@ -44,9 +45,16 @@ function EditScreen() {
       login: "تسجيل دخول",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   useEffect(() => {
     (async () => {
       if (Platform.OS !== "web") {
@@ -123,7 +131,7 @@ function EditScreen() {
     Toast.show({
       type: "success",
       text1:
-        i18n.locale === "en-US" || i18n.locale === "en"
+        i18n.language.split("-")[0] === "en"
           ? "Profile Updated 👍"
           : "👍 تم تحديث الملف الشخصي",
       position: "bottom",
@@ -150,11 +158,7 @@ function EditScreen() {
         <View style={styles.cancel}>
           <Button
             onPress={() => cancelButton()}
-            title={
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Cancel"
-                : "الغاء"
-            }
+            title={i18n.language.split("-")[0] === "en" ? "Cancel" : "الغاء"}
             color={colorScheme === "light" ? "#1b1b1b" : "#f1f1f1"}
           />
         </View>
@@ -162,16 +166,12 @@ function EditScreen() {
           {hideDone ? (
             <Button
               onPress={handleSubmit}
-              title={
-                i18n.locale === "en-US" || i18n.locale === "en" ? "Done" : "تم"
-              }
+              title={i18n.language.split("-")[0] === "en" ? "Done" : "تم"}
               color={"#e52b51"}
             />
           ) : (
             <Button
-              title={
-                i18n.locale === "en-US" || i18n.locale === "en" ? "Done" : "تم"
-              }
+              title={i18n.language.split("-")[0] === "en" ? "Done" : "تم"}
               disabled
             />
           )}
@@ -255,25 +255,18 @@ function EditScreen() {
 
         <Text
           style={{
-            textAlign:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "left"
-                : "right",
+            textAlign: i18n.language.split("-")[0] === "en" ? "left" : "right",
             width: "80%",
             padding: 10,
             paddingRight: 0,
             paddingLeft: 0,
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "UbuntuBold"
-                : "NotoBold",
+              i18n.language.split("-")[0] === "en" ? "UbuntuBold" : "NotoBold",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             fontSize: 18,
           }}
         >
-          {i18n.locale === "en-US" || i18n.locale === "en"
-            ? "Full Name"
-            : "الاسم الكامل"}
+          {i18n.language.split("-")[0] === "en" ? "Full Name" : "الاسم الكامل"}
         </Text>
         <TextInput
           textInputStyle={{
@@ -282,9 +275,7 @@ function EditScreen() {
             marginBottom: 10,
             padding: 10,
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
+              i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
             backgroundColor: "white",
             shadowColor: "#000",
             shadowOffset: {
@@ -309,22 +300,20 @@ function EditScreen() {
             <Text
               style={{
                 textAlign:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "left"
-                    : "right",
+                  i18n.language.split("-")[0] === "en" ? "left" : "right",
                 width: "80%",
                 padding: 10,
                 paddingRight: 0,
                 paddingLeft: 0,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 fontSize: 18,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Email"
                 : "البريد الالكتروني"}
             </Text>
@@ -335,9 +324,7 @@ function EditScreen() {
                   width: "100%",
                   padding: 10,
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                   backgroundColor: "white",
                   shadowColor: "#000",
                   shadowOffset: {
@@ -360,16 +347,14 @@ function EditScreen() {
                 autoCapitalize="none"
                 autoCorrect={false}
               />
-              {i18n.locale === "en-US" || i18n.locale === "en" ? (
+              {i18n.language.split("-")[0] === "en" ? (
                 <Text
                   style={{
                     color: "#ea3e29",
                     margin: 5,
                     marginTop: 10,
                     textAlign:
-                      i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "left"
-                        : "right",
+                      i18n.language.split("-")[0] === "en" ? "left" : "right",
                   }}
                 >
                   {existsError === true ? "Email already exists" : ""}
@@ -381,9 +366,7 @@ function EditScreen() {
                     margin: 5,
                     marginTop: 2,
                     textAlign:
-                      i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "left"
-                        : "right",
+                      i18n.language.split("-")[0] === "en" ? "left" : "right",
                   }}
                 >
                   {existsError === true ? "البريد الالكتروني مستخدم" : ""}
@@ -396,22 +379,20 @@ function EditScreen() {
             <Text
               style={{
                 textAlign:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "left"
-                    : "right",
+                  i18n.language.split("-")[0] === "en" ? "left" : "right",
                 width: "80%",
                 padding: 10,
                 paddingRight: 0,
                 paddingLeft: 0,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 fontSize: 18,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Email"
                 : "البريد الالكتروني"}
             </Text>
@@ -424,9 +405,7 @@ function EditScreen() {
                 color: "grey",
                 padding: 10,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 backgroundColor: "white",
                 shadowColor: "#000",
                 shadowOffset: {

@@ -2,7 +2,8 @@ import { observer } from "mobx-react";
 import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
 import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import { useNavigation } from "@react-navigation/native";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
@@ -25,9 +26,16 @@ function OrganizerSpot({ spot, navigation }) {
       suggested: "وجهة مقترحة",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   return (
     <View style={{ backgroundColor: "transparent" }}>
       <TouchableOpacity
@@ -82,15 +90,13 @@ function OrganizerSpot({ spot, navigation }) {
                 width: 1,
               },
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "UbuntuBold"
                   : "NotoBold",
               textAlign: "center",
             }}
           >
-            {i18n.locale === "en-US" || i18n.locale === "en"
-              ? spot.name
-              : spot.nameAr}
+            {i18n.language.split("-")[0] === "en" ? spot.name : spot.nameAr}
           </Text>
         </View>
       </TouchableOpacity>

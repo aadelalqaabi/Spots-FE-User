@@ -9,7 +9,8 @@ import {
   ImageBackground,
 } from "react-native";
 import { baseURL } from "../../stores/instance";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import { useFonts } from "expo-font";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
@@ -32,9 +33,16 @@ function ProfileSpot({ spot }) {
       finished: "انتهى",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
@@ -113,9 +121,7 @@ function ProfileSpot({ spot }) {
             style={{
               display: "flex",
               flexDirection:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "row"
-                  : "row-reverse",
+                i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
               justifyContent: "space-between",
               alignSelf: "center",
               marginTop: "2%",
@@ -126,9 +132,7 @@ function ProfileSpot({ spot }) {
               style={{
                 display: "flex",
                 flexDirection:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "row"
-                    : "row-reverse",
+                  i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
                 alignContent: "center",
                 justifyContent: "center",
                 alignItems: "center",
@@ -149,24 +153,18 @@ function ProfileSpot({ spot }) {
                   fontSize: 22,
                   color: "#e52b51",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                   textAlign: "center",
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Active"
-                  : "نشط"}
+                {i18n.language.split("-")[0] === "en" ? "Active" : "نشط"}
               </Text>
             </View>
             <View
               style={{
                 display: "flex",
                 flexDirection:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "row"
-                    : "row-reverse",
+                  i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
                 alignContent: "center",
                 alignItems: "center",
               }}
@@ -191,7 +189,7 @@ function ProfileSpot({ spot }) {
                 {spot.startTime}
               </Text>
               {spot.endTime &&
-                (i18n.locale === "en-US" || i18n.locale === "en" ? (
+                (i18n.language.split("-")[0] === "en" ? (
                   <Text
                     style={{
                       fontSize: 24,
@@ -230,15 +228,13 @@ function ProfileSpot({ spot }) {
               shadowRadius: 2.62,
               elevation: 4,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "UbuntuBold"
                   : "NotoBold",
               textAlign: "center",
             }}
           >
-            {i18n.locale === "en-US" || i18n.locale === "en"
-              ? spot.name
-              : spot.nameAr}
+            {i18n.language.split("-")[0] === "en" ? spot.name : spot.nameAr}
           </Text>
           <Text
             style={{
@@ -253,13 +249,11 @@ function ProfileSpot({ spot }) {
               shadowRadius: 2.62,
               elevation: 4,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               textAlign: "center",
             }}
           >
-            {i18n.locale === "en-US" || i18n.locale === "en"
+            {i18n.language.split("-")[0] === "en"
               ? users + " users here"
               : users + " مستخدم هنا  "}
           </Text>

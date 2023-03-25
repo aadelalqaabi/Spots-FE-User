@@ -14,7 +14,8 @@ import Modal from "react-native-modal";
 import pointStore from "../../stores/pointStore";
 import authStore from "../../stores/authStore";
 import rewardStore from "../../stores/rewardStore";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import { useNavigation } from "@react-navigation/native";
 import spotStore from "../../stores/spotStore";
@@ -30,9 +31,15 @@ function RewardItem({ reward, onRefresh }) {
       explore: "اكتشف",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 
   const spot = spotStore.getSpotsById(reward.spot);
   let userRewards = rewardStore.rewards.filter((rewardo) =>
@@ -102,7 +109,7 @@ function RewardItem({ reward, onRefresh }) {
               paddingRight: 10,
               borderRadius: 40,
               alignSelf:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "flex-start"
                   : "flex-end",
             }}
@@ -119,16 +126,16 @@ function RewardItem({ reward, onRefresh }) {
               fontSize: 22,
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "UbuntuBold"
                   : "NotoBold",
               alignSelf:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "flex-start"
                   : "flex-end",
             }}
           >
-            {i18n.locale === "en-US" || i18n.locale === "en"
+            {i18n.language.split("-")[0] === "en"
               ? reward?.title
               : reward.titleAr}
           </Text>
@@ -141,22 +148,18 @@ function RewardItem({ reward, onRefresh }) {
               fontSize: 18,
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Cabin"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Cabin" : "Noto",
               alignSelf:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "flex-start"
                   : "flex-end",
               width: 300,
               lineHeight: 25,
               textAlign:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "left"
-                  : "right",
+                i18n.language.split("-")[0] === "en" ? "left" : "right",
             }}
           >
-            {i18n.locale === "en-US" || i18n.locale === "en"
+            {i18n.language.split("-")[0] === "en"
               ? reward?.description
               : reward?.descriptionAr}
           </Text>
@@ -185,17 +188,14 @@ function RewardItem({ reward, onRefresh }) {
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                   fontSize: 30,
                   alignSelf: "center",
                   textAlign: "center",
-                  margin:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
+                  margin: i18n.language.split("-")[0] === "en" ? 10 : 0,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
+                {i18n.language.split("-")[0] === "en"
                   ? reward.title
                   : reward.titleAr}
               </Text>
@@ -203,7 +203,7 @@ function RewardItem({ reward, onRefresh }) {
                 style={{
                   display: "flex",
                   flexDirection:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "row"
                       : "row-reverse",
                   alignSelf: "center",
@@ -215,7 +215,7 @@ function RewardItem({ reward, onRefresh }) {
                       fontFamily: "UbuntuBold",
                       fontSize: 25,
                       alignSelf:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "flex-start"
                           : "flex-end",
                       margin: 35,
@@ -228,21 +228,18 @@ function RewardItem({ reward, onRefresh }) {
                   <Text
                     style={{
                       fontFamily:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "Ubuntu"
                           : "Noto",
                       fontSize: 18,
                       alignSelf: "flex-start",
                       margin: 35,
-                      marginTop:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? 2
-                          : -2,
+                      marginTop: i18n.language.split("-")[0] === "en" ? 2 : -2,
                       marginBottom: 0,
                       color: "#7a797a",
                     }}
                   >
-                    {i18n.locale === "en-US" || i18n.locale === "en"
+                    {i18n.language.split("-")[0] === "en"
                       ? "Reward Points"
                       : "نقاط المكافأة"}
                   </Text>
@@ -253,7 +250,7 @@ function RewardItem({ reward, onRefresh }) {
                       fontFamily: "UbuntuBold",
                       fontSize: 25,
                       alignSelf:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "flex-start"
                           : "flex-end",
                       margin: 35,
@@ -266,21 +263,18 @@ function RewardItem({ reward, onRefresh }) {
                   <Text
                     style={{
                       fontFamily:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "Ubuntu"
                           : "Noto",
                       fontSize: 18,
                       alignSelf: "flex-start",
                       margin: 35,
-                      marginTop:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? 2
-                          : -2,
+                      marginTop: i18n.language.split("-")[0] === "en" ? 2 : -2,
                       marginBottom: 0,
                       color: "#7a797a",
                     }}
                   >
-                    {i18n.locale === "en-US" || i18n.locale === "en"
+                    {i18n.language.split("-")[0] === "en"
                       ? "Your Points"
                       : "نقاطك حاليا"}
                   </Text>
@@ -290,13 +284,9 @@ function RewardItem({ reward, onRefresh }) {
                 <Text
                   style={{
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "Ubuntu"
-                        : "Noto",
+                      i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                     textAlign:
-                      i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "left"
-                        : "right",
+                      i18n.language.split("-")[0] === "en" ? "left" : "right",
                     fontSize: 20,
                     alignSelf: "center",
                     margin: 35,
@@ -307,7 +297,7 @@ function RewardItem({ reward, onRefresh }) {
                     lineHeight: 30,
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
+                  {i18n.language.split("-")[0] === "en"
                     ? `You Need ${
                         reward.points - myPoints?.amount
                       } more points to claim`
@@ -326,7 +316,7 @@ function RewardItem({ reward, onRefresh }) {
                     lineHeight: 30,
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
+                  {i18n.language.split("-")[0] === "en"
                     ? "You can claim this reward now!"
                     : "تستطيع الحصول على هذه الجائزة!"}
                 </Text>
@@ -343,7 +333,7 @@ function RewardItem({ reward, onRefresh }) {
                         textAlign: "center",
                       }}
                     >
-                      {i18n.locale === "en-US" || i18n.locale === "en"
+                      {i18n.language.split("-")[0] === "en"
                         ? "Claim"
                         : "الحصول الآن"}
                     </Text>
@@ -361,9 +351,7 @@ function RewardItem({ reward, onRefresh }) {
                         color: "#e52b51",
                       }}
                     >
-                      {i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "Close"
-                        : "اغلاق"}
+                      {i18n.language.split("-")[0] === "en" ? "Close" : "اغلاق"}
                     </Text>
                   </TouchableOpacity>
                 </>
@@ -378,7 +366,7 @@ function RewardItem({ reward, onRefresh }) {
                         textAlign: "center",
                       }}
                     >
-                      {i18n.locale === "en-US" || i18n.locale === "en"
+                      {i18n.language.split("-")[0] === "en"
                         ? "Claim"
                         : "الحصول الآن"}
                     </Text>
@@ -396,9 +384,7 @@ function RewardItem({ reward, onRefresh }) {
                         color: "#e52b51",
                       }}
                     >
-                      {i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "Close"
-                        : "اغلاق"}
+                      {i18n.language.split("-")[0] === "en" ? "Close" : "اغلاق"}
                     </Text>
                   </TouchableOpacity>
                 </>
@@ -425,28 +411,25 @@ function RewardItem({ reward, onRefresh }) {
                   alignItems: "center",
                   justifyContent: "space-between",
                   padding: 40,
-                  paddingTop:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 40 : 30,
+                  paddingTop: i18n.language.split("-")[0] === "en" ? 40 : 30,
                 }}
               >
                 <Text
                   style={{
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "Ubuntu"
-                        : "Noto",
+                      i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                     fontSize: 25,
                     alignSelf: "center",
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
+                  {i18n.language.split("-")[0] === "en"
                     ? reward.title
                     : reward.titleAr}
                 </Text>
                 <Text
                   style={{
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 40,
@@ -454,7 +437,7 @@ function RewardItem({ reward, onRefresh }) {
                     textAlign: "center",
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
+                  {i18n.language.split("-")[0] === "en"
                     ? "Already claimed"
                     : "تم التحصيل"}
                 </Text>
@@ -469,9 +452,7 @@ function RewardItem({ reward, onRefresh }) {
                       color: "#e52b51",
                     }}
                   >
-                    {i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Close"
-                      : "اغلاق"}
+                    {i18n.language.split("-")[0] === "en" ? "Close" : "اغلاق"}
                   </Text>
                 </TouchableOpacity>
               </View>

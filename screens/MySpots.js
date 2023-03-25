@@ -16,7 +16,8 @@ import { useFonts } from "expo-font";
 import Spotted from "./spots/Spotted";
 import ticketStore from "../stores/ticketStore";
 import ContentLoader, { Rect } from "react-content-loader/native";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import { StatusBar } from "react-native";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
@@ -33,9 +34,16 @@ function MySpots() {
       empty: "لا تذاكر حتى الآن",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = React.useState(false);
   const wait = (timeout) => {
@@ -101,22 +109,18 @@ function MySpots() {
           marginBottom: 10,
           marginTop: 15,
           fontFamily:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "UbuntuBold"
-              : "NotoBold",
+            i18n.language.split("-")[0] === "en" ? "UbuntuBold" : "NotoBold",
           alignSelf:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "flex-start"
-              : "flex-end",
+            i18n.language.split("-")[0] === "en" ? "flex-start" : "flex-end",
           color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}
       >
-        {i18n.t("myspots")}
+        {i18n.language.split("-")[0] === "en" ? "My Tickets" : "تذاكري"}
       </Text>
       <View style={{ width: "100%", height: "91%", zIndex: 99 }}>
         {loading ? (
           <>
-            {i18n.locale === "en-US" || i18n.locale === "en" ? (
+            {i18n.language.split("-")[0] === "en" ? (
               <ContentLoader
                 speed={3}
                 viewBox="5 0 330 600"
@@ -188,17 +192,18 @@ function MySpots() {
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 fontSize: 40,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 alignSelf: "center",
                 textAlign: "center",
                 width: 350,
-                marginTop:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+                marginTop: i18n.language.split("-")[0] === "en" ? 20 : 10,
               }}
             >
-              {i18n.t("empty")}
+              {i18n.language.split("-")[0] === "en"
+                ? "No tickets yet"
+                : "لا تذاكر حتى الآن"}
             </Text>
           </View>
         )}

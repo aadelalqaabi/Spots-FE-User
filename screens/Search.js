@@ -15,7 +15,8 @@ import TextInput from "react-native-text-input-interactive";
 import Spot from "./spots/Spot";
 import Carousel from "react-native-reanimated-carousel";
 import SearchSpot from "./spots/SearchSpot";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import { useFonts } from "expo-font";
 import spotStore from "../stores/spotStore";
@@ -36,9 +37,16 @@ export default function Search({ navigation }) {
       search: "ابحث",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   const today = new Date();
   today.setHours(3, 0, 0, 0);
   const [query, setQuery] = useState("");
@@ -98,9 +106,7 @@ export default function Search({ navigation }) {
           display: "flex",
           alignSelf: "center",
           flexDirection:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "row"
-              : "row-reverse",
+            i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
           alignItems: "center",
           alignContent: "center",
           width: "90%",
@@ -113,9 +119,7 @@ export default function Search({ navigation }) {
             alignItems: "center",
             alignContent: "center",
             flexDirection:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "row"
-                : "row-reverse",
+              i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
           }}
         >
           <TextInput
@@ -128,16 +132,14 @@ export default function Search({ navigation }) {
               color: colorScheme === "light" ? "black" : "white",
               backgroundColor: colorScheme === "light" ? "#dfdfdf" : "#5e5e5e",
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               width: "98%",
               textAlign:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "left"
-                  : "right",
+                i18n.language.split("-")[0] === "en" ? "left" : "right",
             }}
-            placeholder={i18n.t("search")}
+            placeholder={
+              i18n.language.split("-")[0] === "en" ? "Search" : "ابحث"
+            }
             placeholderTextColor={
               colorScheme === "light" ? "#9a9a9a" : "#aeaeae"
             }
@@ -169,8 +171,7 @@ export default function Search({ navigation }) {
                 zIndex: 99,
                 position: "absolute",
                 right: 0,
-                marginRight:
-                  i18n.locale === "en-US" || i18n.locale === "en" ? 22 : 0,
+                marginRight: i18n.language.split("-")[0] === "en" ? 22 : 0,
                 paddingLeft: 22,
                 alignSelf: "center",
               }}
@@ -203,18 +204,13 @@ export default function Search({ navigation }) {
         >
           <Text
             style={{
-              fontSize:
-                i18n.locale === "en-US" || i18n.locale === "en" ? 15 : 18,
+              fontSize: i18n.language.split("-")[0] === "en" ? 15 : 18,
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ubuntu"
-                  : "Noto",
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
             }}
           >
-            {i18n.locale === "en-US" || i18n.locale === "en"
-              ? "Cancel"
-              : "الغاء"}
+            {i18n.language.split("-")[0] === "en" ? "Cancel" : "الغاء"}
           </Text>
         </TouchableOpacity>
       </View>
@@ -224,21 +220,23 @@ export default function Search({ navigation }) {
           <Text
             style={{
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "UbuntuBold"
                   : "NotoBold",
               fontSize: 20,
-              margin: i18n.locale === "en-US" || i18n.locale === "en" ? 25 : 32,
+              margin: i18n.language.split("-")[0] === "en" ? 25 : 32,
               marginBottom: 20,
               marginTop: 5,
               alignSelf:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "flex-start"
                   : "flex-end",
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
           >
-            {i18n.t("suggested")}
+            {i18n.language.split("-")[0] === "en"
+              ? "Suggested Dest"
+              : "ديست مقترحة"}
           </Text>
           <Carousel
             pagingEnabled

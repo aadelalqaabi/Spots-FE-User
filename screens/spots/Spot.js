@@ -1,11 +1,19 @@
 import { observer } from "mobx-react";
-import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Text,
+  Image,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import { baseURL } from "../../stores/instance";
 import { useMediaQuery } from "native-base";
 import moment from "moment";
 import { useFonts } from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import organizerStore from "../../stores/organizerStore";
 import "moment/locale/ar";
@@ -22,9 +30,16 @@ function Spot({ spot, navigation, day }) {
       suggested: "وجهة مقترحة",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   const [isSmallScreen] = useMediaQuery({
     minHeight: 180,
     maxHeight: 900,
@@ -49,6 +64,8 @@ function Spot({ spot, navigation, day }) {
   let dayendEn = moment(spot?.endDate).locale("en").format("DD");
   let monthendAr = moment(spot?.endDate).locale("ar").format("MMM");
   let dayendAr = moment(spot?.endDate).locale("ar").format("DD");
+  const width = Dimensions.get("window").width;
+
   return (
     <TouchableOpacity
       style={{
@@ -56,7 +73,7 @@ function Spot({ spot, navigation, day }) {
         flexDirection: "row",
         alignSelf: "center",
         height: "100%",
-        width: "84%",
+        width: width / 1.15,
       }}
       activeOpacity={0.6}
       onPress={() => {
@@ -115,9 +132,7 @@ function Spot({ spot, navigation, day }) {
             position: "absolute",
             alignSelf: "flex-start",
             flexDirection:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "row"
-                : "row-reverse",
+              i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
             alignContent: "center",
             flexWrap: "wrap",
             alignItems: "center",
@@ -130,9 +145,7 @@ function Spot({ spot, navigation, day }) {
             style={{
               display: "flex",
               flexDirection:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "row"
-                  : "row-reverse",
+                i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
               flexWrap: "nowrap",
               textAlign: "center",
               width: 220,
@@ -171,10 +184,9 @@ function Spot({ spot, navigation, day }) {
               <Image
                 style={{
                   alignSelf: "center",
-                  width: 60,
-                  height: 60,
+                  width: 65,
+                  height: 65,
                   borderRadius: 60,
-                  zIndex: -1,
                   borderColor: "white",
                   backgroundColor: "white",
                   resizeMode: "cover",
@@ -194,19 +206,15 @@ function Spot({ spot, navigation, day }) {
                   width: 0,
                 },
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 alignSelf: "center",
                 textAlign:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "left"
-                    : "right",
+                  i18n.language.split("-")[0] === "en" ? "left" : "right",
                 flex: 1,
                 textTransform: "capitalize",
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? organizer?.displayNameEn
                 : organizer?.displayNameAr}
             </Text>
@@ -237,7 +245,7 @@ function Spot({ spot, navigation, day }) {
                 style={{
                   display: "flex",
                   flexDirection:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "row"
                       : "row-reverse",
                 }}
@@ -245,35 +253,29 @@ function Spot({ spot, navigation, day }) {
                 <Text
                   style={{
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 23,
                     color: "#0a0a0b",
-                    marginTop:
-                      i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -5,
+                    marginTop: i18n.language.split("-")[0] === "en" ? 0 : -5,
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? dayEn
-                    : dayAr}
+                  {i18n.language.split("-")[0] === "en" ? dayEn : dayAr}
                 </Text>
                 {spot?.isMultiple && (
                   <Text
                     style={{
                       fontFamily:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "UbuntuBold"
                           : "NotoBold",
                       fontSize: 23,
                       color: "#0a0a0b",
-                      marginTop:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? 0
-                          : -5,
+                      marginTop: i18n.language.split("-")[0] === "en" ? 0 : -5,
                     }}
                   >
-                    {i18n.locale === "en-US" || i18n.locale === "en"
+                    {i18n.language.split("-")[0] === "en"
                       ? "-" + dayendEn
                       : dayendAr + "-"}
                   </Text>
@@ -283,7 +285,7 @@ function Spot({ spot, navigation, day }) {
                 style={{
                   display: "flex",
                   flexDirection:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "row"
                       : "row-reverse",
                 }}
@@ -291,36 +293,28 @@ function Spot({ spot, navigation, day }) {
                 <Text
                   style={{
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
-                        ? "Ubuntu"
-                        : "Noto",
+                      i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                     fontSize: 15,
                     color: "grey",
-                    marginTop:
-                      i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -20,
+                    marginTop: i18n.language.split("-")[0] === "en" ? 0 : -20,
                   }}
                 >
-                  {i18n.locale === "en-US" || i18n.locale === "en"
-                    ? monthEn
-                    : monthAr}
+                  {i18n.language.split("-")[0] === "en" ? monthEn : monthAr}
                 </Text>
                 {spot?.isMultiple && monthendEn !== monthEn && (
                   <Text
                     style={{
                       fontFamily:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "Ubuntu"
                           : "Noto",
                       fontSize: 15,
                       color: "grey",
-                      marginTop:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? 0
-                          : -20,
+                      marginTop: i18n.language.split("-")[0] === "en" ? 0 : -20,
                     }}
                   >
                     -
-                    {i18n.locale === "en-US" || i18n.locale === "en"
+                    {i18n.language.split("-")[0] === "en"
                       ? monthendEn
                       : monthendAr}
                   </Text>
@@ -371,14 +365,13 @@ function Spot({ spot, navigation, day }) {
               fontWeight: "bold",
               color: "white",
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "UbuntuBold"
                   : "NotoBold",
-              marginBottom:
-                i18n.locale === "en-US" || i18n.locale === "en" ? 0 : -15,
+              marginBottom: i18n.language.split("-")[0] === "en" ? 0 : -15,
               paddingBottom: 10,
               alignSelf:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "flex-start"
                   : "flex-end",
               shadowOpacity: 0.5,
@@ -390,9 +383,7 @@ function Spot({ spot, navigation, day }) {
               },
             }}
           >
-            {i18n.locale === "en-US" || i18n.locale === "en"
-              ? spot.name
-              : spot.nameAr}
+            {i18n.language.split("-")[0] === "en" ? spot.name : spot.nameAr}
           </Text>
           {spot.isFree === true ? (
             <Text
@@ -400,11 +391,9 @@ function Spot({ spot, navigation, day }) {
                 fontSize: 16,
                 color: "white",
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 alignSelf:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "flex-start"
                     : "flex-end",
                 shadowOpacity: 0.1,
@@ -417,9 +406,7 @@ function Spot({ spot, navigation, day }) {
                 },
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Free"
-                : "مجاني"}
+              {i18n.language.split("-")[0] === "en" ? "Free" : "مجاني"}
             </Text>
           ) : (
             <Text
@@ -427,12 +414,10 @@ function Spot({ spot, navigation, day }) {
                 fontSize: 16,
                 color: "white",
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
 
                 alignSelf:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "flex-start"
                     : "flex-end",
                 shadowOpacity: 0.1,
@@ -445,7 +430,7 @@ function Spot({ spot, navigation, day }) {
                 },
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? spot.price + " KD per person"
                 : spot.price + " دك للتذكرة "}
             </Text>

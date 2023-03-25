@@ -13,7 +13,8 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import { useFonts } from "expo-font";
 
@@ -90,9 +91,16 @@ function Advertisments() {
       more: "التفاصيل",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = "ar";
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   // start() is for starting the animation bars at the top
   function start(n) {
     // checking if the content type is video or not
@@ -241,9 +249,7 @@ function Advertisments() {
           style={{
             height: 50,
             flexDirection:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "row"
-                : "row-reverse",
+              i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
             justifyContent: "space-between",
             paddingHorizontal: 15,
             marginTop: 10,
@@ -253,9 +259,7 @@ function Advertisments() {
           <View
             style={{
               flexDirection:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "row"
-                  : "row-reverse",
+                i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
               alignItems: "center",
             }}
           >
@@ -278,12 +282,10 @@ function Advertisments() {
                 paddingLeft: 10,
                 paddingRight: 10,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? organizer?.displayNameEn
                 : organizer?.displayNameAr}
             </Text>
@@ -324,15 +326,11 @@ function Advertisments() {
           fontSize: 32,
           fontWeight: "700",
           fontFamily:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "UbuntuBold"
-              : "NotoBold",
+            i18n.language.split("-")[0] === "en" ? "UbuntuBold" : "NotoBold",
           color: "white",
           shadowColor: "#000",
           alignSelf:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "flex-start"
-              : "flex-end",
+            i18n.language.split("-")[0] === "en" ? "flex-start" : "flex-end",
           shadowOffset: {
             width: 0,
             height: 3,
@@ -344,7 +342,7 @@ function Advertisments() {
           marginBottom: 0,
         }}
       >
-        {i18n.locale === "en-US" || i18n.locale === "en"
+        {i18n.language.split("-")[0] === "en"
           ? adSpots[current]?.name
           : adSpots[current]?.nameAr}
       </Text>
@@ -352,8 +350,7 @@ function Advertisments() {
         style={{
           fontSize: 20,
           color: "white",
-          fontFamily:
-            i18n.locale === "en-US" || i18n.locale === "en" ? "Ubuntu" : "Noto",
+          fontFamily: i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
           shadowColor: "#000",
           shadowOffset: {
             width: 0,
@@ -363,12 +360,11 @@ function Advertisments() {
           shadowRadius: 4.65,
           elevation: 7,
           lineHeight: 28,
-          textAlign:
-            i18n.locale === "en-US" || i18n.locale === "en" ? "left" : "right",
+          textAlign: i18n.language.split("-")[0] === "en" ? "left" : "right",
           margin: 30,
         }}
       >
-        {i18n.locale === "en-US" || i18n.locale === "en"
+        {i18n.language.split("-")[0] === "en"
           ? adSpots[current]?.description
           : adSpots[current]?.descriptionAr}
       </Text>
@@ -406,7 +402,7 @@ function Advertisments() {
             fontFamily: "Ubuntu",
           }}
         >
-          {i18n.locale === "en-US" || i18n.locale === "en"
+          {i18n.language.split("-")[0] === "en"
             ? "More Details"
             : "تفاصيل اكثر"}
         </Text>

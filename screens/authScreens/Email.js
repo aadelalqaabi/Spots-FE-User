@@ -15,7 +15,8 @@ import React from "react";
 import TextInput from "react-native-text-input-interactive";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 import authStore from "../../stores/authStore";
@@ -45,9 +46,15 @@ export default function Email({ navigation, route }) {
       email: "بريدك الالكتروني",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 
   const [showInvalidEmail, setShowInvalidEmail] = useState(false);
   const toggleAlertShowInvalidEmail = useCallback(() => {
@@ -167,13 +174,13 @@ export default function Email({ navigation, route }) {
                 marginLeft: 20,
                 paddingRight: 20,
                 alignSelf:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "flex-start"
                     : "flex-end",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
               name={
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "chevron-back-outline"
                   : "chevron-forward-outline"
               }
@@ -191,33 +198,30 @@ export default function Email({ navigation, route }) {
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 27,
                   margin: 20,
                   marginTop: 0,
-                  marginBottom:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+                  marginBottom: i18n.language.split("-")[0] === "en" ? 20 : 10,
                   width: "100%",
                   textAlign: "center",
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 }}
               >
-                {i18n.t("name")}
+                {i18n.language.split("-")[0] === "en"
+                  ? "Enter Your Email"
+                  : "ادخل بريدك الالكتروني"}
               </Text>
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
-                  fontSize:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 18,
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
+                  fontSize: i18n.language.split("-")[0] === "en" ? 16 : 18,
                   margin: 20,
                   marginTop: 0,
-                  marginBottom:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+                  marginBottom: i18n.language.split("-")[0] === "en" ? 20 : 10,
                   paddingTop: 3,
                   width: "100%",
                   textAlign: "center",
@@ -227,7 +231,9 @@ export default function Email({ navigation, route }) {
                   opacity: 0.8,
                 }}
               >
-                {i18n.t("description")}
+                {i18n.language.split("-")[0] === "en"
+                  ? "Choose an email for your account\n to receive confirmation emails"
+                  : "اختر البريد الالكتروني الخاص بك \nلاستلام بريد تأكيد حجز لاحقا"}
               </Text>
               <View
                 style={{
@@ -249,13 +255,11 @@ export default function Email({ navigation, route }) {
                       paddingLeft: 50,
                       paddingRight: 50,
                       fontFamily:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "Ubuntu"
                           : "Noto",
                       textAlign:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "left"
-                          : "right",
+                        i18n.language.split("-")[0] === "en" ? "left" : "right",
                       backgroundColor: "white",
                       shadowColor: "#000",
                       shadowOffset: {
@@ -278,7 +282,7 @@ export default function Email({ navigation, route }) {
                     onSubmitEditing={() => {
                       checkValidation === false
                         ? navigation.navigate("Password", { itemId: user })
-                        : toggleAlertShowInvalidEmail()
+                        : toggleAlertShowInvalidEmail();
                     }}
                   />
                   {begining === true ? (
@@ -289,7 +293,7 @@ export default function Email({ navigation, route }) {
                         margin: 12,
                         fontSize: 25,
                         alignSelf:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "flex-start"
                             : "flex-end",
                       }}
@@ -307,7 +311,7 @@ export default function Email({ navigation, route }) {
                             margin: 12,
                             fontSize: 25,
                             alignSelf:
-                              i18n.locale === "en-US" || i18n.locale === "en"
+                              i18n.language.split("-")[0] === "en"
                                 ? "flex-start"
                                 : "flex-end",
                           }}
@@ -323,7 +327,7 @@ export default function Email({ navigation, route }) {
                             margin: 12,
                             fontSize: 25,
                             alignSelf:
-                              i18n.locale === "en-US" || i18n.locale === "en"
+                              i18n.language.split("-")[0] === "en"
                                 ? "flex-start"
                                 : "flex-end",
                           }}
@@ -335,14 +339,14 @@ export default function Email({ navigation, route }) {
                     </>
                   )}
 
-                  {i18n.locale === "en-US" || i18n.locale === "en" ? (
+                  {i18n.language.split("-")[0] === "en" ? (
                     <Text
                       style={{
                         color: "#ea3e29",
                         margin: 5,
                         marginTop: 2,
                         textAlign:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "left"
                             : "right",
                       }}
@@ -356,7 +360,7 @@ export default function Email({ navigation, route }) {
                         margin: 5,
                         marginTop: 2,
                         textAlign:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "left"
                             : "right",
                       }}
@@ -375,7 +379,11 @@ export default function Email({ navigation, route }) {
                   {checkValidation === true ? (
                     <View style={styles.buttonx}>
                       <Button
-                        title={i18n.t("next")}
+                        title={
+                          i18n.language.split("-")[0] === "en"
+                            ? "Next"
+                            : "التالي"
+                        }
                         color="white"
                         disabled={checkValidation}
                         onPress={() => {
@@ -386,7 +394,11 @@ export default function Email({ navigation, route }) {
                   ) : (
                     <View style={styles.button}>
                       <Button
-                        title={i18n.t("next")}
+                        title={
+                          i18n.language.split("-")[0] === "en"
+                            ? "Next"
+                            : "التالي"
+                        }
                         color="white"
                         disabled={checkValidation}
                         onPress={() => {
@@ -437,7 +449,7 @@ export default function Email({ navigation, route }) {
               style={{
                 marginBottom: 10,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 width: "90%",
@@ -445,7 +457,7 @@ export default function Email({ navigation, route }) {
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "Invalid Email Adress"
                 : "البريد الإلكتروني غير صالح"}
             </Text>
@@ -456,13 +468,11 @@ export default function Email({ navigation, route }) {
                 textAlign: "center",
                 fontSize: 17,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 lineHeight: 30,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "please try again"
                 : "يرجى المحاولة مرة أخرى"}
             </Text>
@@ -481,13 +491,13 @@ export default function Email({ navigation, route }) {
                   textAlign: "center",
                   color: "#f1f1f1",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 15,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
+                {i18n.language.split("-")[0] === "en"
                   ? "try again"
                   : "حاول مرة اخرى"}
               </Text>

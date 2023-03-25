@@ -8,7 +8,8 @@ import {
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import React from "react";
 import moment from "moment";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import { View } from "react-native";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
@@ -35,9 +36,16 @@ export default function Calnder({ calendar, setCalendar, day, setDay }) {
   if (!fontsLoaded) {
     return <MyAwesomeSplashScreen />;
   }
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   LocaleConfig.locales["ar"] = {
     monthNames: [
       "يناير",
@@ -113,7 +121,7 @@ export default function Calnder({ calendar, setCalendar, day, setDay }) {
     today: "Today",
   };
   LocaleConfig.defaultLocale =
-    i18n.locale === "en-US" || i18n.locale === "en" ? "en" : "ar";
+    i18n.language.split("-")[0] === "en" ? "en" : "ar";
   return (
     <Modal animationType="fade" transparent={true} visible={calendar}>
       <TouchableOpacity
@@ -178,7 +186,7 @@ export default function Calnder({ calendar, setCalendar, day, setDay }) {
             alignSelf: "center",
             marginTop: "3%",
             backgroundColor: "#e52b51",
-            width: "50%",
+            width: "30%",
             borderRadius: 10,
           }}
           onPress={() => {
@@ -192,15 +200,13 @@ export default function Calnder({ calendar, setCalendar, day, setDay }) {
               padding: 10,
               color: "#f1f1f1",
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "UbuntuBold"
                   : "NotoBold",
-              fontSize: 15,
+              fontSize: 17,
             }}
           >
-            {i18n.locale === "en-US" || i18n.locale === "en"
-              ? "Remove Date Filter"
-              : "ازالة تصفية اليوم"}
+            {i18n.language.split("-")[0] === "en" ? "Reset" : "اعادة ضبط"}
           </Text>
         </TouchableOpacity>
       </View>

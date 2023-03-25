@@ -7,8 +7,8 @@ import { observer } from "mobx-react";
 import * as Notifications from "expo-notifications";
 import { baseURL } from "../../stores/instance";
 import * as Localization from "expo-localization";
-import { I18n } from "i18n-js";
-
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -40,9 +40,15 @@ function Payment({ navigation, route }) {
       Payment: "دفع",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 
   const handleBooking = async () => {
     spot.seatsRemaining = spot.seatsRemaining - tickets;
@@ -50,7 +56,7 @@ function Payment({ navigation, route }) {
     newTicket.amount = tickets;
     try {
       await spotStore.updateSpot(spot, spot._id);
-      if (i18n.locale === "en-US" || i18n.locale === "en") {
+      if (i18n.language.split("-")[0] === "en") {
         await ticketStore.createTicket(newTicket, spot._id).then(
           authStore.user.notificationToken !== "" &&
             (await Notifications.scheduleNotificationAsync({

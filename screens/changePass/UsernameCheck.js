@@ -8,7 +8,7 @@ import {
   Keyboard,
   useColorScheme,
   TouchableOpacity,
-  Modal
+  Modal,
 } from "react-native";
 import { useCallback, useState } from "react";
 import { Alert } from "react-native";
@@ -18,7 +18,8 @@ import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 
 import { Ionicons } from "@expo/vector-icons";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import authStore from "../../stores/authStore";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
@@ -27,7 +28,7 @@ export default function UsernameCheck() {
   const [user, setUser] = useState({
     email: "",
     newPassword: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
   const colorScheme = useColorScheme();
   const translations = {
@@ -63,10 +64,10 @@ export default function UsernameCheck() {
   };
   const handleSubmit = async () => {
     const status = await authStore.getOTP(user.email);
-    if(status === "No User Found") {
-      toggleAlertShowNoAccMssg()
-    } else if(status === "User Found") {
-      toggleAlertShowAccMssg()
+    if (status === "No User Found") {
+      toggleAlertShowNoAccMssg();
+    } else if (status === "User Found") {
+      toggleAlertShowAccMssg();
     }
   };
 
@@ -100,13 +101,13 @@ export default function UsernameCheck() {
                 marginLeft: 20,
                 paddingRight: 20,
                 alignSelf:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "flex-start"
                     : "flex-end",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               }}
               name={
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "chevron-back-outline"
                   : "chevron-forward-outline"
               }
@@ -124,34 +125,28 @@ export default function UsernameCheck() {
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
-                  fontSize:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 30 : 35,
+                  fontSize: i18n.language.split("-")[0] === "en" ? 30 : 35,
                   margin: 20,
                   marginTop: 0,
-                  marginBottom:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+                  marginBottom: i18n.language.split("-")[0] === "en" ? 20 : 10,
                   width: "100%",
                   textAlign: "center",
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 }}
               >
-                {i18n.t("name")}
+                {t("name")}
               </Text>
               <Text
                 style={{
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
-                      ? "Ubuntu"
-                      : "Noto",
-                  fontSize:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 16 : 18,
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
+                  fontSize: i18n.language.split("-")[0] === "en" ? 16 : 18,
                   margin: 20,
                   marginTop: 0,
-                  marginBottom:
-                    i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+                  marginBottom: i18n.language.split("-")[0] === "en" ? 20 : 10,
                   width: "100%",
                   textAlign: "center",
                   color: "#64666b",
@@ -161,7 +156,7 @@ export default function UsernameCheck() {
                   paddingTop: 3,
                 }}
               >
-                {i18n.t("description")}
+                {t("description")}
               </Text>
 
               <View
@@ -184,13 +179,11 @@ export default function UsernameCheck() {
                       paddingLeft: 50,
                       paddingRight: 50,
                       fontFamily:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "Ubuntu"
                           : "Noto",
                       textAlign:
-                        i18n.locale === "en-US" || i18n.locale === "en"
-                          ? "left"
-                          : "right",
+                        i18n.language.split("-")[0] === "en" ? "left" : "right",
                       backgroundColor: "white",
                       shadowColor: "#000",
                       shadowOffset: {
@@ -218,7 +211,7 @@ export default function UsernameCheck() {
                       margin: 12,
                       fontSize: 25,
                       alignSelf:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "flex-start"
                           : "flex-end",
                     }}
@@ -244,7 +237,7 @@ export default function UsernameCheck() {
                     }}
                   >
                     <Button
-                      title={i18n.t("next")}
+                      title={t("next")}
                       color="white"
                       onPress={handleSubmit}
                     />
@@ -291,7 +284,7 @@ export default function UsernameCheck() {
               style={{
                 marginBottom: 10,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 width: "90%",
@@ -299,7 +292,7 @@ export default function UsernameCheck() {
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "No Account Found"
                 : "لم يتم العثور على حساب"}
             </Text>
@@ -310,15 +303,11 @@ export default function UsernameCheck() {
                 textAlign: "center",
                 fontSize: 17,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
-                lineHeight: i18n.locale === "en-US" || i18n.locale === "en"
-                ? 20
-                : 30,
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
+                lineHeight: i18n.language.split("-")[0] === "en" ? 20 : 30,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? `There is no account conneted to ${user.email.toLowerCase()}`
                 : "تحقق من صلاحية البريد الإلكتروني الذي ادخلته"}
             </Text>
@@ -337,13 +326,13 @@ export default function UsernameCheck() {
                   textAlign: "center",
                   color: "#f1f1f1",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 15,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
+                {i18n.language.split("-")[0] === "en"
                   ? "try again"
                   : "حاول مرة اخرى"}
               </Text>
@@ -388,7 +377,7 @@ export default function UsernameCheck() {
               style={{
                 marginBottom: 10,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
+                  i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
                 width: "90%",
@@ -396,7 +385,7 @@ export default function UsernameCheck() {
                 fontSize: 24,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? "OTP sent"
                 : "تم ارسال الرمز"}
             </Text>
@@ -407,13 +396,11 @@ export default function UsernameCheck() {
                 textAlign: "center",
                 fontSize: 17,
                 fontFamily:
-                  i18n.locale === "en-US" || i18n.locale === "en"
-                    ? "Ubuntu"
-                    : "Noto",
+                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 lineHeight: 30,
               }}
             >
-              {i18n.locale === "en-US" || i18n.locale === "en"
+              {i18n.language.split("-")[0] === "en"
                 ? `We have sent an OTP to ${user.email.toLowerCase()}`
                 : "لقد أرسلنا الرمز إلى عنوان البريد الإلكتروني الذي قدمته"}
             </Text>
@@ -425,22 +412,25 @@ export default function UsernameCheck() {
                 height: 40,
                 justifyContent: "center",
               }}
-              onPress={() => navigation.navigate("CheckOTP", { itemId: user, toggleAlertShowAccMssg: toggleAlertShowAccMssg })}
+              onPress={() =>
+                navigation.navigate("CheckOTP", {
+                  itemId: user,
+                  toggleAlertShowAccMssg: toggleAlertShowAccMssg,
+                })
+              }
             >
               <Text
                 style={{
                   textAlign: "center",
                   color: "#f1f1f1",
                   fontFamily:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 15,
                 }}
               >
-                {i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "Ok"
-                  : "حسناً"}
+                {i18n.language.split("-")[0] === "en" ? "Ok" : "حسناً"}
               </Text>
             </TouchableOpacity>
           </View>

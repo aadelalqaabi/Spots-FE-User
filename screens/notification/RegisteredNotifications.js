@@ -10,7 +10,8 @@ import {
   Image,
 } from "react-native";
 import React, { useEffect } from "react";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import { useFonts } from "expo-font";
 import { useNavigation, useScrollToTop } from "@react-navigation/native";
@@ -49,10 +50,15 @@ export default function RegisteredNotifications() {
     ...new Map(organizers.map((org) => [org._id, org])).values(),
   ];
   // console.log(uniqueOrganizers)
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
   let [fontsLoaded] = useFonts({
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
     UbuntuLight: require("../../assets/fonts/Ubuntu-Light.ttf"),
@@ -77,8 +83,7 @@ export default function RegisteredNotifications() {
           width: "100%",
           justifyContent: "center",
           alignContent: "center",
-          marginTop:
-            i18n.locale === "en-US" || i18n.locale === "en" ? "4%" : "2%",
+          marginTop: i18n.language.split("-")[0] === "en" ? "4%" : "2%",
           marginBottom: "4%",
         }}
       >
@@ -89,9 +94,7 @@ export default function RegisteredNotifications() {
           style={{
             zIndex: 99,
             alignSelf:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "flex-start"
-                : "flex-end",
+              i18n.language.split("-")[0] === "en" ? "flex-start" : "flex-end",
             position: "absolute",
             marginLeft: 20,
             paddingRight: 20,
@@ -104,7 +107,7 @@ export default function RegisteredNotifications() {
               fontSize: 32,
             }}
             name={
-              i18n.locale === "en-US" || i18n.locale === "en"
+              i18n.language.split("-")[0] === "en"
                 ? "chevron-back-outline"
                 : "chevron-forward-outline"
             }
@@ -116,13 +119,11 @@ export default function RegisteredNotifications() {
             alignSelf: "center",
             fontSize: 28,
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
+              i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
-          {i18n.t("NotificationList")}
+          {i18n.language.split("-")[0] === "en" ? "Organizers" : "المنظمون"}
         </Text>
       </View>
       {uniqueOrganizers.length === 0 ? (
@@ -149,17 +150,18 @@ export default function RegisteredNotifications() {
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
               fontSize: 40,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "UbuntuBold"
                   : "NotoBold",
               alignSelf: "center",
               textAlign: "center",
               width: 350,
-              marginTop:
-                i18n.locale === "en-US" || i18n.locale === "en" ? 20 : 10,
+              marginTop: i18n.language.split("-")[0] === "en" ? 20 : 10,
             }}
           >
-            {i18n.t("empty")}
+            {i18n.language.split("-")[0] === "en"
+              ? "No organizer followed"
+              : "لا تتابع اي منظم"}
           </Text>
         </View>
       ) : (

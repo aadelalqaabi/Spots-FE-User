@@ -20,7 +20,8 @@ import { AntDesign } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import pointStore from "../stores/pointStore";
 import ScrollTabs from "../ScrollTabs";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import { Ionicons } from "@expo/vector-icons";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
@@ -38,9 +39,16 @@ function Profile() {
       edit: "تعديل الحساب",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
@@ -153,7 +161,7 @@ function Profile() {
                 <TouchableOpacity
                   style={{
                     alignSelf:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "flex-end"
                         : "flex-start",
                     position: "absolute",
@@ -174,7 +182,7 @@ function Profile() {
                   style={{
                     fontSize: 23,
                     fontFamily:
-                      i18n.locale === "en-US" || i18n.locale === "en"
+                      i18n.language.split("-")[0] === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
                     color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
@@ -191,7 +199,7 @@ function Profile() {
                   alignContent: "center",
                   alignItems: "center",
                   flexDirection:
-                    i18n.locale === "en-US" || i18n.locale === "en"
+                    i18n.language.split("-")[0] === "en"
                       ? "row"
                       : "row-reverse",
 
@@ -244,13 +252,13 @@ function Profile() {
                       alignSelf: "center",
                       display: "flex",
                       flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "row"
                           : "row-reverse",
                       alignContent: "center",
                       justifyContent: "flex-start",
                       marginBottom:
-                        i18n.locale === "en-US" || i18n.locale === "en" ? 6 : 3,
+                        i18n.language.split("-")[0] === "en" ? 6 : 3,
                     }}
                   >
                     <Text
@@ -259,13 +267,9 @@ function Profile() {
                         fontFamily: "Ubuntu",
                         color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                         paddingLeft:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 0
-                            : 8,
+                          i18n.language.split("-")[0] === "en" ? 0 : 8,
                         paddingRight:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? 8
-                            : 0,
+                          i18n.language.split("-")[0] === "en" ? 8 : 0,
                       }}
                     >
                       {userSpots?.length}
@@ -274,13 +278,13 @@ function Profile() {
                       style={{
                         fontSize: 21,
                         fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "Ubuntu"
                             : "Noto",
                         color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                       }}
                     >
-                      {i18n.t("spots")}
+                      {i18n.language.split("-")[0] === "en" ? "Dest" : "ديست"}
                     </Text>
                   </View>
                   <TouchableOpacity
@@ -293,7 +297,7 @@ function Profile() {
                       borderRadius: 8,
                       display: "flex",
                       flexDirection:
-                        i18n.locale === "en-US" || i18n.locale === "en"
+                        i18n.language.split("-")[0] === "en"
                           ? "row"
                           : "row-reverse",
                       alignContent: "center",
@@ -307,17 +311,17 @@ function Profile() {
                         color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                         fontSize: 19,
                         fontFamily:
-                          i18n.locale === "en-US" || i18n.locale === "en"
+                          i18n.language.split("-")[0] === "en"
                             ? "Ubuntu"
                             : "Noto",
                         alignSelf: "center",
                         marginTop:
-                          i18n.locale === "en-US" || i18n.locale === "en"
-                            ? -2
-                            : -5,
+                          i18n.language.split("-")[0] === "en" ? -2 : -5,
                       }}
                     >
-                      {i18n.t("edit")}
+                      {i18n.language.split("-")[0] === "en"
+                        ? "Edit profile"
+                        : "تعديل الحساب"}
                     </Text>
                   </TouchableOpacity>
                 </View>

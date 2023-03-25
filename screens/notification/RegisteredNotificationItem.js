@@ -1,6 +1,7 @@
 import { StyleSheet, Text, useColorScheme, View, Image } from "react-native";
 import React from "react";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import { useFonts } from "expo-font";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
@@ -21,9 +22,16 @@ export default function RegisteredNotificationItem({ organizerId }) {
       Users: "متابعون",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
+
   let [fontsLoaded] = useFonts({
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
     UbuntuLight: require("../../assets/fonts/Ubuntu-Light.ttf"),
@@ -54,9 +62,7 @@ export default function RegisteredNotificationItem({ organizerId }) {
           display: "flex",
           justifyContent: "space-between",
           flexDirection:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "row"
-              : "row-reverse",
+            i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
           alignItems: "center",
           margin: "5%",
           marginRight: "10%",
@@ -67,9 +73,7 @@ export default function RegisteredNotificationItem({ organizerId }) {
           style={{
             display: "flex",
             flexDirection:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "row"
-                : "row-reverse",
+              i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
             alignItems: "center",
           }}
         >
@@ -92,16 +96,14 @@ export default function RegisteredNotificationItem({ organizerId }) {
 
               fontSize: 20,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "UbuntuBold"
                   : "NotoBold",
-              marginLeft:
-                i18n.locale === "en-US" || i18n.locale === "en" ? 10 : 0,
-              marginRight:
-                i18n.locale === "en-US" || i18n.locale === "en" ? 0 : 10,
+              marginLeft: i18n.language.split("-")[0] === "en" ? 10 : 0,
+              marginRight: i18n.language.split("-")[0] === "en" ? 0 : 10,
             }}
           >
-            {i18n.locale === "en-US" || i18n.locale === "en"
+            {i18n.language.split("-")[0] === "en"
               ? organizer?.displayNameEn
               : organizer?.displayNameAr}
           </Text>
@@ -130,7 +132,7 @@ export default function RegisteredNotificationItem({ organizerId }) {
               fontFamily: "Ubuntu",
             }}
           >
-            {i18n.t("Users")}
+            {i18n.language.split("-")[0] === "en" ? "Subscribers" : "مشتركين"}
           </Text>
         </View>
       </View>

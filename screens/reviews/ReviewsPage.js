@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
-import { I18n } from "i18n-js";
+import i18n from "i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
@@ -27,9 +28,15 @@ export default function ReviewsPage({ route }) {
       explore: "اكتشف",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  i18n.enableFallback = true;
+
+  i18n.use(initReactI18next).init({
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
 
   const navigation = useNavigation();
 
@@ -52,9 +59,7 @@ export default function ReviewsPage({ route }) {
         style={{
           display: "flex",
           flexDirection:
-            i18n.locale === "en-US" || i18n.locale === "en"
-              ? "row"
-              : "row-reverse",
+            i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
           alignContent: "center",
           alignItems: "center",
           justifyContent: "cnter",
@@ -76,7 +81,7 @@ export default function ReviewsPage({ route }) {
               width: "100%",
             }}
             name={
-              i18n.locale === "en-US" || i18n.locale === "en"
+              i18n.language.split("-")[0] === "en"
                 ? "chevron-back-outline"
                 : "chevron-forward-outline"
             }
@@ -88,16 +93,12 @@ export default function ReviewsPage({ route }) {
             alignSelf: "center",
             textAlign: "center",
             fontFamily:
-              i18n.locale === "en-US" || i18n.locale === "en"
-                ? "Ubuntu"
-                : "Noto",
+              i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
             width: "70%",
             color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           }}
         >
-          {i18n.locale === "en-US" || i18n.locale === "en"
-            ? "Reviews"
-            : "تقييمات"}
+          {i18n.language.split("-")[0] === "en" ? "Reviews" : "تقييمات"}
         </Text>
       </View>
 
@@ -119,21 +120,18 @@ export default function ReviewsPage({ route }) {
           <Text
             style={{
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              fontSize:
-                i18n.locale === "en-US" || i18n.locale === "en" ? 40 : 35,
+              fontSize: i18n.language.split("-")[0] === "en" ? 40 : 35,
               fontFamily:
-                i18n.locale === "en-US" || i18n.locale === "en"
+                i18n.language.split("-")[0] === "en"
                   ? "UbuntuBold"
                   : "NotoBold",
               alignSelf: "center",
               textAlign:
-                i18n.locale === "en-US" || i18n.locale === "en"
-                  ? "left"
-                  : "right",
+                i18n.language.split("-")[0] === "en" ? "left" : "right",
               lineHeight: 60,
             }}
           >
-            {i18n.locale === "en-US" || i18n.locale === "en"
+            {i18n.language.split("-")[0] === "en"
               ? "No reviews yet!"
               : "لا تقييمات حتى الآن!"}
           </Text>
