@@ -29,15 +29,34 @@ import ticketStore from "../../stores/ticketStore";
 import i18n from "i18next";
 import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
+import * as Notifications from "expo-notifications";
 import "moment/locale/ar";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 import Swiper from "react-native-swiper";
 import * as StoreReview from "expo-store-review";
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 export function SpotDetails({ route }) {
   const spot = spotStore.getSpotsById(route.params.id);
   let dateEn = moment(spot?.startDate).locale("en").format("LL");
   let dateAr = moment(spot?.startDate).locale("ar").format("LL");
+
+  let timeString = spot.startTime;
+  let time = new Date(`1970-01-01T${timeString}:00Z`);
+  time.setHours(time.getHours() - 1);
+  time.setMinutes(time.getMinutes() - 60);
+  let newTimeString = time.toTimeString().substr(0, 5);
+  const h = newTimeString.substring(0, 2);
+  const m = newTimeString.substring(3, 5);
+  const startDateNoti = new Date(spot.startDate); // Convert startDate to a Date object
+  const triggerDateNoti = new Date(startDateNoti.getFullYear(), startDateNoti.getMonth(), startDateNoti.getDate(), parseInt(h), parseInt(m), 0);
+  console.log('triggerDateNoti', triggerDateNoti)
 
   let dateendEn = moment(spot?.endDate).locale("en").format("LL");
   let dateendAr = moment(spot?.endDate).locale("ar").format("LL");
@@ -151,6 +170,28 @@ export function SpotDetails({ route }) {
     if (!found) {
       await ticketStore.createTicket(newTicket, newSpot._id);
       await ticketStore.fetchTickets();
+      if (i18n.language.split("-")[0] === "en" && authStore.user.notificationToken !== "") {
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: `Can't Wait to see you ${authStore.user.name}!`,
+            body: `Don't Forget ${newSpot.name} starts in 2 hours`,
+            //   data: { data: 'goes here' },
+          },
+          trigger: {
+            date: triggerDateNoti
+          },
+        })
+      } else if(i18n.language.split("-")[0] === "ar" && authStore.user.notificationToken !== "") {
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: `!${authStore.user.name} لا نستطيع الانتظار لرؤيتك`,
+            body: `تبدا في ساعتين ${newSpot.name}لا تنس`,
+          },
+          trigger: {
+            date: triggerDateNoti
+          },
+        })
+      }
       toggleAlert();
       setIsLoading(false);
     } else {
