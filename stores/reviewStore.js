@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import authStore from "./authStore";
 import { instance } from "./instance";
 import spotStore from "./spotStore";
@@ -17,10 +17,6 @@ class ReviewStore {
       this.reviews.push(response.data);
       const addReview = spotStore.getSpotsById(spotId);
       addReview.reviews.push(response.data);
-
-      // spotStore.spots = spotStore.spots.map((spot) =>
-      // spot._id === spotId ? spot.reviews.push(response.data) : spot
-      // );
     } catch (error) {
       console.error(error);
     }
@@ -29,7 +25,9 @@ class ReviewStore {
   fetchReviews = async () => {
     try {
       const response = await instance.get("/review");
-      this.reviews = response.data;
+      runInAction(() => {
+        this.reviews = response.data;
+      });
     } catch (error) {
       console.error(error);
     }

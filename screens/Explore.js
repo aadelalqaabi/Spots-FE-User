@@ -46,6 +46,7 @@ function Explore() {
   };
 
   i18n.use(initReactI18next).init({
+    compatibilityJSON: "v3",
     resources: translations,
     lng: Localization.locale,
     fallbackLng: true,
@@ -53,7 +54,6 @@ function Explore() {
       escapeValue: false,
     },
   });
-
   const scrollViewRef = React.useRef(null);
   const ref = React.useRef(null);
   useScrollToTop(ref);
@@ -185,7 +185,7 @@ function Explore() {
               style={{
                 margin: 30,
                 marginTop: 0,
-                marginBottom: 0,
+                marginBottom: 10,
                 display: "flex",
                 flexDirection:
                   i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",

@@ -32,6 +32,7 @@ function Spot({ spot, navigation, day }) {
   };
 
   i18n.use(initReactI18next).init({
+    compatibilityJSON: "v3",
     resources: translations,
     lng: Localization.locale,
     fallbackLng: true,
@@ -73,7 +74,7 @@ function Spot({ spot, navigation, day }) {
         flexDirection: "row",
         alignSelf: "center",
         height: "100%",
-        width: width / 1.15,
+        width: width / 1.18,
       }}
       activeOpacity={0.6}
       onPress={() => {

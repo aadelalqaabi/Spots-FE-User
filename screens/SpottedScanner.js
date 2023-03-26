@@ -37,6 +37,7 @@ export default function SpottedScanner({ route }) {
   };
 
   i18n.use(initReactI18next).init({
+    compatibilityJSON: "v3",
     resources: translations,
     lng: Localization.locale,
     fallbackLng: true,

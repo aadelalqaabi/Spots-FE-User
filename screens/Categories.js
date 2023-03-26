@@ -33,6 +33,7 @@ export default function Categories({
   };
 
   i18n.use(initReactI18next).init({
+    compatibilityJSON: "v3",
     resources: translations,
     lng: Localization.locale,
     fallbackLng: true,
@@ -57,7 +58,7 @@ export default function Categories({
         style={{
           width: "90%",
           alignSelf: "center",
-          marginTop: "75%",
+          marginTop: "70%",
           zIndex: 99,
           display: "flex",
           flexDirection: "column",
@@ -115,6 +116,7 @@ export default function Categories({
                   setCategory(categoryItem);
                   setCategoryModal(false);
                 }}
+                key={categories.indexOf(categoryItem)}
                 style={{
                   backgroundColor:
                     categoryItem === category ? "#e52b51" : "transparent",
