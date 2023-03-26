@@ -21,10 +21,13 @@ function Payment({ navigation, route }) {
   const spot = route.params.itemId;
   let timeString = spot.startTime;
   let time = new Date(`1970-01-01T${timeString}:00Z`);
-  time.setHours(time.getHours() - 5);
+  time.setHours(time.getHours() - 1);
+  time.setMinutes(time.getMinutes() - 60);
   let newTimeString = time.toTimeString().substr(0, 5);
-  const h = newTimeString.substring(0, 1);
-  const m = newTimeString.substring(2, 3);
+  const h = newTimeString.substring(0, 2);
+  const m = newTimeString.substring(3, 5);
+  const startDateNoti = new Date(spot.startDate); // Convert startDate to a Date object
+  const triggerDateNoti = new Date(startDateNoti.getFullYear(), startDateNoti.getMonth(), startDateNoti.getDate(), parseInt(h), parseInt(m), 0);
   const tickets = route.params.quantity;
   const [newTicket, setNewTicket] = useState({
     amount: 0,
@@ -64,13 +67,9 @@ function Payment({ navigation, route }) {
               content: {
                 title: `Can't Wait to see you ${authStore.user.name}!`,
                 body: `Don't Forget ${spot.name} starts in 2 hours`,
-                icon: `${baseURL}${spot.image}`,
-                //   data: { data: 'goes here' },
               },
               trigger: {
-                date: spot.startDate,
-                hour: parseInt(h),
-                minute: parseInt(m),
+                date: triggerDateNoti
               },
             }))
         );
@@ -80,13 +79,9 @@ function Payment({ navigation, route }) {
             content: {
               title: `!${authStore.user.name} لا نستطيع الانتظار لرؤيتك`,
               body: `تبدا في ساعتين ${spot.name}لا تنس`,
-              icon: `${baseURL}${spot.image}`,
-              //   data: { data: 'goes here' },
             },
             trigger: {
-              date: spot.startDate,
-              hour: parseInt(h),
-              minute: parseInt(m),
+              date: triggerDateNoti
             },
           })
         );

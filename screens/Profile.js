@@ -57,14 +57,14 @@ function Profile() {
         setLoading(true);
         await authStore.checkForToken();
         if (authStore.user.locale === "") {
-          authStore.changeLocal(i18n.locale);
+          authStore.changeLocal(i18n.language);
         } else if (
-          i18n?.locale?.includes("en") &&
+          i18n?.language?.includes("en") &&
           authStore?.user?.locale?.includes("en")
         ) {
-          authStore.changeLocal(i18n.locale);
+          authStore.changeLocal(i18n.language);
         } else {
-          authStore.changeLocal(i18n.locale);
+          authStore.changeLocal(i18n.language);
         }
       } finally {
         setLoading(false);
