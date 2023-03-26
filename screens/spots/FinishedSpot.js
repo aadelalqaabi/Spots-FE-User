@@ -31,6 +31,7 @@ function FinishedSpot({ spot }) {
   const navigation = useNavigation();
 
   i18n.use(initReactI18next).init({
+    compatibilityJSON: "v3",
     resources: translations,
     lng: Localization.locale,
     fallbackLng: true,

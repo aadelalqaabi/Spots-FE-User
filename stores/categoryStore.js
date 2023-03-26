@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import { instance } from "./instance";
 
 class CategoryStore {
@@ -11,7 +11,9 @@ class CategoryStore {
   fetchCategories = async () => {
     try {
       const response = await instance.get("/category");
-      this.categories = response.data;
+      runInAction(() => {
+        this.categories = response.data;
+      });
     } catch (error) {
       console.error(error);
     }

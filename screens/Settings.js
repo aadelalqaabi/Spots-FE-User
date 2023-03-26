@@ -44,6 +44,7 @@ function Settings() {
   };
 
   i18n.use(initReactI18next).init({
+    compatibilityJSON: "v3",
     resources: translations,
     lng: Localization.locale,
     fallbackLng: true,
@@ -765,7 +766,7 @@ function Settings() {
             marginTop: 30,
           }}
         >
-          Version 1.0.5
+          Version 1.0.6
         </Text>
       </ScrollView>
       {/* Disable Modal */}

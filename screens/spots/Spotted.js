@@ -37,6 +37,7 @@ function Spotted({ ticket, navigation }) {
   };
 
   i18n.use(initReactI18next).init({
+    compatibilityJSON: "v3",
     resources: translations,
     lng: Localization.locale,
     fallbackLng: true,

@@ -60,7 +60,9 @@ class AuthStore {
   setUser = async (token) => {
     await AsyncStorage.setItem("myToken", JSON.stringify(token));
     instance.defaults.headers.common.Authorization = `Bearer ${token}`;
-    this.user = decode(token);
+    runInAction(() => {
+      this.user = decode(token);
+    });
   };
 
   checkForToken = async () => {
@@ -99,7 +101,9 @@ class AuthStore {
   };
 
   logout = () => {
-    this.user = null;
+    runInAction(() => {
+      this.user = null;
+    });
     AsyncStorage.removeItem("myToken");
     delete instance.defaults.headers.common.Authorization;
   };
@@ -145,11 +149,6 @@ class AuthStore {
 
   forgotUser = async (userForgot) => {
     userForgot.email = userForgot.email.toLowerCase();
-    console.log("userForgot", userForgot);
-    console.log(
-      "userForgot",
-      userForgot.newPassword === userForgot.confirmedPassword
-    );
     let status = "";
     try {
       if (
@@ -189,7 +188,9 @@ class AuthStore {
     //TODO TEST with ADEL add token to reward return from user.controllers rewardAdd function
     try {
       const res = await instance.put(REWARD + rewardId);
-      for (const key in this.user) this.user[key] = res.data[key];
+      runInAction(() => {
+        for (const key in this.user) this.user[key] = res.data[key];
+      });
     } catch (error) {
       console.error("reward error: ", error);
     }
@@ -199,7 +200,9 @@ class AuthStore {
     //TODO ADD return token
     try {
       const res = await instance.put(REMOVE_DEST + spotId);
-      this.user.spots = res.data.spots.filter((spot) => spot._id !== spotId);
+      runInAction(() => {
+        this.user.spots = res.data.spots.filter((spot) => spot._id !== spotId);
+      });
     } catch (error) {
       console.error("here", error);
     }
@@ -210,11 +213,9 @@ class AuthStore {
     try {
       const res = await instance.post(U_OTP + "/" + email.toLowerCase());
       if (res.data?.message === "No User Found") {
-        console.log("OTP", this.OTP);
         status = "No User Found";
       } else if (res.data.message === "User Found") {
         this.OTP = res.data.OTP;
-        console.log("in", this.OTP);
         status = "User Found";
       }
       return status;
@@ -235,7 +236,9 @@ class AuthStore {
   getEmails = async () => {
     try {
       const res = await instance.get(EMAILS);
-      this.userEmails = res.data;
+      runInAction(() => {
+        this.userEmails = res.data;
+      });
     } catch (error) {
       console.error("emails error", error);
     }
