@@ -9,7 +9,6 @@ import {
   Alert,
   Share,
   useColorScheme,
-  Dimensions,
   ScrollView,
   StatusBar,
   ActivityIndicator,
@@ -136,7 +135,7 @@ export function SpotDetails({ route }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return <View style={{ backgroundColor: "transparent" }}></View>;
   }
   const handleInc = () => {
     setCheckSeats(checkSeats + 1);

@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Modal,
   SafeAreaView,
-  ActivityIndicator,
   ScrollView,
 } from "react-native";
 import React, { useEffect, useState, useRef, useCallback } from "react";
@@ -17,9 +16,9 @@ import * as Localization from "expo-localization";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import authStore from "../stores/authStore";
-import { Alert } from "react-native";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
 import { observer } from "mobx-react";
+import { useFonts } from "expo-font";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -183,17 +182,16 @@ function Settings() {
           );
         };
       });
-
-    // let [fontsLoaded] = useFonts({
-    //   UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
-    //   Ubuntu: require("../assets/fonts/Ubuntu.ttf"),
-    //   Noto: require("../assets/fonts/Noto.ttf"),
-    //   NotoBold: require("../assets/fonts/NotoBold.ttf"),
-    // });
-    // if (!fontsLoaded) {
-    //   return <MyAwesomeSplashScreen />;
-    // }
   }, []);
+  let [fontsLoaded] = useFonts({
+    UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
+    Ubuntu: require("../assets/fonts/Ubuntu.ttf"),
+    Noto: require("../assets/fonts/Noto.ttf"),
+    NotoBold: require("../assets/fonts/NotoBold.ttf"),
+  });
+  if (!fontsLoaded) {
+    return <View style={{ backgroundColor: "transparent" }}></View>;
+  }
 
   return (
     <SafeAreaView
@@ -766,7 +764,7 @@ function Settings() {
             marginTop: 30,
           }}
         >
-          Version 1.1.7
+          Version 1.1.8
         </Text>
       </ScrollView>
       {/* Disable Modal */}

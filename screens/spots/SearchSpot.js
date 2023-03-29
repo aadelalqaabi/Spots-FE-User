@@ -1,12 +1,5 @@
 import { observer } from "mobx-react";
-import {
-  Text,
-  Image,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-} from "react-native";
+import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
 import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
 import i18n from "i18next";
@@ -24,7 +17,7 @@ function SearchSpot({ spot, navigation }) {
   const [isImageLoading, setIsImageLoading] = useState(true);
 
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return <View style={{ backgroundColor: "transparent" }}></View>;
   }
 
   const translations = {

@@ -79,7 +79,7 @@ function RewardItem({ reward, onRefresh }) {
     setModalVisible(!isModalVisible);
   };
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return <View style={{ backgroundColor: "transparent" }}></View>;
   }
 
   const handleClaim = async () => {

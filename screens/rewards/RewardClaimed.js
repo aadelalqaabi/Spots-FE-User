@@ -7,7 +7,7 @@ import pointStore from "../../stores/pointStore";
 import authStore from "../../stores/authStore";
 import rewardStore from "../../stores/rewardStore";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import { useNavigation } from "@react-navigation/native";
 import spotStore from "../../stores/spotStore";
@@ -65,7 +65,7 @@ function RewardClaimed({ reward, onRefresh }) {
     setModalVisible(!isModalVisible);
   };
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return <View style={{ backgroundColor: "transparent" }}></View>;
   }
 
   const handleClaim = async () => {

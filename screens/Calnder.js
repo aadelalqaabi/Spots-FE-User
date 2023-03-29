@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   useColorScheme,
   Modal,
+  View,
 } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import React from "react";
@@ -11,7 +12,6 @@ import { DateTime } from "luxon";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
-import { View } from "react-native";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
 import { useFonts } from "expo-font";
 
@@ -33,7 +33,7 @@ export default function Calnder({ calendar, setCalendar, day, setDay }) {
     NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return <View style={{ backgroundColor: "transparent" }}></View>;
   }
 
   i18n.use(initReactI18next).init({

@@ -1,7 +1,6 @@
 import {
   StyleSheet,
   View,
-  Button,
   Text,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
@@ -18,9 +17,7 @@ import TextInput from "react-native-text-input-interactive";
 import i18n from "i18next";
 import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
-import OTPInputView from "@twotalltotems/react-native-otp-input";
 import authStore from "../../stores/authStore";
-import { Alert } from "react-native";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 export default function CheckOTP({ navigation, route }) {
@@ -82,7 +79,7 @@ export default function CheckOTP({ navigation, route }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return <View style={{ backgroundColor: "transparent" }}></View>;
   }
 
   setTimeout(() => {
