@@ -1,6 +1,12 @@
 import { observer } from "mobx-react";
-import { Button } from "native-base";
-import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Text,
+  Image,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Button,
+} from "react-native";
 import { baseURL } from "../../stores/instance";
 
 function Category({ category }) {

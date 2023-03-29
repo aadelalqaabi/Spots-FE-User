@@ -5,20 +5,18 @@ import {
   TouchableOpacity,
   Linking,
   useColorScheme,
-  SafeAreaView,
   Image,
   ImageBackground,
   StatusBar,
 } from "react-native";
-import moment from "moment";
+import { DateTime } from "luxon";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 import spotStore from "../../stores/spotStore";
-import React, { useState } from "react";
+import React from "react";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
-import "moment/locale/ar";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 import { useNavigation } from "@react-navigation/native";
 import { baseURL } from "../../stores/instance";
@@ -70,11 +68,19 @@ export default function SpotttedDetails({ route }) {
   if (!fontsLoaded) {
     return <MyAwesomeSplashScreen />;
   }
-  let dateEn = moment(spot?.startDate).locale("en").format("LL");
-  let dateAr = moment(spot?.startDate).locale("ar").format("LL");
+  let dateEn = DateTime.fromISO(spot?.startDate)
+    .setLocale("en")
+    .toFormat("DDD");
+  let dateAr = DateTime.fromISO(spot?.startDate)
+    .setLocale("ar")
+    .toFormat("DDD");
 
-  let dateendEn = moment(spot?.endDate).locale("en").format("LL");
-  let dateendAr = moment(spot?.endDate).locale("ar").format("LL");
+  let dateendEn = DateTime.fromISO(spot?.endDate)
+    .setLocale("en")
+    .toFormat("DDD");
+  let dateendAr = DateTime.fromISO(spot?.endDate)
+    .setLocale("ar")
+    .toFormat("DDD");
 
   const organizer = organizerStore.getOrganizerById(spot.organizer);
 
@@ -96,7 +102,9 @@ export default function SpotttedDetails({ route }) {
           opacity: 0.7,
         }}
       ></View>
-      <StatusBar barStyle={"light-content"} />
+      <StatusBar
+        barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
+      />
       <View
         style={{
           display: "flex",

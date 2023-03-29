@@ -11,15 +11,13 @@ import {
   Modal,
 } from "react-native";
 import { useCallback, useState } from "react";
-import { Alert } from "react-native";
 import React from "react";
 import TextInput from "react-native-text-input-interactive";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-
 import { Ionicons } from "@expo/vector-icons";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import authStore from "../../stores/authStore";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
@@ -43,10 +41,15 @@ export default function UsernameCheck() {
       next: "التالي",
     },
   };
-  const i18n = new I18n(translations);
-  i18n.locale = Localization.locale;
-  // i18n.locale = "ar"
-  i18n.enableFallback = true;
+  i18n.use(initReactI18next).init({
+    compatibilityJSON: "v3",
+    resources: translations,
+    lng: Localization.locale,
+    fallbackLng: true,
+    interpolation: {
+      escapeValue: false,
+    },
+  });
   const navigation = useNavigation();
 
   const [showNoAccMssg, setShowNoAccMssg] = useState(false);
@@ -137,7 +140,9 @@ export default function UsernameCheck() {
                   color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 }}
               >
-                {t("name")}
+                {i18n.language.split("-")[0] === "en"
+                  ? "Enter Your Email"
+                  : "ادخل بريدك الالكتروني"}
               </Text>
               <Text
                 style={{
@@ -156,7 +161,9 @@ export default function UsernameCheck() {
                   paddingTop: 3,
                 }}
               >
-                {t("description")}
+                {i18n.language.split("-")[0] === "en"
+                  ? "Enter a valid account email\n (Must be a valid email)"
+                  : "اختر اسم ليظهر في حسابك \n(يجب ان يكون حرفين على الاقل)"}
               </Text>
 
               <View
@@ -237,7 +244,9 @@ export default function UsernameCheck() {
                     }}
                   >
                     <Button
-                      title={t("next")}
+                      title={
+                        i18n.language.split("-")[0] === "en" ? "Next" : "التالي"
+                      }
                       color="white"
                       onPress={handleSubmit}
                     />

@@ -68,10 +68,10 @@ export default function Login() {
 
   const handleSubmit = async (event) => {
     const status = await authStore.login(user);
-    console.log("status", status);
     if (status === "not logged in") {
       toggleAlertShowInvalidInfo();
     }
+    if (authStore.user) navigation.navigate("Home");
   };
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),

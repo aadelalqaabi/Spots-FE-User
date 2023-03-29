@@ -7,9 +7,9 @@ import {
 } from "react-native";
 import { Calendar, LocaleConfig } from "react-native-calendars";
 import React from "react";
-import moment from "moment";
+import { DateTime } from "luxon";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import { View } from "react-native";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
@@ -17,8 +17,7 @@ import { useFonts } from "expo-font";
 
 export default function Calnder({ calendar, setCalendar, day, setDay }) {
   const colorScheme = useColorScheme();
-  const today = new Date();
-  const formattedToday = moment(today).locale("en").format("YYYY-MM-DD");
+  const formattedToday = DateTime.now().setLocale("en").toFormat("yyyy-MM-dd");
   const translations = {
     en: {
       explore: "Explore",

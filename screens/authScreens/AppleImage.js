@@ -14,10 +14,12 @@ import { useFonts } from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import * as Localization from "expo-localization";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
+import { useNavigation } from "@react-navigation/native";
 
-export default function AppleImage({ navigation, route }) {
+export default function AppleImage({ route }) {
+  const navigation = useNavigation();
   const colorScheme = useColorScheme();
   const translations = {
     en: {
@@ -98,6 +100,7 @@ export default function AppleImage({ navigation, route }) {
     setIsLoading(true);
     try {
       authStore.register(user);
+      if (authStore.user) navigation.navigate("Home");
     } catch (error) {
       setIsLoading(false);
     }

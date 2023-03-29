@@ -3,7 +3,7 @@
     "scheme": "dest",
     "name": "Dest",
     "slug": "Dest",
-    "version": "1.0.6",
+    "version": "1.1.7",
     "orientation": "portrait",
     "icon": "./assets/DestLogo.png",
     "userInterfaceStyle": "automatic",
@@ -24,7 +24,7 @@
     },
     "ios": {
       "supportsTablet": false,
-      "buildNumber": "4",
+      "buildNumber": "12",
       "bundleIdentifier": "com.dest.kuwait",
       "associatedDomains": [
         "applinks:destkw.com"

@@ -8,15 +8,13 @@ import {
   Dimensions,
 } from "react-native";
 import { baseURL } from "../../stores/instance";
-import { useMediaQuery } from "native-base";
-import moment from "moment";
+import { DateTime } from "luxon";
 import { useFonts } from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
 import i18n from "i18next";
 import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import organizerStore from "../../stores/organizerStore";
-import "moment/locale/ar";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 import { useState } from "react";
 
@@ -41,10 +39,6 @@ function Spot({ spot, navigation, day }) {
     },
   });
 
-  const [isSmallScreen] = useMediaQuery({
-    minHeight: 180,
-    maxHeight: 900,
-  });
   const [isImageLoading, setIsImageLoading] = useState(true);
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
@@ -56,15 +50,22 @@ function Spot({ spot, navigation, day }) {
     return <MyAwesomeSplashScreen />;
   }
   const organizer = organizerStore.getOrganizerById(spot?.organizer);
-  let monthEn = moment(spot?.startDate).locale("en").format("MMM");
-  let dayEn = moment(spot?.startDate).locale("en").format("DD");
-  let monthAr = moment(spot?.startDate).locale("ar").format("MMM");
-  let dayAr = moment(spot?.startDate).locale("ar").format("DD");
-
-  let monthendEn = moment(spot?.endDate).locale("en").format("MMM");
-  let dayendEn = moment(spot?.endDate).locale("en").format("DD");
-  let monthendAr = moment(spot?.endDate).locale("ar").format("MMM");
-  let dayendAr = moment(spot?.endDate).locale("ar").format("DD");
+  let monthEn = DateTime.fromISO(spot?.startDate)
+    .setLocale("en")
+    .toFormat("MMM");
+  let dayEn = DateTime.fromISO(spot?.startDate).setLocale("en").toFormat("dd");
+  let monthAr = DateTime.fromISO(spot?.startDate)
+    .setLocale("ar")
+    .toFormat("MMM");
+  let dayAr = DateTime.fromISO(spot?.startDate).setLocale("ar").toFormat("dd");
+  let monthendEn = DateTime.fromISO(spot?.endDate)
+    .setLocale("en")
+    .toFormat("MMM");
+  let dayendEn = DateTime.fromISO(spot?.endDate).setLocale("en").toFormat("dd");
+  let monthendAr = DateTime.fromISO(spot?.endDate)
+    .setLocale("ar")
+    .toFormat("MMM");
+  let dayendAr = DateTime.fromISO(spot?.endDate).setLocale("ar").toFormat("dd");
   const width = Dimensions.get("window").width;
 
   return (

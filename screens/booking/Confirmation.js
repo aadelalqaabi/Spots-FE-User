@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import moment from "moment";
+import { DateTime } from "luxon";
 import { Ionicons } from "@expo/vector-icons";
 
 import { useFonts } from "expo-font";
@@ -25,7 +25,7 @@ export default function Confirmation({ navigation, route }) {
   if (!fontsLoaded) {
     return <MyAwesomeSplashScreen />;
   }
-  let date = moment(spot.startDate).format("LL");
+  let date = DateTime.fromISO(spot?.startDate).toFormat("DDD");
 
   const handleBooking = async () => {
     try {

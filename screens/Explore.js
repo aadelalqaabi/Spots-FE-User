@@ -4,33 +4,27 @@ import {
   useColorScheme,
   SafeAreaView,
   StatusBar,
-  LogBox,
   View,
   StyleSheet,
-  ScrollView,
   Text,
   TouchableOpacity,
   Dimensions,
   Image,
 } from "react-native";
 import spotStore from "../stores/spotStore";
-import categoryStore from "../stores/categoryStore";
 import Spot from "./spots/Spot";
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { useScrollToTop } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import ContentLoader, { Circle, Rect } from "react-content-loader/native";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
 import Calnder from "./Calnder";
-import moment from "moment";
+import { DateTime } from "luxon";
 import Categories from "./Categories";
-
-LogBox.ignoreAllLogs(true);
 
 function Explore() {
   const colorScheme = useColorScheme();
@@ -54,9 +48,7 @@ function Explore() {
       escapeValue: false,
     },
   });
-  const scrollViewRef = React.useRef(null);
-  const ref = React.useRef(null);
-  useScrollToTop(ref);
+
   const navigation = useNavigation();
   const [category, setCategory] = useState(null);
   const [categoryModal, setCategoryModal] = useState(false);
@@ -64,6 +56,7 @@ function Explore() {
   const [loading, setLoading] = useState(false);
   const [calendar, setCalendar] = useState(false);
   const [day, setDay] = useState(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -92,7 +85,7 @@ function Explore() {
     (spot) =>
       (new Date(spot?.startDate) >= today ||
         new Date(spot?.endDate) >= today) &&
-      spot.isPublished === true
+      spot?.isPublished === true
   );
 
   const sortedSpots = spotsByDate
@@ -102,19 +95,21 @@ function Explore() {
   const spots = sortedSpots
     .filter((spot) => {
       if (day !== null) {
-        if (spot.isMultiple) {
+        if (spot?.isMultiple) {
           const startDate = new Date(spot?.startDate);
           const endDate = new Date(spot?.endDate);
           const selectedDate = new Date(day);
           return selectedDate >= startDate && selectedDate <= endDate;
         } else {
-          return new Date(spot.startDate).getDate() === new Date(day).getDate();
+          return (
+            new Date(spot?.startDate).getDate() === new Date(day).getDate()
+          );
         }
       } else {
         return spot;
       }
     })
-    .filter((spot) => (!category ? spot : spot.category === category?._id))
+    .filter((spot) => (!category ? spot : spot?.category === category?._id))
     .filter((spot) => spot?.name?.toLowerCase().includes(query.toLowerCase()));
 
   function renderSpot({ item: spot }) {
@@ -123,9 +118,12 @@ function Explore() {
 
   const width = Dimensions.get("window").width;
   const height = Dimensions.get("window").height;
-
-  const dayHolder = moment(day).locale(Localization.locale).format("D");
-  const dayStringHolder = moment(day).locale(Localization.locale).format("ddd");
+  const dayHolder = DateTime.fromISO(day)
+    .setLocale(Localization.locale)
+    .toFormat("d");
+  const dayStringHolder = DateTime.fromISO(day)
+    .setLocale(Localization.locale)
+    .toFormat("EEE");
 
   return (
     <View
@@ -150,14 +148,12 @@ function Explore() {
             backgroundColor={colorScheme === "dark" ? "#313131" : "#d8d8d8"}
             foregroundColor={colorScheme === "dark" ? "#5a5a5a" : "#c2c2c2"}
           >
-            <Rect x="80" y="57" rx="5" ry="5" width="60" height="8" />
-            <Rect x="12" y="57" rx="5" ry="5" width="60" height="8" />
-            <Rect x="22" y="92" rx="15" ry="15" width="213" height="355" />
-            <Rect x="150" y="57" rx="5" ry="5" width="60" height="8" />
-            <Rect x="220" y="57" rx="5" ry="5" width="60" height="8" />
-            <Rect x="243" y="93" rx="10" ry="10" width="213" height="350" />
+            <Rect x="22" y="50" rx="15" ry="15" width="213" height="385" />
+            <Rect x="243" y="50" rx="10" ry="10" width="213" height="385" />
             <Rect x="15" y="0" rx="10" ry="10" width="97" height="31" />
-            <Circle cx="223" cy="15" r="13" />
+            <Circle cx="200" cy="15" r="13" />
+            <Circle cx="170" cy="15" r="13" />
+            <Circle cx="230" cy="15" r="13" />
           </ContentLoader>
         ) : (
           <View

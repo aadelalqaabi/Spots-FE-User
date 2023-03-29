@@ -1,4 +1,4 @@
-import { makeAutoObservable } from "mobx";
+import { makeAutoObservable, runInAction } from "mobx";
 import { instance } from "./instance";
 
 class OrganizerStore {
@@ -11,7 +11,9 @@ class OrganizerStore {
   fetchOrganizers = async () => {
     try {
       const response = await instance.get("/organizer");
-      this.organizers = response.data;
+      runInAction(() => {
+        this.organizers = response.data;
+      });
     } catch (error) {
       console.error(error);
     }

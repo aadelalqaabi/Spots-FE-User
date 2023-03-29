@@ -1,6 +1,5 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { NativeBaseProvider } from "native-base";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { observer } from "mobx-react";
@@ -15,9 +14,9 @@ import Password from "./screens/authScreens/Password";
 import PhoneNo from "./screens/authScreens/PhoneNo";
 import MyImage from "./screens/authScreens/MyImage";
 import * as Linking from "expo-linking";
-import { Text, useColorScheme, View } from "react-native";
+import { useColorScheme } from "react-native";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import {
   createStackNavigator,
@@ -82,9 +81,15 @@ function App() {
 
   const config = {
     screens: {
-      SpotDetails: { path: "SpotDetails/:id", parse: { id: String } },
+      SpotDetails: {
+        path: "SpotDetails/:id",
+        parse: {
+          id: [String],
+        },
+      },
     },
   };
+
   const linking = {
     prefixes: [prefix],
     config,
@@ -120,47 +125,45 @@ function App() {
     );
   } else {
     return (
-      <NativeBaseProvider>
-        <NavigationContainer linking={linking}>
-          {checkUser ? (
-            <RootNavigator />
-          ) : (
-            <Stack.Navigator
-              screenOptions={{
-                headerShown: false,
+      <NavigationContainer linking={linking}>
+        {checkUser ? (
+          <RootNavigator />
+        ) : (
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+              gestureEnabled: true,
+              gestureDirection: "horizontal",
+            }}
+          >
+            <Stack.Screen
+              name="SetUpAccount"
+              component={AuthButtons}
+              options={{
                 gestureEnabled: true,
-                gestureDirection: "horizontal",
               }}
-            >
-              <Stack.Screen
-                name="SetUpAccount"
-                component={AuthButtons}
-                options={{
-                  gestureEnabled: true,
-                }}
-              />
-              <Stack.Screen name="Login" component={Login} />
-              <Stack.Screen name="AppleImage" component={AppleImage} />
-              <Stack.Screen name="AppleUsername" component={AppleUsername} />
-              <Stack.Screen
-                name="MainPageRegister"
-                component={MainPageRegister}
-                options={{
-                  gestureEnabled: true,
-                }}
-              />
-              <Stack.Screen name="PhoneNo" component={PhoneNo} />
-              <Stack.Screen name="Email" component={Email} />
-              <Stack.Screen name="Password" component={Password} />
-              <Stack.Screen name="MyImage" component={MyImage} />
-              <Stack.Screen name="UsernameCheck" component={UsernameCheck} />
-              <Stack.Screen name="CheckOTP" component={CheckOTP} />
-              <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-            </Stack.Navigator>
-          )}
-        </NavigationContainer>
+            />
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="AppleImage" component={AppleImage} />
+            <Stack.Screen name="AppleUsername" component={AppleUsername} />
+            <Stack.Screen
+              name="MainPageRegister"
+              component={MainPageRegister}
+              options={{
+                gestureEnabled: true,
+              }}
+            />
+            <Stack.Screen name="PhoneNo" component={PhoneNo} />
+            <Stack.Screen name="Email" component={Email} />
+            <Stack.Screen name="Password" component={Password} />
+            <Stack.Screen name="MyImage" component={MyImage} />
+            <Stack.Screen name="UsernameCheck" component={UsernameCheck} />
+            <Stack.Screen name="CheckOTP" component={CheckOTP} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+          </Stack.Navigator>
+        )}
         <Toast />
-      </NativeBaseProvider>
+      </NavigationContainer>
     );
   }
 }

@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Dimensions,
+  KeyboardAvoidingView,
 } from "react-native";
 import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
@@ -16,12 +17,11 @@ import Spot from "./spots/Spot";
 import Carousel from "react-native-reanimated-carousel";
 import SearchSpot from "./spots/SearchSpot";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import { useFonts } from "expo-font";
 import spotStore from "../stores/spotStore";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
-import { KeyboardAvoidingView } from "native-base";
 
 export default function Search({ navigation }) {
   const colorScheme = useColorScheme();

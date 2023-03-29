@@ -1,17 +1,17 @@
 import { StyleSheet, Text, View, Image, useColorScheme } from "react-native";
 import Stars from "./Stars";
 import { baseURL } from "../../stores/instance";
-import moment from "moment";
-import React from "react";
+import { DateTime } from "luxon";
+import React, { useState } from "react";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
-import "moment/locale/ar";
 
 function ReviewItem({ review }) {
-  let dateEn = moment(review?.date).locale("en").format("LL");
-  let dateAr = moment(review?.date).locale("ar").format("LL");
+  let dateEn = DateTime.fromISO(review?.date).setLocale("en").toFormat("DDD");
+  let dateAr = DateTime.fromISO(review?.date).setLocale("ar").toFormat("DDD");
   const colorScheme = useColorScheme();
+  const [isImageLoading, setIsImageLoading] = useState(true);
   const reviewImage = review?.user?.image;
   const translations = {
     en: {
@@ -42,6 +42,19 @@ function ReviewItem({ review }) {
         }}
       >
         <View style={styles.card}>
+          <View
+            style={{
+              position: "absolute",
+              zIndex: 99,
+            }}
+          >
+            {isImageLoading === true && (
+              <Image
+                style={styles.reviewImage}
+                source={require("../../assets/PP.png")}
+              />
+            )}
+          </View>
           <Image
             style={styles.reviewImage}
             source={
@@ -49,7 +62,10 @@ function ReviewItem({ review }) {
                 ? { uri: `${baseURL}${reviewImage}` }
                 : require("../../assets/PP.png")
             }
+            onLoad={() => setIsImageLoading(false)}
+            loadingIndicatorSource={require("../../assets/PP.png")}
           />
+
           <View
             style={{
               display: "flex",
