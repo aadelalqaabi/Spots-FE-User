@@ -65,7 +65,7 @@ export default function AppleImage({ route }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return <View style={{ backgroundColor: "transparent" }}></View>;
   }
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -106,31 +106,7 @@ export default function AppleImage({ route }) {
     }
   };
 
-  if (isLoading)
-    return (
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: "100%",
-          height: "100%",
-          alignSelf: "center",
-          alignContent: "center",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
-        }}
-      >
-        <Image
-          style={{
-            width: 90,
-            height: 102,
-            alignSelf: "center",
-          }}
-          source={require("../../assets/Loading.gif")}
-        ></Image>
-      </View>
-    );
+  if (isLoading) return <MyAwesomeSplashScreen />;
   return (
     <View
       style={{

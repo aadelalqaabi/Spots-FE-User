@@ -76,7 +76,7 @@ function Explore() {
     NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return <View style={{ backgroundColor: "transparent" }}></View>;
   }
   const today = new Date();
   today.setHours(3, 0, 0, 0);
@@ -148,8 +148,8 @@ function Explore() {
             backgroundColor={colorScheme === "dark" ? "#313131" : "#d8d8d8"}
             foregroundColor={colorScheme === "dark" ? "#5a5a5a" : "#c2c2c2"}
           >
-            <Rect x="22" y="50" rx="15" ry="15" width="213" height="385" />
-            <Rect x="243" y="50" rx="10" ry="10" width="213" height="385" />
+            <Rect x="22" y="52" rx="15" ry="15" width="213" height="400" />
+            <Rect x="243" y="53" rx="10" ry="10" width="213" height="395" />
             <Rect x="15" y="0" rx="10" ry="10" width="97" height="31" />
             <Circle cx="200" cy="15" r="13" />
             <Circle cx="170" cy="15" r="13" />

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, useColorScheme, View, Image } from "react-native";
 import React from "react";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import { useFonts } from "expo-font";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
@@ -41,7 +41,7 @@ export default function RegisteredNotificationItem({ organizerId }) {
     Cabin: require("../../assets/fonts/Cabin.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return <View style={{ backgroundColor: "transparent" }}></View>;
   }
   return (
     <TouchableOpacity

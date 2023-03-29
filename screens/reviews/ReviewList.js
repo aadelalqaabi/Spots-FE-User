@@ -1,6 +1,5 @@
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, View, FlatList } from "react-native";
 import { observer } from "mobx-react";
-import spotStore from "../../stores/spotStore";
 import reviewStore from "../../stores/reviewStore";
 import ReviewItem from "./ReviewItem";
 import React from "react";
@@ -20,7 +19,7 @@ function ReviewList({ reviews, spotId }) {
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return <View style={{ backgroundColor: "transparent" }}></View>;
   }
   return (
     <View>

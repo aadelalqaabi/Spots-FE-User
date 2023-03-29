@@ -5,7 +5,7 @@ import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
 
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
@@ -40,7 +40,7 @@ function OfferItem({ offer }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return <View style={{ backgroundColor: "transparent" }}></View>;
   }
   return (
     <View style={{ margin: 20, marginRight: -5 }}>

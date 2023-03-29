@@ -1,10 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState } from "react";
 import authStore from "../../stores/authStore";
 import {
   View,
   Button,
-  SafeAreaView,
   Text,
   StyleSheet,
   KeyboardAvoidingView,
@@ -19,8 +18,9 @@ import TextInput from "react-native-text-input-interactive";
 import { Ionicons } from "@expo/vector-icons";
 
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
+import { useFonts } from "expo-font";
 
 export default function ForgotPassword({ route }) {
   const colorScheme = useColorScheme();
@@ -177,15 +177,15 @@ export default function ForgotPassword({ route }) {
 
     return re.test(password);
   };
-  // let [fontsLoaded] = useFonts({
-  //   UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
-  //   Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
-  //   Noto: require("../../assets/fonts/Noto.ttf"),
-  //   NotoBold: require("../../assets/fonts/NotoBold.ttf"),
-  // });
-  // if (!fontsLoaded) {
-  //   return <AppLoading />;
-  // }
+  let [fontsLoaded] = useFonts({
+    UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),
+    Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
+    Noto: require("../../assets/fonts/Noto.ttf"),
+    NotoBold: require("../../assets/fonts/NotoBold.ttf"),
+  });
+  if (!fontsLoaded) {
+    return <View style={{ backgroundColor: "transparent" }}></View>;
+  }
 
   return (
     <>

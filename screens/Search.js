@@ -78,7 +78,7 @@ export default function Search({ navigation }) {
     NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return <View style={{ backgroundColor: "transparent" }}></View>;
   }
   function renderSpot({ item: spot }) {
     return (

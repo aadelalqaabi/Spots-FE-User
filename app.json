@@ -3,7 +3,7 @@
     "scheme": "dest",
     "name": "Dest",
     "slug": "Dest",
-    "version": "1.1.7",
+    "version": "1.1.8",
     "orientation": "portrait",
     "icon": "./assets/DestLogo.png",
     "userInterfaceStyle": "automatic",
@@ -34,7 +34,8 @@
         "NSLocationWhenInUseUsageDescription": "We use your location to help you find the perfect Dest near you",
         "NSCameraUsageDescription": "Please allow camera access so you can add you image",
         "NSPhotoLibraryUsageDescription": "Please allow library access so you can add you image",
-        "NSUserNotificationUsageDescription": "Please allow notification so we can give you updates on everything"
+        "NSUserNotificationUsageDescription": "Please allow notification so we can give you updates on everything",
+        "LSApplicationQueriesSchemes": ["dest"]
       }
     },
     "android": {

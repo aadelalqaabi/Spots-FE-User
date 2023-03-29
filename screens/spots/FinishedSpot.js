@@ -2,9 +2,8 @@ import { observer } from "mobx-react";
 import { Text, Image, View, StyleSheet, TouchableOpacity } from "react-native";
 import { baseURL } from "../../stores/instance";
 import { useFonts } from "expo-font";
-
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import { useNavigation } from "@react-navigation/native";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
@@ -17,7 +16,7 @@ function FinishedSpot({ spot }) {
   });
 
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return <View style={{ backgroundColor: "transparent" }}></View>;
   }
   const translations = {
     en: {

@@ -52,9 +52,8 @@ function Spotted({ ticket, navigation }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return <View style={{ backgroundColor: "transparent" }}></View>;
   }
-
   let monthEn = DateTime.fromISO(spot?.startDate)
     .setLocale("en")
     .toFormat("MMM");

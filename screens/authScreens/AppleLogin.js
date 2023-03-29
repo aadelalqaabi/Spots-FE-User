@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import * as AppleAuthentication from "expo-apple-authentication";
-import React from "react";
-import { useColorScheme } from "react-native";
+import React, { useState } from "react";
+import { useColorScheme, View } from "react-native";
 import authStore from "../../stores/authStore";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
@@ -14,6 +14,7 @@ export default function AppleLogin() {
   const colorScheme = useColorScheme();
   authStore.getEmails();
   const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(false);
   const translations = {
     en: {
       google: "Continue with Apple",
@@ -42,9 +43,9 @@ export default function AppleLogin() {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return <View style={{ backgroundColor: "transparent" }}></View>;
   }
-
+  if (isLoading) return <MyAwesomeSplashScreen />;
   return (
     <AppleAuthentication.AppleAuthenticationButton
       buttonType={AppleAuthentication.AppleAuthenticationButtonType.CONTINUE}
@@ -88,11 +89,16 @@ export default function AppleLogin() {
                   itemId: user,
                 });
               } else {
-                authStore.login({
-                  email: payload.email,
-                  password: payload.sub,
-                });
-                if (authStore.user) navigation.navigate("Home");
+                setIsLoading(true);
+                try {
+                  authStore.login({
+                    email: payload.email,
+                    password: payload.sub,
+                  });
+                  if (authStore.user) navigation.navigate("Home");
+                } catch (error) {
+                  setIsLoading(false);
+                }
               }
             }
           }

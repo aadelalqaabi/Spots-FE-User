@@ -50,7 +50,7 @@ export default function BookingDetails({ navigation, route }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return <View style={{ backgroundColor: "transparent" }}></View>;
   }
   let date = DateTime.fromISO(spot?.startDate).setLocale("en").toFormat("DDD");
   let dateAr = DateTime.fromISO(spot?.startDate)

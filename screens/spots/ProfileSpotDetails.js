@@ -4,7 +4,6 @@ import {
   StatusBar,
   Text,
   View,
-  LogBox,
   RefreshControl,
   TouchableOpacity,
   useColorScheme,
@@ -34,10 +33,8 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
-import Info from "./Info";
 import Swiper from "react-native-swiper";
 import { baseURL } from "../../stores/instance";
-LogBox.ignoreAllLogs();
 
 function ProfileSpotDetails({ route }) {
   const colorScheme = useColorScheme();
@@ -141,7 +138,7 @@ function ProfileSpotDetails({ route }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return <View style={{ backgroundColor: "transparent" }}></View>;
   }
   return (
     <>
