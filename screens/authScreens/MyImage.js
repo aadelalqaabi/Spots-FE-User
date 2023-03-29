@@ -110,6 +110,7 @@ export default function MyImage({ navigation, route }) {
     setIsLoading(true);
     try {
       authStore.register(user);
+      if (authStore.user) navigation.navigate("Home");
     } catch (error) {
       setIsLoading(false);
     }

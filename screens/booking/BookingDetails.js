@@ -6,17 +6,14 @@ import {
   TouchableOpacity,
   Alert,
   useColorScheme,
-  Modal,
 } from "react-native";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-
 import { useFonts } from "expo-font";
-import moment from "moment";
+import { DateTime } from "luxon";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
-import "moment/locale/ar";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 export default function BookingDetails({ navigation, route }) {
@@ -55,9 +52,10 @@ export default function BookingDetails({ navigation, route }) {
   if (!fontsLoaded) {
     return <MyAwesomeSplashScreen />;
   }
-  let date = moment(spot.startDate).locale("en").format("LL");
-  let dateAr = moment(spot.startDate).locale("ar").format("LL");
-
+  let date = DateTime.fromISO(spot?.startDate).setLocale("en").toFormat("DDD");
+  let dateAr = DateTime.fromISO(spot?.startDate)
+    .setLocale("ar")
+    .toFormat("DDD");
   const handleInc = () => {
     setCheckSeats(checkSeats + 1);
     if (spot.seatsRemaining >= checkSeats + 1) {

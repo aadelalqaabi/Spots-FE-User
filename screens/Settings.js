@@ -157,7 +157,7 @@ function Settings() {
         if (
           notification.data &&
           notification.data.locale === "en" &&
-          i18n.locale === "en-US"
+          i18n.language.split("-")[0] === "en"
         ) {
           console.log("entered if");
           console.log("Notification is in English");
@@ -766,7 +766,7 @@ function Settings() {
             marginTop: 30,
           }}
         >
-          Version 1.0.6
+          Version 1.1.7
         </Text>
       </ScrollView>
       {/* Disable Modal */}

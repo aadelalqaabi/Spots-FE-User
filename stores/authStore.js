@@ -22,7 +22,7 @@ import {
   DELETE_USER,
 } from "../config/info";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import Toast from "react-native-toast-message";
 import * as Localization from "expo-localization";
 
@@ -93,7 +93,6 @@ class AuthStore {
     try {
       const response = await instance.post(LOGIN, userData);
       this.setUser(response.data.token);
-      return "logged in";
     } catch (error) {
       console.error(error);
       return "not logged in";

@@ -8,6 +8,7 @@ import {
   useColorScheme,
   Platform,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
@@ -16,7 +17,6 @@ import authStore from "../stores/authStore";
 import { observer } from "mobx-react";
 import { baseURL } from "../stores/instance";
 import Toast from "react-native-toast-message";
-import { StatusBar } from "expo-status-bar";
 import i18n from "i18next";
 import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
@@ -79,7 +79,7 @@ function EditScreen() {
       quality: 1,
     });
 
-    if (!result.cancelled) {
+    if (!result.canceled) {
       let filename = result.uri.split("/").pop();
       let match = /\.(\w+)$/.exec(filename);
       let img_type = match ? `image/${match[1]}` : `image`;
@@ -95,6 +95,7 @@ function EditScreen() {
         },
       });
       setImage(result.uri);
+      setHideDone(true);
     }
   };
   const handleChangeEmail = (name, value) => {
@@ -148,7 +149,9 @@ function EditScreen() {
         backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
       }}
     >
-      <StatusBar backgroundColor="black" />
+      <StatusBar
+        barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
+      />
       <View
         style={{
           display: "flex",
@@ -211,14 +214,6 @@ function EditScreen() {
                     height: 200,
                     borderRadius: 100,
                     margin: 10,
-                    shadowOpacity: 0.8,
-                    shadowRadius: 4,
-                    shadowColor: "black",
-                    shadowOffset: {
-                      height: 0,
-                      width: 0,
-                    },
-
                     zIndex: -1,
                   }}
                 />

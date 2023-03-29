@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Linking,
+  StatusBar,
 } from "react-native";
 import React from "react";
 import i18n from "i18next";
@@ -17,7 +18,6 @@ import { useFonts } from "expo-font";
 import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import authStore from "../../stores/authStore";
 import { Ionicons } from "@expo/vector-icons";
-import { StatusBar } from "expo-status-bar";
 import rewardStore from "../../stores/rewardStore";
 import RewardItem from "../rewards/RewardItem";
 import organizerStore from "../../stores/organizerStore";

@@ -6,12 +6,13 @@ import {
   useColorScheme,
   View,
   Image,
+  FlatList,
+  StatusBar,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import authStore from "../stores/authStore";
 import { observer } from "mobx-react";
 import { useNavigation } from "@react-navigation/native";
-import { FlatList, ScrollView } from "native-base";
 import { useFonts } from "expo-font";
 import Spotted from "./spots/Spotted";
 import ticketStore from "../stores/ticketStore";
@@ -19,7 +20,6 @@ import ContentLoader, { Rect } from "react-content-loader/native";
 import i18n from "i18next";
 import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
-import { StatusBar } from "react-native";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
 
 function MySpots() {
@@ -116,7 +116,7 @@ function MySpots() {
           color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
         }}
       >
-        {i18n.language.split("-")[0] === "en" ? "My Tickets" : "تذاكري"}
+        {i18n.language.split("-")[0] === "en" ? "My Dests" : "وجهاتي"}
       </Text>
       <View style={{ width: "100%", height: "91%", zIndex: 99 }}>
         {loading ? (

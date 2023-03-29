@@ -1,5 +1,11 @@
-import { Image, View, Text, StyleSheet, useColorScheme } from "react-native";
-import { StatusBar } from "expo-status-bar";
+import {
+  Image,
+  View,
+  Text,
+  StyleSheet,
+  useColorScheme,
+  StatusBar,
+} from "react-native";
 import React from "react";
 import { useFonts } from "expo-font";
 import * as Localization from "expo-localization";
@@ -66,7 +72,9 @@ export default function AuthButtons() {
           marginBottom: "20%",
         }}
       >
-        <StatusBar style={colorScheme === "dark" ? "light" : "dark"} />
+        <StatusBar
+          barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
+        />
         <Image
           style={{
             height: "17%",

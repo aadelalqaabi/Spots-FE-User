@@ -16,12 +16,11 @@ import authStore from "../stores/authStore";
 import { observer } from "mobx-react";
 import { baseURL } from "../stores/instance";
 import { useFonts } from "expo-font";
-import { AntDesign } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import pointStore from "../stores/pointStore";
 import ScrollTabs from "../ScrollTabs";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import { Ionicons } from "@expo/vector-icons";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
@@ -252,10 +251,7 @@ function Profile() {
                       alignItems: "center",
                       alignSelf: "center",
                       display: "flex",
-                      flexDirection:
-                        i18n.language.split("-")[0] === "en"
-                          ? "row"
-                          : "row-reverse",
+                      flexDirection: "row",
                       alignContent: "center",
                       justifyContent: "flex-start",
                       marginBottom:
@@ -267,15 +263,16 @@ function Profile() {
                         fontSize: 32,
                         fontFamily: "Ubuntu",
                         color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        paddingLeft:
-                          i18n.language.split("-")[0] === "en" ? 0 : 8,
-                        paddingRight:
-                          i18n.language.split("-")[0] === "en" ? 8 : 0,
+                        paddingRight: 2,
                       }}
                     >
                       {userSpots?.length}
                     </Text>
-                    <Text
+                    <Image
+                      style={{ width: 20, height: 24 }}
+                      source={require("../assets/iconProfile.png")}
+                    ></Image>
+                    {/* <Text
                       style={{
                         fontSize: 21,
                         fontFamily:
@@ -286,7 +283,7 @@ function Profile() {
                       }}
                     >
                       {i18n.language.split("-")[0] === "en" ? "Dest" : "ديست"}
-                    </Text>
+                    </Text> */}
                   </View>
                   <TouchableOpacity
                     style={{

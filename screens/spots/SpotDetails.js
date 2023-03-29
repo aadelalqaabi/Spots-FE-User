@@ -11,26 +11,23 @@ import {
   useColorScheme,
   Dimensions,
   ScrollView,
-  LayoutAnimation,
   StatusBar,
   ActivityIndicator,
 } from "react-native";
-const { width } = Dimensions.get("window");
 import React, { useCallback, useState } from "react";
 import spotStore from "../../stores/spotStore";
 import { baseURL } from "../../stores/instance";
 import { Ionicons } from "@expo/vector-icons";
 import authStore from "../../stores/authStore";
 import { useFonts } from "expo-font";
-import moment from "moment";
+import { DateTime } from "luxon";
 import { useNavigation } from "@react-navigation/native";
 import organizerStore from "../../stores/organizerStore";
 import ticketStore from "../../stores/ticketStore";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import * as Notifications from "expo-notifications";
-import "moment/locale/ar";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 import Swiper from "react-native-swiper";
 import * as StoreReview from "expo-store-review";
@@ -44,9 +41,12 @@ Notifications.setNotificationHandler({
 
 export function SpotDetails({ route }) {
   const spot = spotStore.getSpotsById(route.params.id);
-  let dateEn = moment(spot?.startDate).locale("en").format("LL");
-  let dateAr = moment(spot?.startDate).locale("ar").format("LL");
-
+  let dateEn = DateTime.fromISO(spot?.startDate)
+    .setLocale("en")
+    .toFormat("DDD");
+  let dateAr = DateTime.fromISO(spot?.startDate)
+    .setLocale("ar")
+    .toFormat("DDD");
   let timeString = spot.startTime;
   let time = new Date(`1970-01-01T${timeString}:00Z`);
   time.setHours(time.getHours() - 1);
@@ -54,12 +54,22 @@ export function SpotDetails({ route }) {
   let newTimeString = time.toTimeString().substr(0, 5);
   const h = newTimeString.substring(0, 2);
   const m = newTimeString.substring(3, 5);
-  const startDateNoti = new Date(spot.startDate); // Convert startDate to a Date object
-  const triggerDateNoti = new Date(startDateNoti.getFullYear(), startDateNoti.getMonth(), startDateNoti.getDate(), parseInt(h), parseInt(m), 0);
-  console.log('triggerDateNoti', triggerDateNoti)
+  const startDateNoti = new Date(spot.startDate);
+  const triggerDateNoti = new Date(
+    startDateNoti.getFullYear(),
+    startDateNoti.getMonth(),
+    startDateNoti.getDate(),
+    parseInt(h),
+    parseInt(m),
+    0
+  );
 
-  let dateendEn = moment(spot?.endDate).locale("en").format("LL");
-  let dateendAr = moment(spot?.endDate).locale("ar").format("LL");
+  let dateendEn = DateTime.fromISO(spot?.endDate)
+    .setLocale("en")
+    .toFormat("DDD");
+  let dateendAr = DateTime.fromISO(spot?.endDate)
+    .setLocale("ar")
+    .toFormat("DDD");
 
   const translations = {
     en: {
@@ -90,7 +100,7 @@ export function SpotDetails({ route }) {
     amount: 0,
     image: "",
     isFree: true,
-    locale: i18n.locale,
+    locale: i18n.language,
     startDateAr: dateAr,
     startDateEn: dateEn,
     endDateAr: dateendAr,
@@ -171,7 +181,10 @@ export function SpotDetails({ route }) {
     if (!found) {
       await ticketStore.createTicket(newTicket, newSpot._id);
       await ticketStore.fetchTickets();
-      if (i18n.language.split("-")[0] === "en" && authStore.user.notificationToken !== "") {
+      if (
+        i18n.language.split("-")[0] === "en" &&
+        authStore.user.notificationToken !== ""
+      ) {
         await Notifications.scheduleNotificationAsync({
           content: {
             title: `Can't Wait to see you ${authStore.user.name}!`,
@@ -179,19 +192,22 @@ export function SpotDetails({ route }) {
             //   data: { data: 'goes here' },
           },
           trigger: {
-            date: triggerDateNoti
+            date: triggerDateNoti,
           },
-        })
-      } else if(i18n.language.split("-")[0] === "ar" && authStore.user.notificationToken !== "") {
+        });
+      } else if (
+        i18n.language.split("-")[0] === "ar" &&
+        authStore.user.notificationToken !== ""
+      ) {
         await Notifications.scheduleNotificationAsync({
           content: {
             title: `!${authStore.user.name} لا نستطيع الانتظار لرؤيتك`,
             body: `تبدا في ساعتين ${newSpot.name}لا تنس`,
           },
           trigger: {
-            date: triggerDateNoti
+            date: triggerDateNoti,
           },
-        })
+        });
       }
       toggleAlert();
       setIsLoading(false);

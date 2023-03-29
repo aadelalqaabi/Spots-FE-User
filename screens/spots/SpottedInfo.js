@@ -9,15 +9,15 @@ import {
   Linking,
   Alert,
   Modal,
+  StatusBar,
 } from "react-native";
 import React, { useCallback, useState } from "react";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
-import { StatusBar } from "expo-status-bar";
 import organizerStore from "../../stores/organizerStore";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 import ticketStore from "../../stores/ticketStore";

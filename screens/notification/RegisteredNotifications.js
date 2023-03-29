@@ -15,7 +15,6 @@ import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import { useFonts } from "expo-font";
 import { useNavigation, useScrollToTop } from "@react-navigation/native";
-import { StatusBar } from "expo-status-bar";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 import { Ionicons } from "@expo/vector-icons";
 import authStore from "../../stores/authStore";

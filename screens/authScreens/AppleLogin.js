@@ -4,7 +4,7 @@ import React from "react";
 import { useColorScheme } from "react-native";
 import authStore from "../../stores/authStore";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import jwtDecode from "jwt-decode";
 import { useFonts } from "expo-font";
@@ -92,6 +92,7 @@ export default function AppleLogin() {
                   email: payload.email,
                   password: payload.sub,
                 });
+                if (authStore.user) navigation.navigate("Home");
               }
             }
           }

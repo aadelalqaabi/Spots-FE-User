@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import spotStore from "../../stores/spotStore";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 import { useNavigation, useScrollToTop } from "@react-navigation/native";
 import { Rating } from "react-native-ratings";
@@ -31,7 +31,7 @@ import authStore from "../../stores/authStore";
 import Modal from "react-native-modal";
 import { observer } from "mobx-react";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 import Info from "./Info";
