@@ -27,6 +27,7 @@ function EditScreen() {
   const colorScheme = useColorScheme();
   const [image, setImage] = useState(baseURL + authStore.user.image);
   const [user, setUser] = useState();
+  const [granted, setGranted] = useState();
   const [checkValidationColor, setCheckValidationColor] = useState("#e52b51");
   const [existsError, setExistsError] = useState(false);
   const [hideDone, setHideDone] = useState(false);
@@ -63,6 +64,9 @@ function EditScreen() {
           await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== "granted") {
           alert("Sorry, we need camera roll permissions to make this work!");
+          setGranted(false);
+        } else {
+          setGranted(true);
         }
       }
     })();
@@ -72,30 +76,34 @@ function EditScreen() {
   }, []);
 
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [16, 9],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      let filename = result.uri.split("/").pop();
-      let match = /\.(\w+)$/.exec(filename);
-      let img_type = match ? `image/${match[1]}` : `image`;
-      setUser({
-        ...user,
-        image: {
-          uri:
-            Platform.OS === "android"
-              ? result.uri
-              : result.uri.replace("file://", ""),
-          name: filename,
-          type: img_type,
-        },
+    if (granted === true) {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [16, 9],
+        quality: 1,
       });
-      setImage(result.uri);
-      setHideDone(true);
+
+      if (!result.canceled) {
+        let filename = result.uri.split("/").pop();
+        let match = /\.(\w+)$/.exec(filename);
+        let img_type = match ? `image/${match[1]}` : `image`;
+        setUser({
+          ...user,
+          image: {
+            uri:
+              Platform.OS === "android"
+                ? result.uri
+                : result.uri.replace("file://", ""),
+            name: filename,
+            type: img_type,
+          },
+        });
+        setImage(result.uri);
+        setHideDone(true);
+      }
+    } else {
+      alert("Sorry, we need camera roll permissions to make this work!");
     }
   };
   const handleChangeEmail = (name, value) => {

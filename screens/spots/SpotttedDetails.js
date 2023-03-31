@@ -147,8 +147,8 @@ export default function SpotttedDetails({ route }) {
           }}
         >
           {i18n.language.split("-")[0] === "en"
-            ? "Booking Details"
-            : "تفاصيل الحجر"}
+            ? "Dest Details"
+            : "تفاصيل الديست"}
         </Text>
         <TouchableOpacity
           style={{

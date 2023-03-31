@@ -75,7 +75,7 @@ function Spot({ spot, navigation, day }) {
         flexDirection: "row",
         alignSelf: "center",
         height: "100%",
-        width: width / 1.18,
+        width: width / 1.2,
       }}
       activeOpacity={0.6}
       onPress={() => {

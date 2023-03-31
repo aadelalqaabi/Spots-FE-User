@@ -3,7 +3,7 @@
     "scheme": "dest",
     "name": "Dest",
     "slug": "Dest",
-    "version": "1.1.8",
+    "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./assets/DestLogo.png",
     "userInterfaceStyle": "automatic",
@@ -24,7 +24,7 @@
     },
     "ios": {
       "supportsTablet": false,
-      "buildNumber": "12",
+      "buildNumber": "13",
       "bundleIdentifier": "com.dest.kuwait",
       "associatedDomains": [
         "applinks:destkw.com"
@@ -32,8 +32,8 @@
       "infoPlist": {
         "CFBundleAllowMixedLocalizations": true,
         "NSLocationWhenInUseUsageDescription": "We use your location to help you find the perfect Dest near you",
-        "NSCameraUsageDescription": "Please allow camera access so you can add you image",
-        "NSPhotoLibraryUsageDescription": "Please allow library access so you can add you image",
+        "NSCameraUsageDescription": "Please allow camera access so you can add your image",
+        "NSPhotoLibraryUsageDescription": "Please allow library access so you can add your image",
         "NSUserNotificationUsageDescription": "Please allow notification so we can give you updates on everything",
         "LSApplicationQueriesSchemes": ["dest"]
       }

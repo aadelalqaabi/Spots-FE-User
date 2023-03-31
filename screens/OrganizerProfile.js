@@ -258,40 +258,6 @@ function OrganizerProfile({ route }) {
               justifyContent: "center",
             }}
           >
-            <View
-              style={{
-                alignItems: "center",
-                alignSelf: "center",
-                display: "flex",
-                flexDirection:
-                  i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
-                alignContent: "center",
-                justifyContent: "flex-start",
-                marginBottom: i18n.language.split("-")[0] === "en" ? 6 : 3,
-              }}
-            >
-              <Text
-                style={{
-                  fontSize: 32,
-                  fontFamily: "Ubuntu",
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                  paddingLeft: i18n.language.split("-")[0] === "en" ? 0 : 8,
-                  paddingRight: i18n.language.split("-")[0] === "en" ? 8 : 0,
-                }}
-              >
-                {organizer?.spots?.length}
-              </Text>
-              <Text
-                style={{
-                  fontSize: 21,
-                  fontFamily:
-                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                }}
-              >
-                {i18n.language.split("-")[0] === "en" ? "Dest" : "ديست"}
-              </Text>
-            </View>
             <TouchableOpacity
               style={{
                 backgroundColor: notificationsColor,
@@ -375,7 +341,7 @@ function OrganizerProfile({ route }) {
               fontFamily: "Cabin",
               margin: 35,
               fontSize: 22,
-              marginTop: 20,
+              marginTop: 10,
               marginBottom: 20,
               color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}

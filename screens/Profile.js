@@ -48,7 +48,7 @@ function Profile() {
       escapeValue: false,
     },
   });
-
+  const [isImageLoading, setIsImageLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
@@ -72,11 +72,6 @@ function Profile() {
     fetchData();
   }, []);
   const colorScheme = useColorScheme();
-  // let num = 1;
-  // const spotId = route?.params?.id;
-  //if (spotId) {
-  //  pointStore.createPoint(spotId);
-  //}
   const navigation = useNavigation();
   let userSpotIds = [];
   const userPoints = pointStore.points
@@ -87,11 +82,6 @@ function Profile() {
     )
     .map((point) => userSpotIds.push(point.spot));
   const userSpots = userSpotIds.map((spotId) => spotStore.getSpotsById(spotId));
-  //const found = userSpots?.some((spot) => spot?._id === spotId);
-  //if (!found && num === 1) {
-  // authStore.spotAdd(spotId);
-  //num--;
-  //}
 
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
@@ -221,18 +211,36 @@ function Profile() {
                       source={require("../assets/PP.png")}
                     />
                   ) : (
-                    <Image
-                      style={{
-                        width: 115,
-                        height: 115,
-                        borderRadius: 100,
-                        alignItems: "center",
-                        alignSelf: "center",
-                      }}
-                      source={{
-                        uri: baseURL + authStore.user.image,
-                      }}
-                    />
+                    <>
+                      <Image
+                        style={{
+                          width: 115,
+                          height: 115,
+                          borderRadius: 100,
+                          alignItems: "center",
+                          alignSelf: "center",
+                        }}
+                        source={{
+                          uri: baseURL + authStore.user.image,
+                        }}
+                        onLoad={() => setIsImageLoading(false)}
+                        loadingIndicatorSource={require("../assets/PP.png")}
+                      />
+                      {isImageLoading === true && (
+                        <Image
+                          style={{
+                            width: 115,
+                            height: 115,
+                            borderRadius: 100,
+                            alignItems: "center",
+                            alignSelf: "center",
+                            position: "absolute",
+                            zIndex: 99,
+                          }}
+                          source={require("../assets/PP.png")}
+                        />
+                      )}
+                    </>
                   )}
                   <Trophies userSpots={userSpots} />
                 </View>
@@ -263,7 +271,7 @@ function Profile() {
                         fontSize: 32,
                         fontFamily: "Ubuntu",
                         color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                        paddingRight: 2,
+                        paddingRight: 6,
                       }}
                     >
                       {userSpots?.length}
@@ -272,18 +280,6 @@ function Profile() {
                       style={{ width: 20, height: 24 }}
                       source={require("../assets/iconProfile.png")}
                     ></Image>
-                    {/* <Text
-                      style={{
-                        fontSize: 21,
-                        fontFamily:
-                          i18n.language.split("-")[0] === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                      }}
-                    >
-                      {i18n.language.split("-")[0] === "en" ? "Dest" : "ديست"}
-                    </Text> */}
                   </View>
                   <TouchableOpacity
                     style={{

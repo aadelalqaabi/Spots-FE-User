@@ -53,24 +53,26 @@ export default function Search({ navigation }) {
   const [query, setQuery] = useState("");
   const [toggle, setToggle] = useState(true);
   const [day, setDay] = useState(null);
-  //const spotsAdsChecker = spotStore.spots.some((spot) => spot.isAd === true);
-  const spots = spotStore.spots;
-  // .filter((spot) =>
-  //   spotsAdsChecker === true
-  //     ? spot.isAd === true &&
-  //       new Date(spot.startDate) >= today &&
-  //       spot.isPublished === true
-  //     : new Date(spot.startDate) >= today && spot.isPublished === true
-  // );
+  const spots = spotStore.spots
+    .filter((spot) => new Date(spot.startDate) >= today)
+    .filter((spot) => spot.isPublished === true);
   let suggested = [];
   const randomIndex = Math.floor(Math.random() * spots.length);
   const item = spots[randomIndex];
   suggested.push(item);
-  const filteredSpots = spots.filter(
-    (spot) =>
-      spot.name.toLowerCase().includes(query?.toLowerCase()) ||
-      spot.nameAr.toLowerCase().includes(query?.toLowerCase())
-  );
+  const filteredSpots = spots
+    .filter(
+      (spot) =>
+        spot.name.toLowerCase().includes(query?.toLowerCase()) ||
+        spot.nameAr.toLowerCase().includes(query?.toLowerCase())
+    )
+    .filter(
+      (spot) =>
+        spot.name.toLowerCase().includes(query?.toLowerCase()) ||
+        spot.nameAr.toLowerCase().includes(query?.toLowerCase())
+    )
+    .filter((spot) => new Date(spot.startDate) >= today)
+    .filter((spot) => spot.isPublished === true);
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../assets/fonts/Ubuntu.ttf"),
