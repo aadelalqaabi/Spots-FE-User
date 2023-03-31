@@ -81,6 +81,9 @@ function App() {
   } else if (isFirstLaunch === true) {
     return (
       <NavigationContainer>
+        {checkUser ? (
+          <RootNavigator />
+        ) : (
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
@@ -102,6 +105,7 @@ function App() {
           <Stack.Screen name="CheckOTP" component={CheckOTP} />
           <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         </Stack.Navigator>
+        )}
       </NavigationContainer>
     );
   } else {
