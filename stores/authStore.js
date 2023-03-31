@@ -1,5 +1,4 @@
-import { makeAutoObservable, runInAction } from "mobx";
-import { Alert } from "react-native";
+import { makeAutoObservable } from "mobx";
 import { instance } from "./instance";
 import decode from "jwt-decode";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -60,9 +59,7 @@ class AuthStore {
   setUser = async (token) => {
     await AsyncStorage.setItem("myToken", JSON.stringify(token));
     instance.defaults.headers.common.Authorization = `Bearer ${token}`;
-    runInAction(() => {
-      this.user = decode(token);
-    });
+    this.user = decode(token);
   };
 
   checkForToken = async () => {
@@ -100,9 +97,7 @@ class AuthStore {
   };
 
   logout = () => {
-    runInAction(() => {
-      this.user = null;
-    });
+    this.user = null;
     AsyncStorage.removeItem("myToken");
     delete instance.defaults.headers.common.Authorization;
   };
@@ -186,9 +181,7 @@ class AuthStore {
     //TODO TEST with ADEL add token to reward return from user.controllers rewardAdd function
     try {
       const res = await instance.put(REWARD + rewardId);
-      runInAction(() => {
-        for (const key in this.user) this.user[key] = res.data[key];
-      });
+      for (const key in this.user) this.user[key] = res.data[key];
     } catch (error) {
       console.error("reward error: ", error);
     }
@@ -198,9 +191,7 @@ class AuthStore {
     //TODO ADD return token
     try {
       const res = await instance.put(REMOVE_DEST + spotId);
-      runInAction(() => {
-        this.user.spots = res.data.spots.filter((spot) => spot._id !== spotId);
-      });
+      this.user.spots = res.data.spots.filter((spot) => spot._id !== spotId);
     } catch (error) {
       console.error("here", error);
     }
@@ -234,9 +225,7 @@ class AuthStore {
   getEmails = async () => {
     try {
       const res = await instance.get(EMAILS);
-      runInAction(() => {
-        this.userEmails = res.data;
-      });
+      this.userEmails = res.data;
     } catch (error) {
       console.error("emails error", error);
     }

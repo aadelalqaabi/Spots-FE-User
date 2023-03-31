@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Image,
+  Platform,
 } from "react-native";
 import spotStore from "../stores/spotStore";
 import Spot from "./spots/Spot";

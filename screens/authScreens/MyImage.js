@@ -91,7 +91,7 @@ export default function MyImage({ navigation, route }) {
         height: 300,
       });
 
-      if (!result.cancelled) {
+      if (!result.canceled) {
         let filename = result.uri.split("/").pop();
         let match = /\.(\w+)$/.exec(filename);
         let img_type = match ? `image/${match[1]}` : `image`;
@@ -118,7 +118,6 @@ export default function MyImage({ navigation, route }) {
     setIsLoading(true);
     try {
       authStore.register(user);
-      if (authStore.user) navigation.navigate("Home");
     } catch (error) {
       setIsLoading(false);
     }

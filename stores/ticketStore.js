@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable } from "mobx";
 import authStore from "./authStore";
 import { instance } from "./instance";
 
@@ -14,10 +14,8 @@ class TicketStore {
       const formData = new FormData();
       for (const key in newTicket) formData.append(key, newTicket[key]);
       const response = await instance.post(`/ticket/${spotId}`, formData);
-      runInAction(() => {
-        this.tickets.push(response.data.newTicket);
-        authStore.setUser(response.data.token);
-      });
+      this.tickets.push(response.data.newTicket);
+      authStore.setUser(response.data.token);
     } catch (error) {
       console.error("hello", error);
     }
@@ -26,9 +24,7 @@ class TicketStore {
   fetchTickets = async () => {
     try {
       const response = await instance.get("/ticket");
-      runInAction(() => {
-        this.tickets = response.data;
-      });
+      this.tickets = response.data;
     } catch (error) {
       console.error(error);
     }
@@ -45,9 +41,7 @@ class TicketStore {
   deleteTicket = async (ticketId) => {
     try {
       await instance.delete(`/ticket/delete/${ticketId}`);
-      runInAction(() => {
-        this.tickets = this.tickets.filter((ticket) => ticket._id !== ticketId);
-      });
+      this.tickets = this.tickets.filter((ticket) => ticket._id !== ticketId);
     } catch (error) {
       console.error(error);
     }

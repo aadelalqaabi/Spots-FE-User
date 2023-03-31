@@ -66,18 +66,18 @@ export default function OnBoarding() {
     >
       <Text
         style={{
-          fontSize: 54,
+          fontSize: 60,
           fontFamily:
             i18n.language.split("-")[0] === "en" ? "UbuntuBold" : "NotoBold",
           width: "75%",
-          marginTop: 200,
+          marginTop: 180,
           textAlign: i18n.language.split("-")[0] === "en" ? "left" : "right",
           color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
         }}
       >
         {i18n.language.split("-")[0] === "en"
           ? "Your destiny awaits"
-          : "وحهتك تنتظرك"}
+          : "وجهتك تنتظرك"}
       </Text>
       <View
         style={{

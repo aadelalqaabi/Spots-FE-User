@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { instance } from "./instance";
 
 class PointStore {
@@ -12,9 +12,7 @@ class PointStore {
     const newPoint = { amount: 0 };
     try {
       const response = await instance.post(`/point/${spotId}`, newPoint);
-      runInAction(() => {
-        this.points.push(response.data);
-      });
+      this.points.push(response.data);
     } catch (error) {
       console.error("hello", error);
     }
@@ -24,11 +22,9 @@ class PointStore {
     const updatedPoint = { amount: points };
     try {
       const res = await instance.put(`point/update/${pointId}`, updatedPoint);
-      runInAction(() => {
-        this.points = this.points.map((point) =>
-          point._id === pointId ? res.data : point
-        );
-      });
+      this.points = this.points.map((point) =>
+        point._id === pointId ? res.data : point
+      );
     } catch (error) {
       console.error("hi", error);
     }
@@ -37,9 +33,7 @@ class PointStore {
   fetchPoints = async () => {
     try {
       const response = await instance.get("/point");
-      runInAction(() => {
-        this.points = response.data;
-      });
+      this.points = response.data;
     } catch (error) {
       console.error(error);
     }
