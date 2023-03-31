@@ -20,14 +20,12 @@ import { Ionicons } from "@expo/vector-icons";
 import authStore from "../../stores/authStore";
 import { useFonts } from "expo-font";
 import { DateTime } from "luxon";
-import { useNavigation } from "@react-navigation/native";
 import organizerStore from "../../stores/organizerStore";
 import ticketStore from "../../stores/ticketStore";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import * as Notifications from "expo-notifications";
-import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 import Swiper from "react-native-swiper";
 import * as StoreReview from "expo-store-review";
 Notifications.setNotificationHandler({
@@ -38,7 +36,7 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export function SpotDetails({ route }) {
+export function SpotDetails({ route, navigation }) {
   const spot = spotStore.getSpotsById(route.params.id);
   let dateEn = DateTime.fromISO(spot?.startDate)
     .setLocale("en")
@@ -115,15 +113,11 @@ export function SpotDetails({ route }) {
   }, [alreadyExist]);
   const organizer = organizerStore.getOrganizerById(spot.organizer);
   const reviewCount = spot.reviews.length;
-  const navigation = useNavigation();
   const [quantity, setQuantity] = useState(0);
   const [checkSeats, setCheckSeats] = useState(quantity);
   const [isLoading, setIsLoading] = useState(false);
   const [isImageLoading, setIsImageLoading] = useState(true);
 
-  // const toggleIsLoading = useCallback(() => {
-  //   setIsLoading(!isLoading);
-  // }, [isLoading]);
   const colorScheme = useColorScheme();
   let [fontsLoaded] = useFonts({
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
@@ -177,7 +171,10 @@ export function SpotDetails({ route }) {
       (ticket) =>
         ticket.spot?._id === newSpot._id && ticket.user === authStore.user.id
     );
-    if (!found) {
+    const userFound = authStore.user.spots.some(
+      (userspot) => userspot === newSpot._id
+    );
+    if (!found && !userFound) {
       await ticketStore.createTicket(newTicket, newSpot._id);
       await ticketStore.fetchTickets();
       if (
@@ -188,7 +185,6 @@ export function SpotDetails({ route }) {
           content: {
             title: `Can't Wait to see you ${authStore.user.name}!`,
             body: `Don't Forget ${newSpot.name} starts in 2 hours`,
-            //   data: { data: 'goes here' },
           },
           trigger: {
             date: triggerDateNoti,

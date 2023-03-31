@@ -22,10 +22,20 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
+import * as Notifications from "expo-notifications";
+import * as Device from "expo-device";
 import Calnder from "./Calnder";
 import { DateTime } from "luxon";
 import Categories from "./Categories";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import authStore from "../stores/authStore";
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 function Explore() {
   const colorScheme = useColorScheme();
   const translations = {
@@ -68,7 +78,46 @@ function Explore() {
     };
     fetchData();
   }, []);
+  useEffect(() => {
+    const setNotification = async () => {
+      const value = await AsyncStorage.getItem("alreadyLaunched");
+      if (value === "true") {
+        let token;
+        if (Device.isDevice) {
+          const { status: existingStatus } =
+            await Notifications.getPermissionsAsync();
+          let finalStatus = existingStatus;
+          if (existingStatus !== "granted") {
+            const { status } = await Notifications.requestPermissionsAsync();
+            finalStatus = status;
+          }
+          if (finalStatus !== "granted") {
+            return;
+          }
+          token = (await Notifications.getExpoPushTokenAsync()).data;
+          if (token.includes("ExponentPushToken")) {
+            // add token
+            if (authStore.user.notificationToken === "") {
+              // only add token if user doesnt have one
+              await authStore.addToken(token);
+            }
+          }
+        } else {
+          return;
+        }
 
+        if (Platform.OS === "android") {
+          Notifications.setNotificationChannelAsync("default", {
+            name: "default",
+            importance: Notifications.AndroidImportance.MAX,
+            vibrationPattern: [0, 250, 250, 250],
+            lightColor: "#FF231F7C",
+          });
+        }
+      }
+    };
+    setNotification();
+  }, []);
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
     Ubuntu: require("../assets/fonts/Ubuntu.ttf"),

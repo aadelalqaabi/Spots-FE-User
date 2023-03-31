@@ -1,5 +1,4 @@
-import * as React from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { observer } from "mobx-react";
@@ -14,7 +13,7 @@ import Password from "./screens/authScreens/Password";
 import PhoneNo from "./screens/authScreens/PhoneNo";
 import MyImage from "./screens/authScreens/MyImage";
 import * as Linking from "expo-linking";
-import { useColorScheme } from "react-native";
+import { useColorScheme, View } from "react-native";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
@@ -48,8 +47,7 @@ import EndedSpot from "./screens/spots/EndedSpot";
 import AppleUsername from "./screens/authScreens/AppleUsername";
 import AppleImage from "./screens/authScreens/AppleImage";
 import ReviewsPage from "./screens/reviews/ReviewsPage";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SpottedInfo from "./screens/spots/SpottedInfo";
 import RegisteredNotifications from "./screens/notification/RegisteredNotifications";
 import ContactUs from "./screens/ContactUs";
@@ -60,8 +58,7 @@ import Report from "./screens/Report";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
-const prefix = Linking.createURL("dest://");
-
+let id = null;
 function App() {
   const [isFirstLaunch, setIsFirstLaunch] = useState(null);
   useEffect(() => {
@@ -78,22 +75,6 @@ function App() {
   }, []);
 
   const checkUser = authStore.user;
-
-  const config = {
-    screens: {
-      SpotDetails: {
-        path: "SpotDetails/:id",
-        parse: {
-          id: [String],
-        },
-      },
-    },
-  };
-
-  const linking = {
-    prefixes: [prefix],
-    config,
-  };
 
   if (isFirstLaunch === null) {
     return null;
@@ -125,7 +106,7 @@ function App() {
     );
   } else {
     return (
-      <NavigationContainer linking={linking}>
+      <NavigationContainer>
         {checkUser ? (
           <RootNavigator />
         ) : (
@@ -173,6 +154,7 @@ export default observer(App);
 function RootNavigator() {
   const { Navigator, Screen } = createStackNavigator();
   const colorScheme = useColorScheme();
+
   const translations = {
     en: {
       explore: "Explore",
@@ -191,7 +173,16 @@ function RootNavigator() {
       escapeValue: false,
     },
   });
-
+  let url = Linking.useURL();
+  const navigation = useNavigation();
+  if (url) {
+    const regex = /SpotDetails\/(.+)/;
+    let match = url.match(regex);
+    if (match && match[1]) {
+      id = match[1];
+      navigation.navigate("SpotDetails", { id: id });
+    }
+  }
   return i18n.language.split("-")[0] === "en" ? (
     <Navigator
       initialRouteName="Explore"
@@ -205,7 +196,11 @@ function RootNavigator() {
     >
       <Screen name="Explore" component={TabBar} />
       {/* <Screen name="Advertisments" component={Advertisments} /> */}
-      <Screen name="SpotDetails" component={SpotDetails} />
+      <Screen
+        name="SpotDetails"
+        component={SpotDetails}
+        initialParams={{ id }}
+      />
       <Screen name="SpotttedDetails" component={SpotttedDetails} />
       <Screen name="SpottedInfo" component={SpottedInfo} />
       <Screen name="ReviewsPage" component={ReviewsPage} />
@@ -234,7 +229,6 @@ function RootNavigator() {
 
       <Screen name="Settings" component={Settings} />
       <Screen name="ContactUs" component={ContactUs} />
-
       <Screen
         name="Edit"
         component={EditScreen}
@@ -293,6 +287,7 @@ function RootNavigator() {
           headerShown: false,
           gestureDirection: "horizontal-inverted",
         }}
+        initialParams={{ id }}
       />
       <Screen
         name="SpottedInfo"

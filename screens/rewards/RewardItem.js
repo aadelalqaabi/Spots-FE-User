@@ -5,6 +5,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react";
@@ -22,6 +23,7 @@ import spotStore from "../../stores/spotStore";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 function RewardItem({ reward, onRefresh }) {
+  const [isLoading, setIsLoading] = useState(false);
   const colorScheme = useColorScheme();
   const translations = {
     en: {
@@ -83,12 +85,14 @@ function RewardItem({ reward, onRefresh }) {
   }
 
   const handleClaim = async () => {
+    setIsLoading(true);
     await pointStore.updatePoint(myPoints.amount - reward.points, myPoints._id);
     await rewardStore.userAdd(reward._id);
     await pointStore.fetchPoints();
     await rewardStore.fetchRewards();
     await spotStore.fetchSpots();
     toggleModal();
+    setIsLoading(false);
   };
 
   return (
@@ -324,7 +328,26 @@ function RewardItem({ reward, onRefresh }) {
               )}
               {myPoints?.amount >= reward.points ? (
                 <>
-                  <TouchableOpacity style={styles.button} onPress={handleClaim}>
+                  <TouchableOpacity
+                    style={{
+                      borderRadius: 15,
+                      elevation: 3,
+                      backgroundColor: isLoading ? "gray" : "#e52b51",
+                      width: "75%",
+                      height: 55,
+                      alignSelf: "center",
+                      display: "flex",
+                      alignContent: "center",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      flexDirection:
+                        i18n.language.split("-")[0] === "en"
+                          ? "row-reverse"
+                          : "row",
+                    }}
+                    onPress={handleClaim}
+                    disabled={isLoading}
+                  >
                     <Text
                       style={{
                         color: "white",
@@ -334,10 +357,17 @@ function RewardItem({ reward, onRefresh }) {
                         textAlign: "center",
                       }}
                     >
-                      {i18n.language.split("-")[0] === "en"
+                      {isLoading
+                        ? i18n.language.split("-")[0] === "en"
+                          ? "Claiming..."
+                          : "جاري التحصيل..."
+                        : i18n.language.split("-")[0] === "en"
                         ? "Claim"
                         : "الحصول الآن"}
                     </Text>
+                    {isLoading && (
+                      <ActivityIndicator size={"small"} color={"white"} />
+                    )}
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={{

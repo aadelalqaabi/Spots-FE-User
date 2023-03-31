@@ -141,746 +141,714 @@ function ProfileSpotDetails({ route }) {
     return <View style={{ backgroundColor: "transparent" }}></View>;
   }
   return (
-    <>
-      <SafeAreaView style={{ marginBottom: -35 }}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          showsHorizontalScrollIndicator={false}
+    <SafeAreaView style={{ marginBottom: -35 }}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        style={{
+          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+        }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
+        <StatusBar
+          barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
+        />
+        <View
           style={{
-            backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+            display: "flex",
+            flexDirection:
+              i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
+            alignContent: "center",
+            alignItems: "center",
+            justifyContent: "space-evenly",
+            marginTop: 5,
           }}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
         >
-          <StatusBar
-            barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
-          />
-          <View
+          <TouchableOpacity
+            onPress={() => {
+              navigation.goBack();
+            }}
+            style={{ zIndex: 99 }}
+          >
+            <Ionicons
+              style={{
+                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                zIndex: 99,
+                fontSize: 32,
+                margin: 15,
+              }}
+              name={
+                i18n.language.split("-")[0] === "en"
+                  ? "chevron-back-outline"
+                  : "chevron-forward-outline"
+              }
+            ></Ionicons>
+          </TouchableOpacity>
+          <Text
             style={{
-              display: "flex",
-              flexDirection:
-                i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
-              alignContent: "center",
-              alignItems: "center",
-              justifyContent: "space-evenly",
-              marginTop: 5,
+              fontSize: 24,
+              alignSelf: "center",
+              textAlign: "center",
+              fontFamily:
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
+              width: "70%",
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
             }}
           >
-            <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
-              }}
-              style={{ zIndex: 99 }}
-            >
-              <Ionicons
-                style={{
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                  zIndex: 99,
-                  fontSize: 32,
-                  margin: 15,
-                }}
-                name={
-                  i18n.language.split("-")[0] === "en"
-                    ? "chevron-back-outline"
-                    : "chevron-forward-outline"
-                }
-              ></Ionicons>
-            </TouchableOpacity>
-            <Text
+            {i18n.language.split("-")[0] === "en" ? spot.name : spot.nameAr}
+          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Info", { spot: spot });
+            }}
+          >
+            <Ionicons
               style={{
-                fontSize: 24,
-                alignSelf: "center",
-                textAlign: "center",
-                fontFamily:
-                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
-                width: "70%",
                 color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                zIndex: 99,
+                fontSize: 32,
+                margin: 15,
               }}
-            >
-              {i18n.language.split("-")[0] === "en" ? spot.name : spot.nameAr}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("Info", { spot: spot });
-              }}
-            >
-              <Ionicons
-                style={{
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                  zIndex: 99,
-                  fontSize: 32,
-                  margin: 15,
-                }}
-                name="information-outline"
-              ></Ionicons>
-            </TouchableOpacity>
-          </View>
-          {spot.announcementEn && spot.announcementAr && (
-            <View
+              name="information-outline"
+            ></Ionicons>
+          </TouchableOpacity>
+        </View>
+        {spot.announcementEn && spot.announcementAr && (
+          <View
+            style={{
+              width: "100%",
+              alignSelf: "center",
+              backgroundColor: colorScheme === "light" ? "#000" : "#fff",
+            }}
+          >
+            <TextTicker
               style={{
+                fontSize: 20,
+                padding: 15,
                 width: "100%",
-                alignSelf: "center",
-                backgroundColor:
-                  colorScheme === "light" ? "#eaeaea" : "#202020",
+                fontWeight: "600",
+                color: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
               }}
+              scroll
+              duration={10000}
+              bounce={false}
+              repeatSpacer={0}
+              shouldAnimateTreshold={40}
+              isRTL={i18n.language.split("-")[0] === "en" ? false : true}
             >
-              <TextTicker
-                style={{
-                  fontSize: 20,
-                  padding: 15,
-                  width: "100%",
-                  fontWeight: "600",
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                }}
-                scroll
-                duration={10000}
-                bounce={false}
-                repeatSpacer={0}
-                shouldAnimateTreshold={40}
-                isRTL={i18n.language.split("-")[0] === "en" ? false : true}
-              >
-                {i18n.language.split("-")[0] === "en"
-                  ? spot.announcementEn
-                  : spot.announcementAr}
-              </TextTicker>
-            </View>
-          )}
-          {spot.adImage0 !== "" ||
-          spot.adImage1 !== "" ||
-          spot.adImage2 !== "" ||
-          spot.adImage3 !== "" ||
-          spot.adImage4 !== "" ? (
+              {i18n.language.split("-")[0] === "en"
+                ? spot.announcementEn
+                : spot.announcementAr}
+            </TextTicker>
+          </View>
+        )}
+        {spot.adImage0 !== "" ||
+        spot.adImage1 !== "" ||
+        spot.adImage2 !== "" ||
+        spot.adImage3 !== "" ||
+        spot.adImage4 !== "" ? (
+          <View
+            style={{
+              height: 250,
+              marginBottom: -5,
+            }}
+          >
+            <Swiper
+              height={240}
+              showsButtons={false}
+              activeDotStyle={{ opacity: 0 }}
+              dotStyle={{ opacity: 0 }}
+              autoplay
+            >
+              {spot.adImage0 && (
+                <View style={styles.slide}>
+                  <Image
+                    style={{
+                      flex: 1,
+                      width: "100%",
+                    }}
+                    source={{ uri: `${baseURL}${spot.adImage0}` }}
+                    loadingIndicatorSource={require("../../assets/Loading.gif")}
+                    onLoad={() => setIsImageLoading(false)}
+                  />
+                  {isImageLoading === true && (
+                    <Image
+                      style={{ width: 80, height: 80, position: "absolute" }}
+                      source={require("../../assets/Loading.gif")}
+                    />
+                  )}
+                </View>
+              )}
+              {spot.adImage1 && (
+                <View style={styles.slide}>
+                  <Image
+                    style={{
+                      flex: 1,
+                      width: "100%",
+                    }}
+                    source={{ uri: `${baseURL}${spot.adImage1}` }}
+                    onLoad={() => setIsImageLoading(false)}
+                    loadingIndicatorSource={require("../../assets/Loading.gif")}
+                  />
+                  {isImageLoading === true && (
+                    <Image
+                      style={{ width: 80, height: 80, position: "absolute" }}
+                      source={require("../../assets/Loading.gif")}
+                    />
+                  )}
+                </View>
+              )}
+              {spot.adImage2 && (
+                <View style={styles.slide}>
+                  <Image
+                    style={{
+                      flex: 1,
+                      width: "100%",
+                    }}
+                    source={{ uri: `${baseURL}${spot.adImage2}` }}
+                    onLoad={() => setIsImageLoading(false)}
+                    loadingIndicatorSource={require("../../assets/Loading.gif")}
+                  />
+                  {isImageLoading === true && (
+                    <Image
+                      style={{ width: 80, height: 80, position: "absolute" }}
+                      source={require("../../assets/Loading.gif")}
+                    />
+                  )}
+                </View>
+              )}
+              {spot.adImage3 && (
+                <View style={styles.slide}>
+                  <Image
+                    style={{
+                      flex: 1,
+                      width: "100%",
+                    }}
+                    source={{ uri: `${baseURL}${spot.adImage3}` }}
+                    onLoad={() => setIsImageLoading(false)}
+                    loadingIndicatorSource={require("../../assets/Loading.gif")}
+                  />
+                  {isImageLoading === true && (
+                    <Image
+                      style={{ width: 80, height: 80, position: "absolute" }}
+                      source={require("../../assets/Loading.gif")}
+                    />
+                  )}
+                </View>
+              )}
+              {spot.adImage4 && (
+                <View style={styles.slide}>
+                  <Image
+                    style={{
+                      flex: 1,
+                      width: "100%",
+                    }}
+                    source={{ uri: `${baseURL}${spot.adImage4}` }}
+                    onLoad={() => setIsImageLoading(false)}
+                    loadingIndicatorSource={require("../../assets/Loading.gif")}
+                  />
+                  {isImageLoading === true && (
+                    <Image
+                      style={{ width: 80, height: 80, position: "absolute" }}
+                      source={require("../../assets/Loading.gif")}
+                    />
+                  )}
+                </View>
+              )}
+            </Swiper>
+          </View>
+        ) : (
+          <></>
+        )}
+        {rewards.length > 0 && (
+          <>
             <View
               style={{
-                height: 250,
-                marginBottom: -5,
+                margin: 30,
+                marginBottom: 10,
+                display: "flex",
+                flexDirection:
+                  i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
+                alignItems: "center",
+                alignContent: "center",
+                justifyContent: "space-between",
               }}
             >
-              <Swiper
-                height={240}
-                showsButtons={false}
-                activeDotStyle={{ opacity: 0 }}
-                dotStyle={{ opacity: 0 }}
-                autoplay
-              >
-                {spot.adImage0 && (
-                  <View style={styles.slide}>
-                    <Image
-                      style={{
-                        flex: 1,
-                        width: "100%",
-                      }}
-                      source={{ uri: `${baseURL}${spot.adImage0}` }}
-                      loadingIndicatorSource={require("../../assets/Loading.gif")}
-                      onLoad={() => setIsImageLoading(false)}
-                    />
-                    {isImageLoading === true && (
-                      <Image
-                        style={{ width: 80, height: 80, position: "absolute" }}
-                        source={require("../../assets/Loading.gif")}
-                      />
-                    )}
-                  </View>
-                )}
-                {spot.adImage1 && (
-                  <View style={styles.slide}>
-                    <Image
-                      style={{
-                        flex: 1,
-                        width: "100%",
-                      }}
-                      source={{ uri: `${baseURL}${spot.adImage1}` }}
-                      onLoad={() => setIsImageLoading(false)}
-                      loadingIndicatorSource={require("../../assets/Loading.gif")}
-                    />
-                    {isImageLoading === true && (
-                      <Image
-                        style={{ width: 80, height: 80, position: "absolute" }}
-                        source={require("../../assets/Loading.gif")}
-                      />
-                    )}
-                  </View>
-                )}
-                {spot.adImage2 && (
-                  <View style={styles.slide}>
-                    <Image
-                      style={{
-                        flex: 1,
-                        width: "100%",
-                      }}
-                      source={{ uri: `${baseURL}${spot.adImage2}` }}
-                      onLoad={() => setIsImageLoading(false)}
-                      loadingIndicatorSource={require("../../assets/Loading.gif")}
-                    />
-                    {isImageLoading === true && (
-                      <Image
-                        style={{ width: 80, height: 80, position: "absolute" }}
-                        source={require("../../assets/Loading.gif")}
-                      />
-                    )}
-                  </View>
-                )}
-                {spot.adImage3 && (
-                  <View style={styles.slide}>
-                    <Image
-                      style={{
-                        flex: 1,
-                        width: "100%",
-                      }}
-                      source={{ uri: `${baseURL}${spot.adImage3}` }}
-                      onLoad={() => setIsImageLoading(false)}
-                      loadingIndicatorSource={require("../../assets/Loading.gif")}
-                    />
-                    {isImageLoading === true && (
-                      <Image
-                        style={{ width: 80, height: 80, position: "absolute" }}
-                        source={require("../../assets/Loading.gif")}
-                      />
-                    )}
-                  </View>
-                )}
-                {spot.adImage4 && (
-                  <View style={styles.slide}>
-                    <Image
-                      style={{
-                        flex: 1,
-                        width: "100%",
-                      }}
-                      source={{ uri: `${baseURL}${spot.adImage4}` }}
-                      onLoad={() => setIsImageLoading(false)}
-                      loadingIndicatorSource={require("../../assets/Loading.gif")}
-                    />
-                    {isImageLoading === true && (
-                      <Image
-                        style={{ width: 80, height: 80, position: "absolute" }}
-                        source={require("../../assets/Loading.gif")}
-                      />
-                    )}
-                  </View>
-                )}
-              </Swiper>
-            </View>
-          ) : (
-            <></>
-          )}
-          {rewards.length > 0 && (
-            <>
-              <View
-                style={{
-                  margin: 30,
-                  marginBottom: 10,
-                  display: "flex",
-                  flexDirection:
-                    i18n.language.split("-")[0] === "en"
-                      ? "row"
-                      : "row-reverse",
-                  alignItems: "center",
-                  alignContent: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                <View>
-                  <Text
-                    style={{
-                      fontFamily:
-                        i18n.language.split("-")[0] === "en"
-                          ? "Ubuntu"
-                          : "Noto",
-                      fontSize: 20,
-                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                      opacity: 0.8,
-                      textAlign:
-                        i18n.language.split("-")[0] === "en" ? "left" : "right",
-                      marginBottom:
-                        i18n.language.split("-")[0] === "en" ? 0 : -10,
-                      marginTop: i18n.language.split("-")[0] === "en" ? 0 : -10,
-                    }}
-                  >
-                    {i18n.language.split("-")[0] === "en"
-                      ? "My Points"
-                      : "نقاطي"}
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily:
-                        i18n.language.split("-")[0] === "en"
-                          ? "UbuntuBold"
-                          : "NotoBold",
-                      fontSize: 40,
-                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                      textAlign:
-                        i18n.language.split("-")[0] === "en" ? "left" : "right",
-                      marginBottom:
-                        i18n.language.split("-")[0] === "en" ? 20 : 0,
-                      marginTop: i18n.language.split("-")[0] === "en" ? 15 : 0,
-                    }}
-                  >
-                    {point?.amount}
-                  </Text>
-                  <Text
-                    style={{
-                      fontFamily:
-                        i18n.language.split("-")[0] === "en"
-                          ? "Ubuntu"
-                          : "Noto",
-                      fontSize: 15,
-                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                      opacity: 0.8,
-                      textAlign:
-                        i18n.language.split("-")[0] === "en" ? "left" : "right",
-                      marginTop: i18n.language.split("-")[0] === "en" ? 0 : -10,
-                    }}
-                  >
-                    {i18n.language.split("-")[0] === "en"
-                      ? "Valid during Dest's date only"
-                      : "صالح لمدة صلاحية هذه الوجهه فقط"}
-                  </Text>
-                </View>
-                <TouchableOpacity
+              <View>
+                <Text
                   style={{
-                    width: 120,
-                    height: 50,
-                    borderRadius: 10,
-                    borderColor: "#e52b51",
-                    borderWidth: 1,
-                    margin: 50,
-                    marginRight: 0,
-                    marginLeft: 0,
-                    marginBottom: 0,
-                    marginTop: 0,
-                    display: "flex",
-                    alignContent: "center",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexDirection:
-                      i18n.language.split("-")[0] === "en"
-                        ? "row"
-                        : "row-reverse",
-                    shadowOpacity: 0.2,
-                    shadowRadius: 10,
-                    shadowColor: "white",
-                    shadowOffset: {
-                      height: 0,
-                      width: 0,
-                    },
+                    fontFamily:
+                      i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
+                    fontSize: 20,
+                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                    opacity: 0.8,
+                    textAlign:
+                      i18n.language.split("-")[0] === "en" ? "left" : "right",
+                    marginBottom:
+                      i18n.language.split("-")[0] === "en" ? 0 : -10,
+                    marginTop: i18n.language.split("-")[0] === "en" ? 0 : -10,
                   }}
-                  onPress={() =>
-                    navigation.navigate("Scanner", { spot: spot, point: point })
-                  }
                 >
-                  <Ionicons
-                    style={{
-                      fontSize: 25,
-                      zIndex: 99,
-                      color: "#e52b51",
-                    }}
-                    name="scan"
-                  ></Ionicons>
-
-                  <Text
-                    style={{
-                      color: "#e52b51",
-                      fontSize: 17,
-                      fontFamily: "Ubuntu",
-                      marginLeft: i18n.language.split("-")[0] === "en" ? 10 : 0,
-                      marginRight:
-                        i18n.language.split("-")[0] === "en" ? 0 : 10,
-                    }}
-                  >
-                    {i18n.language.split("-")[0] === "en"
-                      ? "Scan QR"
-                      : "امسح Qr"}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection:
-                    i18n.language.split("-")[0] === "en"
-                      ? "row"
-                      : "row-reverse",
-                  alignContent: "center",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  padding: 28,
-                  paddingBottom: 0,
-                  paddingTop: 0,
-                  marginTop: 20,
-                }}
-              >
+                  {i18n.language.split("-")[0] === "en" ? "My Points" : "نقاطي"}
+                </Text>
                 <Text
                   style={{
                     fontFamily:
                       i18n.language.split("-")[0] === "en"
                         ? "UbuntuBold"
                         : "NotoBold",
-                    fontSize: 20,
+                    fontSize: 40,
                     color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                    textAlign:
+                      i18n.language.split("-")[0] === "en" ? "left" : "right",
+                    marginBottom: i18n.language.split("-")[0] === "en" ? 20 : 0,
+                    marginTop: i18n.language.split("-")[0] === "en" ? 15 : 0,
+                  }}
+                >
+                  {point?.amount}
+                </Text>
+                <Text
+                  style={{
+                    fontFamily:
+                      i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
+                    fontSize: 15,
+                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                    opacity: 0.8,
+                    textAlign:
+                      i18n.language.split("-")[0] === "en" ? "left" : "right",
+                    marginTop: i18n.language.split("-")[0] === "en" ? 0 : -10,
                   }}
                 >
                   {i18n.language.split("-")[0] === "en"
-                    ? "Rewards"
-                    : "المكافآت"}
+                    ? "Valid during Dest's date only"
+                    : "صالح لمدة صلاحية هذه الوجهه فقط"}
                 </Text>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate("RewardsTerms", { spot: spot })
-                  }
-                >
-                  <Ionicons
-                    style={{
-                      fontSize: 25,
-                      zIndex: 99,
-                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                    }}
-                    name="information-circle"
-                  ></Ionicons>
-                </TouchableOpacity>
               </View>
-              <ScrollView
-                horizontal={true}
+              <TouchableOpacity
                 style={{
-                  backgroundColor: "transparent",
+                  width: 120,
+                  height: 50,
+                  borderRadius: 10,
+                  borderColor: "#e52b51",
+                  borderWidth: 1,
+                  margin: 50,
+                  marginRight: 0,
+                  marginLeft: 0,
+                  marginBottom: 0,
+                  marginTop: 0,
                   display: "flex",
-                }}
-                contentContainerStyle={{
-                  backgroundColor: "transparent",
-                  paddingRight: 30,
-                  paddingLeft: i18n.language.split("-")[0] === "en" ? 10 : 30,
-                  display: "flex",
-                  flexDirection:
-                    i18n.language.split("-")[0] === "en"
-                      ? "row"
-                      : "row-reverse",
-                }}
-                ref={scrollViewRef}
-                onContentSizeChange={() =>
-                  i18n.language.split("-")[0] === "en"
-                    ? scrollViewRef.current.scrollTo({
-                        x: 0,
-                        y: 0,
-                        animated: true,
-                      })
-                    : scrollViewRef.current.scrollToEnd({ animated: true })
-                }
-                showsVerticalScrollIndicator={false}
-                showsHorizontalScrollIndicator={false}
-              >
-                {rewards.map((reward) => (
-                  <RewardItem reward={reward} onRefresh={onRefresh} />
-                ))}
-              </ScrollView>
-            </>
-          )}
-          {offers.length > 0 ? (
-            <>
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection:
-                    i18n.language.split("-")[0] === "en"
-                      ? "row"
-                      : "row-reverse",
                   alignContent: "center",
+                  justifyContent: "center",
                   alignItems: "center",
-                  justifyContent: "space-between",
-                  padding: 28,
-                  paddingBottom: 0,
-                  paddingTop: 0,
-                  marginTop: 20,
+                  flexDirection:
+                    i18n.language.split("-")[0] === "en"
+                      ? "row"
+                      : "row-reverse",
+                  shadowOpacity: 0.2,
+                  shadowRadius: 10,
+                  shadowColor: "white",
+                  shadowOffset: {
+                    height: 0,
+                    width: 0,
+                  },
                 }}
+                onPress={() =>
+                  navigation.navigate("Scanner", { spot: spot, point: point })
+                }
               >
+                <Ionicons
+                  style={{
+                    fontSize: 25,
+                    zIndex: 99,
+                    color: "#e52b51",
+                  }}
+                  name="scan"
+                ></Ionicons>
+
                 <Text
                   style={{
-                    fontFamily:
-                      i18n.language.split("-")[0] === "en"
-                        ? "UbuntuBold"
-                        : "NotoBold",
-                    fontSize: 20,
-                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                    color: "#e52b51",
+                    fontSize: 17,
+                    fontFamily: "Ubuntu",
+                    marginLeft: i18n.language.split("-")[0] === "en" ? 10 : 0,
+                    marginRight: i18n.language.split("-")[0] === "en" ? 0 : 10,
                   }}
                 >
-                  {i18n.language.split("-")[0] === "en" ? "Offers" : "العروض"}
+                  {i18n.language.split("-")[0] === "en" ? "Scan QR" : "امسح Qr"}
                 </Text>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate("OffersTerms", { spot: spot })
-                  }
-                >
-                  <Ionicons
-                    style={{
-                      fontSize: 25,
-                      zIndex: 99,
-                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-                    }}
-                    name="information-circle"
-                  ></Ionicons>
-                </TouchableOpacity>
-              </View>
-              <ScrollView
-                horizontal={true}
-                style={{
-                  backgroundColor: "transparent",
-                }}
-                contentContainerStyle={{
-                  backgroundColor: "transparent",
-                  paddingRight: 30,
-                  paddingLeft: i18n.language.split("-")[0] === "en" ? 10 : 30,
-                  display: "flex",
-                  flexDirection:
-                    i18n.language.split("-")[0] === "en"
-                      ? "row"
-                      : "row-reverse",
-                }}
-                ref={scrollViewRef2}
-                onContentSizeChange={() =>
-                  i18n.language.split("-")[0] === "en"
-                    ? scrollViewRef2.current.scrollTo({
-                        x: 0,
-                        y: 0,
-                        animated: true,
-                      })
-                    : scrollViewRef2.current.scrollToEnd({ animated: true })
-                }
-                showsVerticalScrollIndicator={false}
-                showsHorizontalScrollIndicator={false}
-              >
-                {offers.map((offer) => (
-                  <OfferItem offer={offer} />
-                ))}
-              </ScrollView>
-            </>
-          ) : (
-            <></>
-          )}
-          <View
-            style={{
-              display: "flex",
-              flexDirection:
-                i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
-              alignContent: "center",
-              alignItems: "center",
-              margin: 30,
-              marginTop: 20,
-              justifyContent: "space-between",
-            }}
-          >
-            <Text
+              </TouchableOpacity>
+            </View>
+            <View
               style={{
-                fontFamily:
-                  i18n.language.split("-")[0] === "en"
-                    ? "UbuntuBold"
-                    : "NotoBold",
-                fontSize: 20,
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                display: "flex",
+                flexDirection:
+                  i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
+                alignContent: "center",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: 28,
+                paddingBottom: 0,
+                paddingTop: 0,
+                marginTop: 20,
               }}
             >
-              {i18n.language.split("-")[0] === "en" ? "Reviews" : "التقييمات"}
-            </Text>
-            <TouchableOpacity onPress={toggleModal}>
               <Text
                 style={{
-                  fontFamily: "Ubuntu",
-                  fontSize: 19,
-                  borderWidth: 1,
-                  padding: 10,
-                  color: "#e52b51",
-                  borderColor: "#e52b51",
-                  borderRadius: 10,
+                  fontFamily:
+                    i18n.language.split("-")[0] === "en"
+                      ? "UbuntuBold"
+                      : "NotoBold",
+                  fontSize: 20,
+                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
                 }}
               >
-                {i18n.language.split("-")[0] === "en"
-                  ? "Add Review"
-                  : "اضف تقييم"}
+                {i18n.language.split("-")[0] === "en" ? "Rewards" : "المكافآت"}
               </Text>
-            </TouchableOpacity>
-          </View>
-          <View style={{ flex: 1 }}>
-            <Modal
-              isVisible={isModalVisible}
-              onBackdropPress={() => setModalVisible(false)}
-              style={{ height: 450 }}
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("RewardsTerms", { spot: spot })
+                }
+              >
+                <Ionicons
+                  style={{
+                    fontSize: 25,
+                    zIndex: 99,
+                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  }}
+                  name="information-circle"
+                ></Ionicons>
+              </TouchableOpacity>
+            </View>
+            <ScrollView
+              horizontal={true}
+              style={{
+                backgroundColor: "transparent",
+                display: "flex",
+              }}
+              contentContainerStyle={{
+                backgroundColor: "transparent",
+                paddingRight: 30,
+                paddingLeft: i18n.language.split("-")[0] === "en" ? 10 : 30,
+                display: "flex",
+                flexDirection:
+                  i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
+              }}
+              ref={scrollViewRef}
+              onContentSizeChange={() =>
+                i18n.language.split("-")[0] === "en"
+                  ? scrollViewRef.current.scrollTo({
+                      x: 0,
+                      y: 0,
+                      animated: true,
+                    })
+                  : scrollViewRef.current.scrollToEnd({ animated: true })
+              }
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+            >
+              {rewards.map((reward) => (
+                <RewardItem reward={reward} onRefresh={onRefresh} />
+              ))}
+            </ScrollView>
+          </>
+        )}
+        {offers.length > 0 ? (
+          <>
+            <View
+              style={{
+                display: "flex",
+                flexDirection:
+                  i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
+                alignContent: "center",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: 28,
+                paddingBottom: 0,
+                paddingTop: 0,
+                marginTop: 20,
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily:
+                    i18n.language.split("-")[0] === "en"
+                      ? "UbuntuBold"
+                      : "NotoBold",
+                  fontSize: 20,
+                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                }}
+              >
+                {i18n.language.split("-")[0] === "en" ? "Offers" : "العروض"}
+              </Text>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate("OffersTerms", { spot: spot })
+                }
+              >
+                <Ionicons
+                  style={{
+                    fontSize: 25,
+                    zIndex: 99,
+                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  }}
+                  name="information-circle"
+                ></Ionicons>
+              </TouchableOpacity>
+            </View>
+            <ScrollView
+              horizontal={true}
+              style={{
+                backgroundColor: "transparent",
+              }}
+              contentContainerStyle={{
+                backgroundColor: "transparent",
+                paddingRight: 30,
+                paddingLeft: i18n.language.split("-")[0] === "en" ? 10 : 30,
+                display: "flex",
+                flexDirection:
+                  i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
+              }}
+              ref={scrollViewRef2}
+              onContentSizeChange={() =>
+                i18n.language.split("-")[0] === "en"
+                  ? scrollViewRef2.current.scrollTo({
+                      x: 0,
+                      y: 0,
+                      animated: true,
+                    })
+                  : scrollViewRef2.current.scrollToEnd({ animated: true })
+              }
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+            >
+              {offers.map((offer) => (
+                <OfferItem offer={offer} />
+              ))}
+            </ScrollView>
+          </>
+        ) : (
+          <></>
+        )}
+        <View
+          style={{
+            display: "flex",
+            flexDirection:
+              i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
+            alignContent: "center",
+            alignItems: "center",
+            margin: 30,
+            marginTop: 20,
+            justifyContent: "space-between",
+          }}
+        >
+          <Text
+            style={{
+              fontFamily:
+                i18n.language.split("-")[0] === "en"
+                  ? "UbuntuBold"
+                  : "NotoBold",
+              fontSize: 20,
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            }}
+          >
+            {i18n.language.split("-")[0] === "en" ? "Reviews" : "التقييمات"}
+          </Text>
+          <TouchableOpacity onPress={toggleModal}>
+            <Text
+              style={{
+                fontFamily: "Ubuntu",
+                fontSize: 19,
+                borderWidth: 1,
+                padding: 10,
+                color: "#e52b51",
+                borderColor: "#e52b51",
+                borderRadius: 10,
+              }}
+            >
+              {i18n.language.split("-")[0] === "en"
+                ? "Add Review"
+                : "اضف تقييم"}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{ flex: 1 }}>
+          <Modal
+            isVisible={isModalVisible}
+            onBackdropPress={() => setModalVisible(false)}
+            style={{ height: 450 }}
+          >
+            <View
+              style={{
+                display: "flex",
+                alignItems: "center",
+                alignContent: "center",
+                justifyContent: "center",
+              }}
             >
               <View
                 style={{
+                  backgroundColor: "white",
                   display: "flex",
                   alignItems: "center",
                   alignContent: "center",
                   justifyContent: "center",
+                  backgroundColor: "white",
+                  borderRadius: 40,
+                  height: "68%",
+                  width: "105%",
+                  display: "flex",
                 }}
               >
-                <View
+                <Text
                   style={{
-                    backgroundColor: "white",
+                    alignSelf: "center",
+                    margin: 30,
+                    marginBottom:
+                      i18n.language.split("-")[0] === "en" ? 10 : -10,
+                    marginTop: 0,
+                    fontSize: 28,
+                    fontFamily:
+                      i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
+                  }}
+                >
+                  {i18n.language.split("-")[0] === "en"
+                    ? "Add Your Review"
+                    : "اضف تقييمك"}
+                </Text>
+                <TouchableOpacity
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    margin: 20,
+                    marginTop: 15,
+                  }}
+                  onPress={toggleModal}
+                >
+                  <Ionicons
+                    style={{
+                      color: "black",
+                      opacity: 0.5,
+                      fontSize: 35,
+                    }}
+                    name="close-outline"
+                  ></Ionicons>
+                </TouchableOpacity>
+                <Rating
+                  startingValue={1}
+                  selectedColor="#e52b51"
+                  reviewColor="#e52b51"
+                  ratingBackgroundColor="#e52b51"
+                  ratingTextColor="grey"
+                  unSelectedColor="grey"
+                  onFinishRating={ratingCompleted}
+                  starContainerStyle={{
+                    margin: 100,
+                    justifyContent: "space-evenly",
+                  }}
+                  style={{
+                    margin: 20,
+                    marginBottom: 30,
+                    marginTop: 10,
+                  }}
+                />
+                <Text
+                  style={{
+                    fontFamily:
+                      i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
+                    fontSize: 20,
+                    marginLeft: 28,
+                    marginRight: 28,
+                    margin: -16,
+                    alignSelf:
+                      i18n.language.split("-")[0] === "en"
+                        ? "flex-start"
+                        : "flex-end",
+                  }}
+                >
+                  {i18n.language.split("-")[0] === "en"
+                    ? "Enter Description"
+                    : "اكتب الوصف"}
+                </Text>
+                <TextInput
+                  textInputStyle={{
+                    height: 90,
+                    width: "86%",
+                    margin: 20,
+                    paddingTop: 15,
+                  }}
+                  mainColor="#e52b51"
+                  multiline
+                  numberOfLines={4}
+                  label="Description"
+                  placeholder=""
+                  onChangeText={(text) => {
+                    handleChange("description", text);
+                  }}
+                  clearButtonMode="always"
+                />
+                <TouchableOpacity
+                  style={{
+                    borderRadius: 15,
+                    elevation: 3,
+                    backgroundColor: "#e52b51",
+                    width: "86%",
+                    height: 50,
+                    alignSelf:
+                      i18n.language.split("-")[0] === "en"
+                        ? "flex-end"
+                        : "flex-start",
+                    marginRight: 25,
+                    marginLeft: 25,
                     display: "flex",
-                    alignItems: "center",
                     alignContent: "center",
                     justifyContent: "center",
-                    backgroundColor: "white",
-                    borderRadius: 40,
-                    height: "68%",
-                    width: "105%",
-                    display: "flex",
+                    alignItems: "center",
                   }}
+                  onPress={handleSubmit}
                 >
                   <Text
                     style={{
-                      alignSelf: "center",
-                      margin: 30,
-                      marginBottom:
-                        i18n.language.split("-")[0] === "en" ? 10 : -10,
-                      marginTop: 0,
-                      fontSize: 28,
-                      fontFamily:
-                        i18n.language.split("-")[0] === "en"
-                          ? "Ubuntu"
-                          : "Noto",
-                    }}
-                  >
-                    {i18n.language.split("-")[0] === "en"
-                      ? "Add Your Review"
-                      : "اضف تقييمك"}
-                  </Text>
-                  <TouchableOpacity
-                    style={{
-                      position: "absolute",
-                      top: 0,
-                      right: 0,
-                      margin: 20,
-                      marginTop: 15,
-                    }}
-                    onPress={toggleModal}
-                  >
-                    <Ionicons
-                      style={{
-                        color: "black",
-                        opacity: 0.5,
-                        fontSize: 35,
-                      }}
-                      name="close-outline"
-                    ></Ionicons>
-                  </TouchableOpacity>
-                  <Rating
-                    startingValue={1}
-                    selectedColor="#e52b51"
-                    reviewColor="#e52b51"
-                    ratingBackgroundColor="#e52b51"
-                    ratingTextColor="grey"
-                    unSelectedColor="grey"
-                    onFinishRating={ratingCompleted}
-                    starContainerStyle={{
-                      margin: 100,
-                      justifyContent: "space-evenly",
-                    }}
-                    style={{
-                      margin: 20,
-                      marginBottom: 30,
-                      marginTop: 10,
-                    }}
-                  />
-                  <Text
-                    style={{
-                      fontFamily:
-                        i18n.language.split("-")[0] === "en"
-                          ? "Ubuntu"
-                          : "Noto",
+                      color: "white",
                       fontSize: 20,
-                      marginLeft: 28,
-                      marginRight: 28,
-                      margin: -16,
-                      alignSelf:
+                      marginTop: i18n.language.split("-")[0] === "en" ? 0 : -2,
+                      fontFamily:
                         i18n.language.split("-")[0] === "en"
-                          ? "flex-start"
-                          : "flex-end",
+                          ? "Ubuntu"
+                          : "Noto",
                     }}
                   >
-                    {i18n.language.split("-")[0] === "en"
-                      ? "Enter Description"
-                      : "اكتب الوصف"}
+                    {i18n.language.split("-")[0] === "en" ? "Submit" : "ارسال"}
                   </Text>
-                  <TextInput
-                    textInputStyle={{
-                      height: 90,
-                      width: "86%",
-                      margin: 20,
-                      paddingTop: 15,
-                    }}
-                    mainColor="#e52b51"
-                    multiline
-                    numberOfLines={4}
-                    label="Description"
-                    placeholder=""
-                    onChangeText={(text) => {
-                      handleChange("description", text);
-                    }}
-                    clearButtonMode="always"
-                  />
-                  <TouchableOpacity
-                    style={{
-                      borderRadius: 15,
-                      elevation: 3,
-                      backgroundColor: "#e52b51",
-                      width: "86%",
-                      height: 50,
-                      alignSelf:
-                        i18n.language.split("-")[0] === "en"
-                          ? "flex-end"
-                          : "flex-start",
-                      marginRight: 25,
-                      marginLeft: 25,
-                      display: "flex",
-                      alignContent: "center",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                    onPress={handleSubmit}
-                  >
-                    <Text
-                      style={{
-                        color: "white",
-                        fontSize: 20,
-                        marginTop:
-                          i18n.language.split("-")[0] === "en" ? 0 : -2,
-                        fontFamily:
-                          i18n.language.split("-")[0] === "en"
-                            ? "Ubuntu"
-                            : "Noto",
-                      }}
-                    >
-                      {i18n.language.split("-")[0] === "en"
-                        ? "Submit"
-                        : "ارسال"}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
+                </TouchableOpacity>
               </View>
-            </Modal>
-          </View>
+            </View>
+          </Modal>
+        </View>
 
-          {spot?.reviews.length !== 0 ? (
-            <ReviewList reviews={spot?.reviews} spotId={spot?._id} />
-          ) : (
-            <Text
-              style={{
-                fontFamily:
-                  i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
-                fontSize: 20,
-                marginTop: 20,
-                marginBottom: 80,
-                alignSelf: "center",
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
-              }}
-            >
-              {i18n.language.split("-")[0] === "en"
-                ? " No Reviews Yet"
-                : "لا يوجد تقييمات حتى الآن"}
-            </Text>
-          )}
-        </ScrollView>
-      </SafeAreaView>
-    </>
+        {spot?.reviews.length !== 0 ? (
+          <ReviewList reviews={spot?.reviews} spotId={spot?._id} />
+        ) : (
+          <Text
+            style={{
+              fontFamily:
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
+              fontSize: 20,
+              marginTop: 20,
+              marginBottom: 80,
+              alignSelf: "center",
+              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            }}
+          >
+            {i18n.language.split("-")[0] === "en"
+              ? " No Reviews Yet"
+              : "لا يوجد تقييمات حتى الآن"}
+          </Text>
+        )}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 export default observer(ProfileSpotDetails);

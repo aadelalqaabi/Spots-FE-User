@@ -9,14 +9,13 @@ import {
 } from "react-native";
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Notifications from "expo-notifications";
 import * as Device from "expo-device";
 import * as Localization from "expo-localization";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import authStore from "../stores/authStore";
-import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
 import { observer } from "mobx-react";
 import { useFonts } from "expo-font";
 
@@ -764,7 +763,7 @@ function Settings() {
             marginTop: 30,
           }}
         >
-          Version 1.1.8
+          Version 1.2.0
         </Text>
       </ScrollView>
       {/* Disable Modal */}

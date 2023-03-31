@@ -241,8 +241,8 @@ function Spotted({ ticket, navigation }) {
             >
               <Image
                 style={{
-                  width: 50,
-                  height: 50,
+                  width: 60,
+                  height: 60,
                   borderRadius: 50,
                   borderColor: "white",
                   backgroundColor: "white",
@@ -250,7 +250,7 @@ function Spotted({ ticket, navigation }) {
                   marginRight: 10,
                   marginLeft: 10,
                 }}
-                source={{ uri: `${baseURL}${organizer.image}` }}
+                source={{ uri: `${baseURL}${organizer?.image}` }}
               />
               <Text
                 style={{

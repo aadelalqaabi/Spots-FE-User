@@ -42,6 +42,7 @@ export default function AppleImage({ route }) {
 
   const [image, setImage] = useState(null);
   const [toggle, setToggle] = useState(false);
+  const [granted, setGranted] = useState();
   const { itemId } = route.params;
   const [user, setUser] = useState(itemId);
   const [isLoading, setIsLoading] = useState(false);
@@ -53,6 +54,9 @@ export default function AppleImage({ route }) {
           await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== "granted") {
           alert("Sorry, we need camera roll permissions to make this work!");
+          setGranted(false);
+        } else {
+          setGranted(true);
         }
       }
     })();
@@ -68,33 +72,37 @@ export default function AppleImage({ route }) {
     return <View style={{ backgroundColor: "transparent" }}></View>;
   }
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [16, 9],
-      quality: 1,
-      width: 300,
-      height: 300,
-    });
-
-    if (!result.cancelled) {
-      let filename = result.uri.split("/").pop();
-      let match = /\.(\w+)$/.exec(filename);
-      let img_type = match ? `image/${match[1]}` : `image`;
-      setUser({
-        ...user,
-        image: {
-          uri:
-            Platform.OS === "android"
-              ? result.uri
-              : result.uri.replace("file://", ""),
-          name: filename,
-          type: img_type,
-        },
+    if (granted === true) {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [16, 9],
+        quality: 1,
+        width: 300,
+        height: 300,
       });
-      setImage(result.uri);
+
+      if (!result.cancelled) {
+        let filename = result.uri.split("/").pop();
+        let match = /\.(\w+)$/.exec(filename);
+        let img_type = match ? `image/${match[1]}` : `image`;
+        setUser({
+          ...user,
+          image: {
+            uri:
+              Platform.OS === "android"
+                ? result.uri
+                : result.uri.replace("file://", ""),
+            name: filename,
+            type: img_type,
+          },
+        });
+        setImage(result.uri);
+      }
+      setToggle(true);
+    } else {
+      alert("Sorry, we need camera roll permissions to make this work!");
     }
-    setToggle(true);
   };
   const handleSubmit = () => {
     setIsLoading(true);
