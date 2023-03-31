@@ -1,5 +1,4 @@
-import { makeAutoObservable, runInAction } from "mobx";
-import authStore from "./authStore";
+import { makeAutoObservable } from "mobx";
 import { instance } from "./instance";
 import spotStore from "./spotStore";
 
@@ -25,9 +24,7 @@ class ReviewStore {
   fetchReviews = async () => {
     try {
       const response = await instance.get("/review");
-      runInAction(() => {
-        this.reviews = response.data;
-      });
+      this.reviews = response.data;
     } catch (error) {
       console.error(error);
     }

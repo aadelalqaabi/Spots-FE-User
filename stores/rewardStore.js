@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { instance } from "./instance";
 
 class RewardStore {
@@ -11,9 +11,7 @@ class RewardStore {
   fetchRewards = async () => {
     try {
       const response = await instance.get("/reward");
-      runInAction(() => {
-        this.rewards = response.data;
-      });
+      this.rewards = response.data;
     } catch (error) {
       console.error(error);
     }
@@ -30,11 +28,9 @@ class RewardStore {
   userAdd = async (rewardId) => {
     try {
       const res = await instance.put(`/reward/user/${rewardId}`);
-      runInAction(() => {
-        this.rewards = this.rewards.map((reward) =>
-          reward._id === rewardId ? res.data : reward
-        );
-      });
+      this.rewards = this.rewards.map((reward) =>
+        reward._id === rewardId ? res.data : reward
+      );
     } catch (error) {
       console.error("reward error: ", error);
     }

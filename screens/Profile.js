@@ -74,13 +74,6 @@ function Profile() {
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
   let userSpotIds = [];
-  const userPoints = pointStore.points
-    .filter(
-      (point) =>
-        // spotStore.getSpotsById(spotId)
-        authStore.user.id === point.user
-    )
-    .map((point) => userSpotIds.push(point.spot));
   const userSpots = userSpotIds.map((spotId) => spotStore.getSpotsById(spotId));
 
   let [fontsLoaded] = useFonts({

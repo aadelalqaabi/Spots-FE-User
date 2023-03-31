@@ -120,42 +120,20 @@ function MySpots() {
       </Text>
       <View style={{ width: "100%", height: "91%", zIndex: 99 }}>
         {loading ? (
-          <>
-            {i18n.language.split("-")[0] === "en" ? (
-              <ContentLoader
-                speed={3}
-                viewBox="5 0 330 600"
-                style={{
-                  height: "110%",
-                  marginTop: -18,
-                }}
-                backgroundColor={colorScheme === "dark" ? "#313131" : "#d8d8d8"}
-                foregroundColor={colorScheme === "dark" ? "#5a5a5a" : "#c2c2c2"}
-              >
-                <Rect x="17" y="25" rx="15" ry="15" width="308" height="159" />
-                <Rect x="17" y="205" rx="15" ry="15" width="308" height="159" />
-                <Rect x="17" y="385" rx="15" ry="15" width="308" height="159" />
-              </ContentLoader>
-            ) : (
-              <ContentLoader
-                speed={3}
-                viewBox="5 0 330 600"
-                style={{
-                  height: "110%",
-                  marginTop: -18,
-                }}
-                backgroundColor={colorScheme === "dark" ? "#313131" : "#d8d8d8"}
-                foregroundColor={colorScheme === "dark" ? "#5a5a5a" : "#c2c2c2"}
-              >
-                <Rect x="18" y="25" rx="15" ry="15" width="248" height="159" />
-                <Rect x="278" y="75" rx="15" ry="15" width="48" height="59" />
-                <Rect x="18" y="205" rx="15" ry="15" width="248" height="159" />
-                <Rect x="278" y="255" rx="15" ry="15" width="48" height="59" />
-                <Rect x="18" y="385" rx="15" ry="15" width="248" height="159" />
-                <Rect x="278" y="435" rx="15" ry="15" width="48" height="59" />
-              </ContentLoader>
-            )}
-          </>
+          <ContentLoader
+            speed={3}
+            viewBox="5 0 330 600"
+            style={{
+              height: "110%",
+              marginTop: -18,
+            }}
+            backgroundColor={colorScheme === "dark" ? "#313131" : "#d8d8d8"}
+            foregroundColor={colorScheme === "dark" ? "#5a5a5a" : "#c2c2c2"}
+          >
+            <Rect x="17" y="25" rx="15" ry="15" width="308" height="159" />
+            <Rect x="17" y="205" rx="15" ry="15" width="308" height="159" />
+            <Rect x="17" y="385" rx="15" ry="15" width="308" height="159" />
+          </ContentLoader>
         ) : tickets.length !== 0 ? (
           <FlatList
             nestedScrollEnabled={true}

@@ -1,4 +1,4 @@
-import { makeAutoObservable, runInAction } from "mobx";
+import { makeAutoObservable } from "mobx";
 import { instance } from "./instance";
 
 class SpotStore {
@@ -11,9 +11,7 @@ class SpotStore {
   fetchSpots = async () => {
     try {
       const response = await instance.get("/spot");
-      runInAction(() => {
-        this.spots = response.data;
-      });
+      this.spots = response.data;
     } catch (error) {
       console.error(error);
     }
@@ -25,11 +23,9 @@ class SpotStore {
         `spot/update/${spotId}/cat/${updatedSpot.category}`,
         updatedSpot
       );
-      runInAction(() => {
-        this.spots = this.spots.map((spot) =>
-          spot._id === spotId ? res.data : spot
-        );
-      });
+      this.spots = this.spots.map((spot) =>
+        spot._id === spotId ? res.data : spot
+      );
     } catch (error) {
       console.error("hi", error);
     }

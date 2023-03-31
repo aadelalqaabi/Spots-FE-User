@@ -3,7 +3,7 @@
     "scheme": "dest",
     "name": "Dest",
     "slug": "Dest",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "orientation": "portrait",
     "icon": "./assets/DestLogo.png",
     "userInterfaceStyle": "automatic",
