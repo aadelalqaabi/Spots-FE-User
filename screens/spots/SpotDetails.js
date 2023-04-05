@@ -44,23 +44,16 @@ export function SpotDetails({ route, navigation }) {
   let dateAr = DateTime.fromISO(spot?.startDate)
     .setLocale("ar")
     .toFormat("DDD");
-  let timeString = spot.startTime;
-  let time = new Date(`1970-01-01T${timeString}:00Z`);
-  time.setHours(time.getHours() - 1);
-  time.setMinutes(time.getMinutes() - 60);
-  let newTimeString = time.toTimeString().substr(0, 5);
-  const h = newTimeString.substring(0, 2);
-  const m = newTimeString.substring(3, 5);
+  
   const startDateNoti = new Date(spot.startDate);
-  const triggerDateNoti = new Date(
-    startDateNoti.getFullYear(),
-    startDateNoti.getMonth(),
-    startDateNoti.getDate(),
-    parseInt(h),
-    parseInt(m),
-    0
-  );
-
+  const triggerDateNoti = new Date(startDateNoti);
+  triggerDateNoti.setDate(triggerDateNoti.getDate() - 1);
+  triggerDateNoti.setHours(18);
+  triggerDateNoti.setMinutes(30);
+  const today = new Date(new Date().setHours(3, 0, 0, 0))
+  const time = DateTime.fromFormat(spot.startTime, 'HH:mm');
+  const formattedTime = time.setLocale(i18n.language.split("-")[0]).toFormat("h a");
+  
   let dateendEn = DateTime.fromISO(spot?.endDate)
     .setLocale("en")
     .toFormat("DDD");
@@ -177,32 +170,34 @@ export function SpotDetails({ route, navigation }) {
     if (!found && !userFound) {
       await ticketStore.createTicket(newTicket, newSpot._id);
       await ticketStore.fetchTickets();
-      if (
-        i18n.language.split("-")[0] === "en" &&
-        authStore.user.notificationToken !== ""
-      ) {
-        await Notifications.scheduleNotificationAsync({
-          content: {
-            title: `Can't Wait to see you ${authStore.user.name}!`,
-            body: `Don't Forget ${newSpot.name} starts in 2 hours`,
-          },
-          trigger: {
-            date: triggerDateNoti,
-          },
-        });
-      } else if (
-        i18n.language.split("-")[0] === "ar" &&
-        authStore.user.notificationToken !== ""
-      ) {
-        await Notifications.scheduleNotificationAsync({
-          content: {
-            title: `!${authStore.user.name} لا نستطيع الانتظار لرؤيتك`,
-            body: `تبدا في ساعتين ${newSpot.name}لا تنس`,
-          },
-          trigger: {
-            date: triggerDateNoti,
-          },
-        });
+      if(String(today) !== String(startDateNoti)){
+        if (
+          i18n.language.split("-")[0] === "en" &&
+          authStore.user.notificationToken !== ""
+        ) {
+          await Notifications.scheduleNotificationAsync({
+            content: {
+              title: `Can't Wait to see you ${authStore.user.name}!`,
+              body: `Don't Forget ${newSpot.name} begins tomorrow at ${formattedTime}`,
+            },
+            trigger: {
+              date: triggerDateNoti,
+            },
+          });
+        } else if (
+          i18n.language.split("-")[0] === "ar" &&
+          authStore.user.notificationToken !== ""
+        ) {
+          await Notifications.scheduleNotificationAsync({
+            content: {
+              title: `!${authStore.user.name} لا نستطيع الانتظار لرؤيتك`,
+              body: `${formattedTime} تبدا غدا في الساعة ${newSpot.nameAr} لا تنس`,
+            },
+            trigger: {
+              date: triggerDateNoti,
+            },
+          });
+        }
       }
       toggleAlert();
       setIsLoading(false);

@@ -17,7 +17,7 @@ class TicketStore {
       this.tickets.push(response.data.newTicket);
       authStore.setUser(response.data.token);
     } catch (error) {
-      console.error("hello", error);
+      console.error("create ticket", error);
     }
   };
 
