@@ -74,7 +74,7 @@ export default function RegisteredNotifications() {
       style={{
         width: "100%",
         height: "100%",
-        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+        backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
       }}
     >
       <View
@@ -102,7 +102,7 @@ export default function RegisteredNotifications() {
         >
           <Ionicons
             style={{
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               zIndex: 99,
               fontSize: 32,
             }}
@@ -120,7 +120,7 @@ export default function RegisteredNotifications() {
             fontSize: 28,
             fontFamily:
               i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            color: colorScheme === "light" ? "#000000" : "#f1f1f1",
           }}
         >
           {i18n.language.split("-")[0] === "en" ? "Organizers" : "المنظمون"}
@@ -147,7 +147,7 @@ export default function RegisteredNotifications() {
           ></Image>
           <Text
             style={{
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               fontSize: 40,
               fontFamily:
                 i18n.language.split("-")[0] === "en"
@@ -169,7 +169,7 @@ export default function RegisteredNotifications() {
           showsVerticalScrollIndicator={false}
           showsHorizontalScrollIndicator={false}
           style={{
-            backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+            backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
           }}
         >
           <View>

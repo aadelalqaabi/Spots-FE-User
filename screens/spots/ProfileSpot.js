@@ -220,7 +220,7 @@ function ProfileSpot({ spot }) {
             style={{
               fontSize: 40,
               color: "#fffffc",
-              shadowColor: "#1b1b1b",
+              shadowColor: "#000000",
               shadowOffset: {
                 width: 0,
                 height: 2,
@@ -241,7 +241,7 @@ function ProfileSpot({ spot }) {
             style={{
               fontSize: 26,
               color: "#fffffc",
-              shadowColor: "#1b1b1b",
+              shadowColor: "#000000",
               shadowOffset: {
                 width: 0,
                 height: 2,

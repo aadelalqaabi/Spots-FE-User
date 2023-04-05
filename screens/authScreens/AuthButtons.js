@@ -57,7 +57,7 @@ export default function AuthButtons() {
       style={{
         height: "100%",
         width: "100%",
-        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+        backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
       }}
     >
       <View
@@ -90,7 +90,7 @@ export default function AuthButtons() {
             fontFamily:
               i18n.language.split("-")[0] === "en" ? "UbuntuBold" : "NotoBold",
             textAlign: "center",
-            color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
+            color: colorScheme === "dark" ? "#f1f1f1" : "#000000",
             margin: 20,
             marginBottom: i18n.language.split("-")[0] === "en" ? 15 : 5,
           }}
@@ -105,7 +105,7 @@ export default function AuthButtons() {
             fontFamily:
               i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
             textAlign: "center",
-            color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
+            color: colorScheme === "dark" ? "#f1f1f1" : "#000000",
             opacity: 0.7,
             margin: 20,
             marginTop: 0,

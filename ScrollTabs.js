@@ -124,7 +124,7 @@ export default function ScrollTabs({ userSpots }) {
           )}
           <Text
             style={{
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               fontSize: i18n.language.split("-")[0] === "en" ? 30 : 25,
               padding: 35,
               fontFamily:
@@ -203,7 +203,7 @@ export default function ScrollTabs({ userSpots }) {
           )}
           <Text
             style={{
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               fontSize: i18n.language.split("-")[0] === "en" ? 30 : 25,
               padding: 35,
               fontFamily:
@@ -275,7 +275,7 @@ export default function ScrollTabs({ userSpots }) {
                   fontFamily:
                     i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                   fontSize: 22,
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                   margin: -10,
                 }}
               >
@@ -284,7 +284,7 @@ export default function ScrollTabs({ userSpots }) {
             );
           }}
           indicatorStyle={{
-            backgroundColor: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            backgroundColor: colorScheme === "light" ? "#000000" : "#f1f1f1",
             width: "15%",
             height: "5%",
             borderRadius: 100,

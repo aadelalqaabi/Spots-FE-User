@@ -89,7 +89,7 @@ function RewardClaimed({ reward, onRefresh }) {
             marginTop: 10,
             marginRight: -20,
             fontSize: 22,
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            color: colorScheme === "light" ? "#000000" : "#f1f1f1",
             fontFamily:
               i18n.language.split("-")[0] === "en" ? "UbuntuBold" : "NotoBold",
             alignSelf:
@@ -107,7 +107,7 @@ function RewardClaimed({ reward, onRefresh }) {
             marginTop: 10,
             marginRight: -20,
             fontSize: 18,
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            color: colorScheme === "light" ? "#000000" : "#f1f1f1",
             fontFamily: i18n.language.split("-")[0] === "en" ? "Cabin" : "Noto",
             alignSelf:
               i18n.language.split("-")[0] === "en" ? "flex-start" : "flex-end",

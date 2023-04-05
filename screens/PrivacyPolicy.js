@@ -51,7 +51,7 @@ export default function PrivacyPolicy() {
   return (
     <SafeAreaView
       style={{
-        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+        backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
         height: "90%",
         alignContent: "center",
       }}
@@ -81,7 +81,7 @@ export default function PrivacyPolicy() {
         >
           <Ionicons
             style={{
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               zIndex: 99,
               fontSize: 32,
             }}
@@ -99,7 +99,7 @@ export default function PrivacyPolicy() {
             fontSize: 28,
             fontFamily:
               i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            color: colorScheme === "light" ? "#000000" : "#f1f1f1",
           }}
         >
           {i18n.language.split("-")[0] === "en"
@@ -110,7 +110,7 @@ export default function PrivacyPolicy() {
       <ScrollView>
         <Text
           style={{
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            color: colorScheme === "light" ? "#000000" : "#f1f1f1",
             margin: 20,
             fontSize: 20,
           }}

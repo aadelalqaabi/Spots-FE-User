@@ -95,7 +95,7 @@ export default function Search({ navigation }) {
   return (
     <View
       style={{
-        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+        backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
         height: "95%",
         width: "100%",
       }}
@@ -208,7 +208,7 @@ export default function Search({ navigation }) {
           <Text
             style={{
               fontSize: i18n.language.split("-")[0] === "en" ? 15 : 18,
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
             }}
@@ -234,7 +234,7 @@ export default function Search({ navigation }) {
                 i18n.language.split("-")[0] === "en"
                   ? "flex-start"
                   : "flex-end",
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
             }}
           >
             {i18n.language.split("-")[0] === "en"

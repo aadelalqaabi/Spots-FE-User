@@ -80,7 +80,7 @@ export default function RegisteredNotificationItem({ organizerId }) {
         >
           <Image
             style={{
-              backgroundColor: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              backgroundColor: colorScheme === "light" ? "#000000" : "#f1f1f1",
               width: 55,
               height: 55,
               borderRadius: 150,
@@ -93,7 +93,7 @@ export default function RegisteredNotificationItem({ organizerId }) {
           />
           <Text
             style={{
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
 
               fontSize: 20,
               fontFamily:
@@ -119,7 +119,7 @@ export default function RegisteredNotificationItem({ organizerId }) {
         >
           <Text
             style={{
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               fontSize: 20,
               fontFamily: "UbuntuBold",
             }}
@@ -128,7 +128,7 @@ export default function RegisteredNotificationItem({ organizerId }) {
           </Text>
           <Text
             style={{
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               fontSize: 15,
               fontFamily: "Ubuntu",
             }}

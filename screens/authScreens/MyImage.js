@@ -120,15 +120,15 @@ export default function MyImage({ navigation, route }) {
     }
   };
   const handleSubmit = () => {
-    setIsLoading(true);
     try {
       authStore.register(user);
+      setIsLoading(true);
     } catch (error) {
       setIsLoading(false);
     }
   };
 
-  if (isLoading) return <MyAwesomeSplashScreen />;
+  if (isLoading === false) return <MyAwesomeSplashScreen />;
   return (
     <>
       <View
@@ -188,7 +188,7 @@ export default function MyImage({ navigation, route }) {
           alignSelf: "center",
           alignContent: "center",
           justifyContent: "space-between",
-          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+          backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
         }}
       >
         <Ionicons
@@ -200,7 +200,7 @@ export default function MyImage({ navigation, route }) {
             paddingRight: 20,
             alignSelf:
               i18n.language.split("-")[0] === "en" ? "flex-start" : "flex-end",
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            color: colorScheme === "light" ? "#000000" : "#f1f1f1",
           }}
           name={
             i18n.language.split("-")[0] === "en"
@@ -230,7 +230,7 @@ export default function MyImage({ navigation, route }) {
               marginTop: 0,
               width: "100%",
               textAlign: "center",
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
             }}
           >
             {i18n.language.split("-")[0] === "en"
@@ -250,7 +250,7 @@ export default function MyImage({ navigation, route }) {
               textAlign: "center",
               color: "#64666b",
               lineHeight: 23,
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               opacity: 0.8,
             }}
           >
@@ -277,7 +277,7 @@ export default function MyImage({ navigation, route }) {
                 <Ionicons
                   style={{
                     fontSize: 165,
-                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                    color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                   }}
                   name="image-outline"
                 ></Ionicons>

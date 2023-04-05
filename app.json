@@ -3,7 +3,7 @@
     "scheme": "dest",
     "name": "Dest",
     "slug": "Dest",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "orientation": "portrait",
     "icon": "./assets/DestLogo.png",
     "userInterfaceStyle": "automatic",
@@ -20,7 +20,8 @@
       "**/*"
     ],
     "notification": {
-      "icon": "./assets/DestLogo.png"
+      "icon": "./assets/DestLogo.png",
+      "color": "#e52b51"
     },
     "ios": {
       "supportsTablet": false,

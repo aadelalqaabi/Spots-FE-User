@@ -181,7 +181,7 @@ function Explore() {
         width: "100%",
         height: "100%",
         zIndex: -1,
-        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+        backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
       }}
     >
       <StatusBar
@@ -229,7 +229,7 @@ function Explore() {
 
             <View
               style={{
-                margin: 30,
+                margin: 20,
                 marginTop: 0,
                 marginBottom: 10,
                 display: "flex",
@@ -248,7 +248,7 @@ function Explore() {
                       : "NotoBold",
                   fontSize: 32,
                   marginBottom: 10,
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 }}
               >
                 {i18n.language.split("-")[0] === "en" ? "Explore" : "اكتشف"}
@@ -278,7 +278,7 @@ function Explore() {
                     <Ionicons
                       style={{
                         fontSize: 30,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                       }}
                       name="md-calendar-outline"
                     ></Ionicons>
@@ -340,7 +340,7 @@ function Explore() {
                     <Ionicons
                       style={{
                         fontSize: 30,
-                        color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                        color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                       }}
                       name="filter-outline"
                     ></Ionicons>
@@ -371,7 +371,7 @@ function Explore() {
                   <Ionicons
                     style={{
                       fontSize: 30,
-                      color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                      color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                     }}
                     name="search-outline"
                   ></Ionicons>
@@ -400,7 +400,7 @@ function Explore() {
                 ></Image>
                 <Text
                   style={{
-                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                    color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                     fontSize: 34,
                     fontFamily:
                       i18n.language.split("-")[0] === "en"

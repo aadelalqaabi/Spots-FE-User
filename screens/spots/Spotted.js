@@ -80,12 +80,12 @@ function Spotted({ ticket, navigation }) {
       }}
       activeOpacity={1}
       style={{
-        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+        backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
       }}
     >
       <ImageBackground
         style={{
-          width: 380,
+          width: 370,
           height: 250,
           borderRadius: 30,
           padding: 20,
@@ -94,7 +94,7 @@ function Spotted({ ticket, navigation }) {
           marginBottom: 8,
           alignSelf: "center",
           overflow: "hidden",
-          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+          backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
         }}
         source={{ uri: `${baseURL}${spot?.image}` }}
         onLoad={() => setIsImageLoading(false)}

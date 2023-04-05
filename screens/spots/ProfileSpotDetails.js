@@ -146,7 +146,7 @@ function ProfileSpotDetails({ route }) {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         style={{
-          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+          backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
         }}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
@@ -174,7 +174,7 @@ function ProfileSpotDetails({ route }) {
           >
             <Ionicons
               style={{
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 zIndex: 99,
                 fontSize: 32,
                 margin: 15,
@@ -194,7 +194,7 @@ function ProfileSpotDetails({ route }) {
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               width: "70%",
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
             }}
           >
             {i18n.language.split("-")[0] === "en" ? spot.name : spot.nameAr}
@@ -206,7 +206,7 @@ function ProfileSpotDetails({ route }) {
           >
             <Ionicons
               style={{
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 zIndex: 99,
                 fontSize: 32,
                 margin: 15,
@@ -229,7 +229,7 @@ function ProfileSpotDetails({ route }) {
                 padding: 15,
                 width: "100%",
                 fontWeight: "600",
-                color: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+                color: colorScheme === "dark" ? "#000000" : "#f1f1f1",
               }}
               scroll
               duration={10000}
@@ -382,7 +382,7 @@ function ProfileSpotDetails({ route }) {
                     fontFamily:
                       i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                     fontSize: 20,
-                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                    color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                     opacity: 0.8,
                     textAlign:
                       i18n.language.split("-")[0] === "en" ? "left" : "right",
@@ -400,7 +400,7 @@ function ProfileSpotDetails({ route }) {
                         ? "UbuntuBold"
                         : "NotoBold",
                     fontSize: 40,
-                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                    color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                     textAlign:
                       i18n.language.split("-")[0] === "en" ? "left" : "right",
                     marginBottom: i18n.language.split("-")[0] === "en" ? 20 : 0,
@@ -414,7 +414,7 @@ function ProfileSpotDetails({ route }) {
                     fontFamily:
                       i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                     fontSize: 15,
-                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                    color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                     opacity: 0.8,
                     textAlign:
                       i18n.language.split("-")[0] === "en" ? "left" : "right",
@@ -501,7 +501,7 @@ function ProfileSpotDetails({ route }) {
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 20,
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 }}
               >
                 {i18n.language.split("-")[0] === "en" ? "Rewards" : "المكافآت"}
@@ -515,7 +515,7 @@ function ProfileSpotDetails({ route }) {
                   style={{
                     fontSize: 25,
                     zIndex: 99,
-                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                    color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                   }}
                   name="information-circle"
                 ></Ionicons>
@@ -577,7 +577,7 @@ function ProfileSpotDetails({ route }) {
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 20,
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 }}
               >
                 {i18n.language.split("-")[0] === "en" ? "Offers" : "العروض"}
@@ -591,7 +591,7 @@ function ProfileSpotDetails({ route }) {
                   style={{
                     fontSize: 25,
                     zIndex: 99,
-                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                    color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                   }}
                   name="information-circle"
                 ></Ionicons>
@@ -650,7 +650,7 @@ function ProfileSpotDetails({ route }) {
                   ? "UbuntuBold"
                   : "NotoBold",
               fontSize: 20,
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
             }}
           >
             {i18n.language.split("-")[0] === "en" ? "Reviews" : "التقييمات"}
@@ -839,7 +839,7 @@ function ProfileSpotDetails({ route }) {
               marginTop: 20,
               marginBottom: 80,
               alignSelf: "center",
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
             }}
           >
             {i18n.language.split("-")[0] === "en"
