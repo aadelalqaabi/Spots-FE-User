@@ -89,7 +89,7 @@ export default function Login() {
         style={{
           height: "100%",
           width: "100%",
-          backgroundColor: colorScheme === "light" ? "#f1f1f1" : "#1b1b1b",
+          backgroundColor: colorScheme === "light" ? "#f1f1f1" : "#000000",
         }}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -116,7 +116,7 @@ export default function Login() {
               <Ionicons
                 style={{
                   fontSize: 35,
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 }}
                 name={
                   i18n.language.split("-")[0] === "en"
@@ -134,7 +134,7 @@ export default function Login() {
                     : "NotoBold",
                 textAlign:
                   i18n.language.split("-")[0] === "en" ? "left" : "right",
-                color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
+                color: colorScheme === "dark" ? "#f1f1f1" : "#000000",
                 margin: 0,
                 marginTop: 20,
                 marginBottom: i18n.language.split("-")[0] === "en" ? 30 : 25,
@@ -302,7 +302,7 @@ export default function Login() {
             >
               <Text
                 style={{
-                  color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
+                  color: colorScheme === "dark" ? "#f1f1f1" : "#000000",
                   fontFamily:
                     i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                   fontSize: 18,

@@ -13,10 +13,11 @@ import Password from "./screens/authScreens/Password";
 import PhoneNo from "./screens/authScreens/PhoneNo";
 import MyImage from "./screens/authScreens/MyImage";
 import * as Linking from "expo-linking";
-import { useColorScheme, View } from "react-native";
+import { useColorScheme } from "react-native";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
+import * as Notifications from "expo-notifications";
 import {
   createStackNavigator,
   CardStyleInterpolators,
@@ -59,8 +60,10 @@ import Report from "./screens/Report";
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 let id = null;
+
 function App() {
   const [isFirstLaunch, setIsFirstLaunch] = useState(null);
+
   useEffect(() => {
     AsyncStorage.getItem("alreadyLaunched").then((value) => {
       if (value === null) {
@@ -84,27 +87,30 @@ function App() {
         {checkUser ? (
           <RootNavigator />
         ) : (
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-            gestureEnabled: true,
-            gestureDirection: "vetrical",
-          }}
-        >
-          <Stack.Screen name="OnBoarding" component={OnBoarding} />
-          <Stack.Screen name="SetUpAccount" component={AuthButtons} />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="AppleUsername" component={AppleUsername} />
-          <Stack.Screen name="PhoneNo" component={PhoneNo} />
-          <Stack.Screen name="MainPageRegister" component={MainPageRegister} />
-          <Stack.Screen name="Email" component={Email} />
-          <Stack.Screen name="Password" component={Password} />
-          <Stack.Screen name="MyImage" component={MyImage} />
-          <Stack.Screen name="AppleImage" component={AppleImage} />
-          <Stack.Screen name="UsernameCheck" component={UsernameCheck} />
-          <Stack.Screen name="CheckOTP" component={CheckOTP} />
-          <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-        </Stack.Navigator>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+              gestureEnabled: true,
+              gestureDirection: "vetrical",
+            }}
+          >
+            <Stack.Screen name="OnBoarding" component={OnBoarding} />
+            <Stack.Screen name="SetUpAccount" component={AuthButtons} />
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="AppleUsername" component={AppleUsername} />
+            <Stack.Screen name="PhoneNo" component={PhoneNo} />
+            <Stack.Screen
+              name="MainPageRegister"
+              component={MainPageRegister}
+            />
+            <Stack.Screen name="Email" component={Email} />
+            <Stack.Screen name="Password" component={Password} />
+            <Stack.Screen name="MyImage" component={MyImage} />
+            <Stack.Screen name="AppleImage" component={AppleImage} />
+            <Stack.Screen name="UsernameCheck" component={UsernameCheck} />
+            <Stack.Screen name="CheckOTP" component={CheckOTP} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+          </Stack.Navigator>
         )}
       </NavigationContainer>
     );
@@ -177,8 +183,21 @@ function RootNavigator() {
       escapeValue: false,
     },
   });
-  let url = Linking.useURL();
+
   const navigation = useNavigation();
+  Notifications.addNotificationResponseReceivedListener((response) => {
+    let notificationLink = response.notification.request.content.data.link;
+    if (notificationLink) {
+      const regex = /SpotDetails\/(.+)/;
+      let match = notificationLink.match(regex);
+      if (match && match[1]) {
+        id = match[1];
+        navigation.navigate("SpotDetails", { id: id });
+      }
+    }
+  });
+  let url = Linking.useURL();
+
   if (url) {
     const regex = /SpotDetails\/(.+)/;
     let match = url.match(regex);
@@ -194,7 +213,7 @@ function RootNavigator() {
         headerShown: false,
         presentation: "card",
         cardStyle: {
-          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+          backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
         },
       }}
     >
@@ -265,7 +284,7 @@ function RootNavigator() {
       screenOptions={{
         headerShown: false,
         cardStyle: {
-          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+          backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
         },
       }}
     >
@@ -471,7 +490,7 @@ function TabBar() {
       initialRouteName="Home"
       screenOptions={{
         tabBarStyle: {
-          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+          backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
           borderTopWidth: 0,
         },
         headerShown: false,
@@ -492,7 +511,7 @@ function TabBar() {
           ),
           tabBarActiveTintColor: "#e52b51",
           tabBarInactiveTintColor:
-            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            colorScheme === "light" ? "#000000" : "#f1f1f1",
         }}
       />
       <Tab.Screen
@@ -514,7 +533,7 @@ function TabBar() {
 
           tabBarActiveTintColor: "#e52b51",
           tabBarInactiveTintColor:
-            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            colorScheme === "light" ? "#000000" : "#f1f1f1",
         }}
       />
 
@@ -533,7 +552,7 @@ function TabBar() {
           ),
           tabBarActiveTintColor: "#e52b51",
           tabBarInactiveTintColor:
-            colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            colorScheme === "light" ? "#000000" : "#f1f1f1",
         }}
       />
     </Tab.Navigator>

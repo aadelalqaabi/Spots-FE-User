@@ -91,7 +91,7 @@ export default function Info({ route }) {
           >
             <Ionicons
               style={{
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 zIndex: 99,
                 fontSize: 35,
                 margin: 15,
@@ -112,7 +112,7 @@ export default function Info({ route }) {
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               width: "70%",
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
             }}
           >
             {i18n.language.split("-")[0] === "en" ? "Information" : "معلومات"}
@@ -135,7 +135,7 @@ export default function Info({ route }) {
                 i18n.language.split("-")[0] === "en"
                   ? "UbuntuBold"
                   : "NotoBold",
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               marginBottom: 5,
             }}
           >
@@ -146,7 +146,7 @@ export default function Info({ route }) {
               fontSize: 18,
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
             }}
           >
             {i18n.language.split("-")[0] === "en"
@@ -170,7 +170,7 @@ export default function Info({ route }) {
                     : "NotoBold",
                 margin: 20,
                 marginBottom: -5,
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 marginTop: i18n.language.split("-")[0] === "en" ? 10 : 0,
               }}
             >
@@ -227,7 +227,7 @@ export default function Info({ route }) {
                   ? "UbuntuBold"
                   : "NotoBold",
               margin: 20,
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               marginTop: i18n.language.split("-")[0] === "en" ? 10 : 0,
             }}
           >
@@ -247,7 +247,7 @@ export default function Info({ route }) {
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Cabin" : "Noto",
               margin: 20,
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               marginTop: i18n.language.split("-")[0] === "en" ? -10 : -20,
               lineHeight: 40,
             }}
@@ -271,7 +271,7 @@ export default function Info({ route }) {
                   ? "UbuntuBold"
                   : "NotoBold",
               margin: 20,
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               marginTop: i18n.language.split("-")[0] === "en" ? 10 : 0,
             }}
           >
@@ -317,7 +317,7 @@ export default function Info({ route }) {
                   fontFamily:
                     i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                   fontSize: 20,
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                   marginBottom: i18n.language.split("-")[0] === "en" ? 5 : -5,
                 }}
               >
@@ -363,7 +363,7 @@ export default function Info({ route }) {
                   fontFamily:
                     i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                   fontSize: 20,
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                   marginBottom: i18n.language.split("-")[0] === "en" ? 5 : -5,
                 }}
               >

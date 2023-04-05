@@ -260,7 +260,7 @@ export function SpotDetails({ route, navigation }) {
           >
             <Ionicons
               style={{
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 fontSize: 30,
               }}
               name={
@@ -298,7 +298,7 @@ export function SpotDetails({ route, navigation }) {
             <Text
               style={{
                 fontSize: 20,
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 fontFamily:
                   i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 alignSelf: "center",
@@ -321,7 +321,7 @@ export function SpotDetails({ route, navigation }) {
         >
           <Ionicons
             style={{
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               marginTop: -4,
               fontSize: 29,
             }}
@@ -458,7 +458,7 @@ export function SpotDetails({ route, navigation }) {
           style={{
             flex: 1,
             width: "100%",
-            backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+            backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
             display: "flex",
             flexDirection: "column",
             marginBottom: 20,
@@ -469,7 +469,7 @@ export function SpotDetails({ route, navigation }) {
             style={{
               fontSize: 27,
               fontWeight: "700",
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               fontFamily:
                 i18n.language.split("-")[0] === "en"
                   ? "UbuntuBold"
@@ -490,7 +490,7 @@ export function SpotDetails({ route, navigation }) {
           <Text
             style={{
               fontSize: 20,
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               alignSelf:
                 i18n.language.split("-")[0] === "en"
                   ? "flex-start"
@@ -538,7 +538,7 @@ export function SpotDetails({ route, navigation }) {
                     ? "UbuntuBold"
                     : "NotoBold",
                 fontSize: 20,
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               }}
             >
               {i18n.language.split("-")[0] === "en" ? dateEn : dateAr}
@@ -551,7 +551,7 @@ export function SpotDetails({ route, navigation }) {
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 20,
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 }}
               >
                 {" "}
@@ -587,7 +587,7 @@ export function SpotDetails({ route, navigation }) {
                     ? "UbuntuBold"
                     : "NotoBold",
                 fontSize: 20,
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               }}
             >
               {i18n.language.split("-")[0] === "en"
@@ -641,7 +641,7 @@ export function SpotDetails({ route, navigation }) {
                       : "NotoBold",
                   fontSize: 20,
                   marginBottom: i18n.language.split("-")[0] === "en" ? 0 : -5,
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 }}
               >
                 {organizer.phone}
@@ -684,7 +684,7 @@ export function SpotDetails({ route, navigation }) {
                       : "NotoBold",
                   fontSize: 20,
                   marginBottom: i18n.language.split("-")[0] === "en" ? 0 : -5,
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 }}
                 onPress={() => Linking.openURL(spot.location)}
               >
@@ -708,7 +708,7 @@ export function SpotDetails({ route, navigation }) {
               margin: 20,
               marginTop: 10,
               marginBottom: 0,
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
             }}
           >
             {i18n.language.split("-")[0] === "en" ? "Details" : "تفاصيل"}
@@ -716,7 +716,7 @@ export function SpotDetails({ route, navigation }) {
           <Text
             style={{
               fontSize: 18,
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               paddingTop: 3,
@@ -766,7 +766,7 @@ export function SpotDetails({ route, navigation }) {
                       ? "UbuntuBold"
                       : "NotoBold",
                   fontSize: 22,
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 }}
               >
                 {i18n.language.split("-")[0] === "en" ? "Reviews" : "التقييمات"}
@@ -783,7 +783,7 @@ export function SpotDetails({ route, navigation }) {
                   marginRight: 15,
                   alignSelf: "center",
                   borderRadius: 150,
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 }}
               >
                 {i18n.language.split("-")[0] === "en"
@@ -795,7 +795,7 @@ export function SpotDetails({ route, navigation }) {
             <Ionicons
               style={{
                 marginRight: 5,
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 fontSize: 30,
                 opacity: 1,
               }}
@@ -1083,7 +1083,7 @@ export function SpotDetails({ route, navigation }) {
                   style={{
                     fontSize: 28,
                     fontFamily: "Ubuntu",
-                    color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                    color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                   }}
                 >
                   {quantity}

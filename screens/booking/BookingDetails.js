@@ -83,7 +83,7 @@ export default function BookingDetails({ navigation, route }) {
       style={{
         width: "100%",
         height: "100%",
-        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+        backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
       }}
     >
       <ScrollView>
@@ -99,7 +99,7 @@ export default function BookingDetails({ navigation, route }) {
             shadowOpacity: 0.23,
             shadowRadius: 2.62,
             elevation: 4,
-            backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+            backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
             alignSelf: "center",
             alignContent: "center",
             borderRadius: 50,
@@ -123,7 +123,7 @@ export default function BookingDetails({ navigation, route }) {
               textAlign: "center",
               marginTop: 10,
               marginBottom: i18n.language.split("-")[0] === "en" ? 20 : 10,
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
             }}
           >
             {i18n.language.split("-")[0] === "en" ? spot.name : spot.nameAr}
@@ -166,7 +166,7 @@ export default function BookingDetails({ navigation, route }) {
                   fontFamily: "Ubuntu",
                   fontSize: 20,
 
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 }}
               >
                 {i18n.language.split("-")[0] === "en" ? date : dateAr}
@@ -199,7 +199,7 @@ export default function BookingDetails({ navigation, route }) {
                 style={{
                   fontFamily: "Ubuntu",
                   fontSize: 20,
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 }}
               >
                 {spot.startTime}
@@ -234,7 +234,7 @@ export default function BookingDetails({ navigation, route }) {
               style={{
                 fontFamily: "Ubuntu",
                 fontSize: 20,
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               }}
             >
               {i18n.language.split("-")[0] === "en"
@@ -275,7 +275,7 @@ export default function BookingDetails({ navigation, route }) {
               style={{
                 fontSize: 28,
                 fontFamily: "Ubuntu",
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               }}
             >
               {quantity}
@@ -300,7 +300,7 @@ export default function BookingDetails({ navigation, route }) {
             marginBottom: i18n.language.split("-")[0] === "en" ? 10 : 0,
             fontFamily:
               i18n.language.split("-")[0] === "en" ? "UbuntuBold" : "NotoBold",
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            color: colorScheme === "light" ? "#000000" : "#f1f1f1",
             alignSelf:
               i18n.language.split("-")[0] === "en" ? "flex-start" : "flex-end",
           }}
@@ -319,7 +319,7 @@ export default function BookingDetails({ navigation, route }) {
               i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
             lineHeight: 25,
             textAlign: i18n.language.split("-")[0] === "en" ? "left" : "right",
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            color: colorScheme === "light" ? "#000000" : "#f1f1f1",
           }}
         >
           {i18n.language.split("-")[0] === "en" ? spot.details : spot.detailsAr}

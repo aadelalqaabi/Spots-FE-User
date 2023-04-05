@@ -166,17 +166,17 @@ export default function Calnder({ calendar, setCalendar, day, setDay }) {
             setCalendar(!calendar);
           }}
           theme={{
-            calendarBackground: colorScheme === "light" ? "#f1f1f1" : "#1b1b1b",
+            calendarBackground: colorScheme === "light" ? "#f1f1f1" : "#000000",
             selectedDayBackgroundColor: "#e52b51",
             selectedDayTextColor: "#f1f1f1",
             arrowColor: "#e52b51",
             todayTextColor: "#e52b51",
             textDisabledColor: colorScheme === "light" ? "#d9e1e8" : "#353636",
-            dayTextColor: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
-            monthTextColor: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
+            dayTextColor: colorScheme === "dark" ? "#f1f1f1" : "#000000",
+            monthTextColor: colorScheme === "dark" ? "#f1f1f1" : "#000000",
             textDayHeaderFontSize: 11,
             textSectionTitleColor:
-              colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
+              colorScheme === "dark" ? "#f1f1f1" : "#000000",
           }}
           markedDates={{ [day]: { selected: true, selectedColor: "#e52b51" } }}
           key={"calendar"}

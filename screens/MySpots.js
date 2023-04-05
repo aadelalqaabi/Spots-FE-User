@@ -97,7 +97,7 @@ function MySpots() {
       style={{
         width: "100%",
         height: "100%",
-        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+        backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
       }}
     >
       <StatusBar
@@ -105,15 +105,15 @@ function MySpots() {
       />
       <Text
         style={{
-          fontSize: 30,
-          margin: 30,
+          fontSize: 32,
+          margin: 20,
           marginBottom: 10,
           marginTop: 15,
           fontFamily:
             i18n.language.split("-")[0] === "en" ? "UbuntuBold" : "NotoBold",
           alignSelf:
             i18n.language.split("-")[0] === "en" ? "flex-start" : "flex-end",
-          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+          color: colorScheme === "light" ? "#000000" : "#f1f1f1",
         }}
       >
         {i18n.language.split("-")[0] === "en" ? "My Dests" : "وجهاتي"}
@@ -168,7 +168,7 @@ function MySpots() {
             ></Image>
             <Text
               style={{
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 fontSize: 40,
                 fontFamily:
                   i18n.language.split("-")[0] === "en"

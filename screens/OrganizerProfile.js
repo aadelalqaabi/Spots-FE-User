@@ -144,7 +144,7 @@ function OrganizerProfile({ route }) {
       style={{
         width: "100%",
         height: "100%",
-        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+        backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
       }}
     >
       <View
@@ -172,7 +172,7 @@ function OrganizerProfile({ route }) {
         >
           <Ionicons
             style={{
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               zIndex: 99,
               fontSize: 32,
             }}
@@ -190,7 +190,7 @@ function OrganizerProfile({ route }) {
             fontSize: 28,
             fontFamily:
               i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            color: colorScheme === "light" ? "#000000" : "#f1f1f1",
             width: "70%",
           }}
         >
@@ -204,7 +204,7 @@ function OrganizerProfile({ route }) {
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
         style={{
-          backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+          backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
         }}
       >
         <View
@@ -291,7 +291,7 @@ function OrganizerProfile({ route }) {
                     color:
                       colorScheme === "light"
                         ? !isNotification
-                          ? "#1b1b1b"
+                          ? "#000000"
                           : "#f1f1f1"
                         : "#f1f1f1",
                     zIndex: 99,
@@ -309,7 +309,7 @@ function OrganizerProfile({ route }) {
                   color:
                     colorScheme === "light"
                       ? !isNotification
-                        ? "#1b1b1b"
+                        ? "#000000"
                         : "#f1f1f1"
                       : "#f1f1f1",
                   fontSize: 19,
@@ -343,7 +343,7 @@ function OrganizerProfile({ route }) {
               fontSize: 22,
               marginTop: 10,
               marginBottom: 20,
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
             }}
           >
             {organizer?.bio}

@@ -61,7 +61,7 @@ export default function OnBoarding() {
         alignContent: "center",
         alignItems: "center",
         justifyContent: "space-evenly",
-        backgroundColor: colorScheme === "light" ? "#f1f1f1" : "#1b1b1b",
+        backgroundColor: colorScheme === "light" ? "#f1f1f1" : "#000000",
       }}
     >
       <Text
@@ -72,7 +72,7 @@ export default function OnBoarding() {
           width: "75%",
           marginTop: 180,
           textAlign: i18n.language.split("-")[0] === "en" ? "left" : "right",
-          color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
+          color: colorScheme === "dark" ? "#f1f1f1" : "#000000",
         }}
       >
         {i18n.language.split("-")[0] === "en"

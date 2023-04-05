@@ -79,7 +79,7 @@ export default function EndedSpot({ route }) {
           >
             <Ionicons
               style={{
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 zIndex: 99,
                 fontSize: 35,
                 margin: 15,
@@ -100,7 +100,7 @@ export default function EndedSpot({ route }) {
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
               width: "70%",
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
             }}
           >
             {i18n.language.split("-")[0] === "en" ? spot.name : spot.nameAr}
@@ -123,7 +123,7 @@ export default function EndedSpot({ route }) {
                 i18n.language.split("-")[0] === "en"
                   ? "UbuntuBold"
                   : "NotoBold",
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
             }}
           >
             {users}
@@ -133,7 +133,7 @@ export default function EndedSpot({ route }) {
               fontSize: 18,
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               position: "absolute",
               paddingTop: 130,
             }}
@@ -153,7 +153,7 @@ export default function EndedSpot({ route }) {
               i18n.language.split("-")[0] === "en" ? "UbuntuBold" : "NotoBold",
             margin: 20,
             marginBottom: 10,
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            color: colorScheme === "light" ? "#000000" : "#f1f1f1",
           }}
         >
           {i18n.language.split("-")[0] === "en" ? "Reviews" : "تقييمات"}
@@ -173,7 +173,7 @@ export default function EndedSpot({ route }) {
               <Text
                 style={{
                   alignSelf: "center",
-                  color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
+                  color: colorScheme === "dark" ? "#f1f1f1" : "#000000",
                   fontSize: 30,
                   fontFamily:
                     i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",

@@ -45,7 +45,7 @@ export default function AppleLogin() {
   if (!fontsLoaded) {
     return <View style={{ backgroundColor: "transparent" }}></View>;
   }
-  if (isLoading) return <MyAwesomeSplashScreen />;
+  if (isLoading === false) return <MyAwesomeSplashScreen />;
   return (
     <AppleAuthentication.AppleAuthenticationButton
       buttonType={AppleAuthentication.AppleAuthenticationButtonType.CONTINUE}
@@ -89,13 +89,12 @@ export default function AppleLogin() {
                   itemId: user,
                 });
               } else {
-                setIsLoading(true);
                 try {
                   authStore.login({
                     email: payload.email,
                     password: payload.sub,
                   });
-                  if (authStore.user) navigation.navigate("Home");
+                  setIsLoading(true);
                 } catch (error) {
                   setIsLoading(false);
                 }

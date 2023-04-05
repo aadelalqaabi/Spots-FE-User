@@ -154,7 +154,7 @@ function EditScreen() {
     <SafeAreaView
       style={{
         flex: 1,
-        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+        backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
       }}
     >
       <StatusBar
@@ -171,7 +171,7 @@ function EditScreen() {
           <Button
             onPress={() => cancelButton()}
             title={i18n.language.split("-")[0] === "en" ? "Cancel" : "الغاء"}
-            color={colorScheme === "light" ? "#1b1b1b" : "#f1f1f1"}
+            color={colorScheme === "light" ? "#000000" : "#f1f1f1"}
           />
         </View>
         <View style={styles.done}>
@@ -266,7 +266,7 @@ function EditScreen() {
             paddingLeft: 0,
             fontFamily:
               i18n.language.split("-")[0] === "en" ? "UbuntuBold" : "NotoBold",
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            color: colorScheme === "light" ? "#000000" : "#f1f1f1",
             fontSize: 18,
           }}
         >
@@ -313,7 +313,7 @@ function EditScreen() {
                   i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 fontSize: 18,
               }}
             >
@@ -392,7 +392,7 @@ function EditScreen() {
                   i18n.language.split("-")[0] === "en"
                     ? "UbuntuBold"
                     : "NotoBold",
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 fontSize: 18,
               }}
             >

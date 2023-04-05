@@ -79,7 +79,7 @@ function ReviewItem({ review }) {
               style={{
                 fontSize: 16,
                 margin: 0,
-                color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
+                color: colorScheme === "dark" ? "#f1f1f1" : "#000000",
               }}
             >
               {review?.user?.name}
@@ -103,7 +103,7 @@ function ReviewItem({ review }) {
               fontSize: 20,
               alignSelf: "flex-start",
               margin: 10,
-              color: colorScheme === "dark" ? "#f1f1f1" : "#1b1b1b",
+              color: colorScheme === "dark" ? "#f1f1f1" : "#000000",
             }}
           >
             {review?.description}

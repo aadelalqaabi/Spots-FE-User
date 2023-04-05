@@ -68,7 +68,7 @@ export default function Categories({
           style={{
             width: "100%",
             alignSelf: "center",
-            backgroundColor: colorScheme === "light" ? "#f1f1f1" : "#1b1b1b",
+            backgroundColor: colorScheme === "light" ? "#f1f1f1" : "#000000",
             borderRadius: 15,
             display: "flex",
             flexDirection: "row",
@@ -83,7 +83,7 @@ export default function Categories({
         >
           <Text
             style={{
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               fontSize: i18n.language.split("-")[0] === "en" ? 25 : 23,
               alignSelf: "center",
               fontFamily:
@@ -135,7 +135,7 @@ export default function Categories({
                       colorScheme === "light"
                         ? categoryItem === category
                           ? "#f1f1f1"
-                          : "#1b1b1b"
+                          : "#000000"
                         : "#f1f1f1",
                     fontSize: 22,
                     alignSelf: "center",

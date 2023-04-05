@@ -98,7 +98,7 @@ export default function AppleUsername({ route }) {
             style={{
               width: "100%",
               height: "100%",
-              backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+              backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
             }}
           >
             <Ionicons
@@ -112,7 +112,7 @@ export default function AppleUsername({ route }) {
                   i18n.language.split("-")[0] === "en"
                     ? "flex-start"
                     : "flex-end",
-                color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               }}
               name={
                 i18n.language.split("-")[0] === "en"
@@ -142,7 +142,7 @@ export default function AppleUsername({ route }) {
                   marginBottom: i18n.language.split("-")[0] === "en" ? 20 : 10,
                   width: "100%",
                   textAlign: "center",
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 }}
               >
                 {i18n.language.split("-")[0] === "en"
@@ -161,7 +161,7 @@ export default function AppleUsername({ route }) {
                   textAlign: "center",
                   color: "#64666b",
                   lineHeight: 23,
-                  color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+                  color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                   opacity: 0.8,
                   paddingTop: 3,
                 }}

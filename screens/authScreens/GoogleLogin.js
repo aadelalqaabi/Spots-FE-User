@@ -112,7 +112,7 @@ export default function GoogleLogin() {
           paddingVertical: i18n.language.split("-")[0] === "en" ? 10 : 5,
           borderRadius: 15,
           elevation: 3,
-          color: "#1b1b1b",
+          color: "#000000",
 
           fontSize: 18,
           fontWeight: "800",

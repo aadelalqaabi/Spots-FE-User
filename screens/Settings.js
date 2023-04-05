@@ -195,7 +195,7 @@ function Settings() {
   return (
     <SafeAreaView
       style={{
-        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+        backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
         height: "100%",
       }}
     >
@@ -224,7 +224,7 @@ function Settings() {
         >
           <Ionicons
             style={{
-              color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               zIndex: 99,
               fontSize: 32,
             }}
@@ -243,7 +243,7 @@ function Settings() {
             fontSize: 28,
             fontFamily:
               i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            color: colorScheme === "light" ? "#000000" : "#f1f1f1",
           }}
         >
           {i18n.language.split("-")[0] === "en" ? "Settings" : "الاعدادات"}
@@ -262,7 +262,7 @@ function Settings() {
             fontSize: 25,
             fontFamily:
               i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            color: colorScheme === "light" ? "#000000" : "#f1f1f1",
           }}
         >
           {i18n.language.split("-")[0] === "en" ? "Notifications" : "الاشعارات"}
@@ -296,7 +296,7 @@ function Settings() {
         >
           <Text
             style={{
-              color: "#1b1b1b",
+              color: "#000000",
               fontSize: 18,
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
@@ -324,7 +324,7 @@ function Settings() {
             <>
               <Ionicons
                 style={{
-                  color: "#1b1b1b",
+                  color: "#000000",
                   fontSize: 22,
                   fontFamily:
                     i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
@@ -342,7 +342,7 @@ function Settings() {
             <>
               <Ionicons
                 style={{
-                  color: "#1b1b1b",
+                  color: "#000000",
                   fontSize: 22,
                   fontFamily:
                     i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
@@ -382,7 +382,7 @@ function Settings() {
         >
           <Text
             style={{
-              color: "#1b1b1b",
+              color: "#000000",
               fontSize: 18,
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
@@ -398,7 +398,7 @@ function Settings() {
           </Text>
           <Ionicons
             style={{
-              color: "#1b1b1b",
+              color: "#000000",
               fontSize: 18,
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
@@ -423,7 +423,7 @@ function Settings() {
             fontSize: 25,
             fontFamily:
               i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            color: colorScheme === "light" ? "#000000" : "#f1f1f1",
           }}
         >
           {i18n.language.split("-")[0] === "en" ? "Account" : "الحساب"}
@@ -450,7 +450,7 @@ function Settings() {
         >
           <Text
             style={{
-              color: "#1b1b1b",
+              color: "#000000",
               fontSize: 18,
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
@@ -466,7 +466,7 @@ function Settings() {
           </Text>
           <Ionicons
             style={{
-              color: "#1b1b1b",
+              color: "#000000",
               fontSize: 18,
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
@@ -502,7 +502,7 @@ function Settings() {
         >
           <Text
             style={{
-              color: "#1b1b1b",
+              color: "#000000",
               fontSize: 18,
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
@@ -516,7 +516,7 @@ function Settings() {
           </Text>
           <Ionicons
             style={{
-              color: "#1b1b1b",
+              color: "#000000",
               fontSize: 18,
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
@@ -549,7 +549,7 @@ function Settings() {
         >
           <Text
             style={{
-              color: "#1b1b1b",
+              color: "#000000",
               fontSize: 18,
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
@@ -565,7 +565,7 @@ function Settings() {
           </Text>
           <Ionicons
             style={{
-              color: "#1b1b1b",
+              color: "#000000",
               fontSize: 22,
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
@@ -587,7 +587,7 @@ function Settings() {
             fontSize: 25,
             fontFamily:
               i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            color: colorScheme === "light" ? "#000000" : "#f1f1f1",
           }}
         >
           {i18n.language.split("-")[0] === "en" ? "Information" : "معلومات"}
@@ -616,7 +616,7 @@ function Settings() {
         >
           <Text
             style={{
-              color: "#1b1b1b",
+              color: "#000000",
               fontSize: 18,
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
@@ -630,7 +630,7 @@ function Settings() {
           </Text>
           <Ionicons
             style={{
-              color: "#1b1b1b",
+              color: "#000000",
               fontSize: 18,
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
@@ -668,7 +668,7 @@ function Settings() {
         >
           <Text
             style={{
-              color: "#1b1b1b",
+              color: "#000000",
               fontSize: 18,
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
@@ -684,7 +684,7 @@ function Settings() {
           </Text>
           <Ionicons
             style={{
-              color: "#1b1b1b",
+              color: "#000000",
               fontSize: 18,
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
@@ -722,7 +722,7 @@ function Settings() {
         >
           <Text
             style={{
-              color: "#1b1b1b",
+              color: "#000000",
               fontSize: 18,
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
@@ -738,7 +738,7 @@ function Settings() {
           </Text>
           <Ionicons
             style={{
-              color: "#1b1b1b",
+              color: "#000000",
               fontSize: 18,
               fontFamily:
                 i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
@@ -755,7 +755,7 @@ function Settings() {
         {/* Report a Problem */}
         <Text
           style={{
-            color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
+            color: colorScheme === "light" ? "#000000" : "#f1f1f1",
             fontSize: 18,
             fontFamily:
               i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
@@ -763,7 +763,7 @@ function Settings() {
             marginTop: 30,
           }}
         >
-          Version 1.2.1
+          Version 1.2.2
         </Text>
       </ScrollView>
       {/* Disable Modal */}
@@ -1678,9 +1678,7 @@ function Settings() {
                     fontSize: 18,
                   }}
                 >
-                  {i18n.language.split("-")[0] === "en"
-                    ? "Yes"
-                    : "تسجيل الخروج"}
+                  {i18n.language.split("-")[0] === "en" ? "Yes" : "نعم"}
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
