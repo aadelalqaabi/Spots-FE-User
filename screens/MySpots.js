@@ -18,7 +18,7 @@ import Spotted from "./spots/Spotted";
 import ticketStore from "../stores/ticketStore";
 import ContentLoader, { Rect } from "react-content-loader/native";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
 
@@ -74,7 +74,7 @@ function MySpots() {
     NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
 
   const today = new Date();

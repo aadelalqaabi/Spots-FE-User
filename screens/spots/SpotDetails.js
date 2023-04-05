@@ -28,6 +28,7 @@ import * as Localization from "expo-localization";
 import * as Notifications from "expo-notifications";
 import Swiper from "react-native-swiper";
 import * as StoreReview from "expo-store-review";
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
@@ -44,16 +45,18 @@ export function SpotDetails({ route, navigation }) {
   let dateAr = DateTime.fromISO(spot?.startDate)
     .setLocale("ar")
     .toFormat("DDD");
-  
+
   const startDateNoti = new Date(spot.startDate);
   const triggerDateNoti = new Date(startDateNoti);
   triggerDateNoti.setDate(triggerDateNoti.getDate() - 1);
   triggerDateNoti.setHours(18);
   triggerDateNoti.setMinutes(30);
-  const today = new Date(new Date().setHours(3, 0, 0, 0))
-  const time = DateTime.fromFormat(spot.startTime, 'HH:mm');
-  const formattedTime = time.setLocale(i18n.language.split("-")[0]).toFormat("h a");
-  
+  const today = new Date(new Date().setHours(3, 0, 0, 0));
+  const time = DateTime.fromFormat(spot.startTime, "HH:mm");
+  const formattedTime = time
+    .setLocale(i18n.language.split("-")[0])
+    .toFormat("h a");
+
   let dateendEn = DateTime.fromISO(spot?.endDate)
     .setLocale("en")
     .toFormat("DDD");
@@ -122,7 +125,7 @@ export function SpotDetails({ route, navigation }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
   const handleInc = () => {
     setCheckSeats(checkSeats + 1);
@@ -170,7 +173,7 @@ export function SpotDetails({ route, navigation }) {
     if (!found && !userFound) {
       await ticketStore.createTicket(newTicket, newSpot._id);
       await ticketStore.fetchTickets();
-      if(String(today) !== String(startDateNoti)){
+      if (String(today) !== String(startDateNoti)) {
         if (
           i18n.language.split("-")[0] === "en" &&
           authStore.user.notificationToken !== ""

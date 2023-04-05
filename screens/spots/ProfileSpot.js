@@ -51,7 +51,7 @@ function ProfileSpot({ spot }) {
   });
 
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
   return (
     <TouchableOpacity

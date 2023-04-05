@@ -4,7 +4,6 @@ import reviewStore from "../../stores/reviewStore";
 import ReviewItem from "./ReviewItem";
 import React from "react";
 import { useFonts } from "expo-font";
-
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 function ReviewList({ reviews, spotId }) {
@@ -19,7 +18,7 @@ function ReviewList({ reviews, spotId }) {
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
   });
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
   return (
     <View>

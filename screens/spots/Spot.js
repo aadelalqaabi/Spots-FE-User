@@ -12,7 +12,7 @@ import { DateTime } from "luxon";
 import { useFonts } from "expo-font";
 import { LinearGradient } from "expo-linear-gradient";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import organizerStore from "../../stores/organizerStore";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
@@ -47,7 +47,7 @@ function Spot({ spot, navigation, day }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
   const organizer = organizerStore.getOrganizerById(spot?.organizer);
   let monthEn = DateTime.fromISO(spot?.startDate)

@@ -43,7 +43,7 @@ export default function AppleLogin() {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
   if (isLoading === false) return <MyAwesomeSplashScreen />;
   return (

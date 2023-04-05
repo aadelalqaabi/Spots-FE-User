@@ -126,7 +126,7 @@ function Explore() {
     NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
   const today = new Date();
   today.setHours(3, 0, 0, 0);

@@ -33,7 +33,7 @@ export default function Calnder({ calendar, setCalendar, day, setDay }) {
     NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
 
   i18n.use(initReactI18next).init({
@@ -160,6 +160,8 @@ export default function Calnder({ calendar, setCalendar, day, setDay }) {
             zIndex: 99,
             borderColor: "rgba(0,0,0,0.1)",
             borderWidth: 0.2,
+            borderWidth: 1,
+            borderColor: "#e52b51",
           }}
           onDayPress={(day) => {
             setDay(day.dateString);
@@ -184,7 +186,7 @@ export default function Calnder({ calendar, setCalendar, day, setDay }) {
         <TouchableOpacity
           style={{
             alignSelf: "center",
-            marginTop: "3%",
+            marginTop: "5%",
             backgroundColor: "#e52b51",
             width: "30%",
             borderRadius: 10,

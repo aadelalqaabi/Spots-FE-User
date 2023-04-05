@@ -14,12 +14,12 @@ import OrganizerSpot from "../screens/spots/OrganizerSpot";
 import { observer } from "mobx-react";
 import { baseURL } from "../stores/instance";
 import { useNavigation } from "@react-navigation/native";
-import { Fontisto, Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { useState, useCallback } from "react";
 import { useFonts } from "expo-font";
 import spotStore from "../stores/spotStore";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
 import authStore from "../stores/authStore";
@@ -114,7 +114,7 @@ function OrganizerProfile({ route }) {
     NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
 
   const registerUser = async () => {

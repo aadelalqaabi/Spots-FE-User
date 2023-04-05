@@ -16,7 +16,7 @@ function FinishedSpot({ spot }) {
   });
 
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
   const translations = {
     en: {

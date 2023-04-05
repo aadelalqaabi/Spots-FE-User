@@ -11,16 +11,14 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { useCallback, useState } from "react";
-import { Alert } from "react-native";
 import React from "react";
 import TextInput from "react-native-text-input-interactive";
 import { useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
-import authStore from "../../stores/authStore";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 export default function MainPageRegister() {
@@ -92,7 +90,7 @@ export default function MainPageRegister() {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
   return (
     <>

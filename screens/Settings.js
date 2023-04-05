@@ -18,6 +18,7 @@ import { useNavigation } from "@react-navigation/native";
 import authStore from "../stores/authStore";
 import { observer } from "mobx-react";
 import { useFonts } from "expo-font";
+import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -189,7 +190,7 @@ function Settings() {
     NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
 
   return (

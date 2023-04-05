@@ -10,7 +10,7 @@ import { useState, useEffect } from "react";
 import authStore from "../../stores/authStore";
 import React from "react";
 import * as ImagePicker from "expo-image-picker";
-import { manipulateAsync, FlipType, SaveFormat } from 'expo-image-manipulator';
+import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import { useFonts } from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import * as Localization from "expo-localization";
@@ -78,7 +78,7 @@ export default function MyImage({ navigation, route }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
   const pickImage = async () => {
     if (granted === true) {
@@ -106,8 +106,8 @@ export default function MyImage({ navigation, route }) {
           image: {
             uri:
               Platform.OS === "android"
-              ? scaledImage.uri
-              : scaledImage.uri.replace("file://", ""),
+                ? scaledImage.uri
+                : scaledImage.uri.replace("file://", ""),
             name: filename,
             type: img_type,
           },

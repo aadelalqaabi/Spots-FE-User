@@ -13,7 +13,7 @@ import ProfileSpot from "./screens/spots/ProfileSpot";
 import FinishedSpot from "./screens/spots/FinishedSpot";
 import { useFonts } from "expo-font";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import MyAwesomeSplashScreen from "./MyAwesomeSplashScreen";
 
@@ -257,7 +257,7 @@ export default function ScrollTabs({ userSpots }) {
     NotoBold: require("./assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
   return (
     <TabView
