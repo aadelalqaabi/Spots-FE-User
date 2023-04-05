@@ -73,8 +73,7 @@ function Profile() {
   }, []);
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
-  let userSpotIds = [];
-  const userSpots = userSpotIds.map((spotId) => spotStore.getSpotsById(spotId));
+  const userSpots = authStore.user.spots.map((spotId) => spotStore.getSpotsById(spotId));
 
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),

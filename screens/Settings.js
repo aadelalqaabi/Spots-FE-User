@@ -1473,17 +1473,17 @@ function Settings() {
             <Text
               style={{
                 marginBottom: 20,
-                width: "70%",
+                width: i18n.language.split("-")[0] === "en" ? "100%" : "90%",
                 textAlign: "center",
-                fontSize: 17,
+                fontSize: 16,
                 fontFamily:
                   i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
                 lineHeight: 30,
               }}
             >
               {i18n.language.split("-")[0] === "en"
-                ? "please try again"
-                : "يرجى المحاولة مرة أخرى"}
+                ? "Ensure that you have enabled notifications within your device's settings, and try again"
+                : "تأكد من تمكين الإشعارات داخل إعدادات جهازك، ثم حاول مرة أخرى"}
             </Text>
             <TouchableOpacity
               style={{

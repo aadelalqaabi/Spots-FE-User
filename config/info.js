@@ -1,7 +1,7 @@
 module.exports = {
   //Globals
   PRODUCTION: "https://destkw.com/api",
-  TEST: "http://192.168.0.80:3000/api",
+  TEST: "http://192.168.0.22:3001/api",
   //Store Api's
   //User Api's
   REGISTER: "/user/register",

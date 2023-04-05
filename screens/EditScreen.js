@@ -13,6 +13,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
+import { manipulateAsync, FlipType, SaveFormat } from 'expo-image-manipulator';
 import authStore from "../stores/authStore";
 import { observer } from "mobx-react";
 import { baseURL } from "../stores/instance";
@@ -85,7 +86,13 @@ function EditScreen() {
       });
 
       if (!result.canceled) {
-        let filename = result.uri.split("/").pop();
+        // note ==> you can use result.uri or result.assets[0].uri ==> bec result.uri might be deprecated in sdk 48 in image picker
+        const scaledImage = await manipulateAsync(
+          result.assets[0].uri,
+          [{ resize: { width: 500, height: 500 } }],
+          { compress: 0.5, format: SaveFormat.JPEG }
+        );
+        let filename = scaledImage.uri.split("/").pop();
         let match = /\.(\w+)$/.exec(filename);
         let img_type = match ? `image/${match[1]}` : `image`;
         setUser({
@@ -93,13 +100,13 @@ function EditScreen() {
           image: {
             uri:
               Platform.OS === "android"
-                ? result.uri
-                : result.uri.replace("file://", ""),
+                ? scaledImage.uri
+                : scaledImage.uri.replace("file://", ""),
             name: filename,
             type: img_type,
           },
         });
-        setImage(result.uri);
+        setImage(scaledImage.uri);
         setHideDone(true);
       }
     } else {
