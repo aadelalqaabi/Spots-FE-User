@@ -10,8 +10,7 @@ import React from "react";
 import { useFonts } from "expo-font";
 import * as Localization from "expo-localization";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
-import GoogleLogin from "./GoogleLogin";
+import { initReactI18next } from "react-i18next";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 import AppleLogin from "./AppleLogin";
 import EmailLogin from "./EmailLogin";
@@ -50,7 +49,7 @@ export default function AuthButtons() {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
   return (
     <View

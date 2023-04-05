@@ -17,7 +17,6 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import { useFonts } from "expo-font";
-
 import spotStore from "./stores/spotStore";
 import { baseURL } from "./stores/instance";
 import organizerStore from "./stores/organizerStore";
@@ -81,7 +80,7 @@ function Advertisments() {
     NotoBold: require("./assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
   const translations = {
     en: {

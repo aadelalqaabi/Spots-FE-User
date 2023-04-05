@@ -3,6 +3,7 @@ import { DateTime } from "luxon";
 import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 import React, { useState } from "react";
+import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 export default function Confirmation({ navigation, route }) {
   const spot = route.params.itemId;
@@ -18,7 +19,7 @@ export default function Confirmation({ navigation, route }) {
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
   });
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
   let date = DateTime.fromISO(spot?.startDate).toFormat("DDD");
 

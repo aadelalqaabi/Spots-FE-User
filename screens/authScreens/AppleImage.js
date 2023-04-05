@@ -69,7 +69,7 @@ export default function AppleImage({ route }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
   const pickImage = async () => {
     if (granted === true) {

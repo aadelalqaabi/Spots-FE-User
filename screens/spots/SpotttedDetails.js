@@ -66,7 +66,7 @@ export default function SpotttedDetails({ route }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
   let dateEn = DateTime.fromISO(spot?.startDate)
     .setLocale("en")

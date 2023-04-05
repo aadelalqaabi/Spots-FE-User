@@ -47,7 +47,7 @@ export default function MyAwesomeSplashScreen() {
         alignContent: "center",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
+        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
       }}
     >
       <Image
@@ -63,7 +63,7 @@ export default function MyAwesomeSplashScreen() {
       <Text
         style={{
           fontSize: 22,
-          color: colorScheme === "light" ? "#000000" : "#f1f1f1",
+          color: colorScheme === "light" ? "#1b1b1b" : "#f1f1f1",
           fontFamily: i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
         }}
       >

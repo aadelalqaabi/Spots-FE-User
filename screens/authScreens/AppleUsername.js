@@ -19,7 +19,6 @@ import { Ionicons } from "@expo/vector-icons";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
-import authStore from "../../stores/authStore";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 
 export default function AppleUsername({ route }) {
@@ -86,7 +85,7 @@ export default function AppleUsername({ route }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
   return (
     <>

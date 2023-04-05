@@ -138,7 +138,7 @@ function ProfileSpotDetails({ route }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
   return (
     <SafeAreaView style={{ marginBottom: -35 }}>

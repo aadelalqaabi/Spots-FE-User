@@ -10,11 +10,10 @@ import {
 } from "react-native";
 import React from "react";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
-
 import { useFonts } from "expo-font";
-import { useNavigation, useScrollToTop } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import ReviewList from "../reviews/ReviewList";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
@@ -52,7 +51,7 @@ export default function EndedSpot({ route }) {
     Cabin: require("../../assets/fonts/Cabin.ttf"),
   });
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
   return (
     <SafeAreaView>

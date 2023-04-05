@@ -12,7 +12,7 @@ import React from "react";
 import * as Localization from "expo-localization";
 import { Ionicons } from "@expo/vector-icons";
 import i18n from "i18next";
-import { initReactI18next, useTranslation } from "react-i18next";
+import { initReactI18next } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
 import MyAwesomeSplashScreen from "../MyAwesomeSplashScreen";
 import { useFonts } from "expo-font";
@@ -46,7 +46,7 @@ export default function ContactUs() {
     NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
 
   return (

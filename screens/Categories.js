@@ -79,6 +79,8 @@ export default function Categories({
             alignContent: "center",
             alignItems: "center",
             justifyContent: "center",
+            borderWidth: 1,
+            borderColor: "#e52b51",
           }}
         >
           <Text
@@ -154,7 +156,7 @@ export default function Categories({
         <TouchableOpacity
           style={{
             alignSelf: "center",
-            marginTop: "3%",
+            marginTop: "5%",
             backgroundColor: "#e52b51",
             width: "30%",
             borderRadius: 10,

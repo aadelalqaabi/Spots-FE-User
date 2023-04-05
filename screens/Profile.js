@@ -17,7 +17,6 @@ import { observer } from "mobx-react";
 import { baseURL } from "../stores/instance";
 import { useFonts } from "expo-font";
 import React, { useEffect, useState } from "react";
-import pointStore from "../stores/pointStore";
 import ScrollTabs from "../ScrollTabs";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
@@ -73,7 +72,9 @@ function Profile() {
   }, []);
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
-  const userSpots = authStore.user.spots.map((spotId) => spotStore.getSpotsById(spotId));
+  const userSpots = authStore.user.spots.map((spotId) =>
+    spotStore.getSpotsById(spotId)
+  );
 
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),
@@ -84,7 +85,7 @@ function Profile() {
   });
 
   if (!fontsLoaded) {
-    return <View style={{ backgroundColor: "transparent" }}></View>;
+    return <MyAwesomeSplashScreen />;
   }
   return (
     <View
