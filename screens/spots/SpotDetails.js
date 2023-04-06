@@ -125,7 +125,7 @@ export function SpotDetails({ route, navigation }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return null;
   }
   const handleInc = () => {
     setCheckSeats(checkSeats + 1);

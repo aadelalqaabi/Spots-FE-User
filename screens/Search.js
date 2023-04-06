@@ -80,7 +80,7 @@ export default function Search({ navigation }) {
     NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return null;
   }
   function renderSpot({ item: spot }) {
     return (

@@ -60,7 +60,7 @@ export default function Report() {
     NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return null;
   }
 
   const handleChange = (name, value) => {

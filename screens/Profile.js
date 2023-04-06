@@ -85,7 +85,7 @@ function Profile() {
   });
 
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return null;
   }
   return (
     <View

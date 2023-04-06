@@ -16,7 +16,7 @@ function FinishedSpot({ spot }) {
   });
 
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return null;
   }
   const translations = {
     en: {

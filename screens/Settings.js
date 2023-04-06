@@ -190,7 +190,7 @@ function Settings() {
     NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return null;
   }
 
   return (
@@ -764,7 +764,7 @@ function Settings() {
             marginTop: 30,
           }}
         >
-          Version 1.2.2
+          Version 1.2.3
         </Text>
       </ScrollView>
       {/* Disable Modal */}

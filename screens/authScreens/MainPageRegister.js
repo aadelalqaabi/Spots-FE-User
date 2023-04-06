@@ -53,6 +53,7 @@ export default function MainPageRegister() {
     phone: "",
     email: "",
     image: "",
+    locale: i18n.language,
   });
   const [checkValidation, setCheckValidation] = useState(true);
   const [checkValidationColor, setCheckValidationColor] = useState("#e52b51");
@@ -90,7 +91,7 @@ export default function MainPageRegister() {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return null;
   }
   return (
     <>

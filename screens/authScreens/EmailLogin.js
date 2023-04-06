@@ -37,7 +37,7 @@ export default function EmailLogin() {
   i18n.use(initReactI18next).init({
     compatibilityJSON: "v3",
     resources: translations,
-    lng: Localization.locale,
+    lng: "ar", //Localization.locale,
     fallbackLng: true,
     interpolation: {
       escapeValue: false,
@@ -58,7 +58,7 @@ export default function EmailLogin() {
           i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
         alignItems: "center",
         alignSelf: "center",
-        justifyContent: "flex-start",
+        justifyContent: "center",
         shadowColor: "#000",
         shadowOffset: {
           width: 0,
@@ -72,20 +72,18 @@ export default function EmailLogin() {
     >
       <Ionicons
         style={{
-          fontSize: 28,
-          margin: 20,
-          marginTop: 0,
-          marginBottom: 0,
+          fontSize: 18,
+          marginLeft: i18n.language.split("-")[0] === "en" ? 0 : 7,
+          marginRight: i18n.language.split("-")[0] === "en" ? 7 : 0,
         }}
         color={"#f1f1f1"}
         name="mail"
       ></Ionicons>
       <Text
         style={{
-          borderRadius: 15,
           elevation: 3,
           color: "#f1f1f1",
-          fontSize: 23,
+          fontSize: i18n.language.split("-")[0] === "en" ? 24 : 22,
           fontWeight: "500",
           alignSelf: "center",
         }}
