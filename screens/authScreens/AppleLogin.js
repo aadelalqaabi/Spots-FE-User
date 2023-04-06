@@ -43,9 +43,9 @@ export default function AppleLogin() {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return;
   }
-  if (isLoading === false) return <MyAwesomeSplashScreen />;
+  if (isLoading) return <MyAwesomeSplashScreen />;
   return (
     <AppleAuthentication.AppleAuthenticationButton
       buttonType={AppleAuthentication.AppleAuthenticationButtonType.CONTINUE}
@@ -79,6 +79,7 @@ export default function AppleLogin() {
                 phone: "",
                 email: payload.email,
                 image: "",
+                locale: i18n.language,
               };
               const found = authStore.userEmails.some(
                 (emailObj) =>

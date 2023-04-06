@@ -47,7 +47,7 @@ function Spot({ spot, navigation, day }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return null;
   }
   const organizer = organizerStore.getOrganizerById(spot?.organizer);
   let monthEn = DateTime.fromISO(spot?.startDate)

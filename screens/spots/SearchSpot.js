@@ -17,7 +17,7 @@ function SearchSpot({ spot, navigation }) {
   const [isImageLoading, setIsImageLoading] = useState(true);
 
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return null;
   }
 
   const translations = {

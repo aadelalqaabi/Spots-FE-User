@@ -65,7 +65,7 @@ function RewardClaimed({ reward, onRefresh }) {
     setModalVisible(!isModalVisible);
   };
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return null;
   }
 
   const handleClaim = async () => {

@@ -63,7 +63,7 @@ export default function Info({ route }) {
     Cabin: require("../../assets/fonts/Cabin.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return null;
   }
   return (
     <SafeAreaView>

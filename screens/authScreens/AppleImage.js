@@ -69,7 +69,7 @@ export default function AppleImage({ route }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return null;
   }
   const pickImage = async () => {
     if (granted === true) {
@@ -113,7 +113,7 @@ export default function AppleImage({ route }) {
     }
   };
 
-  if (isLoading === false) return <MyAwesomeSplashScreen />;
+  if (isLoading) return <MyAwesomeSplashScreen />;
   return (
     <View
       style={{

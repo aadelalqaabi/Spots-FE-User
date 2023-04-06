@@ -33,7 +33,7 @@ export default function Calnder({ calendar, setCalendar, day, setDay }) {
     NotoBold: require("../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return null;
   }
 
   i18n.use(initReactI18next).init({

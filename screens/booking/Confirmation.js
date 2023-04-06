@@ -19,7 +19,7 @@ export default function Confirmation({ navigation, route }) {
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return null;
   }
   let date = DateTime.fromISO(spot?.startDate).toFormat("DDD");
 

@@ -41,7 +41,7 @@ export default function RegisteredNotificationItem({ organizerId }) {
     Cabin: require("../../assets/fonts/Cabin.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return null;
   }
   return (
     <TouchableOpacity

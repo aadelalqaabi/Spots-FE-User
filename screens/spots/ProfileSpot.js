@@ -51,7 +51,7 @@ function ProfileSpot({ spot }) {
   });
 
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return null;
   }
   return (
     <TouchableOpacity

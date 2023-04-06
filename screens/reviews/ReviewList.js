@@ -18,7 +18,7 @@ function ReviewList({ reviews, spotId }) {
     Ubuntu: require("../../assets/fonts/Ubuntu.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return null;
   }
   return (
     <View>

@@ -257,7 +257,7 @@ export default function ScrollTabs({ userSpots }) {
     NotoBold: require("./assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return <MyAwesomeSplashScreen />;
+    return null;
   }
   return (
     <TabView
