@@ -79,8 +79,6 @@ export default function Categories({
             alignContent: "center",
             alignItems: "center",
             justifyContent: "center",
-            borderWidth: 1,
-            borderColor: "#e52b51",
           }}
         >
           <Text
