@@ -84,6 +84,10 @@ class AuthStore {
         },
       });
       this.setUser(response.data.token);
+      if(response === "undefined") {
+        return "not registered"
+      }
+      return "registered"
     } catch (error) {
       console.error(error);
     }
