@@ -11,6 +11,7 @@ import { useState, useEffect } from "react";
 import authStore from "../../stores/authStore";
 import React from "react";
 import * as ImagePicker from "expo-image-picker";
+import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 import { useFonts } from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import * as Localization from "expo-localization";
@@ -83,8 +84,14 @@ export default function AppleImage({ route }) {
         height: 300,
       });
 
-      if (!result.cancelled) {
-        let filename = result.uri.split("/").pop();
+      if (!result.canceled) {
+        // note ==> you can use result.uri or result.assets[0].uri ==> bec result.uri might be deprecated in sdk 48 in image picker
+        const scaledImage = await manipulateAsync(
+          result.assets[0].uri,
+          [{ resize: { width: 300, height: 300 } }],
+          { compress: 0.5, format: SaveFormat.JPEG }
+        );
+        let filename = scaledImage.uri.split("/").pop();
         let match = /\.(\w+)$/.exec(filename);
         let img_type = match ? `image/${match[1]}` : `image`;
         setUser({
@@ -92,23 +99,27 @@ export default function AppleImage({ route }) {
           image: {
             uri:
               Platform.OS === "android"
-                ? result.uri
-                : result.uri.replace("file://", ""),
+                ? scaledImage.uri
+                : scaledImage.uri.replace("file://", ""),
             name: filename,
             type: img_type,
           },
         });
-        setImage(result.uri);
+        setImage(scaledImage.uri);
       }
       setToggle(true);
     } else {
       alert("Sorry, we need camera roll permissions to make this work!");
     }
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     try {
-      authStore.register(user);
       setIsLoading(true);
+      const registered = await authStore.register(user);
+      if(registered === "not registered") {
+        setIsLoading(false);
+        console.log("an error occurred")
+      }
     } catch (error) {
       setIsLoading(false);
     }

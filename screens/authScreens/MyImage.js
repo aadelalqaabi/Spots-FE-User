@@ -96,7 +96,7 @@ export default function MyImage({ navigation, route }) {
         // note ==> you can use result.uri or result.assets[0].uri ==> bec result.uri might be deprecated in sdk 48 in image picker
         const scaledImage = await manipulateAsync(
           result.assets[0].uri,
-          [{ resize: { width: 500, height: 500 } }],
+          [{ resize: { width: 300, height: 300 } }],
           { compress: 0.5, format: SaveFormat.JPEG }
         );
         let filename = scaledImage.uri.split("/").pop();
@@ -120,10 +120,14 @@ export default function MyImage({ navigation, route }) {
       alert("Sorry, we need camera roll permissions to make this work!");
     }
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     try {
-      authStore.register(user);
       setIsLoading(true);
+      const registered = await authStore.register(user);
+      if(registered === "not registered") {
+        setIsLoading(false);
+        console.log("an error occurred")
+      }
     } catch (error) {
       setIsLoading(false);
     }
