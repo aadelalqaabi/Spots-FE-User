@@ -5,6 +5,7 @@ import {
   Button,
   useColorScheme,
   Text,
+  TouchableOpacity,
 } from "react-native";
 import { useState, useEffect } from "react";
 import authStore from "../../stores/authStore";

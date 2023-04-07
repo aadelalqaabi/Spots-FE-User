@@ -159,9 +159,6 @@ export default function Calnder({ calendar, setCalendar, day, setDay }) {
             shadowRadius: 5,
             zIndex: 99,
             borderColor: "rgba(0,0,0,0.1)",
-            borderWidth: 0.2,
-            borderWidth: 1,
-            borderColor: "#e52b51",
           }}
           onDayPress={(day) => {
             setDay(day.dateString);
