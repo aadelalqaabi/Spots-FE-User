@@ -185,6 +185,7 @@ function Explore() {
       }}
     >
       <StatusBar
+        backgroundColor={colorScheme === "dark" ? "#000000" : "#f1f1f1"}
         barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
       />
       <SafeAreaView>
@@ -230,7 +231,7 @@ function Explore() {
             <View
               style={{
                 margin: 20,
-                marginTop: 0,
+                marginTop: Platform.OS === "android" ? 20 : 0,
                 marginBottom: 10,
                 display: "flex",
                 flexDirection:
@@ -426,7 +427,9 @@ function Explore() {
                 data={spots}
                 renderItem={renderSpot}
                 width={width}
-                height={height / 1.35}
+                height={
+                  Platform.OS === "android" ? height / 1.22 : height / 1.31
+                }
                 modeConfig={{
                   parallaxScrollingScale: 1,
                   parallaxScrollingOffset: 60,

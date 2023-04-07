@@ -141,7 +141,7 @@ function ProfileSpotDetails({ route }) {
     return null;
   }
   return (
-    <SafeAreaView style={{ marginBottom: -35 }}>
+    <SafeAreaView style={{ paddingBottom: 20 }}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}
@@ -153,6 +153,7 @@ function ProfileSpotDetails({ route }) {
         }
       >
         <StatusBar
+          backgroundColor={colorScheme === "dark" ? "#000000" : "#f1f1f1"}
           barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
         />
         <View
@@ -230,6 +231,10 @@ function ProfileSpotDetails({ route }) {
                 width: "100%",
                 fontWeight: "600",
                 color: colorScheme === "dark" ? "#000000" : "#f1f1f1",
+                fontFamily:
+                  i18n.language.split("-")[0] === "en"
+                    ? "UbuntuBold"
+                    : "NotoBold",
               }}
               scroll
               duration={10000}

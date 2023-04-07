@@ -283,51 +283,56 @@ export default function AppleUsername({ route }) {
                   }}
                 >
                   {checkValidation === true ? (
-                    <View
-                      style={{
-                        paddingVertical: 8,
-                        paddingHorizontal: 32,
-                        borderRadius: 10,
-                        elevation: 3,
-                        backgroundColor: "#ef7f96",
-                      }}
+                    <TouchableOpacity
+                      disabled={checkValidation}
+                      style={styles.buttonx}
                     >
-                      <Button
-                        title={
-                          i18n.language.split("-")[0] === "en"
-                            ? "Next"
-                            : "التالي"
-                        }
-                        color="white"
-                        disabled={checkValidation}
-                        onPress={() => {
-                          navigation.navigate("AppleImage", { itemId: user });
+                      <Text
+                        style={{
+                          padding: 10,
+                          paddingTop: 8,
+                          paddingBottom: 8,
+                          textAlign: "center",
+                          fontSize: 18,
+                          fontFamily:
+                            i18n.language.split("-")[0] === "en"
+                              ? "Ubuntu"
+                              : "Noto",
+                          color: "white",
                         }}
-                      />
-                    </View>
+                      >
+                        {i18n.language.split("-")[0] === "en"
+                          ? "Next"
+                          : "التالي"}
+                      </Text>
+                    </TouchableOpacity>
                   ) : (
-                    <View
-                      style={{
-                        paddingVertical: 8,
-                        paddingHorizontal: 32,
-                        borderRadius: 10,
-                        elevation: 3,
-                        backgroundColor: "#e52b51",
+                    <TouchableOpacity
+                      disabled={checkValidation}
+                      style={styles.button}
+                      onPress={() => {
+                        navigation.navigate("AppleImage", { itemId: user });
                       }}
                     >
-                      <Button
-                        title={
-                          i18n.language.split("-")[0] === "en"
-                            ? "Next"
-                            : "التالي"
-                        }
-                        color="white"
-                        disabled={checkValidation}
-                        onPress={() => {
-                          navigation.navigate("AppleImage", { itemId: user });
+                      <Text
+                        style={{
+                          padding: 10,
+                          paddingTop: 8,
+                          paddingBottom: 8,
+                          textAlign: "center",
+                          fontSize: 18,
+                          fontFamily:
+                            i18n.language.split("-")[0] === "en"
+                              ? "Ubuntu"
+                              : "Noto",
+                          color: "white",
                         }}
-                      />
-                    </View>
+                      >
+                        {i18n.language.split("-")[0] === "en"
+                          ? "Next"
+                          : "التالي"}
+                      </Text>
+                    </TouchableOpacity>
                   )}
                 </View>
               </View>
@@ -452,14 +457,12 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 32,
     borderRadius: 10,
-    elevation: 3,
     backgroundColor: "#e52b51",
   },
   buttonx: {
     paddingVertical: 8,
     paddingHorizontal: 32,
     borderRadius: 10,
-    elevation: 3,
     backgroundColor: "#ef7f96",
   },
   passwordContainer: {

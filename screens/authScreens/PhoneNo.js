@@ -85,9 +85,7 @@ export default function PhoneNo({ navigation, route }) {
     return null;
   }
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
+    <KeyboardAvoidingView>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View
           style={{

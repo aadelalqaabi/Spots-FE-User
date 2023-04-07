@@ -72,12 +72,13 @@ export default function AuthButtons() {
         }}
       >
         <StatusBar
+          backgroundColor={colorScheme === "dark" ? "#000000" : "#f1f1f1"}
           barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
         />
         <Image
           style={{
-            height: "17%",
-            width: "31.5%",
+            height: 176,
+            width: 150,
             alignSelf: "center",
             marginBottom: "30%",
           }}

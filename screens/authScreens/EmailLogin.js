@@ -37,7 +37,7 @@ export default function EmailLogin() {
   i18n.use(initReactI18next).init({
     compatibilityJSON: "v3",
     resources: translations,
-    lng: "ar", //Localization.locale,
+    lng: Localization.locale,
     fallbackLng: true,
     interpolation: {
       escapeValue: false,

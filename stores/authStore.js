@@ -78,7 +78,11 @@ class AuthStore {
     const formData = new FormData();
     try {
       for (const key in newUser) formData.append(key, newUser[key]);
-      const response = await instance.post(REGISTER, formData);
+      const response = await instance.post(REGISTER, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       this.setUser(response.data.token);
     } catch (error) {
       console.error(error);
@@ -106,7 +110,11 @@ class AuthStore {
     try {
       const formData = new FormData();
       for (const key in updatedUser) formData.append(key, updatedUser[key]);
-      const res = await instance.put(UPDATE, formData);
+      const res = await instance.put(UPDATE, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       this.setUser(res.data.token);
     } catch (error) {
       console.error("here", error);

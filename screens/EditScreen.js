@@ -13,7 +13,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
 import * as ImagePicker from "expo-image-picker";
-import { manipulateAsync, FlipType, SaveFormat } from 'expo-image-manipulator';
+import { manipulateAsync, FlipType, SaveFormat } from "expo-image-manipulator";
 import authStore from "../stores/authStore";
 import { observer } from "mobx-react";
 import { baseURL } from "../stores/instance";
@@ -165,6 +165,7 @@ function EditScreen() {
       }}
     >
       <StatusBar
+        backgroundColor={colorScheme === "dark" ? "#000000" : "#f1f1f1"}
         barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
       />
       <View
@@ -175,24 +176,43 @@ function EditScreen() {
         }}
       >
         <View style={styles.cancel}>
-          <Button
-            onPress={() => cancelButton()}
-            title={i18n.language.split("-")[0] === "en" ? "Cancel" : "الغاء"}
-            color={colorScheme === "light" ? "#000000" : "#f1f1f1"}
-          />
+          <TouchableOpacity onPress={() => cancelButton()}>
+            <Text
+              style={{
+                color: colorScheme === "light" ? "#000000" : "#f1f1f1",
+                fontSize: 18,
+                textAlign: "center",
+              }}
+            >
+              {i18n.language.split("-")[0] === "en" ? "Cancel" : "الغاء"}
+            </Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.done}>
           {hideDone ? (
-            <Button
-              onPress={handleSubmit}
-              title={i18n.language.split("-")[0] === "en" ? "Done" : "تم"}
-              color={"#e52b51"}
-            />
+            <TouchableOpacity onPress={handleSubmit}>
+              <Text
+                style={{
+                  color: "#e52b51",
+                  fontSize: 18,
+                  textAlign: "center",
+                }}
+              >
+                {i18n.language.split("-")[0] === "en" ? "Done" : "تم"}
+              </Text>
+            </TouchableOpacity>
           ) : (
-            <Button
-              title={i18n.language.split("-")[0] === "en" ? "Done" : "تم"}
-              disabled
-            />
+            <TouchableOpacity onPress={handleSubmit}>
+              <Text
+                style={{
+                  color: "grey",
+                  fontSize: 18,
+                  textAlign: "center",
+                }}
+              >
+                {i18n.language.split("-")[0] === "en" ? "Done" : "تم"}
+              </Text>
+            </TouchableOpacity>
           )}
         </View>
       </View>

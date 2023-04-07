@@ -258,9 +258,18 @@ export default function CheckOTP({ navigation, route }) {
                 </View>
               </View>
 
-              <TouchableOpacity onPress={handleSubmit} style={styles.button}>
+              <TouchableOpacity style={styles.button} onPress={handleSubmit}>
                 <Text
-                  style={{ color: "white", alignSelf: "center", fontSize: 18 }}
+                  style={{
+                    padding: 10,
+                    paddingTop: 8,
+                    paddingBottom: 8,
+                    textAlign: "center",
+                    fontSize: 18,
+                    fontFamily:
+                      i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
+                    color: "white",
+                  }}
                 >
                   {i18n.language.split("-")[0] === "en" ? "Next" : "التالي"}
                 </Text>
@@ -571,7 +580,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignSelf: "center",
     borderRadius: 10,
-    elevation: 3,
     backgroundColor: "#e52b51",
     marginTop: "-25%",
   },

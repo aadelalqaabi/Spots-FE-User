@@ -234,23 +234,27 @@ export default function UsernameCheck() {
                     marginBottom: 50,
                   }}
                 >
-                  <View
-                    style={{
-                      paddingVertical: 8,
-                      paddingHorizontal: 32,
-                      borderRadius: 10,
-                      elevation: 3,
-                      backgroundColor: "#e52b51",
-                    }}
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={handleSubmit}
                   >
-                    <Button
-                      title={
-                        i18n.language.split("-")[0] === "en" ? "Next" : "التالي"
-                      }
-                      color="white"
-                      onPress={handleSubmit}
-                    />
-                  </View>
+                    <Text
+                      style={{
+                        padding: 10,
+                        paddingTop: 8,
+                        paddingBottom: 8,
+                        textAlign: "center",
+                        fontSize: 18,
+                        fontFamily:
+                          i18n.language.split("-")[0] === "en"
+                            ? "Ubuntu"
+                            : "Noto",
+                        color: "white",
+                      }}
+                    >
+                      {i18n.language.split("-")[0] === "en" ? "Next" : "التالي"}
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>

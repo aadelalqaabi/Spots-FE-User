@@ -8,6 +8,7 @@ import {
   LogBox,
   useColorScheme,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import ContentLoader, { Circle, Rect } from "react-content-loader/native";
 import { useNavigation } from "@react-navigation/native";
@@ -105,6 +106,7 @@ function Profile() {
         }}
       >
         <StatusBar
+          backgroundColor={colorScheme === "dark" ? "#000000" : "#f1f1f1"}
           barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
         />
         <SafeAreaView>
@@ -112,7 +114,7 @@ function Profile() {
             <ContentLoader
               speed={3}
               style={{
-                height: "110%",
+                height: "103%",
                 marginTop: -15,
               }}
               viewBox="2 20 255 420"

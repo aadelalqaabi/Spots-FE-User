@@ -47,7 +47,7 @@ export default function MyAwesomeSplashScreen() {
         alignContent: "center",
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: colorScheme === "dark" ? "#1b1b1b" : "#f1f1f1",
+        backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
       }}
     >
       <Image

@@ -109,7 +109,7 @@ export default function SpottedScanner({ route }) {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar backgroundColor={"#f1f1f1"} barStyle="light-content" />
       <Ionicons
         onPress={() => {
           navigation.goBack();

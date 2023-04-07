@@ -13,7 +13,11 @@ class TicketStore {
     try {
       const formData = new FormData();
       for (const key in newTicket) formData.append(key, newTicket[key]);
-      const response = await instance.post(`/ticket/${spotId}`, formData);
+      const response = await instance.post(`/ticket/${spotId}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       this.tickets.push(response.data.newTicket);
       authStore.setUser(response.data.token);
     } catch (error) {
