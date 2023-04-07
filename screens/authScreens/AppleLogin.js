@@ -63,18 +63,18 @@ export default function AppleLogin() {
       }}
       onPress={async () => {
         try {
-          const { identityToken } = await AppleAuthentication.signInAsync({
-            requestedScopes: [
-              AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
-              AppleAuthentication.AppleAuthenticationScope.EMAIL,
-            ],
-          });
-
+          const { identityToken, fullName } =
+            await AppleAuthentication.signInAsync({
+              requestedScopes: [
+                AppleAuthentication.AppleAuthenticationScope.FULL_NAME,
+                AppleAuthentication.AppleAuthenticationScope.EMAIL,
+              ],
+            });
           if (identityToken) {
             const payload = jwtDecode(identityToken);
             if (payload.email_verified === "true") {
               const user = {
-                name: "",
+                name: fullName.givenName !== null ? fullName.givenName : null,
                 password: payload.sub,
                 phone: "",
                 email: payload.email,
@@ -86,7 +86,7 @@ export default function AppleLogin() {
                   emailObj.email.toLowerCase() === payload.email.toLowerCase()
               );
               if (found === false) {
-                navigation.navigate("AppleUsername", {
+                navigation.navigate("AppleImage", {
                   itemId: user,
                 });
               } else {
