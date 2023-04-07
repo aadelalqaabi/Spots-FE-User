@@ -12,6 +12,7 @@ import {
   ScrollView,
   StatusBar,
   ActivityIndicator,
+  Platform,
 } from "react-native";
 import React, { useCallback, useState } from "react";
 import spotStore from "../../stores/spotStore";
@@ -226,6 +227,7 @@ export function SpotDetails({ route, navigation }) {
       }}
     >
       <StatusBar
+        backgroundColor={colorScheme === "dark" ? "#000000" : "#f1f1f1"}
         barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
       />
       <View
@@ -235,7 +237,7 @@ export function SpotDetails({ route, navigation }) {
             i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
           justifyContent: "space-between",
           padding: 20,
-          marginTop: "10%",
+          marginTop: Platform.OS === "android" ? 0 : "10%",
           zIndex: 99,
           width: "100%",
           alignContent: "center",
@@ -990,11 +992,11 @@ export function SpotDetails({ route, navigation }) {
             display: "flex",
             alignSelf: "center",
             borderRadius: 25,
-            height: 60,
-            width: "90%",
+            height: 65,
+            width: "95%",
+            marginBottom: 10,
+            marginTop: 10,
             backgroundColor: isLoading ? "gray" : "#e52b51",
-            marginTop: 20,
-            marginBottom: 25,
             justifyContent: "center",
             zIndex: 99,
             flexDirection:

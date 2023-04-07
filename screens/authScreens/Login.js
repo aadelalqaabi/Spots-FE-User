@@ -272,9 +272,9 @@ export default function Login() {
                     paddingVertical:
                       i18n.language.split("-")[0] === "en" ? 10 : 5,
                     borderRadius: 15,
-                    elevation: 3,
+
                     color: "#f1f1f1",
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: "800",
                     alignSelf: "center",
                     fontFamily:
@@ -453,14 +453,12 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: 8,
     borderRadius: 10,
-    elevation: 3,
     backgroundColor: "#e52b51",
     marginTop: 20,
   },
   buttontitle: {
     paddingVertical: 10,
     borderRadius: 15,
-    elevation: 3,
     color: "#f1f1f1",
     fontSize: 18,
     fontWeight: "800",

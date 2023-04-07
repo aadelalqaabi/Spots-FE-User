@@ -56,6 +56,7 @@ export default function EndedSpot({ route }) {
   return (
     <SafeAreaView>
       <StatusBar
+        backgroundColor={colorScheme === "dark" ? "#000000" : "#f1f1f1"}
         barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
       />
       <ScrollView style={{ height: "100%" }}>
@@ -66,7 +67,7 @@ export default function EndedSpot({ route }) {
               i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
             alignContent: "center",
             alignItems: "center",
-            justifyContent: "cnter",
+            justifyContent: "center",
             width: "100%",
           }}
         >

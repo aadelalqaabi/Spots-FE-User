@@ -85,7 +85,7 @@ function Spotted({ ticket, navigation }) {
     >
       <ImageBackground
         style={{
-          width: 370,
+          width: 350,
           height: 250,
           borderRadius: 30,
           padding: 20,

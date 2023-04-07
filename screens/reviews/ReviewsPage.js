@@ -48,30 +48,37 @@ export default function ReviewsPage({ route }) {
     NotoBold: require("../../assets/fonts/NotoBold.ttf"),
   });
   if (!fontsLoaded) {
-    return null;
+    return <View></View>;
   }
 
   return (
     <SafeAreaView>
       <StatusBar
+        backgroundColor={colorScheme === "dark" ? "#000000" : "#f1f1f1"}
         barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
       />
       <View
         style={{
           display: "flex",
-          flexDirection:
-            i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
-          alignContent: "center",
-          alignItems: "center",
-          justifyContent: "cnter",
           width: "100%",
+          justifyContent: "center",
+          alignContent: "center",
+          marginTop: "6%",
+          marginBottom: "4%",
         }}
       >
         <TouchableOpacity
           onPress={() => {
             navigation.goBack();
           }}
-          style={{ zIndex: 99 }}
+          style={{
+            zIndex: 99,
+            alignSelf:
+              i18n.language.split("-")[0] === "en" ? "flex-start" : "flex-end",
+            position: "absolute",
+            marginLeft: 10,
+            paddingRight: 10,
+          }}
         >
           <Ionicons
             style={{
@@ -95,7 +102,6 @@ export default function ReviewsPage({ route }) {
             textAlign: "center",
             fontFamily:
               i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
-            width: "70%",
             color: colorScheme === "light" ? "#000000" : "#f1f1f1",
           }}
         >

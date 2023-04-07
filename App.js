@@ -13,7 +13,7 @@ import Password from "./screens/authScreens/Password";
 import PhoneNo from "./screens/authScreens/PhoneNo";
 import MyImage from "./screens/authScreens/MyImage";
 import * as Linking from "expo-linking";
-import { useColorScheme } from "react-native";
+import { Platform, useColorScheme } from "react-native";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
@@ -235,7 +235,7 @@ function RootNavigator() {
         name="Search"
         options={{
           gestureDirection: "horizontal",
-          gestureEnabled: "true",
+          gestureEnabled: true,
           presentation: "transparentModal",
         }}
         component={Search}
@@ -492,6 +492,8 @@ function TabBar() {
         tabBarStyle: {
           backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
           borderTopWidth: 0,
+          paddingBottom: Platform.OS === "android" ? "5%" : "5%",
+          shadowColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
         },
         headerShown: false,
       }}
@@ -506,7 +508,9 @@ function TabBar() {
               name={focused ? "compass" : "compass-outline"}
               size={37}
               color={color}
-              style={{ position: "absolute", paddingTop: "5%" }}
+              style={{
+                position: "absolute",
+              }}
             ></Ionicons>
           ),
           tabBarActiveTintColor: "#e52b51",
@@ -526,7 +530,6 @@ function TabBar() {
               color={color}
               style={{
                 position: "absolute",
-                paddingTop: "5%",
               }}
             />
           ),
@@ -547,7 +550,9 @@ function TabBar() {
               name={focused ? "person-circle" : "person-circle-outline"}
               size={37}
               color={color}
-              style={{ position: "absolute", paddingTop: "5%" }}
+              style={{
+                position: "absolute",
+              }}
             />
           ),
           tabBarActiveTintColor: "#e52b51",

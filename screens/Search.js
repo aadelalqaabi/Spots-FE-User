@@ -102,7 +102,7 @@ export default function Search({ navigation }) {
     >
       <View
         style={{
-          marginTop: 60,
+          marginTop: Platform.OS === "android" ? 20 : 60,
           marginRight: 20,
           marginLeft: 20,
           marginBottom: 15,
@@ -262,12 +262,10 @@ export default function Search({ navigation }) {
           />
         </>
       ) : (
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
+        <KeyboardAvoidingView>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <FlatList
-              nestedScrollEnabled={true}
+              // nestedScrollEnabled={true}
               style={styles.spotsList}
               contentContainerStyle={styles.spotsListContainer}
               data={filteredSpots}

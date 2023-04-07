@@ -240,21 +240,20 @@ export default function AppleImage({ route }) {
               }}
             />
             {image && (
-              <View
-                style={{
-                  marginTop: 10,
-                }}
-              >
-                <Button
-                  color="#e52b51"
-                  title={
-                    i18n.language.split("-")[0] === "en"
-                      ? "Choose another image"
-                      : "اختر صورةاخرى"
-                  }
-                  onPress={pickImage}
-                />
-              </View>
+              <TouchableOpacity style={{ marginTop: 15 }} onPress={pickImage}>
+                <Text
+                  style={{
+                    color: "#e52b51",
+                    fontSize: 18,
+                    textAlign: "center",
+                  }}
+                  pickImage
+                >
+                  {i18n.language.split("-")[0] === "en"
+                    ? "Choose another image"
+                    : "اختر صورةاخرى"}
+                </Text>
+              </TouchableOpacity>
             )}
           </View>
         </View>
@@ -264,45 +263,54 @@ export default function AppleImage({ route }) {
           }}
         >
           {toggle === false ? (
-            <View style={styles.button}>
-              <Button
-                onPress={pickImage}
-                title={
-                  i18n.language.split("-")[0] === "en"
-                    ? "Pick image"
-                    : "اختر صورة"
-                }
-                color="white"
-              />
-            </View>
+            <TouchableOpacity style={styles.button} onPress={pickImage}>
+              <Text
+                style={{
+                  padding: 10,
+                  paddingTop: 8,
+                  paddingBottom: 8,
+                  textAlign: "center",
+                  fontSize: 18,
+                  fontFamily:
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
+                  color: "white",
+                }}
+              >
+                {i18n.language.split("-")[0] === "en"
+                  ? "Pick image"
+                  : "اختر صورة"}
+              </Text>
+            </TouchableOpacity>
           ) : (
-            <View
-              style={{
-                paddingVertical: 12,
-                paddingHorizontal: 32,
-                borderRadius: 15,
-                elevation: 3,
-                backgroundColor: "#e52b51",
-                alignSelf: "center",
-                width: "100%",
-                marginBottom: 45,
-              }}
-            >
-              <Button
-                title={i18n.language.split("-")[0] === "en" ? "Done" : "تم"}
-                color="white"
-                onPress={handleSubmit}
-              />
-            </View>
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              <Text
+                style={{
+                  padding: 10,
+                  paddingTop: 8,
+                  paddingBottom: 8,
+                  textAlign: "center",
+                  fontSize: 18,
+                  fontFamily:
+                    i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
+                  color: "white",
+                }}
+              >
+                {i18n.language.split("-")[0] === "en" ? "Done" : "تم"}
+              </Text>
+            </TouchableOpacity>
           )}
           {!toggle && (
-            <View>
-              <Button
-                title={i18n.language.split("-")[0] === "en" ? "Skip" : "تخطى"}
-                color="#e52b51"
-                onPress={handleSubmit}
-              />
-            </View>
+            <TouchableOpacity onPress={handleSubmit}>
+              <Text
+                style={{
+                  color: "#e52b51",
+                  fontSize: 18,
+                  textAlign: "center",
+                }}
+              >
+                {i18n.language.split("-")[0] === "en" ? "Skip" : "تخطى"}
+              </Text>
+            </TouchableOpacity>
           )}
         </View>
       </View>
@@ -330,7 +338,6 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 15,
-    elevation: 3,
     backgroundColor: "#e52b51",
     alignSelf: "center",
     width: "100%",

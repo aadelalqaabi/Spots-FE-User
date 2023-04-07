@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Dimensions,
+  Platform,
 } from "react-native";
 import { baseURL } from "../../stores/instance";
 import { DateTime } from "luxon";
@@ -75,6 +76,8 @@ function Spot({ spot, navigation, day }) {
         flexDirection: "row",
         alignSelf: "center",
         height: "100%",
+        paddingTop: 10,
+        paddingBottom: 10,
         width: width / 1.2,
       }}
       activeOpacity={0.6}
@@ -123,8 +126,13 @@ function Spot({ spot, navigation, day }) {
           style={{
             position: "absolute",
             backgroundColor: "rgba(0,0,0,0.4)",
+            display: "flex",
+            flexDirection: "row",
+            alignSelf: "center",
             height: "100%",
-            width: "100%",
+            paddingTop: 10,
+            paddingBottom: 10,
+            width: width / 1.2,
             borderRadius: 35,
           }}
         ></View>
@@ -136,11 +144,12 @@ function Spot({ spot, navigation, day }) {
             flexDirection:
               i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
             alignContent: "center",
-            flexWrap: "wrap",
+            flexWrap: "nowrap",
             alignItems: "center",
             justifyContent: "center",
+            marginTop: "5%",
+            padding: 20,
             width: "100%",
-            marginTop: "10%",
           }}
         >
           <TouchableOpacity
@@ -150,7 +159,7 @@ function Spot({ spot, navigation, day }) {
                 i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
               flexWrap: "nowrap",
               textAlign: "center",
-              width: 220,
+              width: "70%",
               alignContent: "center",
               alignSelf: "center",
             }}
@@ -240,6 +249,7 @@ function Spot({ spot, navigation, day }) {
                   height: 10,
                   width: 0,
                 },
+                width: spot.isMultiple ? "30%" : "25%",
                 marginLeft: 12,
               }}
             >

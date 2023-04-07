@@ -6,6 +6,7 @@ import {
   Modal,
   SafeAreaView,
   ScrollView,
+  Platform,
 } from "react-native";
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import i18n from "i18next";
@@ -762,9 +763,10 @@ function Settings() {
               i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
             alignSelf: "center",
             marginTop: 30,
+            marginBottom: 30,
           }}
         >
-          Version 1.2.3
+          Version 1.2.4
         </Text>
       </ScrollView>
       {/* Disable Modal */}

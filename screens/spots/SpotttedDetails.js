@@ -89,7 +89,12 @@ export default function SpotttedDetails({ route }) {
       source={{ uri: `${baseURL}${spot.image}` }}
       style={{
         flex: 1,
-        paddingTop: i18n.language.split("-")[0] === "en" ? "12%" : "8%",
+        paddingTop:
+          Platform.OS === "android"
+            ? "5%"
+            : i18n.language.split("-")[0] === "en"
+            ? "12%"
+            : "8%",
       }}
     >
       <View
@@ -103,6 +108,7 @@ export default function SpotttedDetails({ route }) {
         }}
       ></View>
       <StatusBar
+        backgroundColor={colorScheme === "dark" ? "#000000" : "#f1f1f1"}
         barStyle={colorScheme === "dark" ? "light-content" : "dark-content"}
       />
       <View

@@ -827,13 +827,12 @@ export default function ChangePassword() {
                   )}
                 </View>
                 <View style={{ flex: 1, justifyContent: "flex-end" }}>
-                  <View
+                  <TouchableOpacity
                     style={{
                       paddingVertical: 8,
                       paddingHorizontal: 32,
                       borderRadius: 10,
                       elevation: 3,
-                      color: "#f1f1f1",
                       backgroundColor:
                         characterLength === false &&
                         specialCharacter === false &&
@@ -845,28 +844,27 @@ export default function ChangePassword() {
                           ? "#e52b51"
                           : "#ef7f96",
                     }}
+                    onPress={handleSubmit}
                   >
-                    <Button
-                      title={
-                        i18n.language.split("-")[0] === "en"
-                          ? "Set Password"
-                          : "تغيير كلمة السر"
-                      }
-                      color="#f1f1f1"
-                      onPress={handleSubmit}
-                      disabled={
-                        characterLength === false &&
-                        specialCharacter === false &&
-                        number === false &&
-                        upperCase === false &&
-                        lowerCase === false &&
-                        confirmed === false &&
-                        user.currentPassword !== ""
-                          ? false
-                          : true
-                      }
-                    />
-                  </View>
+                    <Text
+                      style={{
+                        padding: 10,
+                        paddingTop: 8,
+                        paddingBottom: 8,
+                        textAlign: "center",
+                        fontSize: 18,
+                        fontFamily:
+                          i18n.language.split("-")[0] === "en"
+                            ? "Ubuntu"
+                            : "Noto",
+                        color: "white",
+                      }}
+                    >
+                      {i18n.language.split("-")[0] === "en"
+                        ? "Set Password"
+                        : "تغيير كلمة السر"}
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>

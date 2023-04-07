@@ -101,7 +101,7 @@ function ProfileSpot({ spot }) {
           marginRight: 0,
           overflow: "hidden",
           alignSelf: "center",
-          width: 380,
+          width: 350,
           height: 380,
           padding: 30,
         }}
@@ -126,7 +126,7 @@ function ProfileSpot({ spot }) {
               justifyContent: "space-between",
               alignSelf: "center",
               marginTop: "2%",
-              width: spot.endTime ? "94%" : "84%",
+              width: spot.endTime ? "100%" : "90%",
             }}
           >
             <View

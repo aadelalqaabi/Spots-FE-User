@@ -13,9 +13,11 @@ import { initReactI18next, useTranslation } from "react-i18next";
 import * as Localization from "expo-localization";
 import { observer } from "mobx-react";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 function RewardsTerms({ route }) {
   const spot = route.params.spot;
+  const navigation = useNavigation();
   const translations = {
     en: {
       explore: "Explore",
@@ -46,7 +48,7 @@ function RewardsTerms({ route }) {
             i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
           alignContent: "center",
           alignItems: "center",
-          justifyContent: "cnter",
+          justifyContent: "center",
           width: "100%",
         }}
       >

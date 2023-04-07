@@ -759,7 +759,7 @@ export default function ForgotPassword({ route }) {
                   )}
                 </View>
                 <View style={{ flex: 1, justifyContent: "flex-end" }}>
-                  <View
+                  <TouchableOpacity
                     style={{
                       paddingVertical: 8,
                       paddingHorizontal: 32,
@@ -775,23 +775,25 @@ export default function ForgotPassword({ route }) {
                           ? "#e52b51"
                           : "gray",
                     }}
+                    onPress={handleSubmit}
                   >
-                    <Button
-                      title={"Set Password"}
-                      color="white"
-                      disabled={
-                        characterLength === false &&
-                        specialCharacter === false &&
-                        number === false &&
-                        upperCase === false &&
-                        lowerCase === false &&
-                        confirmed === false
-                          ? false
-                          : true
-                      }
-                      onPress={handleSubmit}
-                    />
-                  </View>
+                    <Text
+                      style={{
+                        padding: 10,
+                        paddingTop: 8,
+                        paddingBottom: 8,
+                        textAlign: "center",
+                        fontSize: 18,
+                        fontFamily:
+                          i18n.language.split("-")[0] === "en"
+                            ? "Ubuntu"
+                            : "Noto",
+                        color: "white",
+                      }}
+                    >
+                      {i18n.language.split("-")[0] === "en" ? "Next" : "التالي"}
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               </View>
             </View>
@@ -1004,13 +1006,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
   },
-  button: {
-    paddingVertical: 8,
-    paddingHorizontal: 32,
-    borderRadius: 10,
-    elevation: 3,
-    backgroundColor: "#e52b51",
-  },
+
   buttonx: {
     paddingVertical: 8,
     paddingHorizontal: 32,

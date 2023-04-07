@@ -378,35 +378,56 @@ export default function Email({ navigation, route }) {
                   }}
                 >
                   {checkValidation === true ? (
-                    <View style={styles.buttonx}>
-                      <Button
-                        title={
-                          i18n.language.split("-")[0] === "en"
-                            ? "Next"
-                            : "التالي"
-                        }
-                        color="white"
-                        disabled={checkValidation}
-                        onPress={() => {
-                          navigation.navigate("Password", { itemId: user });
+                    <TouchableOpacity
+                      disabled={checkValidation}
+                      style={styles.buttonx}
+                    >
+                      <Text
+                        style={{
+                          padding: 10,
+                          paddingTop: 8,
+                          paddingBottom: 8,
+                          textAlign: "center",
+                          fontSize: 18,
+                          fontFamily:
+                            i18n.language.split("-")[0] === "en"
+                              ? "Ubuntu"
+                              : "Noto",
+                          color: "white",
                         }}
-                      />
-                    </View>
+                      >
+                        {i18n.language.split("-")[0] === "en"
+                          ? "Next"
+                          : "التالي"}
+                      </Text>
+                    </TouchableOpacity>
                   ) : (
-                    <View style={styles.button}>
-                      <Button
-                        title={
-                          i18n.language.split("-")[0] === "en"
-                            ? "Next"
-                            : "التالي"
-                        }
-                        color="white"
-                        disabled={checkValidation}
-                        onPress={() => {
-                          navigation.navigate("Password", { itemId: user });
+                    <TouchableOpacity
+                      disabled={checkValidation}
+                      style={styles.button}
+                      onPress={() => {
+                        navigation.navigate("Password", { itemId: user });
+                      }}
+                    >
+                      <Text
+                        style={{
+                          padding: 10,
+                          paddingTop: 8,
+                          paddingBottom: 8,
+                          textAlign: "center",
+                          fontSize: 18,
+                          fontFamily:
+                            i18n.language.split("-")[0] === "en"
+                              ? "Ubuntu"
+                              : "Noto",
+                          color: "white",
                         }}
-                      />
-                    </View>
+                      >
+                        {i18n.language.split("-")[0] === "en"
+                          ? "Next"
+                          : "التالي"}
+                      </Text>
+                    </TouchableOpacity>
                   )}
                 </View>
               </View>
@@ -531,14 +552,12 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 32,
     borderRadius: 10,
-    elevation: 3,
     backgroundColor: "#e52b51",
   },
   buttonx: {
     paddingVertical: 8,
     paddingHorizontal: 32,
     borderRadius: 10,
-    elevation: 3,
     backgroundColor: "#ef7f96",
   },
   errorContainer: {
