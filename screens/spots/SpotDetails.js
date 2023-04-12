@@ -53,7 +53,12 @@ export function SpotDetails({ route, navigation }) {
   triggerDateNoti.setHours(18);
   triggerDateNoti.setMinutes(30);
   const today = new Date(new Date().setHours(3, 0, 0, 0));
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
   const time = DateTime.fromFormat(spot.startTime, "HH:mm");
+  const isToday = String(startDateNoti) === String(today)
+  const isMultipleBefore = startDateNoti < today
+  const isTomorrow = String(startDateNoti) === String(tomorrow)
   const formattedTime = time
     .setLocale(i18n.language.split("-")[0])
     .toFormat("h a");
@@ -174,34 +179,29 @@ export function SpotDetails({ route, navigation }) {
     if (!found && !userFound) {
       await ticketStore.createTicket(newTicket, newSpot._id);
       await ticketStore.fetchTickets();
-      if (String(today) !== String(startDateNoti)) {
-        if (
-          i18n.language.split("-")[0] === "en" &&
-          authStore.user.notificationToken !== ""
-        ) {
-          await Notifications.scheduleNotificationAsync({
-            content: {
-              title: `Can't Wait to see you ${authStore.user.name}!`,
-              body: `Don't Forget ${newSpot.name} begins tomorrow at ${formattedTime}`,
-            },
-            trigger: {
-              date: triggerDateNoti,
-            },
-          });
-        } else if (
-          i18n.language.split("-")[0] === "ar" &&
-          authStore.user.notificationToken !== ""
-        ) {
-          await Notifications.scheduleNotificationAsync({
-            content: {
-              title: `!${authStore.user.name} لا نستطيع الانتظار لرؤيتك`,
-              body: `${formattedTime} تبدا غدا في الساعة ${newSpot.nameAr} لا تنس`,
-            },
-            trigger: {
-              date: triggerDateNoti,
-            },
-          });
-        }
+      if (i18n.language.split("-")[0] === "en" && authStore.user.notificationToken !== "" && isToday === false && isTomorrow === false && isMultipleBefore === false) {
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: `Can't Wait to see you ${authStore.user.name}!`,
+            body: `Don't Forget ${newSpot.name} begins tomorrow at ${formattedTime}`,
+          },
+          trigger: {
+            date: triggerDateNoti,
+          },
+        });
+      } else if (
+        i18n.language.split("-")[0] === "ar" &&
+        authStore.user.notificationToken !== ""
+      ) {
+        await Notifications.scheduleNotificationAsync({
+          content: {
+            title: `!${authStore.user.name} لا نستطيع الانتظار لرؤيتك`,
+            body: `${formattedTime} تبدا غدا في الساعة ${newSpot.nameAr} لا تنس`,
+          },
+          trigger: {
+            date: triggerDateNoti,
+          },
+        });
       }
       toggleAlert();
       setIsLoading(false);

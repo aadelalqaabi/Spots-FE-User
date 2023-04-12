@@ -19,7 +19,7 @@ class TicketStore {
         },
       });
       this.tickets.push(response.data.newTicket);
-      authStore.setUser(response.data.token);
+      authStore.setUser(response.data.token)
     } catch (error) {
       console.error("create ticket", error);
     }
@@ -30,7 +30,7 @@ class TicketStore {
       const response = await instance.get("/ticket");
       this.tickets = response.data;
     } catch (error) {
-      console.error(error);
+      console.error("fetch tricket", error);
     }
   };
 
@@ -47,7 +47,7 @@ class TicketStore {
       await instance.delete(`/ticket/delete/${ticketId}`);
       this.tickets = this.tickets.filter((ticket) => ticket._id !== ticketId);
     } catch (error) {
-      console.error(error);
+      console.error("delete ticket", error);
     }
   };
 }

@@ -27,6 +27,7 @@
     "expo-blur": "~12.2.2",
     "expo-device": "~5.2.1",
     "expo-font": "~11.1.1",
+    "expo-image-manipulator": "~11.1.1",
     "expo-image-picker": "~14.1.1",
     "expo-linear-gradient": "~12.1.2",
     "expo-linking": "~4.0.1",
@@ -55,7 +56,6 @@
     "react-native": "0.71.6",
     "react-native-action-button": "^2.8.5",
     "react-native-animated-searchbox": "^0.0.1",
-    "react-native-blurry": "^0.1.3",
     "react-native-bouncing-preloader": "^1.0.1",
     "react-native-calendar-strip": "^2.2.6",
     "react-native-calendars": "^1.1294.0",
@@ -94,8 +94,7 @@
     "react-native-webview": "11.26.0",
     "react-navigation-shared-element": "^3.1.3",
     "react-responsive": "^9.0.2",
-    "reinput": "^3.7.2",
-    "expo-image-manipulator": "~11.1.1"
+    "reinput": "^3.7.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

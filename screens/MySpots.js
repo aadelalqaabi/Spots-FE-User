@@ -79,8 +79,8 @@ function MySpots() {
 
   const today = new Date();
   today.setHours(3, 0, 0, 0);
-  let ticketsByDate = ticketStore.tickets.filter(
-    (ticket) => new Date(ticket.spot?.startDate) >= today
+  const ticketsByDate = ticketStore.tickets.filter(
+    (ticket) => ticket?.spot?.isMultiple ? new Date(ticket?.spot?.endDate) >= today : new Date(ticket?.spot?.startDate) >= today
   );
   const sortedTickets = ticketsByDate.sort(
     (objA, objB) =>

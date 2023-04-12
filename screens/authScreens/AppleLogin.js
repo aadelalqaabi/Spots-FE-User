@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import * as AppleAuthentication from "expo-apple-authentication";
 import React, { useState } from "react";
-import { useColorScheme, View } from "react-native";
+import { Platform, useColorScheme, View } from "react-native";
 import authStore from "../../stores/authStore";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
@@ -80,6 +80,7 @@ export default function AppleLogin() {
                 email: payload.email,
                 image: "",
                 locale: i18n.language,
+                platform: String(Platform.OS)
               };
               const found = authStore.userEmails.some(
                 (emailObj) =>
