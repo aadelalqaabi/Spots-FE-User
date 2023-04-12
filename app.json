@@ -35,14 +35,18 @@
         "NSCameraUsageDescription": "Please allow camera access so you can add your image",
         "NSPhotoLibraryUsageDescription": "Please allow library access so you can add your image",
         "NSUserNotificationUsageDescription": "Please allow notification so we can give you updates on everything",
-        "LSApplicationQueriesSchemes": ["dest"],
+        "LSApplicationQueriesSchemes": [
+          "dest"
+        ],
         "CFBundleAllowMixedLocalizations": true
       }
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.dest.kuwait",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"

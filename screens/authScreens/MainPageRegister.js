@@ -9,6 +9,7 @@ import {
   useColorScheme,
   Modal,
   TouchableOpacity,
+  Platform,
 } from "react-native";
 import { useCallback, useState } from "react";
 import React from "react";
@@ -54,6 +55,7 @@ export default function MainPageRegister() {
     email: "",
     image: "",
     locale: i18n.language,
+    platform: Platform.OS
   });
   const [checkValidation, setCheckValidation] = useState(true);
   const [checkValidationColor, setCheckValidationColor] = useState("#e52b51");
