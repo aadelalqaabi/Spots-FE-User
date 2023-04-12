@@ -74,10 +74,10 @@ export default function GoogleLogin() {
   return (
     <TouchableOpacity
       style={{
-        paddingVertical: i18n.language.split("-")[0] === "en" ? 12 : 8,
+        height: 60,
         borderRadius: 10,
         elevation: 3,
-        backgroundColor: "#ffffff",
+        backgroundColor: "#f1f1f1",
         marginTop: 15,
         width: "90%",
         display: "flex",
@@ -94,36 +94,30 @@ export default function GoogleLogin() {
         shadowOpacity: 0.1,
         shadowRadius: 1.41,
         elevation: 2,
+        paddingLeft: 55,
       }}
       onPress={() => openURL(`https://destkw.com/universal/user/login/google`)}
     >
       <Image
         style={{
-          height: 25,
-          width: 25,
-          margin: 20,
-          marginTop: 0,
-          marginBottom: 0,
+          height: 17,
+          width: 17,
+          marginLeft: i18n.language.split("-")[0] === "en" ? 0 : 7,
+          marginRight: i18n.language.split("-")[0] === "en" ? 7 : 0,
         }}
         source={require("../../assets/GoogleLogo.png")}
       ></Image>
       <Text
         style={{
-          paddingVertical: i18n.language.split("-")[0] === "en" ? 10 : 5,
-          borderRadius: 15,
-          elevation: 3,
           color: "#000000",
-
-          fontSize: 18,
-          fontWeight: "800",
-          alignSelf: "flex-start",
-          fontFamily:
-            i18n.language.split("-")[0] === "en" ? "UbuntuBold" : "NotoBold",
+          fontSize: i18n.language.split("-")[0] === "en" ? 23 : 22,
+          fontWeight: "500",
+          alignSelf: "center",
         }}
       >
         {i18n.language.split("-")[0] === "en"
           ? "Continue with Google"
-          : "اكمل مع قوقل"}
+          : "اكمل مع Google"}
       </Text>
     </TouchableOpacity>
   );

@@ -14,6 +14,7 @@ import { initReactI18next } from "react-i18next";
 import MyAwesomeSplashScreen from "../../MyAwesomeSplashScreen";
 import AppleLogin from "./AppleLogin";
 import EmailLogin from "./EmailLogin";
+import GoogleLogin from "./GoogleLogin";
 
 export default function AuthButtons() {
   const colorScheme = useColorScheme();
@@ -118,7 +119,7 @@ export default function AuthButtons() {
             : "اعرض قائمة من الوجهات لزيارتها يوميا مع العديد من العروض والجوائز التي تنتظرك"}
         </Text>
         <EmailLogin />
-        {/* <GoogleLogin />*/}
+        {/* <GoogleLogin /> */}
         <AppleLogin />
       </View>
     </View>

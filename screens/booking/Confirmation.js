@@ -104,7 +104,6 @@ export default function Confirmation({ navigation, route }) {
           </View>
         </View>
         <Text style={styles.tickets}>{tickets} x tickets</Text>
-        <Image style={styles.QR} source={require("../../assets/QR.png")} />
       </View>
       <TouchableOpacity style={styles.spotthis} onPress={handleBooking}>
         <Text style={styles.spotext}>Back to Spots</Text>

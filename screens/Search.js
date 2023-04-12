@@ -53,13 +53,13 @@ export default function Search({ navigation }) {
   const [query, setQuery] = useState("");
   const [toggle, setToggle] = useState(true);
   const [day, setDay] = useState(null);
-  const spots = spotStore.spots
-    .filter((spot) => new Date(spot.startDate) >= today)
-    .filter((spot) => spot.isPublished === true);
-  let suggested = [];
-  const randomIndex = Math.floor(Math.random() * spots.length);
-  const item = spots[randomIndex];
-  suggested.push(item);
+  const spots = spotStore.spots.filter(
+    (spot) =>
+      (new Date(spot?.startDate) >= today ||
+        new Date(spot?.endDate) >= today) &&
+      spot?.isPublished === true
+  );
+  let suggested = [spots[Math.floor(Math.random() * spots.length)]];
   const filteredSpots = spots
     .filter(
       (spot) =>
@@ -228,8 +228,8 @@ export default function Search({ navigation }) {
                   : "NotoBold",
               fontSize: 20,
               margin: i18n.language.split("-")[0] === "en" ? 25 : 32,
-              marginBottom: 20,
-              marginTop: 5,
+              marginBottom: 10,
+              marginTop: 10,
               alignSelf:
                 i18n.language.split("-")[0] === "en"
                   ? "flex-start"
