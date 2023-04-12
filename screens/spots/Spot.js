@@ -147,7 +147,7 @@ function Spot({ spot, navigation, day }) {
             flexWrap: "nowrap",
             alignItems: "center",
             justifyContent: "center",
-            marginTop: "5%",
+            marginTop: "8%",
             padding: 20,
             width: "100%",
           }}
@@ -249,8 +249,7 @@ function Spot({ spot, navigation, day }) {
                   height: 10,
                   width: 0,
                 },
-                width: spot.isMultiple ? "30%" : "25%",
-                marginLeft: 12,
+                width: "25%",
               }}
             >
               <View
@@ -336,8 +335,11 @@ function Spot({ spot, navigation, day }) {
           ) : (
             <View
               style={{
+                margin: 10,
+                width: spot?.isMultiple ? 80 : 60,
+                height: 70,
                 backgroundColor: "#f1f1f1",
-                borderRadius: 50,
+                borderRadius: 30,
                 alignContent: "center",
                 justifyContent: "center",
                 alignItems: "center",
@@ -348,14 +350,14 @@ function Spot({ spot, navigation, day }) {
                   height: 10,
                   width: 0,
                 },
-                marginTop: "14%",
+                width: "25%",
               }}
             >
               <Text
                 style={{
                   fontFamily: "UbuntuBold",
                   fontSize: 23,
-                  color: "#0a0a0b",
+                  color: "#000000",
                   alignSelf: "center",
                   padding: 10,
                 }}
@@ -366,7 +368,7 @@ function Spot({ spot, navigation, day }) {
           )}
         </View>
         <LinearGradient
-          colors={["rgba(0,0,0,0)", "transparent"]}
+          colors={["rgba(0,0,0,0.5)", "transparent"]}
           start={{ x: 0, y: 0.7 }}
           end={{ x: 0, y: 0 }}
           style={styles.infoContainer}

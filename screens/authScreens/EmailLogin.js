@@ -58,7 +58,7 @@ export default function EmailLogin() {
           i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
         alignItems: "center",
         alignSelf: "center",
-        justifyContent: "center",
+        justifyContent: "flex-start",
         shadowColor: "#000",
         shadowOffset: {
           width: 0,
@@ -67,6 +67,7 @@ export default function EmailLogin() {
         shadowOpacity: 0.1,
         shadowRadius: 1.41,
         elevation: 2,
+        paddingLeft: 55,
       }}
       onPress={() => navigation.navigate("Login")}
     >
@@ -81,15 +82,14 @@ export default function EmailLogin() {
       ></Ionicons>
       <Text
         style={{
-          elevation: 3,
           color: "#f1f1f1",
-          fontSize: i18n.language.split("-")[0] === "en" ? 24 : 22,
+          fontSize: i18n.language.split("-")[0] === "en" ? 23 : 22,
           fontWeight: "500",
           alignSelf: "center",
         }}
       >
         {i18n.language.split("-")[0] === "en"
-          ? "Continue with email"
+          ? "Continue with Email"
           : "اكمل مع البريد الاكتروني"}
       </Text>
     </TouchableOpacity>

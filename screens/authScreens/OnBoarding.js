@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   View,
   useColorScheme,
+  Image,
 } from "react-native";
 import React from "react";
 import { useFonts } from "expo-font";
@@ -64,21 +65,6 @@ export default function OnBoarding() {
         backgroundColor: colorScheme === "light" ? "#f1f1f1" : "#000000",
       }}
     >
-      <Text
-        style={{
-          fontSize: 60,
-          fontFamily:
-            i18n.language.split("-")[0] === "en" ? "UbuntuBold" : "NotoBold",
-          width: "75%",
-          marginTop: 180,
-          textAlign: i18n.language.split("-")[0] === "en" ? "left" : "right",
-          color: colorScheme === "dark" ? "#f1f1f1" : "#000000",
-        }}
-      >
-        {i18n.language.split("-")[0] === "en"
-          ? "Your destiny awaits"
-          : "وجهتك تنتظرك"}
-      </Text>
       <View
         style={{
           width: "100%",
@@ -88,6 +74,46 @@ export default function OnBoarding() {
           flexDirection: "column",
         }}
       >
+        <Image
+          style={{
+            height: 229,
+            width: 320,
+            marginBottom: i18n.language.split("-")[0] === "en" ? 80 : 50,
+            marginTop: 50,
+          }}
+          source={require("../../assets/Onbo.png")}
+        ></Image>
+        <Text
+          style={{
+            fontSize: 30,
+            fontFamily:
+              i18n.language.split("-")[0] === "en" ? "UbuntuBold" : "NotoBold",
+            width: "75%",
+            textAlign: "center",
+            color: colorScheme === "dark" ? "#f1f1f1" : "#000000",
+            marginBottom: i18n.language.split("-")[0] === "en" ? 15 : 10,
+          }}
+        >
+          {i18n.language.split("-")[0] === "en"
+            ? "Your destiny awaits"
+            : "وجهتك تنتظرك"}
+        </Text>
+        <Text
+          style={{
+            fontSize: 22,
+            fontFamily:
+              i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
+            width: "75%",
+            textAlign: "center",
+            color: colorScheme === "dark" ? "#f1f1f1" : "#000000",
+            marginBottom: i18n.language.split("-")[0] === "en" ? 30 : 20,
+            lineHeight: 33,
+          }}
+        >
+          {i18n.language.split("-")[0] === "en"
+            ? "Discover hidden gems in Kuwait with the Dest"
+            : "اكتشفوا الجواهر الخفية في الكويت من خلال ديست"}
+        </Text>
         <TouchableOpacity
           style={{
             display: "flex",

@@ -86,7 +86,7 @@ export default function AppleLogin() {
                   emailObj.email.toLowerCase() === payload.email.toLowerCase()
               );
               if (found === false) {
-                navigation.navigate("AppleImage", {
+                navigation.navigate("MyImage", {
                   itemId: user,
                 });
               } else {
