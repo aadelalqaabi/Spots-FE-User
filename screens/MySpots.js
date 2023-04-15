@@ -79,8 +79,10 @@ function MySpots() {
 
   const today = new Date();
   today.setHours(3, 0, 0, 0);
-  const ticketsByDate = ticketStore.tickets.filter(
-    (ticket) => ticket?.spot?.isMultiple ? new Date(ticket?.spot?.endDate) >= today : new Date(ticket?.spot?.startDate) >= today
+  const ticketsByDate = ticketStore.tickets.filter((ticket) =>
+    ticket?.spot?.isMultiple
+      ? new Date(ticket?.spot?.endDate) >= today
+      : new Date(ticket?.spot?.startDate) >= today
   );
   const sortedTickets = ticketsByDate.sort(
     (objA, objB) =>
@@ -182,8 +184,8 @@ function MySpots() {
               }}
             >
               {i18n.language.split("-")[0] === "en"
-                ? "No tickets yet"
-                : "لا تذاكر حتى الآن"}
+                ? "No Dests yet"
+                : "لا ديست حتى الآن"}
             </Text>
           </View>
         )}

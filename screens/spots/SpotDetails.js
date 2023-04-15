@@ -56,9 +56,9 @@ export function SpotDetails({ route, navigation }) {
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
   const time = DateTime.fromFormat(spot.startTime, "HH:mm");
-  const isToday = String(startDateNoti) === String(today)
-  const isMultipleBefore = startDateNoti < today
-  const isTomorrow = String(startDateNoti) === String(tomorrow)
+  const isToday = String(startDateNoti) === String(today);
+  const isMultipleBefore = startDateNoti < today;
+  const isTomorrow = String(startDateNoti) === String(tomorrow);
   const formattedTime = time
     .setLocale(i18n.language.split("-")[0])
     .toFormat("h a");
@@ -179,7 +179,13 @@ export function SpotDetails({ route, navigation }) {
     if (!found && !userFound) {
       await ticketStore.createTicket(newTicket, newSpot._id);
       await ticketStore.fetchTickets();
-      if (i18n.language.split("-")[0] === "en" && authStore.user.notificationToken !== "" && isToday === false && isTomorrow === false && isMultipleBefore === false) {
+      if (
+        i18n.language.split("-")[0] === "en" &&
+        authStore.user.notificationToken !== "" &&
+        isToday === false &&
+        isTomorrow === false &&
+        isMultipleBefore === false
+      ) {
         await Notifications.scheduleNotificationAsync({
           content: {
             title: `Can't Wait to see you ${authStore.user.name}!`,
@@ -994,7 +1000,7 @@ export function SpotDetails({ route, navigation }) {
             borderRadius: 25,
             height: 65,
             width: "95%",
-            marginBottom: 10,
+            marginBottom: 20,
             marginTop: 10,
             backgroundColor: isLoading ? "gray" : "#e52b51",
             justifyContent: "center",
