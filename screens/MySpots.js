@@ -79,7 +79,7 @@ function MySpots() {
 
   const today = new Date();
   today.setHours(3, 0, 0, 0);
-  const ticketsByDate = ticketStore.tickets.filter(
+  const ticketsByDate = ticketStore?.tickets.filter(
     (ticket) => ticket?.spot?.isMultiple ? new Date(ticket?.spot?.endDate) >= today : new Date(ticket?.spot?.startDate) >= today
   );
   const sortedTickets = ticketsByDate.sort(
@@ -87,7 +87,7 @@ function MySpots() {
       new Date(objA.spot?.startDate) - new Date(objB.spot?.startDate)
   );
   const tickets = sortedTickets.filter(
-    (ticket) => ticket.user === authStore.user.id
+    (ticket) => ticket.user === authStore.user?.id
   );
   function renderTicket({ item: ticket }) {
     return <Spotted ticket={ticket} navigation={navigation} />;

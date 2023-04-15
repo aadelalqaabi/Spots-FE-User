@@ -117,7 +117,9 @@ function Explore() {
         }
       }
     };
-    setNotification();
+    if(authStore.guest === false) {
+      setNotification();
+    }
   }, []);
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../assets/fonts/Ubuntu-Bold.ttf"),

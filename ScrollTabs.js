@@ -49,26 +49,26 @@ export default function ScrollTabs({ userSpots }) {
   const layout = useWindowDimensions();
   const today = new Date();
   today.setHours(3, 0, 0, 0);
-  const activeSpots = userSpots.filter(
+  const activeSpots = userSpots?.filter(
     // Active spots
     (spot) =>
       (new Date(spot?.startDate) >= today ||
         new Date(spot?.endDate) >= today) &&
       spot.isPublished === true
   );
-  const finishedSpots = userSpots.filter(
+  const finishedSpots = userSpots?.filter(
     // Finshed spots
     (spot) =>
       new Date(spot?.startDate) < today &&
       new Date(spot?.endDate) < today &&
       spot.isPublished === true
   );
-  const sortedActiveSpots = activeSpots.sort(
+  const sortedActiveSpots = activeSpots?.sort(
     // Sorted Active spots
     (objA, objB) => new Date(objA.startDate) - new Date(objB.startDate)
   );
 
-  const sortedFinishedSpots = finishedSpots.sort(
+  const sortedFinishedSpots = finishedSpots?.sort(
     // Sorted Finshied spots
     (objA, objB) => new Date(objA.startDate) - new Date(objB.startDate)
   );
@@ -81,7 +81,7 @@ export default function ScrollTabs({ userSpots }) {
   };
   const FirstRoute = () => (
     <>
-      {sortedActiveSpots.length === 0 ? (
+      {sortedActiveSpots?.length === 0 ? (
         <View
           style={{
             display: "flex",
@@ -160,7 +160,7 @@ export default function ScrollTabs({ userSpots }) {
 
   const SecondRoute = () => (
     <>
-      {sortedFinishedSpots.length === 0 ? (
+      {sortedFinishedSpots?.length === 0 ? (
         <View
           style={{
             display: "flex",

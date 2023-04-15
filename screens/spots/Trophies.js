@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 export default function Trophies({ userSpots }) {
-  const stars = userSpots.length;
+  const stars = userSpots?.length;
   return (
     <View>
       {stars >= 5 && stars < 10 && (
