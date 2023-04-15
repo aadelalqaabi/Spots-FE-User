@@ -52,6 +52,7 @@ class AuthStore {
     makeAutoObservable(this);
   }
   user = null;
+  guest = false;
   OTP = "178345hdjfjv84r8u9r0ri0rifnvbdvbej8339797530i5358fhdjvb";
   userEmails = null;
   isChanged = "";
@@ -62,10 +63,22 @@ class AuthStore {
     this.user = decode(token);
   };
 
+  setGuest = async () => {
+    await AsyncStorage.setItem("guest", "true");
+  };
+
   checkForToken = async () => {
     let token = null;
     const jsonValue = await AsyncStorage.getItem("myToken");
+    const guestValue = await AsyncStorage.getItem("guest");
     if (jsonValue !== null) token = JSON.parse(jsonValue);
+    if (guestValue !== null) {
+      if(guestValue === "true") {
+        this.guest = true
+      } else {
+        this.guest = false
+      }
+    };
     if (token) {
       const currentTime = Date.now();
       const user = decode(token);
@@ -83,13 +96,15 @@ class AuthStore {
           "Content-Type": "multipart/form-data",
         },
       });
+      this.guest = false
+      await AsyncStorage.setItem("guest", "false");
       this.setUser(response.data.token);
       if(response === "undefined") {
         return "not registered"
       }
       return "registered"
     } catch (error) {
-      console.error(error);
+      console.error("register: ", error);
     }
   };
 
@@ -97,7 +112,10 @@ class AuthStore {
     userData.email = userData.email.toLowerCase();
     try {
       const response = await instance.post(LOGIN, userData);
+      this.guest = false
+      await AsyncStorage.setItem("guest", "false");
       this.setUser(response.data.token);
+      // return "logged in"
     } catch (error) {
       console.error(error);
       return "not logged in";

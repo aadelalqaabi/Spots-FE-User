@@ -71,7 +71,10 @@ export default function Login() {
     if (status === "not logged in") {
       toggleAlertShowInvalidInfo();
     }
-    if (authStore.user) navigation.navigate("Home");
+    await authStore.checkForToken()
+    if (authStore.user != null){
+      navigation.navigate("Explore");
+    } 
   };
   let [fontsLoaded] = useFonts({
     UbuntuBold: require("../../assets/fonts/Ubuntu-Bold.ttf"),

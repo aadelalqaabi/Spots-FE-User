@@ -125,7 +125,7 @@ function Settings() {
       console.log("token", token);
       if (token.includes("ExponentPushToken")) {
         // add token
-        if (authStore.user.notificationToken === "") {
+        if (authStore.user?.notificationToken === "") {
           // only add token if user doesnt have one
           await authStore.addToken(token).then(toggleAlertEnabled());
         }
@@ -149,6 +149,11 @@ function Settings() {
   const removeNotificationFromUser = async () => {
     await authStore.removeToken().then(toggleAlertDisabled);
   };
+
+  // const handleLogout = () => {
+  //   authStore.guest = true
+  //   authStore.logout()
+  // }
 
   useEffect(() => {
     notificationListener.current =
@@ -287,9 +292,9 @@ function Settings() {
             justifyContent: "space-between",
           }}
           onPress={() => {
-            if (authStore.user.notificationToken !== "") {
+            if (authStore?.user?.notificationToken !== "") {
               toggleAlertRemoveNoti();
-            } else if (authStore.user.notificationToken === "") {
+            } else if (authStore?.user?.notificationToken === "") {
               toggleAlertAddNoti();
             } else {
               toggleAlertSomethingWentWrong();
@@ -308,7 +313,7 @@ function Settings() {
               opacity: 0.8,
             }}
           >
-            {authStore.user.notificationToken === "" ? (
+            {authStore.user?.notificationToken === "" ? (
               <>
                 {i18n.language.split("-")[0] === "en"
                   ? "Enable notifications"
@@ -322,7 +327,7 @@ function Settings() {
               </>
             )}
           </Text>
-          {authStore.user.notificationToken === "" ? (
+          {authStore.user?.notificationToken === "" ? (
             <>
               <Ionicons
                 style={{

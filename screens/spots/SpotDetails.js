@@ -113,6 +113,10 @@ export function SpotDetails({ route, navigation }) {
   const toggleAlreadyExist = useCallback(() => {
     setAlreadyExist(!alreadyExist);
   }, [alreadyExist]);
+  const [isGuest, setIsGuest] = useState(false);
+  const toggleIsGuest = useCallback(() => {
+    setIsGuest(!isGuest);
+  }, [isGuest]);
   const organizer = organizerStore.getOrganizerById(spot.organizer);
   const reviewCount = spot.reviews.length;
   const [quantity, setQuantity] = useState(0);
@@ -989,6 +993,92 @@ export function SpotDetails({ route, navigation }) {
               </View>
             </View>
           </Modal>
+          <Modal transparent={true} visible={isGuest} animationType="fade">
+            <View
+              style={{
+                backgroundColor: "rgba(0,0,0,0.2)",
+                alignItems: "center",
+                justifyContent: "center",
+                flex: 1,
+              }}
+            >
+              <View
+                style={{
+                  width: "85%",
+                  backgroundColor: "white",
+                  padding: 25,
+                  paddingTop: 30,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 20,
+                  borderColor: "rgba(0, 0, 0, 0.1)",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignContent: "center",
+                  alignSelf: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    marginBottom: 10,
+                    fontFamily:
+                      i18n.language.split("-")[0] === "en"
+                        ? "UbuntuBold"
+                        : "NotoBold",
+                    width: "90%",
+                    textAlign: "center",
+                    fontSize: 24,
+                  }}
+                >
+                  {i18n.language.split("-")[0] === "en"
+                    ? "Ooops!"
+                    : "موجودة في تذاكرك"}
+                </Text>
+                <Text
+                  style={{
+                    marginBottom: 20,
+                    width: "70%",
+                    textAlign: "center",
+                    fontSize: 17,
+                    fontFamily:
+                      i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
+                    lineHeight: 30,
+                  }}
+                >
+                  {i18n.language.split("-")[0] === "en"
+                    ? "You must have an account to be able to book a ticket"
+                    : "يجب أن يكون لديك حساب لتتمكن من حجز تذكرة"}
+                </Text>
+                <TouchableOpacity
+                  style={{
+                    width: "50%",
+                    backgroundColor: "#e52b51",
+                    borderRadius: 50,
+                    height: 40,
+                    justifyContent: "center",
+                  }}
+                  onPress={() => {
+                    toggleIsGuest();
+                    setIsLoading(false);
+                  }}
+                >
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      color: "#f1f1f1",
+                      fontFamily:
+                        i18n.language.split("-")[0] === "en"
+                          ? "UbuntuBold"
+                          : "NotoBold",
+                      fontSize: 15,
+                    }}
+                  >
+                    {i18n.language.split("-")[0] === "en" ? "Close" : "اغلاق"}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
         </View>
       </ScrollView>
 
@@ -1009,7 +1099,7 @@ export function SpotDetails({ route, navigation }) {
               i18n.language.split("-")[0] === "en" ? "row-reverse" : "row",
           }}
           disabled={isLoading}
-          onPress={() => handleSpots(spot)}
+          onPress={() => authStore.guest === true ? toggleIsGuest() : handleSpots(spot)}
         >
           <Text
             style={{

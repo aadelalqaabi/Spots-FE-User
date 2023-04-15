@@ -46,7 +46,12 @@
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.dest.kuwait",
-      "versionCode": 1
+      "versionCode": 1,
+      "excludeLibraries": [
+        "com.google.android.play:core",
+        "com.google.android.play:core-common",
+        "com.google.android.play:review"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
