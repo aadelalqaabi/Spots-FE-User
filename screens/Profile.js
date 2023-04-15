@@ -55,7 +55,7 @@ function Profile() {
       try {
         setLoading(true);
         await authStore.checkForToken();
-        if (authStore.user.locale === "") {
+        if (authStore?.user?.locale === "") {
           authStore.changeLocal(i18n.language);
         } else if (
           i18n?.language?.includes("en") &&
@@ -69,11 +69,18 @@ function Profile() {
         setLoading(false);
       }
     };
+    const checkTate = async () => {
+      await authStore.checkForToken()
+      if (authStore.user === null){
+        navigation.navigate("SetUpAccount");
+      } 
+    };
     fetchData();
+    checkTate();
   }, []);
   const colorScheme = useColorScheme();
   const navigation = useNavigation();
-  const userSpots = authStore.user.spots.map((spotId) =>
+  const userSpots = authStore?.user?.spots?.map((spotId) =>
     spotStore.getSpotsById(spotId)
   );
 
@@ -174,7 +181,7 @@ function Profile() {
                     alignSelf: "center",
                   }}
                 >
-                  {authStore.user.name}
+                  {authStore.user?.name}
                 </Text>
               </View>
               <View
@@ -194,7 +201,7 @@ function Profile() {
                 }}
               >
                 <View>
-                  {authStore.user.image === "" ? (
+                  {authStore.user?.image === "" ? (
                     <Image
                       style={{
                         width: 115,
@@ -216,7 +223,7 @@ function Profile() {
                           alignSelf: "center",
                         }}
                         source={{
-                          uri: baseURL + authStore.user.image,
+                          uri: baseURL + authStore.user?.image,
                         }}
                         onLoad={() => setIsImageLoading(false)}
                         loadingIndicatorSource={require("../assets/PP.png")}

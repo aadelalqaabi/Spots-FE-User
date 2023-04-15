@@ -56,6 +56,8 @@ import PrivacyPolicy from "./screens/PrivacyPolicy";
 import OffersTerms from "./screens/offers/OffersTerms";
 import RewardsTerms from "./screens/rewards/RewardsTerms";
 import Report from "./screens/Report";
+import ProfileSwitcher from "./screens/ProfileSwitcher";
+import MySpotsSwitcher from "./screens/MySpotsSwitcher";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -84,7 +86,7 @@ function App() {
   } else if (isFirstLaunch === true) {
     return (
       <NavigationContainer>
-        {checkUser ? (
+        {(authStore.user != null || authStore.guest === true) ? (
           <RootNavigator />
         ) : (
           <Stack.Navigator
@@ -110,6 +112,8 @@ function App() {
             <Stack.Screen name="UsernameCheck" component={UsernameCheck} />
             <Stack.Screen name="CheckOTP" component={CheckOTP} />
             <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+            <Stack.Screen name="Settings" component={Settings} />
+            <Stack.Screen name="Explore" component={TabBar} />
           </Stack.Navigator>
         )}
       </NavigationContainer>
@@ -117,7 +121,7 @@ function App() {
   } else {
     return (
       <NavigationContainer>
-        {checkUser ? (
+        {(authStore.user != null || authStore.guest === true) ? (
           <RootNavigator />
         ) : (
           <Stack.Navigator
@@ -151,6 +155,8 @@ function App() {
             <Stack.Screen name="UsernameCheck" component={UsernameCheck} />
             <Stack.Screen name="CheckOTP" component={CheckOTP} />
             <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+            <Stack.Screen name="Settings" component={Settings} />
+            <Stack.Screen name="Explore" component={TabBar} />
           </Stack.Navigator>
         )}
         <Toast />
@@ -277,6 +283,23 @@ function RootNavigator() {
         component={EndedSpot}
         options={{ headerShown: false }}
       />
+      <Screen name="Login" component={Login} />
+      <Screen name="AppleImage" component={AppleImage} />
+      <Screen name="AppleUsername" component={AppleUsername} />
+      <Screen
+        name="MainPageRegister"
+        component={MainPageRegister}
+        options={{
+          gestureEnabled: true,
+        }}
+      />
+      <Screen name="PhoneNo" component={PhoneNo} />
+      <Screen name="Email" component={Email} />
+      <Screen name="Password" component={Password} />
+      <Screen name="MyImage" component={MyImage} />
+      <Screen name="UsernameCheck" component={UsernameCheck} />
+      <Screen name="CheckOTP" component={CheckOTP} />
+      <Screen name="ForgotPassword" component={ForgotPassword} />
     </Navigator>
   ) : (
     <Navigator
@@ -478,6 +501,73 @@ function RootNavigator() {
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
       />
+      <Screen 
+        options={{
+          gestureDirection: "horizontal-inverted",
+          gestureEnabled: "true",
+          presentation: "transparentModal",
+        }} name="Login" component={Login} />
+      <Screen
+        options={{
+          gestureDirection: "horizontal-inverted",
+          gestureEnabled: "true",
+          presentation: "transparentModal",
+        }} name="AppleImage" component={AppleImage} />
+      <Screen 
+        options={{
+          gestureDirection: "horizontal-inverted",
+          gestureEnabled: "true",
+          presentation: "transparentModal",
+        }} name="AppleUsername" component={AppleUsername} />
+      <Screen
+        name="MainPageRegister"
+        component={MainPageRegister}
+        options={{
+          gestureEnabled: true,
+        }}
+      />
+      <Screen
+        options={{
+          gestureDirection: "horizontal-inverted",
+          gestureEnabled: "true",
+          presentation: "transparentModal",
+        }} name="PhoneNo" component={PhoneNo} />
+      <Screen 
+        options={{
+          gestureDirection: "horizontal-inverted",
+          gestureEnabled: "true",
+          presentation: "transparentModal",
+        }} name="Email" component={Email} />
+      <Screen
+        options={{
+          gestureDirection: "horizontal-inverted",
+          gestureEnabled: "true",
+          presentation: "transparentModal",
+        }} name="Password" component={Password} />
+      <Screen
+        options={{
+          gestureDirection: "horizontal-inverted",
+          gestureEnabled: "true",
+          presentation: "transparentModal",
+        }} name="MyImage" component={MyImage} />
+      <Screen
+        options={{
+          gestureDirection: "horizontal-inverted",
+          gestureEnabled: "true",
+          presentation: "transparentModal",
+        }} name="UsernameCheck" component={UsernameCheck} />
+      <Screen
+        options={{
+          gestureDirection: "horizontal-inverted",
+          gestureEnabled: "true",
+          presentation: "transparentModal",
+        }} name="CheckOTP" component={CheckOTP} />
+      <Screen 
+      options={{
+        gestureDirection: "horizontal-inverted",
+        gestureEnabled: "true",
+        presentation: "transparentModal",
+      }} name="ForgotPassword" component={ForgotPassword} />
     </Navigator>
   );
 }
@@ -520,7 +610,7 @@ function TabBar() {
       />
       <Tab.Screen
         name="MySpots"
-        component={MySpots}
+        component={MySpotsSwitcher}
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ color, focused, tintColor }) => (
@@ -542,7 +632,7 @@ function TabBar() {
 
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        component={ProfileSwitcher}
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ color, focused, tintColor }) => (

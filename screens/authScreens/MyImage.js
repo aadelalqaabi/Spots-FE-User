@@ -127,6 +127,8 @@ export default function MyImage({ navigation, route }) {
       if (registered === "not registered") {
         setIsLoading(false);
         console.log("an error occurred");
+      } else if (registered === "registered") {
+        navigation.navigate("Explore")
       }
     } catch (error) {
       setIsLoading(false);
