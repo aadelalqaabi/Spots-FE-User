@@ -63,11 +63,17 @@ export default function Scanner({ route }) {
     if (match.test(data) === true) {
       const qrData = JSON.parse(data);
       if (qrData.isPoints === true) {
-        setScanned(true);
-        setNum(parseInt(qrData.points));
-        point.amount = point.amount + parseInt(qrData.points);
-        pointStore.updatePoint(point.amount, point?._id);
-        toggleAlert();
+        console.log(qrData);
+        if (qrData.spot === spot._id) {
+          setScanned(true);
+          setNum(parseInt(qrData.points));
+          point.amount = point.amount + parseInt(qrData.points);
+          pointStore.updatePoint(point.amount, point?._id);
+          toggleAlert();
+        } else {
+          setScanned(true);
+          toggleAlert2();
+        }
       } else {
         setScanned(true);
         toggleAlert2();

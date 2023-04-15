@@ -44,27 +44,31 @@ function RewardsTerms({ route }) {
       <View
         style={{
           display: "flex",
-          flexDirection:
-            i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
-          alignContent: "center",
-          alignItems: "center",
-          justifyContent: "center",
           width: "100%",
+          justifyContent: "center",
+          alignContent: "center",
+          marginTop: "6%",
+          marginBottom: "4%",
         }}
       >
         <TouchableOpacity
           onPress={() => {
             navigation.goBack();
           }}
-          style={{ zIndex: 99 }}
+          style={{
+            zIndex: 99,
+            alignSelf:
+              i18n.language.split("-")[0] === "en" ? "flex-start" : "flex-end",
+            position: "absolute",
+            marginLeft: 20,
+            paddingRight: 20,
+          }}
         >
           <Ionicons
             style={{
               color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               zIndex: 99,
               fontSize: 32,
-              margin: 15,
-              width: "100%",
             }}
             name={
               i18n.language.split("-")[0] === "en"
@@ -75,12 +79,11 @@ function RewardsTerms({ route }) {
         </TouchableOpacity>
         <Text
           style={{
-            fontSize: 26,
-            alignSelf: "center",
             textAlign: "center",
+            alignSelf: "center",
+            fontSize: 28,
             fontFamily:
               i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
-            width: "70%",
             color: colorScheme === "light" ? "#000000" : "#f1f1f1",
           }}
         >

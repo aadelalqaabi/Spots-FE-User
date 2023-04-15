@@ -249,7 +249,7 @@ function Spot({ spot, navigation, day }) {
                   height: 10,
                   width: 0,
                 },
-                width: "25%",
+                width: spot?.isMultiple ? "25%" : "20%",
               }}
             >
               <View
@@ -388,6 +388,8 @@ function Spot({ spot, navigation, day }) {
                 i18n.language.split("-")[0] === "en"
                   ? "flex-start"
                   : "flex-end",
+              textAlign:
+                i18n.language.split("-")[0] === "en" ? "left" : "right",
               shadowOpacity: 0.5,
               shadowRadius: 10,
               shadowColor: "#004365",

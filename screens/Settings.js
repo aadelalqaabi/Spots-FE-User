@@ -771,7 +771,7 @@ function Settings() {
             marginBottom: 30,
           }}
         >
-          Version 1.2.7
+          Version 1.2.9
         </Text>
       </ScrollView>
       {/* Disable Modal */}
