@@ -368,7 +368,7 @@ function Spot({ spot, navigation, day }) {
           )}
         </View>
         <LinearGradient
-          colors={["rgba(0,0,0,0.5)", "transparent"]}
+          colors={["rgba(0,0,0,0)", "transparent"]}
           start={{ x: 0, y: 0.7 }}
           end={{ x: 0, y: 0 }}
           style={styles.infoContainer}
@@ -422,7 +422,9 @@ function Spot({ spot, navigation, day }) {
                 },
               }}
             >
-              {i18n.language.split("-")[0] === "en" ? "Free" : "مجاني"}
+              {i18n.language.split("-")[0] === "en"
+                ? `${spot.views} Views`
+                : spot.views + " مشاهدة"}
             </Text>
           ) : (
             <Text

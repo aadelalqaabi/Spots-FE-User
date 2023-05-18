@@ -31,6 +31,18 @@ class SpotStore {
     }
   };
 
+  incrementViews = async (spotId) => {
+    try {
+      const res = await instance.put(`spot/views/${spotId}`);
+      this.spots = this.spots.map((spot) =>
+        spot._id === spotId ? res.data : spot
+      );
+      return;
+    } catch (error) {
+      console.error("hi", error);
+    }
+  };
+
   getSpotsById = (spotId) => {
     return this.spots.find((spot) => spot._id === spotId);
   };

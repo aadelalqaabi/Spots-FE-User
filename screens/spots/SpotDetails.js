@@ -14,7 +14,7 @@ import {
   ActivityIndicator,
   Platform,
 } from "react-native";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import spotStore from "../../stores/spotStore";
 import { baseURL } from "../../stores/instance";
 import { Ionicons } from "@expo/vector-icons";
@@ -46,7 +46,9 @@ export function SpotDetails({ route, navigation }) {
   let dateAr = DateTime.fromISO(spot?.startDate)
     .setLocale("ar")
     .toFormat("DDD");
-
+  useEffect(() => {
+    spotStore.incrementViews(route.params.id);
+  }, []);
   const startDateNoti = new Date(spot.startDate);
   const triggerDateNoti = new Date(startDateNoti);
   triggerDateNoti.setDate(triggerDateNoti.getDate() - 1);
@@ -499,6 +501,25 @@ export function SpotDetails({ route, navigation }) {
           </Text>
           <Text
             style={{
+              fontSize: 15,
+              color: colorScheme === "light" ? "#000000" : "#f1f1f1",
+              fontFamily:
+                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
+              alignSelf:
+                i18n.language.split("-")[0] === "en"
+                  ? "flex-start"
+                  : "flex-end",
+              margin: 20,
+              marginTop: i18n.language.split("-")[0] === "en" ? 5 : -5,
+              marginBottom: i18n.language.split("-")[0] === "en" ? 5 : 5,
+            }}
+          >
+            {i18n.language.split("-")[0] === "en"
+              ? `${spot.views} Views`
+              : spot.views + " مشاهدة"}
+          </Text>
+          <Text
+            style={{
               fontSize: 20,
               color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               alignSelf:
@@ -633,7 +654,7 @@ export function SpotDetails({ route, navigation }) {
                   },
                 ],
               }}
-              name="ios-call-outline"
+              name="logo-instagram"
             ></Ionicons>
             <View
               style={{
@@ -643,7 +664,9 @@ export function SpotDetails({ route, navigation }) {
               }}
             >
               <Text
-                onPress={() => Linking.openURL(`tel:${organizer.phone}`)}
+                onPress={() =>
+                  Linking.openURL(`https://www.instagram.com/${spot.instagram}`)
+                }
                 style={{
                   fontFamily:
                     i18n.language.split("-")[0] === "en"
@@ -654,7 +677,7 @@ export function SpotDetails({ route, navigation }) {
                   color: colorScheme === "light" ? "#000000" : "#f1f1f1",
                 }}
               >
-                {organizer.phone}
+                {spot.instagram}
               </Text>
             </View>
           </View>
@@ -1046,8 +1069,8 @@ export function SpotDetails({ route, navigation }) {
                   }}
                 >
                   {i18n.language.split("-")[0] === "en"
-                    ? "You must have an account to be able to book a ticket"
-                    : "يجب أن يكون لديك حساب لتتمكن من حجز تذكرة"}
+                    ? "You must have an account to be able to visit this Dest"
+                    : "يجب أن يكون لديك حساب لتتمكن من زيارة الوجهة"}
                 </Text>
                 <TouchableOpacity
                   style={{
@@ -1060,6 +1083,7 @@ export function SpotDetails({ route, navigation }) {
                   onPress={() => {
                     toggleIsGuest();
                     setIsLoading(false);
+                    navigation.navigate("Profile");
                   }}
                 >
                   <Text
@@ -1099,7 +1123,9 @@ export function SpotDetails({ route, navigation }) {
               i18n.language.split("-")[0] === "en" ? "row-reverse" : "row",
           }}
           disabled={isLoading}
-          onPress={() => authStore.guest === true ? toggleIsGuest() : handleSpots(spot)}
+          onPress={() =>
+            authStore.guest === true ? toggleIsGuest() : handleSpots(spot)
+          }
         >
           <Text
             style={{

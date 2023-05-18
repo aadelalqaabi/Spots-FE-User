@@ -5,7 +5,7 @@ import {
   StyleSheet,
   useColorScheme,
   StatusBar,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import React from "react";
 import { useFonts } from "expo-font";
@@ -57,9 +57,9 @@ export default function AuthButtons() {
   }
 
   const handleGuest = () => {
-    authStore.guest = true
-    authStore.setGuest()
-  }
+    authStore.guest = true;
+    authStore.setGuest();
+  };
   return (
     <View
       style={{
@@ -130,40 +130,40 @@ export default function AuthButtons() {
         {/* <GoogleLogin /> */}
         <AppleLogin />
         {authStore.guest === false && (
-           <TouchableOpacity
-           style={{
-             height: 60,
-             elevation: 3,
-             marginTop: 15,
-             width: "90%",
-             display: "flex",
-             alignItems: "center",
-             alignSelf: "center",
-             justifyContent: "center",
-             shadowColor: "#000",
-             shadowOffset: {
-               width: 0,
-               height: 1,
-             },
-             shadowOpacity: 0.1,
-             shadowRadius: 1.41,
-             elevation: 2,
-           }}
-           onPress={() => handleGuest()}
-         >
-           <Text
-             style={{
-               color: "#e52b51",
-               fontSize: i18n.language.split("-")[0] === "en" ? 23 : 22,
-               fontWeight: "500",
-               alignSelf: "center",
-             }}
-           >
-             {i18n.language.split("-")[0] === "en"
-               ? "Continue as Guest"
-               : "متابعة كضيف"}
-           </Text>
-         </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              height: 60,
+              elevation: 3,
+              marginTop: 5,
+              width: "90%",
+              display: "flex",
+              alignItems: "center",
+              alignSelf: "center",
+              justifyContent: "center",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 1,
+              },
+              shadowOpacity: 0.1,
+              shadowRadius: 1.41,
+              elevation: 2,
+            }}
+            onPress={() => handleGuest()}
+          >
+            <Text
+              style={{
+                color: "#e52b51",
+                fontSize: 20,
+                fontWeight: "500",
+                alignSelf: "center",
+              }}
+            >
+              {i18n.language.split("-")[0] === "en"
+                ? "Continue as Guest"
+                : "متابعة كضيف"}
+            </Text>
+          </TouchableOpacity>
         )}
       </View>
     </View>
