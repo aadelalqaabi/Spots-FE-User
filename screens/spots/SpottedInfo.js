@@ -212,7 +212,7 @@ export default function SpottedInfo({ route }) {
                     },
                   ],
                 }}
-                name="ios-call-outline"
+                name="logo-instagram"
               ></Ionicons>
               <View
                 style={{
@@ -221,7 +221,11 @@ export default function SpottedInfo({ route }) {
                 }}
               >
                 <Text
-                  onPress={() => Linking.openURL(`tel:${organizer.phone}`)}
+                  onPress={() =>
+                    Linking.openURL(
+                      `https://www.instagram.com/${spot.instagram}`
+                    )
+                  }
                   style={{
                     fontFamily:
                       i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
@@ -230,7 +234,7 @@ export default function SpottedInfo({ route }) {
                     marginBottom: i18n.language.split("-")[0] === "en" ? 5 : -5,
                   }}
                 >
-                  {organizer.phone}
+                  {spot.instagram}
                 </Text>
               </View>
             </View>
@@ -258,7 +262,7 @@ export default function SpottedInfo({ route }) {
                     },
                   ],
                 }}
-                name="mail-outline"
+                name="ios-globe-outline"
               ></Ionicons>
               <View
                 style={{
@@ -267,7 +271,7 @@ export default function SpottedInfo({ route }) {
                 }}
               >
                 <Text
-                  onPress={() => Linking.openURL(`mailto:${organizer.email}`)}
+                  onPress={() => Linking.openURL(`${spot.website}`)}
                   style={{
                     fontFamily:
                       i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
@@ -276,7 +280,7 @@ export default function SpottedInfo({ route }) {
                     marginBottom: i18n.language.split("-")[0] === "en" ? 5 : -5,
                   }}
                 >
-                  {organizer.email}
+                  Open website
                 </Text>
               </View>
             </View>
