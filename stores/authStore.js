@@ -19,6 +19,8 @@ import {
   UN_REGISTER_USER,
   REGISTER_USER,
   DELETE_USER,
+  SAVE_POPULAR,
+  UNSAVE_POPULAR,
 } from "../config/info";
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
@@ -73,12 +75,12 @@ class AuthStore {
     const guestValue = await AsyncStorage.getItem("guest");
     if (jsonValue !== null) token = JSON.parse(jsonValue);
     if (guestValue !== null) {
-      if(guestValue === "true") {
-        this.guest = true
+      if (guestValue === "true") {
+        this.guest = true;
       } else {
-        this.guest = false
+        this.guest = false;
       }
-    };
+    }
     if (token) {
       const currentTime = Date.now();
       const user = decode(token);
@@ -96,13 +98,13 @@ class AuthStore {
           "Content-Type": "multipart/form-data",
         },
       });
-      this.guest = false
+      this.guest = false;
       await AsyncStorage.setItem("guest", "false");
       this.setUser(response.data.token);
-      if(response === "undefined") {
-        return "not registered"
+      if (response === "undefined") {
+        return "not registered";
       }
-      return "registered"
+      return "registered";
     } catch (error) {
       console.error("register: ", error);
     }
@@ -112,7 +114,7 @@ class AuthStore {
     userData.email = userData.email.toLowerCase();
     try {
       const response = await instance.post(LOGIN, userData);
-      this.guest = false
+      this.guest = false;
       await AsyncStorage.setItem("guest", "false");
       this.setUser(response.data.token);
       // return "logged in"
@@ -197,16 +199,6 @@ class AuthStore {
       console.error("forgot", error);
     }
   };
-
-  spotAdd = async (spotId) => {
-    try {
-      const res = await instance.put(ADD_DEST + spotId);
-      this.setUser(res.data.token);
-    } catch (error) {
-      console.error("here", error);
-    }
-  };
-
   rewardAdd = async (rewardId) => {
     //TODO TEST with ADEL add token to reward return from user.controllers rewardAdd function
     try {
@@ -216,12 +208,37 @@ class AuthStore {
       console.error("reward error: ", error);
     }
   };
+  spotAdd = async (spotId) => {
+    try {
+      const res = await instance.put(ADD_DEST + spotId);
+      this.setUser(res.data.token);
+    } catch (error) {
+      console.error("here", error);
+    }
+  };
 
   removeSpot = async (spotId) => {
     //TODO ADD return token
     try {
       const res = await instance.put(REMOVE_DEST + spotId);
       this.user.spots = res.data.spots.filter((spot) => spot._id !== spotId);
+    } catch (error) {
+      console.error("here", error);
+    }
+  };
+  popularSave = async (popularId) => {
+    try {
+      const res = await instance.put(SAVE_POPULAR + popularId);
+      this.setUser(res.data.token);
+    } catch (error) {
+      console.error("here", error);
+    }
+  };
+
+  popularUnsave = async (popularId) => {
+    try {
+      const res = await instance.put(UNSAVE_POPULAR + popularId);
+      this.setUser(res.data.token);
     } catch (error) {
       console.error("here", error);
     }

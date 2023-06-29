@@ -1,4 +1,8 @@
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  useNavigation,
+  useScrollToTop,
+} from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { observer } from "mobx-react";
@@ -48,7 +52,7 @@ import EndedSpot from "./screens/spots/EndedSpot";
 import AppleUsername from "./screens/authScreens/AppleUsername";
 import AppleImage from "./screens/authScreens/AppleImage";
 import ReviewsPage from "./screens/reviews/ReviewsPage";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SpottedInfo from "./screens/spots/SpottedInfo";
 import RegisteredNotifications from "./screens/notification/RegisteredNotifications";
 import ContactUs from "./screens/ContactUs";
@@ -58,6 +62,11 @@ import RewardsTerms from "./screens/rewards/RewardsTerms";
 import Report from "./screens/Report";
 import ProfileSwitcher from "./screens/ProfileSwitcher";
 import MySpotsSwitcher from "./screens/MySpotsSwitcher";
+import Popular from "./screens/Popular/Popular";
+import Bookmarked from "./screens/Popular/Bookmarked";
+import * as SplashScreen from "expo-splash-screen";
+
+SplashScreen.preventAutoHideAsync();
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -65,7 +74,9 @@ let id = null;
 
 function App() {
   const [isFirstLaunch, setIsFirstLaunch] = useState(null);
-
+  setTimeout(async function () {
+    await SplashScreen.hideAsync();
+  }, 2000);
   useEffect(() => {
     AsyncStorage.getItem("alreadyLaunched").then((value) => {
       if (value === null) {
@@ -86,7 +97,7 @@ function App() {
   } else if (isFirstLaunch === true) {
     return (
       <NavigationContainer>
-        {(authStore.user != null || authStore.guest === true) ? (
+        {authStore.user != null || authStore.guest === true ? (
           <RootNavigator />
         ) : (
           <Stack.Navigator
@@ -121,7 +132,7 @@ function App() {
   } else {
     return (
       <NavigationContainer>
-        {(authStore.user != null || authStore.guest === true) ? (
+        {authStore.user != null || authStore.guest === true ? (
           <RootNavigator />
         ) : (
           <Stack.Navigator
@@ -258,6 +269,7 @@ function RootNavigator() {
 
       <Screen name="Settings" component={Settings} />
       <Screen name="ContactUs" component={ContactUs} />
+      <Screen name="Bookmarked" component={Bookmarked} />
       <Screen
         name="Edit"
         component={EditScreen}
@@ -334,6 +346,14 @@ function RootNavigator() {
           gestureDirection: "horizontal-inverted",
         }}
         initialParams={{ id }}
+      />
+      <Screen
+        name="Bookmarked"
+        component={Bookmarked}
+        options={{
+          headerShown: false,
+          gestureDirection: "horizontal-inverted",
+        }}
       />
       <Screen
         name="SpottedInfo"
@@ -501,24 +521,33 @@ function RootNavigator() {
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
       />
-      <Screen 
-        options={{
-          gestureDirection: "horizontal-inverted",
-          gestureEnabled: "true",
-          presentation: "transparentModal",
-        }} name="Login" component={Login} />
       <Screen
         options={{
           gestureDirection: "horizontal-inverted",
           gestureEnabled: "true",
           presentation: "transparentModal",
-        }} name="AppleImage" component={AppleImage} />
-      <Screen 
+        }}
+        name="Login"
+        component={Login}
+      />
+      <Screen
         options={{
           gestureDirection: "horizontal-inverted",
           gestureEnabled: "true",
           presentation: "transparentModal",
-        }} name="AppleUsername" component={AppleUsername} />
+        }}
+        name="AppleImage"
+        component={AppleImage}
+      />
+      <Screen
+        options={{
+          gestureDirection: "horizontal-inverted",
+          gestureEnabled: "true",
+          presentation: "transparentModal",
+        }}
+        name="AppleUsername"
+        component={AppleUsername}
+      />
       <Screen
         name="MainPageRegister"
         component={MainPageRegister}
@@ -531,43 +560,64 @@ function RootNavigator() {
           gestureDirection: "horizontal-inverted",
           gestureEnabled: "true",
           presentation: "transparentModal",
-        }} name="PhoneNo" component={PhoneNo} />
-      <Screen 
-        options={{
-          gestureDirection: "horizontal-inverted",
-          gestureEnabled: "true",
-          presentation: "transparentModal",
-        }} name="Email" component={Email} />
+        }}
+        name="PhoneNo"
+        component={PhoneNo}
+      />
       <Screen
         options={{
           gestureDirection: "horizontal-inverted",
           gestureEnabled: "true",
           presentation: "transparentModal",
-        }} name="Password" component={Password} />
+        }}
+        name="Email"
+        component={Email}
+      />
       <Screen
         options={{
           gestureDirection: "horizontal-inverted",
           gestureEnabled: "true",
           presentation: "transparentModal",
-        }} name="MyImage" component={MyImage} />
+        }}
+        name="Password"
+        component={Password}
+      />
       <Screen
         options={{
           gestureDirection: "horizontal-inverted",
           gestureEnabled: "true",
           presentation: "transparentModal",
-        }} name="UsernameCheck" component={UsernameCheck} />
+        }}
+        name="MyImage"
+        component={MyImage}
+      />
       <Screen
         options={{
           gestureDirection: "horizontal-inverted",
           gestureEnabled: "true",
           presentation: "transparentModal",
-        }} name="CheckOTP" component={CheckOTP} />
-      <Screen 
-      options={{
-        gestureDirection: "horizontal-inverted",
-        gestureEnabled: "true",
-        presentation: "transparentModal",
-      }} name="ForgotPassword" component={ForgotPassword} />
+        }}
+        name="UsernameCheck"
+        component={UsernameCheck}
+      />
+      <Screen
+        options={{
+          gestureDirection: "horizontal-inverted",
+          gestureEnabled: "true",
+          presentation: "transparentModal",
+        }}
+        name="CheckOTP"
+        component={CheckOTP}
+      />
+      <Screen
+        options={{
+          gestureDirection: "horizontal-inverted",
+          gestureEnabled: "true",
+          presentation: "transparentModal",
+        }}
+        name="ForgotPassword"
+        component={ForgotPassword}
+      />
     </Navigator>
   );
 }
@@ -577,17 +627,38 @@ function TabBar() {
 
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="Popular"
       screenOptions={{
         tabBarStyle: {
           backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
           borderTopWidth: 0,
-          paddingBottom: Platform.OS === "android" ? "5%" : "5%",
+          paddingBottom: "7%",
+          marginTop: "1%",
           shadowColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
         },
         headerShown: false,
       }}
     >
+      <Tab.Screen
+        name="Popular"
+        component={Popular}
+        options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, focused, tintColor }) => (
+            <Ionicons
+              name={focused ? "flame" : "flame-outline"}
+              size={35}
+              color={color}
+              style={{
+                position: "absolute",
+              }}
+            />
+          ),
+          tabBarActiveTintColor: "#e52b51",
+          tabBarInactiveTintColor:
+            colorScheme === "light" ? "#000000" : "#f1f1f1",
+        }}
+      />
       <Tab.Screen
         name="Home"
         component={Explore}
@@ -596,7 +667,7 @@ function TabBar() {
           tabBarIcon: ({ color, focused, tintColor }) => (
             <Ionicons
               name={focused ? "compass" : "compass-outline"}
-              size={37}
+              size={35}
               color={color}
               style={{
                 position: "absolute",
@@ -616,7 +687,7 @@ function TabBar() {
           tabBarIcon: ({ color, focused, tintColor }) => (
             <Ionicons
               name={focused ? "location" : "location-outline"}
-              size={37}
+              size={35}
               color={color}
               style={{
                 position: "absolute",
@@ -638,7 +709,7 @@ function TabBar() {
           tabBarIcon: ({ color, focused, tintColor }) => (
             <Ionicons
               name={focused ? "person-circle" : "person-circle-outline"}
-              size={37}
+              size={35}
               color={color}
               style={{
                 position: "absolute",

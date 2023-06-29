@@ -1,7 +1,7 @@
 module.exports = {
   //Globals
   PRODUCTION: "https://destkw.com/api",
-  TEST: "http://192.168.0.22:3001/api",
+  TEST: "http://192.168.0.80:8000/api",
   //Store Api's
   //User Api's
   REGISTER: "/user/register",
@@ -20,4 +20,6 @@ module.exports = {
   UN_REGISTER_USER: "/user/un-register/",
   REGISTER_USER: "/user/register/",
   DELETE_USER: "/user/goodRiddance/",
+  SAVE_POPULAR: "/user/popular/save/",
+  UNSAVE_POPULAR: "/user/popular/unsave/",
 };

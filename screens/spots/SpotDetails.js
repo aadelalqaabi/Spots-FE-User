@@ -1053,9 +1053,7 @@ export function SpotDetails({ route, navigation }) {
                     fontSize: 24,
                   }}
                 >
-                  {i18n.language.split("-")[0] === "en"
-                    ? "Ooops!"
-                    : "موجودة في تذاكرك"}
+                  {i18n.language.split("-")[0] === "en" ? "Ooops!" : "اوبس"}
                 </Text>
                 <Text
                   style={{
