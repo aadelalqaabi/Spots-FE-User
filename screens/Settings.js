@@ -450,7 +450,6 @@ function Settings() {
             alignContent: "center",
             alignItems: "center",
             marginTop: 15,
-
             justifyContent: "space-between",
           }}
           onPress={() => navigation.navigate("ChangePassword")}
@@ -771,7 +770,7 @@ function Settings() {
             marginBottom: 30,
           }}
         >
-          Version 1.3.1
+          Version 1.3.2
         </Text>
       </ScrollView>
       {/* Disable Modal */}

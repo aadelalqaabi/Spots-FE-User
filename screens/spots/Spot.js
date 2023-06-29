@@ -80,7 +80,7 @@ function Spot({ spot, navigation, day }) {
         paddingBottom: 10,
         width: width / 1.2,
       }}
-      activeOpacity={0.6}
+      activeOpacity={1}
       onPress={() => {
         navigation.navigate("SpotDetails", { id: spot._id });
       }}
