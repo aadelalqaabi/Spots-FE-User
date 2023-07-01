@@ -624,6 +624,7 @@ function RootNavigator() {
 
 function TabBar() {
   const colorScheme = useColorScheme();
+  const navigation = useNavigation();
 
   return (
     <Tab.Navigator
@@ -662,6 +663,11 @@ function TabBar() {
       <Tab.Screen
         name="Home"
         component={Explore}
+        listeners={({ navigation, route }) => ({
+          tabLongPress: (e) => {
+            navigation.navigate("Search");
+          },
+        })}
         options={{
           tabBarShowLabel: false,
           tabBarIcon: ({ color, focused, tintColor }) => (
@@ -674,6 +680,7 @@ function TabBar() {
               }}
             ></Ionicons>
           ),
+
           tabBarActiveTintColor: "#e52b51",
           tabBarInactiveTintColor:
             colorScheme === "light" ? "#000000" : "#f1f1f1",
