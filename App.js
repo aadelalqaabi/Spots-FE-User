@@ -628,7 +628,7 @@ function TabBar() {
 
   return (
     <Tab.Navigator
-      initialRouteName="Popular"
+      initialRouteName="Home"
       screenOptions={{
         tabBarStyle: {
           backgroundColor: colorScheme === "dark" ? "#000000" : "#f1f1f1",
@@ -640,26 +640,6 @@ function TabBar() {
         headerShown: false,
       }}
     >
-      <Tab.Screen
-        name="Popular"
-        component={Popular}
-        options={{
-          tabBarShowLabel: false,
-          tabBarIcon: ({ color, focused, tintColor }) => (
-            <Ionicons
-              name={focused ? "flame" : "flame-outline"}
-              size={35}
-              color={color}
-              style={{
-                position: "absolute",
-              }}
-            />
-          ),
-          tabBarActiveTintColor: "#e52b51",
-          tabBarInactiveTintColor:
-            colorScheme === "light" ? "#000000" : "#f1f1f1",
-        }}
-      />
       <Tab.Screen
         name="Home"
         component={Explore}
@@ -681,6 +661,26 @@ function TabBar() {
             ></Ionicons>
           ),
 
+          tabBarActiveTintColor: "#e52b51",
+          tabBarInactiveTintColor:
+            colorScheme === "light" ? "#000000" : "#f1f1f1",
+        }}
+      />
+      <Tab.Screen
+        name="Popular"
+        component={Popular}
+        options={{
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color, focused, tintColor }) => (
+            <Ionicons
+              name={focused ? "flame" : "flame-outline"}
+              size={35}
+              color={color}
+              style={{
+                position: "absolute",
+              }}
+            />
+          ),
           tabBarActiveTintColor: "#e52b51",
           tabBarInactiveTintColor:
             colorScheme === "light" ? "#000000" : "#f1f1f1",

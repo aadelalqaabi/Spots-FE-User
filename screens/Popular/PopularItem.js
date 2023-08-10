@@ -42,9 +42,11 @@ export default function PopularItem({ popularItem }) {
   const translations = {
     en: {
       Settings: "Settings",
+      Expired: "Expired",
     },
     ar: {
       Settings: "الاعدادات",
+      Expired: "انتهى",
     },
   };
 
@@ -91,6 +93,25 @@ export default function PopularItem({ popularItem }) {
         marginBottom: 20,
       }}
     >
+      {popularItem.expired && (
+        <View
+          style={{
+            position: "absolute",
+            borderRadius: "100%",
+            backgroundColor: "#FF033E",
+            width: 70,
+            display: "flex",
+            alignItems: "center",
+            zIndex: 10,
+            top: 15,
+            left: i18n.language.split("-")[0] === "en" ? "80%" : 15,
+          }}
+        >
+          <Text style={{ color: "white", padding: 7 }}>
+            {i18n.language.split("-")[0] === "en" ? "Expired" : "انتهى"}
+          </Text>
+        </View>
+      )}
       <Image
         style={{
           height: 420,
