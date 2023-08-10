@@ -125,7 +125,7 @@ function Spot({ spot, navigation, day }) {
         <View
           style={{
             position: "absolute",
-            backgroundColor: "rgba(0,0,0,0.4)",
+            backgroundColor: "rgba(0,0,0,0.2)",
             display: "flex",
             flexDirection: "row",
             alignSelf: "center",
