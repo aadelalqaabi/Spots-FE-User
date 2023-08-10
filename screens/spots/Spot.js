@@ -401,7 +401,7 @@ function Spot({ spot, navigation, day }) {
           >
             {i18n.language.split("-")[0] === "en" ? spot.name : spot.nameAr}
           </Text>
-          {spot.isFree === true ? (
+          {/* {spot.isFree === true ? (
             <Text
               style={{
                 fontSize: 16,
@@ -452,7 +452,7 @@ function Spot({ spot, navigation, day }) {
                 ? spot.price + " KD per person"
                 : spot.price + " دك للتذكرة "}
             </Text>
-          )}
+          )} */}
         </LinearGradient>
       </>
     </TouchableOpacity>

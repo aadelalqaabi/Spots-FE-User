@@ -38,13 +38,16 @@ export default function PopularItem({ popularItem }) {
   if (!fontsLoaded) {
     return null;
   }
+  console.log('popularItem', popularItem.expired)
 
   const translations = {
     en: {
       Settings: "Settings",
+      Expired: "Expired"
     },
     ar: {
       Settings: "الاعدادات",
+      Expired: "انتهى"
     },
   };
 
@@ -91,6 +94,20 @@ export default function PopularItem({ popularItem }) {
         marginBottom: 20,
       }}
     >
+      {!popularItem.expired && (
+        <View style={{ 
+          position: "absolute", 
+          borderRadius: '100%', 
+          backgroundColor: "#FF033E", 
+          width: 70, 
+          display: "flex", 
+          alignItems: 'center', 
+          zIndex: 10, 
+          top: 15, 
+          left: i18n.language.split("-")[0] === "en" ? "80%" : 15 }}>
+          <Text style={{ color: 'white', padding: 7 }}>{i18n.language.split("-")[0] === "en" ? "Expired" : "انتهى"}</Text>
+        </View>
+      )}
       <Image
         style={{
           height: 420,
@@ -100,19 +117,19 @@ export default function PopularItem({ popularItem }) {
         onLoad={() => setIsImageLoading(false)}
         loadingIndicatorSource={require("../../assets/Loading.gif")}
         source={{ uri: baseURL + popularItem.image }}
-      ></Image>
+        ></Image>
       {isImageLoading === true && (
         <View
-          style={{
-            height: 420,
-            width: width,
-            position: "absolute",
-            zIndex: 99,
-            display: "flex",
-            alignContent: "center",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+        style={{
+          height: 420,
+          width: width,
+          position: "absolute",
+          zIndex: 99,
+          display: "flex",
+          alignContent: "center",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
         >
           <Image
             style={{
@@ -121,7 +138,7 @@ export default function PopularItem({ popularItem }) {
               alignSelf: "center",
             }}
             source={require("../../assets/Loading.gif")}
-          />
+            />
         </View>
       )}
       <View
@@ -129,16 +146,16 @@ export default function PopularItem({ popularItem }) {
           display: "flex",
           flexDirection:
             i18n.language.split("-")[0] === "en" ? "row" : "row-reverse",
-          justifyContent: "space-between",
-          margin: 15,
-          marginBottom: 5,
-        }}
-      >
+            justifyContent: "space-between",
+            margin: 15,
+            marginBottom: 5,
+          }}
+          >
         <View
           style={{
             width: "80%",
           }}
-        >
+          >
           <Text
             style={{
               color: colorScheme === "light" ? "#000000" : "#f1f1f1",
