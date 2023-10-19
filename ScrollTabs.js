@@ -214,7 +214,7 @@ export default function ScrollTabs({ userSpots }) {
             }}
           >
             {i18n.language.split("-")[0] === "en"
-              ? "No finishes dests yet"
+              ? "No finished dests yet"
               : "لا وجهات منتهية حتى الآن"}
           </Text>
         </View>

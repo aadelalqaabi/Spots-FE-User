@@ -165,7 +165,9 @@ export default function PopularItem({ popularItem }) {
               color: colorScheme === "light" ? "#000000" : "#f1f1f1",
               fontSize: 22,
               fontFamily:
-                i18n.language.split("-")[0] === "en" ? "Ubuntu" : "Noto",
+                i18n.language.split("-")[0] === "en"
+                  ? "UbuntuBold"
+                  : "NotoBold",
               marginBottom: i18n.language.split("-")[0] === "en" ? 5 : 0,
               textTransform: "capitalize",
               marginTop: i18n.language.split("-")[0] === "en" ? 0 : -5,

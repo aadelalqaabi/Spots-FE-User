@@ -13,6 +13,7 @@ import {
   StatusBar,
   ActivityIndicator,
   Platform,
+  useWindowDimensions,
 } from "react-native";
 import React, { useCallback, useEffect, useState } from "react";
 import spotStore from "../../stores/spotStore";
@@ -40,6 +41,8 @@ Notifications.setNotificationHandler({
 
 export function SpotDetails({ route, navigation }) {
   const spot = spotStore.getSpotsById(route.params.id);
+  const { width, height } = useWindowDimensions();
+
   let dateEn = DateTime.fromISO(spot?.startDate)
     .setLocale("en")
     .toFormat("DDD");
@@ -353,13 +356,9 @@ export function SpotDetails({ route, navigation }) {
         spot.galleryImage2 !== "" ||
         spot.galleryImage3 !== "" ||
         spot.galleryImage4 !== "" ? (
-          <View
-            style={{
-              height: 330,
-            }}
-          >
+          <View>
             <Swiper
-              height={330}
+              height={width}
               showsButtons={false}
               activeDotColor={"#e52b51"}
               activeDotStyle={{ opacity: 0.8 }}
@@ -370,8 +369,9 @@ export function SpotDetails({ route, navigation }) {
                 <View style={styles.slide}>
                   <Image
                     style={{
-                      flex: 1,
                       width: "100%",
+                      height: "100%",
+                      resizeMode: "contain",
                     }}
                     source={{ uri: `${baseURL}${spot.galleryImage0}` }}
                     loadingIndicatorSource={require("../../assets/Loading.gif")}
@@ -389,8 +389,9 @@ export function SpotDetails({ route, navigation }) {
                 <View style={styles.slide}>
                   <Image
                     style={{
-                      flex: 1,
                       width: "100%",
+                      height: "100%",
+                      resizeMode: "contain",
                     }}
                     source={{ uri: `${baseURL}${spot.galleryImage1}` }}
                     onLoad={() => setIsImageLoading(false)}
@@ -408,8 +409,9 @@ export function SpotDetails({ route, navigation }) {
                 <View style={styles.slide}>
                   <Image
                     style={{
-                      flex: 1,
                       width: "100%",
+                      height: "100%",
+                      resizeMode: "contain",
                     }}
                     source={{ uri: `${baseURL}${spot.galleryImage2}` }}
                     onLoad={() => setIsImageLoading(false)}
@@ -427,8 +429,9 @@ export function SpotDetails({ route, navigation }) {
                 <View style={styles.slide}>
                   <Image
                     style={{
-                      flex: 1,
                       width: "100%",
+                      height: "100%",
+                      resizeMode: "contain",
                     }}
                     source={{ uri: `${baseURL}${spot.galleryImage3}` }}
                     onLoad={() => setIsImageLoading(false)}
@@ -446,8 +449,9 @@ export function SpotDetails({ route, navigation }) {
                 <View style={styles.slide}>
                   <Image
                     style={{
-                      flex: 1,
                       width: "100%",
+                      height: "100%",
+                      resizeMode: "contain",
                     }}
                     source={{ uri: `${baseURL}${spot.galleryImage4}` }}
                     onLoad={() => setIsImageLoading(false)}
